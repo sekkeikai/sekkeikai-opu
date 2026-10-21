@@ -1,0 +1,42 @@
+# tokens/tokens.json（デザインの正本）が main で変わったら、
+# 「Figma に Pull してね」という Issue を自動で立てる（未対応の Issue があればそこにコメントを足す）。
+# Figma 側は Tokens Studio プラグインで Pull → Variables に反映（docs/figma.md 参照）。
+name: Figma sync notice
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - tokens/tokens.json
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Figma 同期待ちの Issue を作る（またはコメントを足す）
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          COMPARE: ${{ github.event.compare }}
+        run: |
+          short="${SHA:0:7}"
+          body="tokens/tokens.json が更新されました（${short}）。
+
+          - 差分: ${COMPARE}
+          - やること: Figma の「設計会」チームでトークン用ファイルを開き、Tokens Studio で **Pull** → **Export to Figma**
+          - 終わったらこの Issue を閉じてください
+
+          手順の詳細: https://github.com/${REPO}/blob/main/docs/figma.md"
+
+          gh label create figma-sync --repo "$REPO" --color C2410C --description "Figma への反映待ち" 2>/dev/null || true
+          open=$(gh issue list --repo "$REPO" --label figma-sync --state open --json number --jq '.[0].number')
+          if [ -n "$open" ]; then
+            gh issue comment "$open" --repo "$REPO" --body "$body"
+          else
+            gh issue create --repo "$REPO" --title "Figma 同期待ち: デザイントークンが更新されました" --label figma-sync --body "$body"
+          fi

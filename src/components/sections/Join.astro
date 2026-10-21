@@ -1,0 +1,39 @@
+---
+// 入部案内。formUrl が空のときはボタンを出さずに案内文だけにする。
+interface Props {
+  title: string;
+  body: string;
+  formUrl?: string;
+  buttonLabel: string;
+}
+
+const { title, body, formUrl, buttonLabel } = Astro.props;
+---
+
+<section id="join" class="bg-ink py-24 text-paper" aria-labelledby="join-title">
+  <div class="container-page text-center">
+    <p class="annotation mb-3 text-paper/60">Join us</p>
+    <h2 id="join-title" class="text-3xl font-bold sm:text-5xl" data-reveal>
+      {title}
+    </h2>
+    <p class="mx-auto mt-8 max-w-2xl text-left text-lg text-paper/85 sm:text-center" data-reveal>
+      {body}
+    </p>
+    {formUrl ? (
+      <a
+        href={formUrl}
+        class="mt-10 inline-flex items-center gap-2 rounded-full bg-proposer-strong px-8 py-4 font-bold text-white transition hover:bg-paper hover:text-ink"
+        rel="noopener"
+        target="_blank"
+        data-reveal
+      >
+        {buttonLabel}
+        <span aria-hidden="true">↗</span>
+      </a>
+    ) : (
+      <p class="mt-10 text-paper/60" data-reveal>
+        入部フォームは準備中です。
+      </p>
+    )}
+  </div>
+</section>

@@ -1,0 +1,30 @@
+name: アイデア・改善案
+description: 「こうしたい」「こうなったらいいな」を気軽に
+labels: [idea]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: やりたいこと
+      description: どのページの、どこを、どうしたいか
+      placeholder: トップページの「活動の流れ」を、スクロールに合わせて 1 つずつ表示したい
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: なぜ？（任意）
+      description: 困っていること、目的など
+  - type: textarea
+    id: design
+    attributes:
+      label: デザイン案（任意）
+      description: Figma の URL や画像を貼ってください
+  - type: dropdown
+    id: self
+    attributes:
+      label: 自分でやってみる？
+      options:
+        - 自分でやってみたい
+        - 手伝ってくれる人がいればやりたい
+        - 誰かにお願いしたい

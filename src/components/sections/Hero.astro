@@ -1,0 +1,62 @@
+---
+// トップの大見出し。背景に「設計図」の線が描かれていく。
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const { eyebrow, title, lead, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="bg-blueprint-grid relative overflow-hidden border-b border-grid">
+  <svg
+    class="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
+    viewBox="0 0 1200 640"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <g fill="none" stroke-width="2">
+      <path data-draw d="M760 120 h320 v220 h-320 z" stroke="var(--color-ink)" stroke-opacity="0.35"></path>
+      <path data-draw d="M760 120 L1080 340 M1080 120 L760 340" stroke="var(--color-ink)" stroke-opacity="0.15"></path>
+      <circle data-draw cx="920" cy="230" r="70" stroke="var(--color-proposer)"></circle>
+      <path data-draw d="M760 380 h320" stroke="var(--color-investor)"></path>
+      <path data-draw d="M760 372 v16 M1080 372 v16" stroke="var(--color-investor)"></path>
+      <path data-draw d="M720 120 v220" stroke="var(--color-partner)"></path>
+      <path data-draw d="M712 120 h16 M712 340 h16" stroke="var(--color-partner)"></path>
+    </g>
+    <text x="900" y="410" class="annotation" fill="var(--color-investor)" font-size="14">
+      W 320
+    </text>
+    <text x="660" y="236" class="annotation" fill="var(--color-partner)" font-size="14">
+      H 220
+    </text>
+  </svg>
+
+  <div class="container-page relative py-24 sm:py-36">
+    {eyebrow && (
+      <p class="annotation mb-6 text-muted" data-reveal>
+        {eyebrow}
+      </p>
+    )}
+    <h1 class="max-w-3xl text-5xl font-black sm:text-7xl" data-reveal data-reveal-delay="0.1">
+      {title}
+    </h1>
+    <p class="mt-8 max-w-xl text-lg text-ink/80" data-reveal data-reveal-delay="0.2">
+      {lead}
+    </p>
+    {ctaLabel && ctaHref && (
+      <a
+        href={ctaHref}
+        class="mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-bold text-paper transition hover:bg-proposer-strong"
+        data-reveal
+        data-reveal-delay="0.3"
+      >
+        {ctaLabel}
+        <span aria-hidden="true">→</span>
+      </a>
+    )}
+  </div>
+</section>

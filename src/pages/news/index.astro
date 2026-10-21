@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { formatDate } from "../../lib/format";
+
+const posts = (await getCollection("news", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base title="お知らせ" description="設計会からのお知らせ一覧です。">
+  <section class="container-page py-20">
+    <p class="annotation mb-3 text-muted">News</p>
+    <h1 class="mb-12 text-4xl font-bold">お知らせ</h1>
+    <ul class="divide-y divide-grid border-y border-grid">
+      {posts.map((post) => (
+        <li>
+          <a href={`/news/${post.id}/`} class="block py-6 hover:text-investor">
+            <time class="annotation text-muted" datetime={post.data.date.toISOString()}>
+              {formatDate(post.data.date)}
+            </time>
+            <p class="mt-1 text-lg font-bold">{post.data.title}</p>
+            {post.data.summary && <p class="mt-1 text-sm text-muted">{post.data.summary}</p>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

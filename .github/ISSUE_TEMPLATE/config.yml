@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 参加ガイド（まずはこちら）
+    url: https://github.com/sekkeikai/sekkeikai-opu/blob/main/CONTRIBUTING.md
+    about: 記事の書き方、デザインの変え方、コードの書き方

@@ -1,0 +1,60 @@
+---
+// /lab … デザインの実験台。トークン（色・フォント・動き）とすべてのセクションを一覧できる。
+// デザインを変えたら PR のプレビュー URL でこのページを開いて確認する。
+import { getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import SectionRenderer from "../components/SectionRenderer.astro";
+import tokens from "../../tokens/tokens.json";
+
+const home = await getEntry("pages", "home");
+const sections = home?.data.sections ?? [];
+const colors = Object.entries(tokens.color) as [string, { $value: string; $description?: string }][];
+const fonts = Object.entries(tokens.font) as [string, { $value: string }][];
+---
+
+<Base title="Lab" description="設計会サイトのデザイン確認用ページ" noindex>
+  <section class="container-page py-16">
+    <p class="annotation mb-3 text-muted">Lab / for designers</p>
+    <h1 class="text-4xl font-bold">デザインの実験台</h1>
+    <p class="mt-4 max-w-2xl text-muted">
+      ここに出ている値は <code>tokens/tokens.json</code> から作られています。Figma の Tokens Studio で直すと、PR
+      のプレビューでこのページに反映されます。
+    </p>
+
+    <h2 class="mt-14 text-2xl font-bold">Color</h2>
+    <ul class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      {colors.map(([name, token]) => (
+        <li class="overflow-hidden rounded-card border border-grid">
+          <div class="h-20" style={`background:${token.$value}`} />
+          <div class="p-3 text-sm">
+            <p class="font-bold">{name}</p>
+            <p class="annotation normal-case text-muted">{token.$value}</p>
+            {token.$description && <p class="mt-1 text-xs text-muted">{token.$description}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <h2 class="mt-14 text-2xl font-bold">Font</h2>
+    <ul class="mt-6 space-y-4">
+      {fonts.map(([name, token]) => (
+        <li class="rounded-card border border-grid p-4">
+          <p class="annotation text-muted">{name}</p>
+          <p class="text-2xl" style={`font-family:${token.$value}`}>
+            よく考えられた設計を。Design 0123
+          </p>
+        </li>
+      ))}
+    </ul>
+
+    <h2 class="mt-14 text-2xl font-bold">Sections</h2>
+    <p class="mt-2 text-muted">トップページと同じセクションを、種類名つきで並べています。</p>
+  </section>
+
+  {sections.map((section) => (
+    <div class="border-t-4 border-dashed border-proposer">
+      <p class="annotation container-page py-2 text-proposer">type: {section.type}</p>
+      <SectionRenderer sections={[section]} />
+    </div>
+  ))}
+</Base>

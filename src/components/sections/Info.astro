@@ -1,0 +1,29 @@
+---
+// 団体名・所属・代表者などを「項目：内容」の表で見せるセクション。
+// 代表者は年度ごとに変わるので、ここ（コード）ではなく編集画面から更新する。
+import SectionShell from "../SectionShell.astro";
+
+interface Item {
+  label: string;
+  value: string;
+}
+interface Props {
+  tone?: "light" | "dark";
+  eyebrow?: string;
+  title: string;
+  items: Item[];
+}
+
+const { tone, eyebrow, title, items } = Astro.props;
+---
+
+<SectionShell tone={tone} eyebrow={eyebrow} title={title} id="about">
+  <dl class="max-w-3xl divide-y divide-grid border-y border-grid" data-reveal>
+    {items.map((item) => (
+      <div class="grid gap-1 py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
+        <dt class="annotation text-muted">{item.label}</dt>
+        <dd class="font-bold">{item.value}</dd>
+      </div>
+    ))}
+  </dl>
+</SectionShell>

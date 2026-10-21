@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "yaml.schemas": {
+    "./node_modules/@sveltia/cms/schema/sveltia-cms.json": "public/admin/config.yml"
+  }
+}

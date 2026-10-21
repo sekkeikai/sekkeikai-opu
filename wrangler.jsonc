@@ -1,0 +1,11 @@
+// Cloudflare Workers の設定。サーバー処理はなく、dist/ の静的ファイルを配信するだけ。
+// 本番の接続手順は docs/production-setup.md を参照。
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sekkeikai-opu",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+  },
+}

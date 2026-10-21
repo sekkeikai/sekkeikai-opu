@@ -1,0 +1,130 @@
+title: 設計会
+description: 岡山県立大学の設計サークル「設計会」。学んだ知識を「よく考えられた設計」に変えるために、企画と設計に集中して活動しています。
+sections:
+  - type: hero
+    eyebrow: Okayama Prefectural University / Design Circle
+    title: よく考えられた設計を。
+    lead: 学んだ知識は、使ってはじめて価値になる。設計会は「企画」と「設計」に集中し、目的を現実にする力を身につけるサークルです。
+    ctaLabel: 入部する
+    ctaHref: "#join"
+  - type: statement
+    tone: light
+    eyebrow: 01 / Why
+    title: 学習のその先へ
+    body: 授業とテストで知識は身につく。でも、知識だけで誰かを幸せにしたり、価値を生み出したりはできない。必要なのは応用――それも、思いつきではなく「よく考えられた設計」に基づく応用です。どんな製品も、技術と思想を詰め込む「設計」で決まります。
+    left:
+      label: 単純な思いつき
+      items:
+        - とりあえず動くゲーム
+        - へんてこな時計
+        - 見た目だけの建築
+    right:
+      label: よく考えられた設計
+      items:
+        - 快適で面白いゲーム
+        - 実用的な時計
+        - 機能的な建築
+  - type: flow
+    tone: dark
+    eyebrow: 02 / Scope
+    title: 扱うのは、実装の手前まで
+    body: 実装には大きな資本や人手が要ります。でも設計なら、学生でも実務と同じ水準で取り組める。設計会は企画と設計にだけ集中し、仕様書と設計解を成果物にします。
+    steps:
+      - 企画
+      - 設計
+      - 実装
+      - テスト
+      - 保守・運用
+    focusCount: 2
+    focusLabel: 設計会の範囲
+  - type: steps
+    tone: light
+    eyebrow: 03 / Activities
+    title: 活動の流れ
+    items:
+      - label: 第0段階
+        title: なんでもプレゼン
+        body: 好きなこと、学んだことを気軽に発表する勉強会。目的はここから生まれます。
+        role: none
+      - label: 第1段階
+        title: 企画
+        body: 実現したいことを持つ人が「発案者」となり、プロジェクトを立ち上げます。対象は問いません。
+        role: proposer
+      - label: 第2段階
+        title: 小プレゼン
+        body: 簡易な仕様書をもとに発表し、一緒に考える「設計仲間」を集めます。
+        role: partner
+      - label: 第3段階
+        title: 設計
+        body: 発案者と設計仲間のチームで、設計手法を使いながら設計解をつくります。
+        role: partner
+      - label: 第4段階
+        title: 大プレゼン
+        body: 完成した設計解を、外部の方を含む「投資家」に発表して評価してもらいます。
+        role: investor
+  - type: tags
+    tone: light
+    eyebrow: 04 / Targets
+    title: 設計の対象は「もの」だけではない
+    body: 価値あるものは、すべて設計の対象です。
+    tags:
+      - ロボット
+      - 建築
+      - Webアプリ
+      - イベント企画
+      - 町おこし
+      - 小説
+      - 音楽
+      - 絵画
+      - 競技
+      - 自由研究
+      - マニュアル
+  - type: cards
+    tone: light
+    eyebrow: 05 / Methods
+    title: テーマの3分類
+    items:
+      - title: イノベーション
+        body: まだ誰も気づいていない価値を見つける段階。
+        note: ブレインストーミング / KJ法 / ペルソナ / デザイン思考 / CJM
+      - title: 問題解決
+        body: 目的と要件を整理し、最適な解を論理的に選ぶ段階。
+        note: QFD / AHP / ISM法 / IDEF0
+      - title: 設計下流
+        body: 形や数値を詰め、性能を最大化する段階。
+        note: CAE / タグチメソッド
+  - type: projects
+    tone: light
+    title: プロジェクト
+    body: 部員の発案や、先輩が用意した課題、自治体からの依頼がテーマになります。
+  - type: cards
+    tone: dark
+    eyebrow: 06 / Places
+    title: 設計会がつくる3つの場
+    items:
+      - title: 発信の場
+        body: 好きなこと、やりたいことをプレゼンで自由に発信でき、それを受け入れる人が集まる場。
+      - title: 対話の場
+        body: 多様な価値観や知見をもつ人が意見をぶつけ合い、考えを深められる場。
+      - title: 設計の場
+        body: 設計の知見を持ち寄り、実際に応用できる場。
+  - type: info
+    tone: light
+    eyebrow: 07 / About
+    title: 団体概要
+    items:
+      - label: 団体名
+        value: 設計会
+      - label: 所属
+        value: 岡山県立大学
+      - label: 代表
+        value: 長岡 祥太郎
+  - type: news
+    tone: light
+    title: お知らせ
+    limit: 3
+  - type: join
+    title: 一緒に設計しませんか
+    body: 学部・学年は問いません。自分の視点で意見を持つ主体性、多様な考えを認める柔軟性、必要な行動を迷わず実行する行動力――を持っている人、これから身につけたい人を歓迎します。成果物の仕様書や設計解は、そのままポートフォリオになります。
+    formUrl: ""
+    buttonLabel: 入部フォームへ

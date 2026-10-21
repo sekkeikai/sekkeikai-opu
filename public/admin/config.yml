@@ -1,0 +1,313 @@
+# 設計会サイトの編集画面（Sveltia CMS）の設定
+# - 入力欄の上限は src/content.config.ts の検証ルールと揃えてある（変えるときは両方直す）
+# - 書式チェック: npm run cms:check
+# - 詳しい仕様: https://sveltiacms.app/en/docs
+
+backend:
+  name: github
+  repo: sekkeikai/sekkeikai-opu
+  branch: main
+  # 公開リポジトリなので、部員の非公開リポジトリには触れない最小の権限でログインする
+  auth_scope: public_repo
+  # 本番のログイン用（docs/production-setup.md の手順2で作る Worker の URL に書き換える）
+  # base_url: https://sveltia-cms-auth.<アカウント名>.workers.dev
+  commit_messages:
+    create: "記事を追加: {{collection}}「{{slug}}」"
+    update: "記事を更新: {{collection}}「{{slug}}」"
+    delete: "記事を削除: {{collection}}「{{slug}}」"
+    uploadMedia: "画像を追加: {{path}}"
+    deleteMedia: "画像を削除: {{path}}"
+
+# 保存すると自動で PR（プルリクエスト）が作られ、プレビュー URL で確認してから公開できる
+# 必須の欄が空のまま保存すると CI が失敗するので、下書きでも必須欄は埋めてもらう
+publish_mode:
+  type: preview
+  allow_incomplete_drafts: false
+
+app_title: 設計会 編集画面
+logo:
+  src: /favicon.svg
+
+media_folder: public/uploads
+public_folder: /uploads
+media_libraries:
+  default:
+    config:
+      max_file_size: 8000000
+      slugify_filename: true
+      # スマホの写真もそのまま上げられるように、自動で縮小して WebP に変換する
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 2000
+          height: 2000
+
+collections:
+  - name: news
+    label: お知らせ
+    label_singular: お知らせ
+    description: トップページと「お知らせ」ページに新しい順に表示されます。
+    folder: src/content/news
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{date | date('YYYY/MM/DD')}} {{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: タイトル, widget: string, maxlength: 60 }
+      - {
+          name: date,
+          label: 日付,
+          widget: datetime,
+          time_format: false,
+          date_format: "YYYY-MM-DD",
+          format: "YYYY-MM-DD",
+        }
+      - { name: summary, label: 概要（一覧に出る短い説明）, widget: text, required: false, maxlength: 140 }
+      - { name: cover, label: カバー画像, widget: image, required: false }
+      - &coverAlt {
+          name: coverAlt,
+          label: カバー画像の説明（目の見えない人向けの読み上げ用。例「ベイゴマを回している様子」）,
+          widget: string,
+          required: false,
+          maxlength: 100,
+        }
+      - &draft { name: draft, label: 下書き（オンにするとサイトに表示しない）, widget: boolean, default: false }
+      - { name: body, label: 本文, widget: markdown }
+
+  - name: projects
+    label: プロジェクト
+    label_singular: プロジェクト
+    description: 設計プロジェクトの紹介。並び順は「表示順」の小さい順です。
+    folder: src/content/projects
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}}（{{stage}}）"
+    fields:
+      - { name: title, label: プロジェクト名, widget: string, maxlength: 40 }
+      - name: category
+        label: テーマの分類
+        widget: select
+        options: [イノベーション, 問題解決, 設計下流]
+      - name: stage
+        label: いまの段階
+        widget: select
+        options: [企画, 小プレゼン, 設計, 大プレゼン, 完了]
+      - { name: summary, label: 概要, widget: text, maxlength: 140 }
+      - { name: methods, label: 使う手法・ツール, widget: list, required: false }
+      - { name: cover, label: カバー画像, widget: image, required: false }
+      - *coverAlt
+      - { name: order, label: 表示順（小さいほど前）, widget: number, value_type: int, default: 10 }
+      - *draft
+      - { name: body, label: 本文, widget: markdown }
+
+  - name: pages
+    label: ページ
+    description: トップページの構成。セクションの追加・並べ替え・削除ができます。
+    files:
+      - name: home
+        label: トップページ
+        file: src/content/pages/home.yaml
+        fields:
+          - { name: title, label: サイト名, widget: string, maxlength: 40 }
+          - { name: description, label: 検索結果に出る説明文, widget: text, maxlength: 160 }
+          - name: sections
+            label: セクション
+            label_singular: セクション
+            widget: list
+            types:
+              - name: hero
+                label: ヒーロー（一番上の大見出し）
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - { name: eyebrow, label: 小見出し（英字など）, widget: string, required: false, maxlength: 60 }
+                  - { name: title, label: 大見出し, widget: string, maxlength: 30 }
+                  - { name: lead, label: リード文, widget: text, maxlength: 160 }
+                  - { name: ctaLabel, label: ボタンの文字, widget: string, required: false, maxlength: 20 }
+                  - { name: ctaHref, label: "ボタンのリンク先（例: #join）", widget: string, required: false }
+              - name: statement
+                label: 比較（左→右）
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - &tone {
+                      name: tone,
+                      label: 背景,
+                      widget: select,
+                      options: [{ label: 明るい, value: light }, { label: 濃い（設計図風）, value: dark }],
+                      default: light,
+                    }
+                  - &eyebrow { name: eyebrow, label: 小見出し, widget: string, required: false, maxlength: 60 }
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - { name: body, label: 本文, widget: text, maxlength: 400 }
+                  - name: left
+                    label: 左側
+                    widget: object
+                    fields:
+                      - { name: label, label: ラベル, widget: string, maxlength: 20 }
+                      - {
+                          name: items,
+                          label: 項目,
+                          widget: list,
+                          max: 5,
+                          field: { name: item, label: 項目, widget: string, maxlength: 20 },
+                        }
+                  - name: right
+                    label: 右側（強調される方）
+                    widget: object
+                    fields:
+                      - { name: label, label: ラベル, widget: string, maxlength: 20 }
+                      - {
+                          name: items,
+                          label: 項目,
+                          widget: list,
+                          max: 5,
+                          field: { name: item, label: 項目, widget: string, maxlength: 20 },
+                        }
+              - name: flow
+                label: 工程の流れ
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - *tone
+                  - *eyebrow
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - { name: body, label: 本文, widget: text, required: false, maxlength: 300 }
+                  - {
+                      name: steps,
+                      label: 工程（左から順に）,
+                      widget: list,
+                      min: 2,
+                      max: 6,
+                      field: { name: step, label: 工程, widget: string, maxlength: 10 },
+                    }
+                  - {
+                      name: focusCount,
+                      label: 先頭から何個を強調するか,
+                      widget: number,
+                      value_type: int,
+                      min: 1,
+                      max: 6,
+                    }
+                  - { name: focusLabel, label: 強調部分の説明, widget: string, maxlength: 20 }
+              - name: steps
+                label: 段階（タイムライン）
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - *tone
+                  - *eyebrow
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - name: items
+                    label: 段階
+                    label_singular: 段階
+                    widget: list
+                    min: 1
+                    max: 6
+                    summary: "{{label}} {{title}}"
+                    fields:
+                      - { name: label, label: 番号など（例 第1段階）, widget: string, maxlength: 12 }
+                      - { name: title, label: 名前, widget: string, maxlength: 20 }
+                      - { name: body, label: 説明, widget: text, maxlength: 140 }
+                      - name: role
+                        label: 役割の色
+                        widget: select
+                        default: none
+                        options:
+                          - { label: なし, value: none }
+                          - { label: 発案者（オレンジ）, value: proposer }
+                          - { label: 設計仲間（緑）, value: partner }
+                          - { label: 投資家（青）, value: investor }
+              - name: tags
+                label: タグ一覧
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - *tone
+                  - *eyebrow
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - { name: body, label: 本文, widget: text, required: false, maxlength: 200 }
+                  - {
+                      name: tags,
+                      label: タグ,
+                      widget: list,
+                      max: 20,
+                      field: { name: tag, label: タグ, widget: string, maxlength: 12 },
+                    }
+              - name: cards
+                label: カード
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - *tone
+                  - *eyebrow
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - name: items
+                    label: カード
+                    label_singular: カード
+                    widget: list
+                    min: 1
+                    max: 6
+                    summary: "{{title}}"
+                    fields:
+                      - { name: title, label: 見出し, widget: string, maxlength: 20 }
+                      - { name: body, label: 本文, widget: text, maxlength: 160 }
+                      - { name: note, label: 注記（小さい文字）, widget: string, required: false, maxlength: 60 }
+              - name: info
+                label: 団体概要（項目と内容の表）
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - *tone
+                  - *eyebrow
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - name: items
+                    label: 項目（代表者は年度が変わったら更新してください）
+                    label_singular: 項目
+                    widget: list
+                    min: 1
+                    max: 10
+                    summary: "{{label}}: {{value}}"
+                    fields:
+                      - { name: label, label: 項目名（例 代表）, widget: string, maxlength: 12 }
+                      - {
+                          name: value,
+                          label: 内容（学籍番号・個人のメールアドレスは書かない）,
+                          widget: string,
+                          maxlength: 60,
+                        }
+              - name: news
+                label: お知らせ（自動で最新を表示）
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - *tone
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - { name: limit, label: 表示する件数, widget: number, value_type: int, min: 1, max: 6, default: 3 }
+              - name: projects
+                label: プロジェクト（自動で表示）
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - *tone
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - { name: body, label: 本文, widget: text, required: false, maxlength: 200 }
+              - name: join
+                label: 入部案内
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
+                  - { name: body, label: 本文, widget: text, maxlength: 300 }
+                  - {
+                      name: formUrl,
+                      label: 入部フォームの URL（空ならボタンを出さない）,
+                      widget: string,
+                      required: false,
+                    }
+                  - { name: buttonLabel, label: ボタンの文字, widget: string, maxlength: 20 }
