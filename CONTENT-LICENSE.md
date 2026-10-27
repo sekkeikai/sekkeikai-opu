@@ -24,3 +24,5 @@
 - フォント（Google Fonts。SIL Open Font License）
 - npm パッケージ（`package.json` に書かれたもの。各パッケージのライセンス）
 - 大学の名称・校章など（大学の規程に従う。使う前に確認すること）
+- `public/uploads/` にある外部の画像（パブリックドメインや CC BY など）と、ほかのサービスのロゴ（TimeTree のシンボルなど）。作者・ライセンス・使ってよい範囲は [docs/image-credits.md](docs/image-credits.md) に書いてあります
+- Discord のアイコン（`src/lib/site.ts`。Simple Icons、CC0）

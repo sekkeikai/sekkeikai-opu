@@ -113,7 +113,7 @@ push したら GitHub のリポジトリのページを開くと、黄色い帯�
 - **セクションを追加する**: `src/components/SectionRenderer.astro` の冒頭コメントの 4 手順を参照
 - **アニメーション**: `src/scripts/motion.ts`。要素に `data-reveal`（ふわっと出る）や `data-draw`（SVG の線を描く）を付けるだけで動きます
   - 「視差効果を減らす」設定の人には動きを付けない、を守ってください
-- **色や余白**: Tailwind のクラス（例 `text-accent`, `bg-blueprint`）。値は `tokens/tokens.json` から来ています
+- **色・フォント・角の丸み・動きの長さ**: Tailwind のクラス（例 `text-accent`, `bg-blueprint`）や CSS 変数で使います。値は `tokens/tokens.json` から来ています（余白は Tailwind の標準の値）
 - **長文の部品（ブロック）や図を足す**: `src/content.config.ts` の `block`、`src/components/Blocks.astro`、`public/admin/config.yml` のブロック（`&blocks`）をそろえる。図は `src/components/figures/` に作り、`src/lib/figures.ts` と `src/components/Figure.astro`、`public/admin/config.yml` の図の選択肢に足す
 
 ### AI を使うとき
@@ -154,13 +154,14 @@ AI（Claude Code、GitHub Copilot など）を使って構いません。`AGENTS
 
 ```
 [InvalidContentEntryDataError] pages → home data does not match collection schema.
-  sections.2.steps.4: 大きすぎる値: stringは10文字以下である必要があります
+  sections.2.blocks.3.title: 大きすぎる値: stringは30文字以下である必要があります
 ```
 
 - `pages → home` … 「ページ → トップページ」のこと（`news` ならお知らせ、`design` なら「設計を知る」、`site` ならサイトの設定）
 - `sections.2` … 上から **3 番目**のセクション（0 から数えます）
-- `steps.4` … その中の「工程」の **5 番目**
-- 最後が理由（string は「文字」のこと）。この例なら「工程の 5 番目を 10 文字以内にする」で直ります
+- `blocks.3` … その中の **4 番目**のブロック
+- `title` … そのブロックの「題」の欄
+- 最後が理由（string は「文字」のこと）。この例なら「3 番目のセクションの、4 番目のブロックの題を 30 文字以内にする」で直ります
 
 ---
 

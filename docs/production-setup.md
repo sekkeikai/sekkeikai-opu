@@ -121,7 +121,7 @@ Cloudflare → 中継用 Worker → Settings → Variables and Secrets に追加
 
 ### 3-4. 編集画面に中継先を教える
 
-`public/admin/config.yml` の `base_url` のコメントを外して Worker の URL を書き、PR → マージ。
+`public/admin/config.yml` の `base_url` を、3-1 で作った Worker の URL に書き換えて、PR → マージ。
 `/admin` で「Sign In with GitHub」が使えるようになります。
 
 > Organization に「OAuth App access restrictions」が掛かっている場合は、
