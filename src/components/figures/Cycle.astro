@@ -1,0 +1,85 @@
+---
+// 段階が輪になって繰り返す図(人間中心設計、データ分析の循環で使う)。
+// 段階の数に合わせて、楕円の上に等間隔に並べ、間に向きを表す矢印を置く。
+interface Props {
+  nodes: { label: string; sub?: string }[];
+  center: string[];
+  color: string;
+  label: string;
+}
+
+const { nodes, center, color, label } = Astro.props;
+const cx = 320;
+const cy = 224;
+const rx = 225;
+const ry = 160;
+const n = nodes.length;
+const angle = (i: number) => -Math.PI / 2 + (i * 2 * Math.PI) / n;
+const at = (a: number) => ({ x: cx + rx * Math.cos(a), y: cy + ry * Math.sin(a) });
+const arrows = nodes.map((_, i) => {
+  const a = angle(i) + Math.PI / n;
+  const p = at(a);
+  // 時計回りの接線の向き
+  const deg = (Math.atan2(ry * Math.cos(a), -rx * Math.sin(a)) * 180) / Math.PI;
+  return { ...p, deg };
+});
+---
+
+<svg viewBox="0 0 640 448" class="w-full" role="img" aria-label={label}>
+  <ellipse data-draw cx={cx} cy={cy} rx={rx} ry={ry} fill="none" stroke={color} stroke-width="2" stroke-opacity="0.5" />
+  {arrows.map((a) => (
+    <path
+      d="M-9 -7 L5 0 L-9 7 z"
+      fill={color}
+      transform={`translate(${a.x.toFixed(1)} ${a.y.toFixed(1)}) rotate(${a.deg.toFixed(1)})`}
+    />
+  ))}
+  {center.map((line, i) => (
+    <text
+      x={cx}
+      y={cy + (i - (center.length - 1) / 2) * 24 + 6}
+      text-anchor="middle"
+      font-size={i === 0 ? 20 : 13}
+      font-weight={i === 0 ? 700 : 400}
+      font-family={i === 0 ? undefined : "var(--font-mono)"}
+      fill={i === 0 ? "var(--color-ink)" : "var(--color-muted)"}
+    >
+      {line}
+    </text>
+  ))}
+  {nodes.map((node, i) => {
+    const p = at(angle(i));
+    return (
+      <g>
+        <rect
+          x={p.x - 92}
+          y={p.y - 32}
+          width="184"
+          height="64"
+          rx="8"
+          fill="var(--color-paper)"
+          stroke={color}
+          stroke-width="2"
+        />
+        <text x={p.x - 84} y={p.y - 18} font-family="var(--font-mono)" font-size="10" fill={color}>
+          {String(i + 1).padStart(2, "0")}
+        </text>
+        <text
+          x={p.x}
+          y={p.y + (node.sub ? 5 : 9)}
+          text-anchor="middle"
+          font-size="16"
+          font-weight="700"
+          fill="var(--color-ink)"
+        >
+          {node.label}
+        </text>
+        {node.sub && (
+          <text x={p.x} y={p.y + 23} text-anchor="middle" font-size="11.5" fill="var(--color-muted)">
+            {node.sub}
+          </text>
+        )}
+      </g>
+    );
+  })}
+</svg>

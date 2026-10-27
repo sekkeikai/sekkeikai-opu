@@ -1,0 +1,161 @@
+---
+// 「形で区別する」図。手で触れたときの形の違いで、取り違えを防ぐ工夫を並べる。
+//   左: 同じ形のつまみが二本並んだ操縦席のレバー → 見ないで触ると区別できない
+//   中: 車輪の形と翼の形のつまみ → 触っただけで、どちらのレバーか分かる(B-17 の事故の後に広まった工夫)
+//   右: シャンプーの容器の横の刻み → 目を閉じて髪を洗っていても、リンスと区別できる
+// 人の手や体は描かない(イラストを使わない決まりのため)。図は形の違いだけを見せる模式図。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+const good = "var(--color-link)";
+const bad = "var(--color-accent-strong)";
+
+// レバー 1 本分の座標。x は軸の位置、knob はつまみの形
+const levers = [
+  { x: 60, knob: "plain", label: "着陸装置" },
+  { x: 140, knob: "plain", label: "フラップ" },
+  { x: 260, knob: "wheel", label: "着陸装置" },
+  { x: 340, knob: "wing", label: "フラップ" },
+];
+// つまみの中心の高さ
+const ky = 112;
+// 車輪の形のつまみのスポーク(4本)
+const spokes = [0, 45, 90, 135].map((deg) => {
+  const r = (deg * Math.PI) / 180;
+  return { dx: Math.cos(r) * 14, dy: Math.sin(r) * 14 };
+});
+// 容器 2 本分(左がシャンプー、右がリンス)
+const bottles = [
+  { x: 462, ridged: true, label: "シャンプー", sub: "横に刻み" },
+  { x: 552, ridged: false, label: "リンス", sub: "刻みなし" },
+];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="触っただけで、区別できる形にする"
+  caption="同じ形のつまみが並んでいると、見ないで手を伸ばしたときに取り違える。車輪や翼の形にすると、触っただけでどちらか分かる。シャンプーの容器の横の刻みも、目を閉じて使う場面での取り違えを防ぐ同じ考え方。"
+  source="[A. Chapanis の回想(The Chapanis Chronicles, 1999)](https://archive.org/details/chapanischronicl0000chap)、[JIS S 0021-1:2020(包装のアクセシブルデザイン)](https://web.archive.org/web/20251107004950/https://webdesk.jsa.or.jp/preview/pre_jis_s_00021_001_000_2020_j_ed10_ch.pdf)、[花王「シャンプー容器のきざみ」](https://www.kao.com/jp/sustainability/me/universal-design/shampoo-notches/) の考え方を基に作図。形は模式的なもの"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 330"
+    class="w-full"
+    role="img"
+    aria-label="形で区別する工夫の比較。左は同じ形のつまみのレバー二本で、取り違えやすい。中は車輪の形と翼の形のつまみで、触っただけで区別できる。右は刻みのあるシャンプーの容器と、刻みのないリンスの容器。"
+  >
+    <!-- 見出し -->
+    <text x="100" y="24" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      同じ形のつまみ
+    </text>
+    <text x="300" y="24" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      形で区別したつまみ
+    </text>
+    <text x="530" y="24" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      容器の刻み
+    </text>
+    <!-- 区切りの線 -->
+    <line x1="200" x2="200" y1="44" y2="300" stroke="var(--color-grid)" stroke-width="1.5" />
+    <line x1="420" x2="420" y1="44" y2="300" stroke="var(--color-grid)" stroke-width="1.5" />
+
+    <!-- 操縦席の台(左と中) -->
+    {[20, 220].map((x) => (
+      <rect
+        x={x}
+        y="236"
+        width="160"
+        height="30"
+        rx="4"
+        fill="var(--color-paper-muted)"
+        stroke={ink}
+        stroke-width="1.5"
+      />
+    ))}
+
+    {levers.map((l) => (
+      <g>
+        <!-- レバーの軸 -->
+        <line x1={l.x} x2={l.x} y1={ky + 14} y2="240" stroke={ink} stroke-width="6" stroke-linecap="round" />
+        {l.knob === "plain" && (
+          <circle cx={l.x} cy={ky} r="15" fill="var(--color-paper)" stroke={ink} stroke-width="3" />
+        )}
+        {l.knob === "wheel" && (
+          <g>
+            <!-- 車輪の形: 太い外周(タイヤ)と、中心から出るスポーク -->
+            <circle cx={l.x} cy={ky} r="18" fill="var(--color-paper)" stroke={good} stroke-width="6" />
+            {spokes.map((s) => (
+              <line x1={l.x - s.dx} y1={ky - s.dy} x2={l.x + s.dx} y2={ky + s.dy} stroke={good} stroke-width="2" />
+            ))}
+            <circle cx={l.x} cy={ky} r="4" fill={good} />
+          </g>
+        )}
+        {l.knob === "wing" && (
+          // 翼の形: 前が丸く、後ろが細くなった平たい形
+          <path
+            d={`M ${l.x - 30} ${ky + 4} Q ${l.x - 28} ${ky - 14} ${l.x} ${ky - 10} L ${l.x + 32} ${ky + 2} Q ${l.x} ${ky + 10} ${l.x - 30} ${ky + 4} Z`}
+            fill={good}
+            fill-opacity="0.25"
+            stroke={good}
+            stroke-width="3"
+            stroke-linejoin="round"
+          />
+        )}
+        <text x={l.x} y="290" text-anchor="middle" font-size="13" fill={ink}>
+          {l.label}
+        </text>
+      </g>
+    ))}
+    <text x="100" y="72" text-anchor="middle" font-size="13" font-weight="700" fill={bad}>
+      見て確かめる必要がある
+    </text>
+    <text x="300" y="72" text-anchor="middle" font-size="13" font-weight="700" fill={good}>
+      触れば区別できる
+    </text>
+
+    {bottles.map((b) => (
+      <g>
+        <!-- ふたと首 -->
+        <rect
+          x={b.x + 14}
+          y="96"
+          width="28"
+          height="18"
+          rx="3"
+          fill="var(--color-paper-muted)"
+          stroke={ink}
+          stroke-width="2"
+        />
+        <!-- 容器の本体 -->
+        <rect x={b.x} y="114" width="56" height="140" rx="12" fill="var(--color-paper)" stroke={ink} stroke-width="2" />
+        {b.ridged &&
+          [0, 1, 2, 3, 4, 5, 6].map((i) => (
+            <line
+              x1={b.x - 6}
+              x2={b.x + 10}
+              y1={140 + i * 10}
+              y2={140 + i * 10}
+              stroke={good}
+              stroke-width="3"
+              stroke-linecap="round"
+            />
+          ))}
+        <text x={b.x + 28} y="282" text-anchor="middle" font-size="13" fill={ink}>
+          {b.label}
+        </text>
+        <text x={b.x + 28} y="302" text-anchor="middle" font-size="12" fill={b.ridged ? good : muted}>
+          {b.sub}
+        </text>
+      </g>
+    ))}
+    <text x="530" y="72" text-anchor="middle" font-size="13" font-weight="700" fill={good}>
+      目を閉じていても分かる
+    </text>
+  </svg>
+</FigureFrame>

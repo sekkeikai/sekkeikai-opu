@@ -1,0 +1,136 @@
+title: 案を広げる
+en: Ideation
+layer: step
+order: 3
+stepName: 発想
+mode: diverge
+tools: ブレインライティング・スケッチ
+short: 案を広げる
+question: どんな解き方がありうるか
+summary: 要件を満たす案を、できるだけ多く、違った方向に考える。最初の思いつきの先まで探すことが、設計の天井を上げる。
+lead: 要件が決まったら、それを満たす案をできるだけ多く考えます。最初に思いついた案に決めてしまうと、その後どれだけ丁寧に設計しても、良くなる幅は限られます。
+chapters:
+  - id: why
+    heading: 案の幅が、設計の天井を決める
+    blocks:
+      - type: point
+        text: 要件を満たす案を、できるだけ多く、違った方向に考えます。この工程では良し悪しの判断を後回しにし、数と幅を優先します。
+      - type: question
+        text: 部室の予約の問題。「予約アプリをつくる」以外に、どんな解き方があるでしょう?
+        answer: 部室の前に紙の予約表を貼る、曜日ごとに使う人を決める、無料の共有カレンダーを予約表にする、部室の空き具合をランプで知らせる。アプリ以外の案も、立派な案です。
+      - type: p
+        text: 次の「比べて選ぶ」工程で選べるのは、ここで出た案の中からだけです。ここで出なかった案は、どれほど良くても選ばれることはありません。
+        note: 機械設計では、この工程と次の「比べて選ぶ」工程を合わせて、構想設計(概念設計)と呼ぶ([G. Pahl 他, Engineering Design 第3版, Springer, 2007](https://doi.org/10.1007/978-1-84628-319-2))。
+
+  - id: methods
+    heading: 各自で書き出してから持ち寄ると、案が増える
+    blocks:
+      - type: point
+        text: 各自が黙って書き出してから持ち寄ると、話し合いだけで出すより多くの案が集まります。
+      - type: steps
+        ordered: false
+        items:
+          - title: ブレインストーミング
+            body: 批判しない、自由奔放を歓迎する、質より量、他人の案に便乗する。広告会社のアレックス・オズボーンが考えた4つの規則で、短い時間に多くの案を出します。
+          - title: ブレインライティング
+            body: まず各自が黙って案を書き出し、それから紙を回して書き足します。話し合う前に各自で書くので、声の大きい人に流されにくい進め方です。
+          - title: SCAMPER
+            body: 置き換える、組み合わせる、応用する、修正する、他の使い道を考える、取り除く、逆にする。7つの問いを当てて、今ある案を変形させます。
+          - title: スケッチと簡単な模型
+            body: 頭の中の案を、紙や段ボールで手早く形にします。形にすると、言葉だけでは気付かなかった問題や可能性が見えてきます。
+      - type: p
+        text: ブレインストーミングには限界も指摘されています。グループで話し合いながら出すより、同じ人数がそれぞれ一人で考えた案を合わせたほうが、数が多くなるという実験結果があります。原因として、発言の順番を待つ間に案を忘れる(発言のブロッキング)ことや、評価を気にして控えることが挙げられます。ディールとシュトレーベの実験では、最も大きく効いていたのは順番待ちでした。まず各自で書き出してから共有するのは、そのためです。
+        note: '[M. Diehl & W. Stroebe, "Productivity Loss in Brainstorming Groups", Journal of Personality and Social Psychology, 53(3), 1987](https://doi.org/10.1037/0022-3514.53.3.497)。'
+      - type: figure
+        name: brainstorm-lanes
+
+  - id: borrow
+    heading: 手順を逆にする、よその分野から借りる
+    blocks:
+      - type: point
+        text: 行き詰まったら、当たり前の手順を逆にしてみる。全く別の分野の仕組みを借りてくる。どちらも、SCAMPERでいう「逆にする」「応用する」に当たる発想です。
+      - type: example
+        kind: real
+        title: カップを上からかぶせる
+        text: 1971年に発売された日清食品のカップヌードルでは、運ぶときに麺が割れないよう、麺の塊をカップの底より大きくして、中ほどに止めることにしました。ところが、その麺をカップにうまく入れられませんでした。そこで、麺を伏せておき、上からカップをかぶせるという、手順を逆にした発想で解決しました。
+        source: "[安藤百福『魔法のラーメン発明物語 ― 私の履歴書』日本経済新聞社, 2002年](https://ndlsearch.ndl.go.jp/books/R100000002-I000003066073)、[日清食品「安藤百福クロニクル」](https://www.nissin.com/jp/company/chronicle/)など。"
+      - type: example
+        kind: real
+        title: 天ぷらから借りた乾燥法
+        text: その13年前、1958年に発売された日清食品のチキンラーメンでは、麺を長く保存でき、お湯ですぐ戻せる方法を探していました。創業者の安藤百福は、天ぷらを揚げる様子から、味を付けた麺を油で揚げて水分を抜く「瞬間油熱乾燥法」を思いつきました。揚げたときにできる細かな穴から、お湯が染み込みます。
+        source: "[安藤百福『魔法のラーメン発明物語 ― 私の履歴書』日本経済新聞社, 2002年](https://ndlsearch.ndl.go.jp/books/R100000002-I000003066073)、[日清食品「安藤百福クロニクル」](https://www.nissin.com/jp/company/chronicle/)など。"
+      - type: p
+        text: よその分野から借りるには、自分の問題を、分野の言葉を外して言い直すのが近道です。「麺を保存する」を「食べ物から水分を抜く」と言い直せば、揚げ物も干物も手がかりになります。部室の予約も「限られた場所を、重ならないように割り当てる」と言い直せば、病院の予約や会議室、駐輪場の仕組みを参考にできます。
+        note: 言い直すときは、[[requirements#functions|要件の工程]]でIDEF0の箱に書いた機能の名前が、言い直す出発点になる。
+
+  - id: chart
+    heading: 機能ごとの解き方を、表で組み合わせる
+    blocks:
+      - type: point
+        text: 機能を分け、機能ごとの解き方を並べた表をつくります。各行から一つずつ選んで組み合わせれば、抜けの少ない案の一覧を、手順に沿ってつくれます。
+      - type: p
+        text: この表は**形態分析表**(モルフォロジカル・チャート)と呼ばれます。天文学者のフリッツ・ツビッキーが考えた形態分析を、機械設計のパールとバイツが、案を組み立てる道具として紹介しました。各行の左端に要件の工程でIDEF0に描いた機能を、その右にそれぞれの解き方を並べます。
+        note: "[F. Zwicky, Discovery, Invention, Research through the Morphological Approach, Macmillan, 1969](https://ci.nii.ac.jp/ncid/BA30257280)。[G. Pahl & W. Beitz, Engineering Design (1984)](https://ci.nii.ac.jp/ncid/BA07271699) は、機能ごとの解を組み合わせる表を構想設計の道具として示した。"
+      - type: figure
+        name: morphological-chart
+      - type: p
+        text: 組み合わせの数は、すぐに大きくなります。図の例でも80通りあります。そこで、「紙の表で調べるなら、申し込むのも紙」のように筋の通る組み合わせを選び、案にします。表に空いたマスがあれば、新しい解き方を探す手がかりにもなります。
+      - type: example
+        title: 部室の予約なら(架空の例)
+        text: 「空き状況を調べる」「予約を申し込む」「重なりを確かめて確定する」の3つの行に、解き方を4~5個ずつ並べます。共有カレンダーで調べて書き込み、重なりを画面で確かめる組み合わせ。紙の表を見て紙に書き、先に書いた人を優先する組み合わせ。こうして筋の通る組み合わせを選び出し、比べる案の候補にします。
+
+  - id: keep
+    heading: いくつかの案を、並べたまま進める
+    blocks:
+      - type: point
+        text: 案は、比べられる形でいくつか並べたまま進めます。根拠をもって少しずつ絞るほうが、やり直しが少なく済みます。
+      - type: p
+        text: トヨタの製品開発を調べた研究者たちは、いくつかの案を並べて検討し、根拠をもって少しずつ絞り込む進め方が、結果として開発を速く確かなものにしていると報告しました。「セットベース設計」と呼ばれる考え方です。一つに決めて進めると、後で条件に合わないと分かったときに大きく戻ることになります。いくつか並べておけば、合わない案を外すだけで済みます。遠回りに見える進め方が速いことを、研究者たちは「第二のトヨタのパラドックス」と呼びました。
+        note: '[A. Ward 他, "The Second Toyota Paradox", Sloan Management Review, 36(3), 1995](https://sloanreview.mit.edu/article/the-second-toyota-paradox-how-delaying-decisions-can-make-better-cars-faster/)。'
+      - type: figure
+        name: set-based
+      - type: example
+        title: 部室の予約なら(架空の例)
+        text: 形態分析で選んだ組み合わせに、曜日ごとに使う人を決める案や、有料の予約サービスを使う案なども加え、例えば9つの案を並べたまま工程4に進みます。一つに決めるのは、工程4で要件と比べてからです。
+
+references:
+  - text: A. F. Osborn, Applied Imagination, Charles Scribner's Sons, 1953.
+    url: https://ci.nii.ac.jp/ncid/BA69218505
+  - text: M. Diehl & W. Stroebe, "Productivity Loss in Brainstorming Groups", Journal of Personality and Social Psychology, 53(3), pp.497–509, 1987.
+    url: https://doi.org/10.1037/0022-3514.53.3.497
+  - text: A. Ward, J. K. Liker, J. J. Cristiano, D. K. Sobek II, "The Second Toyota Paradox", Sloan Management Review, 36(3), 1995.
+    url: https://sloanreview.mit.edu/article/the-second-toyota-paradox-how-delaying-decisions-can-make-better-cars-faster/
+  - text: G. Pahl & W. Beitz, Engineering Design(K. Wallace 編), Design Council / Springer, 1984(原著 Konstruktionslehre, 1977).
+    url: https://ci.nii.ac.jp/ncid/BA07271699
+  - text: 'G. Pahl, W. Beitz, J. Feldhusen, K.-H. Grote, Engineering Design: A Systematic Approach, 3rd ed., Springer, 2007.'
+    url: https://doi.org/10.1007/978-1-84628-319-2
+  - text: F. Zwicky, Discovery, Invention, Research through the Morphological Approach, Macmillan, 1969.
+    url: https://ci.nii.ac.jp/ncid/BA30257280
+  - text: 安藤百福『魔法のラーメン発明物語 ― 私の履歴書』日本経済新聞社, 2002年.
+    url: https://ndlsearch.ndl.go.jp/books/R100000002-I000003066073
+related:
+  - requirements
+  - selection
+  - modeling
+
+courses:
+  - name: 遊びとデザイン
+    dept: 造形デザイン学科
+    relation: 見立てやパロディーなど、イメージから提案へつなげるワークショップ
+    path: 0334/0334_33010601
+  - name: コミュニケーションデザイン演習
+    dept: 造形デザイン学科
+    relation: アイデアを次々に出してコアのアイデアを決め、試作する
+    path: 0334/0334_33009601
+  - name: プロダクトデザイン演習Ⅳ
+    dept: 工芸工業デザイン学科
+    relation: 調査から課題定義、アイデアの発散、試作、テストまでを2回繰り返す
+    path: 0336/0336_36003801
+  - name: 建築設計スタジオⅠ
+    dept: 建築学科
+    relation: エスキース(案のスケッチ検討)を何度も重ねて、複合施設を計画する
+    path: 0337/0337_37003801
+  - name: モビリティデザイン
+    dept: 工芸工業デザイン学科
+    relation: コンセプトを立て、ラフスケッチとレンダリングで形を探る
+    path: 0336/0336_36001701

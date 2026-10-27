@@ -1,0 +1,47 @@
+---
+// 「岡山県立大学の関連授業」の枠。設計を知るのページの終わりや、トップページの章の中に出す補足。
+// 中身は YAML の courses(ページ)または type: courses(ブロック)。授業名はシラバスへのリンクにする。
+import { SYLLABUS_YEAR, syllabusTop, syllabusUrl } from "../lib/syllabus";
+
+interface Props {
+  courses: { name: string; dept: string; relation: string; path?: string }[];
+  // true にすると、見出しを小さくして章の中になじませる
+  inline?: boolean;
+}
+
+const { courses, inline = false } = Astro.props;
+---
+
+<section
+  class:list={[
+    "rounded-card border border-grid bg-paper-muted p-6 font-sans sm:p-8",
+    inline ? "my-10 max-w-[57rem]" : "mt-20",
+  ]}
+  aria-label="岡山県立大学の関連授業"
+>
+  <p class:list={["font-bold", inline ? "text-base" : "text-xl"]}>岡山県立大学の関連授業</p>
+  <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+    {courses.map((c) => (
+      <li class="rounded-md border border-grid bg-paper p-4">
+        <p class="text-xs text-link">{c.dept}</p>
+        <p class="mt-0.5 font-bold">
+          {c.path ? (
+            <a href={syllabusUrl(c.path)} class="underline-offset-4 hover:text-link hover:underline" rel="noopener">
+              {c.name}
+            </a>
+          ) : (
+            c.name
+          )}
+        </p>
+        <p class="mt-1 text-sm text-ink/80">{c.relation}</p>
+      </li>
+    ))}
+  </ul>
+  <p class="mt-4 text-xs text-muted">
+    授業の内容は年度によって変わります。{SYLLABUS_YEAR}年度の
+    <a href={syllabusTop} class="underline hover:text-link" rel="noopener">
+      シラバス
+    </a>
+    による。
+  </p>
+</section>

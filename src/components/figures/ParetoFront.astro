@@ -1,0 +1,134 @@
+---
+// パレート最適: 価格と重さの両方を小さくしたいときの、架空の自転車の設計案。
+// どの案が「他の案に完全に負けていないか」は、ビルドのときに計算して色分けしている。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// [価格(万円), 重さ(kg)]
+const designs: [number, number][] = [
+  [3.0, 16.5],
+  [3.5, 14.2],
+  [4.0, 15.5],
+  [4.2, 12.8],
+  [5.0, 13.5],
+  [5.5, 11.0],
+  [6.0, 14.8],
+  [6.5, 10.2],
+  [7.0, 12.0],
+  [8.0, 9.1],
+  [8.5, 11.2],
+  [9.0, 9.8],
+  [10.0, 8.4],
+  [11.5, 8.9],
+  [12.5, 7.6],
+  [13.0, 10.5],
+  [14.0, 7.9],
+  [15.0, 7.2],
+];
+
+// 自分より「価格も重さも同じか小さく、少なくとも一方は小さい」案があれば、その案に支配されている
+const dominatedBy = (p: [number, number]) =>
+  designs.find((q) => q !== p && q[0] <= p[0] && q[1] <= p[1] && (q[0] < p[0] || q[1] < p[1]));
+const front = designs.filter((p) => !dominatedBy(p)).sort((a, b) => a[0] - b[0]);
+// この案の右上(価格も重さも大きい側)にある案は、全てこの案に負けている
+const anchor = designs.find((p) => p[0] === 8.0)!;
+const beaten = designs.filter((p) => p !== anchor && p[0] >= anchor[0] && p[1] >= anchor[1]).length;
+
+const L = 60;
+const R = 560;
+const T = 20;
+const B = 300;
+const x = (price: number) => L + ((price - 2) / 14) * (R - L);
+const y = (kg: number) => B - ((kg - 6) / 12) * (B - T);
+const frontPath = front.map((p, i) => `${i === 0 ? "M" : "L"}${x(p[0]).toFixed(1)} ${y(p[1]).toFixed(1)}`).join(" ");
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="パレート最適な案の集まり"
+  caption={`架空の自転車の設計案${designs.length}個。青い点は、価格と重さの一方を良くすると、もう一方が必ず悪くなる「パレート最適」な案(${front.length}個)。灰色の点は、少なくとも一つの青い点(または他の案)に、価格でも重さでも負けている。点線で囲んだ範囲の${beaten}個の案は、どれも価格${anchor[0]}万円・${anchor[1]}kgの案に、価格でも重さでも負けている。`}
+  scroll
+>
+  <svg
+    viewBox="0 0 600 350"
+    class="w-full"
+    role="img"
+    aria-label="価格と重さの散布図。パレート最適な案が左下の境界線上に並ぶ。"
+  >
+    <g font-size="12" fill="var(--color-muted)" font-family="var(--font-mono)">
+      {[2, 4, 6, 8, 10, 12, 14, 16].map((v) => (
+        <g>
+          <line x1={x(v)} x2={x(v)} y1={T} y2={B} stroke="var(--color-grid)" />
+          <text x={x(v)} y={B + 18} text-anchor="middle">
+            {v}
+          </text>
+        </g>
+      ))}
+      {[6, 9, 12, 15, 18].map((v) => (
+        <g>
+          <line x1={L} x2={R} y1={y(v)} y2={y(v)} stroke="var(--color-grid)" />
+          <text x={L - 8} y={y(v) + 4} text-anchor="end">
+            {v}
+          </text>
+        </g>
+      ))}
+    </g>
+    <text x={(L + R) / 2} y="342" text-anchor="middle" font-size="13" fill="var(--color-ink)">
+      価格(万円)← 安いほど良い
+    </text>
+    <text
+      x="16"
+      y={(T + B) / 2}
+      text-anchor="middle"
+      font-size="13"
+      fill="var(--color-ink)"
+      transform={`rotate(-90 16 ${(T + B) / 2})`}
+    >
+      重さ(kg)← 軽いほど良い
+    </text>
+    <rect
+      x={x(anchor[0])}
+      y={T}
+      width={R - x(anchor[0])}
+      height={y(anchor[1]) - T}
+      fill="var(--color-muted)"
+      fill-opacity="0.08"
+      stroke="var(--color-muted)"
+      stroke-dasharray="4 4"
+    />
+    <path data-draw d={frontPath} fill="none" stroke="var(--color-link)" stroke-width="2.5" />
+    {designs.map((p) => {
+      const onFront = front.includes(p);
+      return (
+        <circle
+          cx={x(p[0])}
+          cy={y(p[1])}
+          r={onFront ? 7 : 5.5}
+          fill={onFront ? "var(--color-link)" : "var(--color-paper)"}
+          stroke={onFront ? "var(--color-link)" : "var(--color-muted)"}
+          stroke-width="2"
+        />
+      );
+    })}
+    <text x={x(2.4)} y={y(6.6)} font-size="13" fill="var(--color-accent-strong)">
+      ★ 理想(実現できない)
+    </text>
+  </svg>
+  <ul class="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+    <li class="flex items-center gap-2">
+      <span class="h-3 w-3 rounded-full bg-link" aria-hidden="true"></span>パレート最適な案
+    </li>
+    <li class="flex items-center gap-2">
+      <span class="h-3 w-3 rounded-full border-2 border-muted" aria-hidden="true"></span>他の案に負けている案
+    </li>
+    <li class="flex items-center gap-2">
+      <span class="h-3 w-5 border border-dashed border-muted bg-muted/10" aria-hidden="true"></span>価格{anchor[0]}
+      万円・{anchor[1]}kgの案に負けている範囲
+    </li>
+  </ul>
+</FigureFrame>

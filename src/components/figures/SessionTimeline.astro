@@ -1,0 +1,93 @@
+---
+// 「オープンキャンパスの体験コーナー」(これから取り組む企画の計画の例)の、一回15分の流れを係ごとの帯で描く図。
+// まだ行っていない企画なので、「試して分かったこと」ではなく「本番の前に試すこと」を描く。
+// 数字は src/content/design/case-open-campus.yaml の運営の仕様書の表と同じ。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const left = 110;
+const perMin = 34;
+const x = (m: number) => left + m * perMin;
+const lanes = [
+  {
+    role: "説明係",
+    bars: [
+      { from: 0, to: 2, label: "説明" },
+      { from: 10, to: 13, label: "発表を聞く" },
+    ],
+  },
+  { role: "見守り係(2人)", bars: [{ from: 2, to: 10, label: "3人一組で案内表示を描く" }] },
+  { role: "受付係", bars: [{ from: 13, to: 15, label: "アンケート" }] },
+];
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="一回15分の流れと、本番の前に試すこと"
+  caption="計画の例(数字は仮の値)。15分ごとに9人が体験できれば、1時間に36人で、要件の24人以上を満たす。一番崩れやすいのは最初の説明で、2分を超えると体験の時間が削られる。本番の前に試し、収まらなければ説明を図の入ったカード1枚にまとめ直す。"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 250"
+    class="w-full"
+    role="img"
+    aria-label="一回15分の流れ。0から2分は説明、2から10分は体験、10から13分は発表、13から15分はアンケート。本番の前に、説明が2分に収まるかを試す。1時間に36人が体験でき、要件の24人以上を満たす。"
+  >
+    {[0, 2, 5, 10, 13, 15].map((m) => (
+      <g>
+        <line x1={x(m)} x2={x(m)} y1="30" y2="186" stroke="var(--color-grid)" />
+        <text x={x(m)} y="22" text-anchor="middle" font-size="12" fill={muted} font-family="monospace">
+          {m}分
+        </text>
+      </g>
+    ))}
+    {lanes.map((lane, i) => (
+      <g>
+        <text x="12" y={62 + i * 44} font-size="13" font-weight="700" fill={ink}>
+          {lane.role}
+        </text>
+        {lane.bars.map((b) => (
+          <g>
+            <rect
+              x={x(b.from) + 1}
+              y={44 + i * 44}
+              width={(b.to - b.from) * perMin - 2}
+              height="28"
+              rx="4"
+              fill="var(--color-link)"
+              fill-opacity="0.22"
+              stroke="var(--color-link)"
+            />
+            <text x={x(b.from) + 6} y={63 + i * 44} font-size="12" fill={ink}>
+              {b.label}
+            </text>
+          </g>
+        ))}
+      </g>
+    ))}
+    <!-- 本番の前に試して確かめること(説明が2分に収まるか) -->
+    <rect
+      x={x(0) + 1}
+      y="176"
+      width={2 * perMin - 2}
+      height="20"
+      rx="4"
+      fill="none"
+      stroke="var(--color-accent-strong)"
+      stroke-dasharray="5 4"
+    />
+    <text x={x(2) + 8} y="190" font-size="12" fill="var(--color-accent-strong)">
+      ← 本番の前に試す: 説明が2分に収まるか
+    </text>
+    <text x="12" y="232" font-size="13" font-weight="700" fill={ink}>
+      15分ごとに9人 → 1時間に36人(要件: 24人以上)
+    </text>
+  </svg>
+</FigureFrame>

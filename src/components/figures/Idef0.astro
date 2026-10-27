@@ -1,0 +1,259 @@
+---
+// IDEF0(機能モデルの図)。YAML の「type: idef0」から描く。
+// 箱が「機能(何をするか)」で、矢印は向きで意味が決まっている:
+//   左から入る … 入力(機能が変えるもの)  右へ出る … 出力(機能が生むもの)
+//   上から入る … 制御(決まりや条件)  下から入る … 機構(人や道具)
+// steps を書くと、その機能をいくつかの機能に分けた図(分解図)も下に描く。
+// 分解図は、入力から出力へのつながりだけを描く(制御と機構は全体図だけに描く)。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  title: string;
+  caption?: string;
+  fn: string;
+  inputs: string[];
+  controls: string[];
+  outputs: string[];
+  mechanisms: string[];
+  steps?: { name: string; output: string }[];
+}
+
+const { number, title, caption, fn, inputs, controls, outputs, mechanisms, steps } = Astro.props;
+
+// 文字の大きさと、行の間隔
+const fs = 13;
+const row = 28;
+// 長い名前を、決まった文字数で折り返す(日本語は 1 文字がほぼ正方形なので、文字数で幅を見積もれる)
+const wrap = (text: string, per: number) => {
+  const lines: string[] = [];
+  for (let i = 0; i < text.length; i += per) lines.push(text.slice(i, i + per));
+  return lines;
+};
+// 矢じり(三角形)。dir は矢印の向き
+const head = (x: number, y: number, dir: "right" | "down" | "up") => {
+  const s = 6;
+  if (dir === "right") return `${x},${y} ${x - s * 1.6},${y - s} ${x - s * 1.6},${y + s}`;
+  if (dir === "down") return `${x},${y} ${x - s},${y - s * 1.6} ${x + s},${y - s * 1.6}`;
+  return `${x},${y} ${x - s},${y + s * 1.6} ${x + s},${y + s * 1.6}`;
+};
+
+// ── 全体図(A-0) ──
+const W = 720;
+const box = { x: 230, w: 240, h: 120, y: 24 + row * Math.max(controls.length, 1) };
+const boxBottom = box.y + box.h;
+const H = boxBottom + row * Math.max(mechanisms.length, 1) + 16;
+// 上(制御)と下(機構)の矢印は、ラベルを左にそろえ、直角に曲げて箱に入れる。線が交わらないように、
+// 箱から遠いラベルほど右の位置に入れる
+const ctrl = controls.map((label, i) => ({
+  label,
+  y: box.y - row * (controls.length - i),
+  x: box.x + (box.w * (controls.length - i)) / (controls.length + 1),
+}));
+const mech = mechanisms.map((label, i) => ({
+  label,
+  y: boxBottom + row * (mechanisms.length - i),
+  x: box.x + (box.w * (mechanisms.length - i)) / (mechanisms.length + 1),
+}));
+const ins = inputs.map((label, i) => ({ label, y: box.y + (box.h * (i + 1)) / (inputs.length + 1) }));
+const outs = outputs.map((label, i) => ({ label, y: box.y + (box.h * (i + 1)) / (outputs.length + 1) }));
+const fnLines = wrap(fn, 12);
+
+// ── 分解図(A0): 箱を階段のように並べ、前の機能の出力が次の機能の入力になる ──
+const sb = { w: 136, h: 64, gap: 48, dy: 84, left: 196 };
+const SW = sb.left + (steps?.length ?? 0) * sb.w + Math.max((steps?.length ?? 1) - 1, 0) * sb.gap + 196;
+const SH = 28 + Math.max((steps?.length ?? 1) - 1, 0) * sb.dy + sb.h + 24;
+const stepBoxes = (steps ?? []).map((s, i) => ({
+  ...s,
+  x: sb.left + i * (sb.w + sb.gap),
+  y: 28 + i * sb.dy,
+  lines: wrap(s.name, 8),
+}));
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+const link = "var(--color-link)";
+const accent = "var(--color-accent-strong)";
+---
+
+<FigureFrame
+  number={number}
+  title={title}
+  caption={caption}
+  source="[IDEF0(FIPS PUB 183, 1993)](https://doi.org/10.6028/NIST.FIPS.183) の書き方にならって作図"
+  scroll
+>
+  <p class="annotation mb-2 text-muted normal-case">全体図(A-0): 「{fn}」という機能</p>
+  <svg
+    viewBox={`0 0 ${W} ${H}`}
+    class="w-full"
+    role="img"
+    aria-label={`IDEF0の全体図。機能「${fn}」。入力は${inputs.join("、")}。制御は${controls.join("、") || "なし"}。出力は${outputs.join("、")}。機構は${mechanisms.join("、") || "なし"}。`}
+  >
+    <rect
+      x={box.x}
+      y={box.y}
+      width={box.w}
+      height={box.h}
+      rx="4"
+      fill="var(--color-paper)"
+      stroke={ink}
+      stroke-width="2"
+    />
+    {fnLines.map((line, i) => (
+      <text
+        x={box.x + box.w / 2}
+        y={box.y + box.h / 2 + (i - (fnLines.length - 1) / 2) * 22 + 6}
+        text-anchor="middle"
+        font-size="17"
+        font-weight="700"
+        fill={ink}
+      >
+        {line}
+      </text>
+    ))}
+    <text x={box.x + box.w - 8} y={boxBottom - 8} text-anchor="end" font-size="12" fill={muted} font-family="monospace">
+      A0
+    </text>
+
+    {ins.map((a) => (
+      <g>
+        <line x1="12" x2={box.x - 2} y1={a.y} y2={a.y} stroke={ink} stroke-width="1.5" />
+        <polygon points={head(box.x, a.y, "right")} fill={ink} />
+        <text x="14" y={a.y - 7} font-size={fs} fill={ink}>
+          {a.label}
+        </text>
+      </g>
+    ))}
+    {outs.map((a) => (
+      <g>
+        <line x1={box.x + box.w} x2={W - 14} y1={a.y} y2={a.y} stroke={ink} stroke-width="1.5" />
+        <polygon points={head(W - 12, a.y, "right")} fill={ink} />
+        <text x={box.x + box.w + 12} y={a.y - 7} font-size={fs} fill={ink}>
+          {a.label}
+        </text>
+      </g>
+    ))}
+    {ctrl.map((a) => (
+      <g>
+        <polyline points={`12,${a.y} ${a.x},${a.y} ${a.x},${box.y - 2}`} fill="none" stroke={link} stroke-width="1.5" />
+        <polygon points={head(a.x, box.y, "down")} fill={link} />
+        <text x="14" y={a.y - 7} font-size={fs} fill={link}>
+          {a.label}
+        </text>
+      </g>
+    ))}
+    {mech.map((a) => (
+      <g>
+        <polyline
+          points={`12,${a.y} ${a.x},${a.y} ${a.x},${boxBottom + 2}`}
+          fill="none"
+          stroke={accent}
+          stroke-width="1.5"
+        />
+        <polygon points={head(a.x, boxBottom, "up")} fill={accent} />
+        <text x="14" y={a.y - 7} font-size={fs} fill={accent}>
+          {a.label}
+        </text>
+      </g>
+    ))}
+  </svg>
+  <ul class="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted">
+    <li>
+      <span class="font-bold text-ink">左→</span> 入力(変えるもの)
+    </li>
+    <li>
+      <span class="font-bold text-ink">→右</span> 出力(生まれるもの)
+    </li>
+    <li>
+      <span class="font-bold text-link">上↓</span> 制御(決まり・条件)
+    </li>
+    <li>
+      <span class="font-bold text-accent-strong">下↑</span> 機構(人・道具)
+    </li>
+  </ul>
+
+  {stepBoxes.length > 0 && (
+    <>
+      <p class="annotation mt-8 mb-2 text-muted normal-case">分解図(A0): 「{fn}」を、さらに細かい機能に分ける</p>
+      <svg
+        viewBox={`0 0 ${SW} ${SH}`}
+        class="w-full"
+        role="img"
+        aria-label={`IDEF0の分解図。${stepBoxes.map((s, i) => `A${i + 1}「${s.name}」が「${s.output}」を出す`).join("。")}。`}
+      >
+        <line
+          x1="12"
+          x2={stepBoxes[0].x - 2}
+          y1={stepBoxes[0].y + sb.h / 2}
+          y2={stepBoxes[0].y + sb.h / 2}
+          stroke={ink}
+          stroke-width="1.5"
+        />
+        <polygon points={head(stepBoxes[0].x, stepBoxes[0].y + sb.h / 2, "right")} fill={ink} />
+        <text x="14" y={stepBoxes[0].y + sb.h / 2 - 7} font-size={fs} fill={ink}>
+          {inputs[0]}
+        </text>
+        {stepBoxes.map((s, i) => {
+          const next = stepBoxes[i + 1];
+          const midY = s.y + sb.h / 2;
+          const turnX = s.x + sb.w + sb.gap / 2;
+          return (
+            <g>
+              <rect
+                x={s.x}
+                y={s.y}
+                width={sb.w}
+                height={sb.h}
+                rx="4"
+                fill="var(--color-paper)"
+                stroke={ink}
+                stroke-width="2"
+              />
+              {s.lines.map((line, j) => (
+                <text
+                  x={s.x + sb.w / 2}
+                  y={midY + (j - (s.lines.length - 1) / 2) * 18 + 5}
+                  text-anchor="middle"
+                  font-size="14"
+                  font-weight="700"
+                  fill={ink}
+                >
+                  {line}
+                </text>
+              ))}
+              <text
+                x={s.x + sb.w - 6}
+                y={s.y + sb.h - 6}
+                text-anchor="end"
+                font-size="11"
+                fill={muted}
+                font-family="monospace"
+              >
+                A{i + 1}
+              </text>
+              {next ? (
+                <>
+                  <polyline
+                    points={`${s.x + sb.w},${midY} ${turnX},${midY} ${turnX},${next.y + sb.h / 2} ${next.x - 2},${next.y + sb.h / 2}`}
+                    fill="none"
+                    stroke={ink}
+                    stroke-width="1.5"
+                  />
+                  <polygon points={head(next.x, next.y + sb.h / 2, "right")} fill={ink} />
+                </>
+              ) : (
+                <>
+                  <line x1={s.x + sb.w} x2={SW - 14} y1={midY} y2={midY} stroke={ink} stroke-width="1.5" />
+                  <polygon points={head(SW - 12, midY, "right")} fill={ink} />
+                </>
+              )}
+              <text x={s.x + sb.w + 8} y={midY - 7} font-size={fs} fill={ink}>
+                {s.output}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </>
+  )}
+</FigureFrame>

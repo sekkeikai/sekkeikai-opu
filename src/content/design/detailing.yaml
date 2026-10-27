@@ -1,0 +1,143 @@
+title: 形を詰める
+en: Detail Design
+layer: step
+order: 5
+stepName: 詳細設計
+mode: converge
+tools: CAD・試作・仕様書
+short: 形を詰める
+question: どうすれば、その通りにつくれるか
+summary: 選んだ案を、実際につくれる形にする。寸法・材料・画面の細部を決め、図面と仕様書と判断の根拠を一式にまとめる。
+lead: 選んだ案を、つくる人や運営する人がその通りに進められる形にします。寸法や材料、画面の細部まで、数字と言葉で決めていく工程です。
+chapters:
+  - id: why
+    heading: 細部の数字一つが、全体を左右する
+    blocks:
+      - type: point
+        text: 寸法、材料、部品、画面の一つひとつの動きを決めます。ここで決めた数字は、そのまま製品の安全や使いやすさになります。
+      - type: example
+        kind: real
+        title: ハッブル宇宙望遠鏡の鏡
+        text: 1990年に打ち上げられたハッブル宇宙望遠鏡は、最初に届いた画像がぼやけていました。直径2.4mの主鏡が、縁の辺りで設計より約2.2µm平らに磨かれていたのです。髪の毛の太さの数十分の一のずれでした。原因は、鏡の形を測る検査の道具の中で、レンズの位置が1.3mmずれていたことでした。
+        source: '[L. Allen 他, "The Hubble Space Telescope Optical Systems Failure Report" (Allen Report), NASA, 1990](https://ntrs.nasa.gov/citations/19910003124)、[NASA「Servicing Mission 1」](https://asd.gsfc.nasa.gov/archive/hubble/missions/sm1.html)。'
+      - type: p
+        text: 別の検査の道具は、この誤りを示していました。けれど、その結果は「そちらの道具のほうが不正確なのだろう」と見過ごされました。1993年、宇宙飛行士が補正の光学装置を取り付けて、ようやく設計通りの像が得られました。細部の数字は、**確かめ方まで含めて設計します**。
+        note: 補正は1993年12月の最初の修理ミッション([スペースシャトルSTS-61](https://www.nasa.gov/mission/sts-61/))で行われた。[調査報告](https://ntrs.nasa.gov/citations/19910003124)は、検査の結果を独立した立場で確かめる仕組みが弱かったことも指摘した。
+
+  - id: steps
+    heading: 寸法を決め、試作で確かめてから、仕様書にまとめる
+    blocks:
+      - type: point
+        text: 寸法と公差を決め、材料を選び、試作して確かめ、図面と仕様書にまとめます。確かめて要件を満たさなければ、前の工程に戻ります。
+      - type: steps
+        items:
+          - title: 寸法と公差を決める
+            body: 大きさや厚さだけでなく、つくるときにどこまでずれてよいか(その幅が公差)も決めます。穴と軸の公差域の間に隙間を見込んでおけば、どの組み合わせでも入ります。
+          - title: 材料と部品を選ぶ
+            body: 強さ、重さ、価格、手に入りやすさを比べて選びます。ソフトウェアなら、使う技術やライブラリーを選ぶのがこれに当たります。
+          - title: 試作して確かめる
+            body: 部分的な試作やシミュレーションで、性能と使いやすさが要件を満たすかを確かめます。満たさなければ、前の工程に戻ります。
+          - title: 図面と仕様書にまとめる
+            body: つくる人がそれだけを見て進められるよう、図面・仕様書・判断の根拠を一式にまとめます。
+      - type: figure
+        name: tolerance-fit
+      - type: p
+        text: 形と性能は、[[modeling|モデル]]で確かめます。CADで形をつくり、構造・流れ・熱をコンピューターで解析するCAEで性能を確かめます。条件の組み合わせを効率よく試すには、実験計画法や、ばらつきに強い条件を探す品質工学(タグチメソッド)といった[[data-analysis|データ分析]]の手法が使えます。画面や操作の細部は、[[human-interface|ヒューマンインターフェース]]の原則に照らして詰めます。
+
+  - id: review
+    heading: 仕様書を固める前に、違う目で確かめる
+    blocks:
+      - type: point
+        text: 細部を決めたら、仕様書を固める前に確かめます。違う立場の人に見てもらい、壊れ方を先に考え、試作は粗いものから順に細かくしていきます。
+      - type: steps
+        ordered: false
+        items:
+          - title: デザインレビュー
+            body: 設計の途中で、違う立場の人(使う人、つくる人、運営する人)に見てもらう会です。設計した本人は、自分の前提に気付きにくいからです。要件と照らし合わせながら、気になる点を一つずつ挙げてもらいます。
+          - title: 故障モード・影響解析(FMEA)
+            body: どこが、どう壊れたら、何が起きるかを表にします。起きやすさと影響の大きさを見て、先に手を打つところを決めます。表にすると、心配ごとを思いつくままに挙げるより、抜けの少ない確認になります。
+          - title: 試作は粗いものから細かいものへ
+            body: 紙 → 段ボール → 3Dプリントのように、安く早い試作から始めます。粗い試作で大きな問題を見つけてから、細部を細かい試作で確かめます。画面なら、紙に描いた画面 → 動く見本の順です。
+      - type: table
+        caption: 部室の予約の簡単なFMEA(架空の例)
+        head:
+          - どこが
+          - どう壊れる
+          - 何が起きる
+          - 手の打ち方
+        rows:
+          - - 予約の書き込み
+            - 時間を間違えて書く
+            - 他の人の予約と重なる
+            - 書き方の例をカレンダーの説明に載せる
+          - - カレンダーの共有
+            - 新入部員が見られない
+            - 空きが分からず、部室まで行く
+            - 入部の手続きに、共有の設定を入れる
+          - - 予約の締め切り
+            - 前日20時を過ぎて書き込む
+            - 当日の朝に重なりが見つかる
+            - 重なったら、先に書いた人を優先と決める
+      - type: p
+        text: FMEAは、1949年にアメリカ軍の手順書として始まり、宇宙開発や自動車の開発に広がりました。上の表のような小さなものでも、「どこが・どう壊れる・何が起きる・手の打ち方」の4つの列で使えます。
+        note: '[MIL-P-1629, "Procedures for Performing a Failure Mode, Effects and Criticality Analysis", U.S. Department of Defense, 1949](https://quicksearch.dla.mil/qsDocDetails.aspx?ident_number=86479)。広がりは [TWI「What is FMEA?」](https://www.twi-global.com/technical-knowledge/faqs/what-is-failure-mode-and-effects-analysis-fmea) など。'
+      - type: p
+        text: つくり込んだ見本を見せると、意見は字の大きさや色のような見た目の仕上げに集まりがちです。手間をかけてつくった側も、大きな直しを嫌がりがちになります。粗い試作なら、流れや組み立てそのものへの意見が出て、すぐに直せます。
+        note: '[M. Rettig, "Prototyping for Tiny Fingers", Communications of the ACM, 37(4), 1994](https://doi.org/10.1145/175276.175288)。'
+
+  - id: output
+    heading: 「なぜこの形か」まで残す
+    blocks:
+      - type: point
+        text: この工程の成果は、設計の答え(設計解)を、つくれる形に書き表したものです。図面や仕様書に、判断の根拠まで添えて一式にまとめると、後から改良する人にも設計の意図が伝わります。
+      - type: p
+        text: まとめるものは分野で違います。機械なら図面、ソフトウェアなら画面や機能の仕様書、建築なら設計図書、イベントなら運営の計画と時間割、ポスターなら印刷所に渡すデータです。どれも、つくる人や運営する人が、それだけを見て、その通りに進められることを目指します。
+      - type: p
+        text: 設計会が扱うのは、この工程の終わり、仕様書ができるところまでです。実際につくる段階に入っても、「なぜこの数字なのか」が書いてあれば、つくる人は根拠を確かめながら進められ、条件が変わったときにも正しく直せます。
+      - type: figure
+        name: spec-anatomy
+      - type: p
+        text: 前の工程で書いたものが、ここで一つにつながります。逆に言えば、仕様書を書こうとして手が止まるところは、前の工程で決め残したところです。そのときは、その工程に戻って決め直します。
+      - type: example
+        title: 部室の予約なら(架空の例)
+        text: 共有カレンダーへの予約の書き方(名前・用件・時間)、予約の締め切り、重なったときの決め方を一枚の仕様書にまとめます。何人かに試してもらって書き方を直してから、部全体で使い始めます。
+      - type: link
+        label: 5つの工程を通した計画の例を読む
+        href: /design/#cases-title
+      - type: link
+        label: 設計会で一緒に設計する
+        href: /#join
+
+references:
+  - text: 'L. Allen 他, "The Hubble Space Telescope Optical Systems Failure Report", NASA, 1990.'
+    url: https://ntrs.nasa.gov/citations/19910003124
+  - text: NASA Goddard Space Flight Center, "Servicing Mission 1".
+    url: https://asd.gsfc.nasa.gov/archive/hubble/missions/sm1.html
+  - text: NASA, "STS-61".
+    url: https://www.nasa.gov/mission/sts-61/
+  - text: 'MIL-P-1629, "Procedures for Performing a Failure Mode, Effects and Criticality Analysis", U.S. Department of Defense, 1949.'
+    url: https://quicksearch.dla.mil/qsDocDetails.aspx?ident_number=86479
+  - text: 'M. Rettig, "Prototyping for Tiny Fingers", Communications of the ACM, 37(4), pp.21–27, 1994.'
+    url: https://doi.org/10.1145/175276.175288
+related:
+  - selection
+  - modeling
+  - data-analysis
+
+courses:
+  - name: 機械設計法
+    dept: 情報システム工学科
+    relation: 強度設計、はめあい、信頼性設計など、寸法と形を決める方法
+    path: 0222/0222_22271001
+  - name: 機械デザイン演習
+    dept: 情報システム工学科
+    relation: 有限要素法による強度解析(CAE)と3次元CADで機器を設計する
+    path: 0222/0222_22144001
+  - name: 製図
+    dept: 工芸工業デザイン学科
+    relation: 設計の意図を第三者に伝えるための、設計図の約束事を学ぶ
+    path: 0336/0336_34015202
+  - name: 家具設計
+    dept: 工芸工業デザイン学科
+    relation: スケッチからスタディモデル、図面、原寸の模型へと詰めていく
+    path: 0336/0336_36002601

@@ -1,0 +1,125 @@
+---
+// ダブルダイヤモンド: 問題を見つける段階と、解を見つける段階で、それぞれ発散と収束をする。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const diamonds = [
+  {
+    cx: 205,
+    color: "var(--color-accent)",
+    top: "正しい問題を見つける",
+    halves: ["発見", "定義"],
+    en: ["Discover", "Define"],
+  },
+  {
+    cx: 515,
+    color: "var(--color-link)",
+    top: "正しい解を見つける",
+    halves: ["展開", "提供"],
+    en: ["Develop", "Deliver"],
+  },
+];
+const half = 150;
+const cy = 160;
+const h = 100;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="ダブルダイヤモンド: 発散と収束を二度"
+  caption="左のひし形で「どの問題を解くべきか」を広げて絞り、右のひし形で「どう解くか」を広げて絞る。実際の設計では、右から左へ戻ることもよくある。"
+  source="[Design Council (UK), The Double Diamond](https://www.designcouncil.org.uk/resources/the-double-diamond/)(2004年から発表)を基に作図。経緯は [Design Council「History of the Double Diamond」](https://www.designcouncil.org.uk/resources/the-double-diamond/history-of-the-double-diamond/) による"
+  scroll
+>
+  <svg
+    viewBox="0 0 720 310"
+    class="w-full"
+    role="img"
+    aria-label="ダブルダイヤモンドの図。発見・定義・展開・提供の4段階。"
+  >
+    <defs>
+      <marker
+        id="dd-arrow"
+        viewBox="0 0 10 10"
+        refX="8"
+        refY="5"
+        markerWidth="7"
+        markerHeight="7"
+        orient="auto-start-reverse"
+      >
+        <path d="M0 0 L10 5 L0 10 z" fill="var(--color-muted)" />
+      </marker>
+    </defs>
+    {diamonds.map((d) => (
+      <g>
+        <path
+          data-draw
+          d={`M${d.cx - half} ${cy} L${d.cx} ${cy - h} L${d.cx + half} ${cy} L${d.cx} ${cy + h} Z`}
+          fill="none"
+          stroke={d.color}
+          stroke-width="2.5"
+        />
+        <line x1={d.cx} x2={d.cx} y1={cy - h + 6} y2={cy + h - 6} stroke={d.color} stroke-dasharray="4 5" />
+        <text x={d.cx} y="36" text-anchor="middle" font-size="17" font-weight="700" fill="var(--color-ink)">
+          {d.top}
+        </text>
+        {d.halves.map((label, i) => (
+          <g>
+            <text
+              x={d.cx + (i === 0 ? -62 : 62)}
+              y={cy + 2}
+              text-anchor="middle"
+              font-size="20"
+              font-weight="700"
+              fill="var(--color-ink)"
+            >
+              {label}
+            </text>
+            <text
+              x={d.cx + (i === 0 ? -62 : 62)}
+              y={cy + 24}
+              text-anchor="middle"
+              font-family="var(--font-mono)"
+              font-size="11"
+              fill="var(--color-muted)"
+            >
+              {d.en[i]}
+            </text>
+            <text
+              x={d.cx + (i === 0 ? -75 : 75)}
+              y="296"
+              text-anchor="middle"
+              font-size="14"
+              fill={i === 0 ? "var(--color-accent-strong)" : "var(--color-link)"}
+            >
+              {i === 0 ? "発散" : "収束"}
+            </text>
+            <line
+              x1={d.cx + (i === 0 ? -120 : 30)}
+              x2={d.cx + (i === 0 ? -30 : 120)}
+              y1="276"
+              y2="276"
+              stroke="var(--color-muted)"
+              marker-end="url(#dd-arrow)"
+            />
+          </g>
+        ))}
+      </g>
+    ))}
+    <text x="44" y={cy - 12} text-anchor="middle" font-size="14" fill="var(--color-muted)">
+      問い
+    </text>
+    <text x="680" y={cy - 12} text-anchor="middle" font-size="14" fill="var(--color-muted)">
+      設計解
+    </text>
+    <line x1="360" x2="360" y1={cy + 6} y2="284" stroke="var(--color-muted)" stroke-dasharray="2 4" />
+    <text x="360" y="302" text-anchor="middle" font-size="13" fill="var(--color-muted)">
+      問題の定義
+    </text>
+  </svg>
+</FigureFrame>

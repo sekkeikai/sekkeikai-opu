@@ -1,0 +1,172 @@
+title: 設計の方法の歴史
+en: History of Design Methods
+layer: topic
+order: 1
+short: 設計の方法の歴史
+question: 設計の進め方は、いつ、誰が方法にしたのか
+summary: 設計の進め方そのものを研究し、方法としてまとめる試みは、20世紀の半ばから大きく進んだ。工程のページで紹介した手法が生まれた順に並べる。
+lead: 工程のページで紹介した手法には、それぞれ生まれた時代と、考えた人がいます。設計の進め方そのものを研究し、誰でも使える方法にまとめる試みは、20世紀の半ばから大きく進みました。
+chapters:
+  - id: why
+    heading: 設計が、一人の勘と経験を超える大きさになった
+    blocks:
+      - type: question
+        text: 設計の進め方には、昔から決まった手順があったのでしょうか?
+        answer: いいえ。長い間、設計は親方から弟子へ、やりながら身に付けるものでした。進め方を書き出し、誰でも使える方法にしようとする動きが大きく進んだのは、1960年代のことです。
+      - type: point
+        text: 物やシステムが大きく複雑になり、設計には一人の勘と経験を超える仕組みが必要になりました。そこで、設計の進め方を書き出し、教えられる「方法」にしようとする動きが生まれました。
+      - type: p
+        text: |-
+          第二次世界大戦の後、航空機や宇宙開発のような巨大なシステムが現れ、何千人もの技術者が一つのものを設計するようになりました。コンピューターも使われ始め、作戦の分析から生まれたオペレーションズ・リサーチ(限られた資源の最も良い使い方を、数理で決める方法)のように、問題を手順で解く考え方も広がっていました。設計の進め方も、手順として書き出せるのではないか。そう考える人たちが現れました。
+      - type: p
+        text: |-
+          1962年9月、ロンドンのインペリアル・カレッジで「設計方法会議(Conference on Design Methods)」が開かれました。建築、機械、工業デザインなど、分野の違う人たちが集まり、設計の進め方そのものを研究の対象として論じました。この会議は、設計の方法の研究の出発点とされています。この会議の委員会の人たちが中心となって、1966年に英国のデザイン・リサーチ・ソサエティが生まれました。
+        note: |-
+          [J. C. Jones & D. G. Thornley (eds.), Conference on Design Methods, Pergamon Press, 1963](https://dl.designresearchsociety.org/design_methods_conference_1962/)。会議は1962年9月19~21日に開かれた。出発点とされることと学会の成り立ちは、[Design Research Society「History」](https://www.designresearchsociety.org/cpages/history) による。
+      - type: p
+        text: |-
+          一方で、方法への期待が大きすぎたことへの反省も、早くから出ました。『形の合成に関するノート』(1964年)でこの流れの中心にいた建築家クリストファー・アレグザンダーは、1971年に、設計の方法を設計の実践から切り離して研究することを強く批判し、距離を置きました。そこから、手順で設計を置き換えるのではなく、設計する人が考えるのを助ける道具として方法を使う、という見方が広がっていきます。
+        note: |-
+          [C. Alexander, Notes on the Synthesis of Form](https://www.hup.harvard.edu/books/9780674627512), ペーパーバック版の序文, 1971。[同じ年の雑誌のインタビュー](https://www.designresearchsociety.org/articles/remembering-christopher-alexander-by-nigel-cross)でも、設計の方法の研究を「忘れてしまえ」と語った。
+      - type: p
+        text: |-
+          設計会が工程ごとに手法を学ぶのも、この見方に立っています。手法は、考え落としを防ぎ、考えたことを他の人に見せて話し合うための道具です。
+
+  - id: timeline
+    heading: 設計を「方法」にした人たち
+    blocks:
+      - type: point
+        text: 設計の方法を研究する動きと前後して、手法が次々に生まれました。多くは1950年代から1990年代のもので、日本で生まれた手法や理論(KJ法、品質機能展開、狩野モデル、一般設計学)もいくつもあります。
+      - type: figure
+        name: methods-timeline
+      - type: heading
+        text: "1970年代まで: 手法が次々に生まれる"
+      - type: timeline
+        items:
+          - year: 紀元前1世紀
+            title: 強・用・美
+            body: ウィトルウィウスが、建築が備えるべき条件として丈夫さ、使いやすさ、美しさを挙げる。
+          - year: "1953"
+            title: ブレインストーミング
+            body: アレックス・オズボーンが著書『Applied Imagination』で、良し悪しの判断を後回しにして数多くの案を出す、発想会議の方法を広める。
+          - year: "1962"
+            title: 設計方法会議
+            body: ロンドンで、設計の進め方そのものを論じる会議が開かれる。設計の方法の研究の出発点とされる。
+          - year: "1964"
+            title: 『形の合成に関するノート』
+            body: 建築家クリストファー・アレグザンダーが、設計の問題を要素に分けて形を導く方法を論じる。
+          - year: "1966"
+            title: 形態分析
+            body: 天文学者フリッツ・ツビッキーが、要素ごとの選択肢を表に並べ、その組み合わせで案を広げる方法を著書にまとめる。ジェット推進の研究などで使っていた方法。
+          - year: "1967"
+            title: KJ法
+            body: 川喜田二郎が『発想法』で、集めた事実から構造を見つける方法を紹介する。
+          - year: 1960年代後半
+            title: 品質機能展開の源流
+            body: 水野滋と赤尾洋二が、使う人の求める品質を設計に展開する考え方を提唱する。
+          - year: "1969"
+            title: 『システムの科学』
+            body: ハーバート・サイモンが、設計を「どうあるべきか」を扱う独自の知として論じる(原題The Sciences of the Artificial)。
+          - year: "1970"
+            title: 『Design Methods』
+            body: ジョン・クリストファー・ジョーンズが、設計の手法を集めて、使う場面ごとに整理する。
+          - year: "1971"
+            title: SCAMPER
+            body: ボブ・エバールが、オズボーンの発想のチェックリストを基に、「置き換える」「組み合わせる」など7つの問いかけにまとめる。元は子供の想像力を育てる本。
+          - year: "1973"
+            title: 厄介な問題
+            body: リッテルとウェバーが、社会の計画が扱う問題では、問題をどう定めるかを決めることが、解くことの一部になると指摘する。後に、設計の問題の多くにも当てはまると考えられるようになる。
+          - year: "1977"
+            title: 工学設計の体系化
+            body: パールとバイツが、設計を「課題の明確化」「概念設計」「具体化設計」「詳細設計」の4つに分けて進める手順をまとめる。
+          - year: 1977~1980
+            title: 階層分析法(AHP)
+            body: トーマス・サーティが、基準どうしを2つずつ比べた表(一対比較の行列)から、各基準の重みを求める方法を発表する。
+          - year: "1979"
+            title: 一般設計学
+            body: 吉川弘之が、設計を「機能の空間から属性の空間への写像」として数学の言葉で捉える理論を発表する。
+      - type: heading
+        text: "1980年代から: つなぐ、そろえる、人に合わせる"
+      - type: timeline
+        items:
+          - year: "1981"
+            title: IDEF0
+            body: 米空軍のICAM計画で、機能を箱と矢印で描く方法の手引きがまとめられる。1993年には米国の連邦情報処理規格(FIPS PUB 183)になる。
+          - year: "1981"
+            title: ピューの概念選定法
+            body: スチュアート・ピューが、基準案を一つ決め、他の案を基準ごとに「+」「-」「S(同じ)」で比べて選ぶ方法を発表する。
+          - year: "1983"
+            title: 省察的実践
+            body: ドナルド・ショーンが、設計する人が状況と対話しながら考える姿を描く。
+          - year: "1984"
+            title: 狩野モデル
+            body: 狩野紀昭らが、「当たり前品質」「魅力的品質」など、要求の性格を見分けるモデルを発表する。
+          - year: "1990"
+            title: 公理的設計
+            body: ナム・P・スーが、「要求機能どうしの独立を保つ」「設計に必要な情報量を最小にする」の2つの公理で、設計の良し悪しを判断する方法をまとめる。
+          - year: "1995"
+            title: セットベース設計
+            body: トヨタの開発の研究から、いくつもの案を並行して残し、少しずつ絞り込む進め方が注目される。
+          - year: "1999"
+            title: ISO 13407
+            body: 使う人を中心に置いた設計(人間中心設計)の進め方が、国際規格になる。2010年からはISO 9241-210に引き継がれる。
+          - year: "2004"
+            title: ダブルダイヤモンド
+            body: 英国デザイン・カウンシルが、「広げる」と「絞る」を二度繰り返す進め方を図で示し、紹介し始める(2003年に作り始めた)。
+
+references:
+  - text: Vitruvius, The Ten Books on Architecture(M. H. Morgan 英訳, 1914)第1書第3章.
+    url: https://www.gutenberg.org/ebooks/20239
+  - text: A. F. Osborn, Applied Imagination, Charles Scribner's Sons, 1953.
+    url: https://ci.nii.ac.jp/ncid/BA69218505
+  - text: J. C. Jones & D. G. Thornley (eds.), Conference on Design Methods, Pergamon Press, 1963.
+    url: https://dl.designresearchsociety.org/design_methods_conference_1962/
+  - text: C. Alexander, Notes on the Synthesis of Form, Harvard University Press, 1964(ペーパーバック版の序文, 1971).
+    url: https://www.hup.harvard.edu/books/9780674627512
+  - text: N. Cross, "Remembering Christopher Alexander", Design Research Society, 2022(1971年のインタビューについて).
+    url: https://www.designresearchsociety.org/articles/remembering-christopher-alexander-by-nigel-cross
+  - text: 永井一志「品質機能展開の進化に関する考察」『品質』44巻2号, pp.172–177, 2014年.
+    url: https://doi.org/10.20684/quality.44.2_172
+  - text: F. Zwicky, Entdecken, Erfinden, Forschen im morphologischen Weltbild, Droemer Knaur, 1966(英訳 Discovery, Invention, Research Through the Morphological Approach, Macmillan, 1969).
+    url: https://ci.nii.ac.jp/ncid/BA30257280
+  - text: 川喜田二郎『発想法 ― 創造性開発のために』中公新書, 1967年.
+    url: https://ndlsearch.ndl.go.jp/books/R100000002-I000001091965
+  - text: H. A. Simon, The Sciences of the Artificial, MIT Press, 1969.
+    url: https://ndlsearch.ndl.go.jp/books/R100000002-I000006331276
+  - text: 'J. C. Jones, Design Methods: Seeds of Human Futures, Wiley-Interscience, 1970.'
+    url: https://ndlsearch.ndl.go.jp/books/R100000136-I1971149384851059890
+  - text: 'B. Eberle, SCAMPER: Games for Imagination Development, D.O.K. Publishers, 1971(リンクは1977年版の書誌).'
+    url: https://ndlsearch.ndl.go.jp/books/R100000136-I1971430859832437056
+  - text: H. W. J. Rittel & M. M. Webber, "Dilemmas in a General Theory of Planning", Policy Sciences, 4(2), 1973.
+    url: https://doi.org/10.1007/BF01405730
+  - text: G. Pahl & W. Beitz, Konstruktionslehre, Springer, 1977.
+    url: https://ci.nii.ac.jp/ncid/BA62999351
+  - text: T. L. Saaty, "A Scaling Method for Priorities in Hierarchical Structures", Journal of Mathematical Psychology, 15(3), pp.234–281, 1977.
+    url: https://doi.org/10.1016/0022-2496%2877%2990033-5
+  - text: T. L. Saaty, The Analytic Hierarchy Process, McGraw-Hill, 1980.
+    url: https://ci.nii.ac.jp/ncid/BA00342336
+  - text: 吉川弘之「一般設計学序説」『精密機械』45巻536号, pp.906–912, 1979年.
+    url: https://doi.org/10.2493/jjspe1933.45.906
+  - text: Air Force Wright Aeronautical Laboratories, ICAM Architecture Part II, Volume IV — Function Modeling Manual (IDEF0), 1981. FIPS PUB 183, 1993.
+    url: https://nvlpubs.nist.gov/nistpubs/Legacy/FIPS/fipspub183.pdf
+  - text: 'S. Pugh, "Concept Selection: A Method That Works", ICED 1981, Rome(D. D. Frey 他, Research in Engineering Design, 20(1), 2009 による紹介).'
+    url: https://doi.org/10.1007/s00163-008-0056-z
+  - text: D. A. Schön, The Reflective Practitioner, Basic Books, 1983.
+    url: https://ci.nii.ac.jp/ncid/BA07296204
+  - text: 狩野紀昭・瀬楽信彦・高橋文夫・辻新一「魅力的品質と当り前品質」『品質』14巻2号, 1984年.
+    url: https://doi.org/10.20684/quality.14.2_147
+  - text: N. P. Suh, The Principles of Design, Oxford University Press, 1990.
+    url: https://ci.nii.ac.jp/ncid/BA08038281
+  - text: R. Buchanan, "Wicked Problems in Design Thinking", Design Issues, 8(2), 1992.
+    url: https://doi.org/10.2307/1511637
+  - text: A. Ward, J. K. Liker, J. J. Cristiano, D. K. Sobek II, "The Second Toyota Paradox", Sloan Management Review, 36(3), 1995.
+    url: https://sloanreview.mit.edu/article/the-second-toyota-paradox-how-delaying-decisions-can-make-better-cars-faster/
+  - text: ISO 13407:1999 Human-centred design processes for interactive systems(ISO 9241-210:2010 に置き換え).
+    url: https://www.iso.org/standard/21197.html
+  - text: Design Council (UK), "History of the Double Diamond".
+    url: https://www.designcouncil.org.uk/resources/the-double-diamond/history-of-the-double-diamond/
+related:
+  - process
+  - ideation
+  - requirements
+  - selection

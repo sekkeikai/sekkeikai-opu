@@ -1,0 +1,262 @@
+title: ヒューマンインターフェース
+en: Human Interface
+layer: lens
+order: 2
+short: 人から考える
+question: 人と人工物の境界を、どう設計するか
+summary: 人がどう見て、考え、手を動かすかを理解し、使う人にとって自然で誤りにくい「境界面」を設計する。
+lead: 人が使うものを設計するなら、人もまた設計の一部です。ヒューマンインターフェースとは、人と機械や情報、サービスが出会う境界面のこと。ボタンの形や画面の配置から、手順の流れや言葉遣いまで、人が迷うか、誤るかは、その境界の設計で決まります。
+chapters:
+  - id: basics
+    heading: 人を知ることから始まる
+    blocks:
+      - type: question
+        text: 押しにくいボタン、迷う画面、間違えやすいスイッチ。それは、使う人の不注意のせいでしょうか?
+        answer: 多くの場合、設計の問題です。人の目や手や記憶には、調べれば分かる特性と限界があります。それに合わせて設計すれば、迷いや誤りは減らせます。
+      - type: point
+        text: 人と人工物が出会う「境界面」を、人の特性に合わせて設計する。それがヒューマンインターフェースです。
+      - type: p
+        text: |-
+          その特性の一つが、手の動きです。手を動かして目標を指し示すのにかかる時間は、目標までの距離が遠いほど、目標が小さいほど長くなります。心理学者ポール・フィッツが1954年に定式化したこの関係を「フィッツの法則」と呼びます。のちに、マウスなどで画面上の目標を指す操作にも当てはまることが確かめられ、ボタンの大きさや配置を決める根拠になっています。
+        note: |-
+          [P. M. Fitts, "The information capacity of the human motor system in controlling the amplitude of movement", Journal of Experimental Psychology, 47(6), 1954](https://doi.org/10.1037/h0055392)。画面上の操作への当てはまりは [I. S. MacKenzie, 1992](https://doi.org/10.1207/s15327051hci0701_3) がまとめている。
+      - type: p
+        text: |-
+          下のデモで、実際に試してみてください。表示される丸を次々にクリック(タップ)すると、丸の大きさと距離から計算した難しさの指数(ID)と、かかった時間の関係がグラフに描かれていきます。
+      - type: figure
+        name: fitts-demo
+      - type: p
+        text: |-
+          手を動かす速さの次は、頭の中の理解です。認知科学者ドナルド・ノーマンらは、人が物を使うときに越える2つの「淵(隔たり)」を示しました。したいことに対して、どう操作すればよいかを見つけるまでの隔たりが「実行の淵」、操作の結果どうなったかを読み取るまでの隔たりが「評価の淵」です。良いインターフェースは、操作の手がかり(シグニファイア)を示し、結果をすぐに返すことで、この2つの淵に橋を架けます。
+        note: |-
+          [E. L. Hutchins, J. D. Hollan, D. A. Norman, "Direct Manipulation Interfaces", Human-Computer Interaction, 1(4), 1985](https://doi.org/10.1207/s15327051hci0104_2)。[D. A. Norman, The Design of Everyday Things, 2013](https://ci.nii.ac.jp/ncid/BB13924998)。
+      - type: figure
+        name: gulfs
+      - type: p
+        text: |-
+          評価の淵が大事故につながった例があります。1979年、米国スリーマイル島原子力発電所2号機では、圧力を逃がす弁が開いたまま動かなくなりました。ところが制御室の表示は「閉」を示していました。表示が、弁の実際の状態を伝えていなかったのです。警報が一斉に鳴る中、運転員は冷却水が失われていることに気付けませんでした。事故の後、原子力発電所の制御室の設計では、人間工学の検討が重視されるようになりました。
+        note: |-
+          弁が開いたまま動かず、表示が「閉」を示したことは[米国原子力規制委員会(NRC)の解説](https://www.nrc.gov/reading-rm/doc-collections/fact-sheets/3mile-isle)による。[Report of the President's Commission on the Accident at Three Mile Island(ケメニー委員会報告), 1979](https://ci.nii.ac.jp/ncid/BA35327962)。
+      - type: p
+        text: |-
+          実行の淵は、もっと身近なところにもあります。操作の手がかりが実際の操作とずれると、人は迷います。押して開けるドアに、つかむ棒が付いていると、形が「引いて」と伝えてしまい、「押」の表示を貼っても間違える人が出ます。平らな板だけが付いていれば、手でできるのは押すことだけなので、表示がなくても押すと分かります。押すのか引くのか迷わせるドアは「ノーマンドア」と呼ばれることもあります。
+      - type: figure
+        name: door-signifier
+
+  - id: why
+    heading: 誤りの多くは、設計から生まれる
+    blocks:
+      - type: point
+        text: 使う人の誤りの多くは、設計から生まれます。だから、人がどう使うかは、要件を定める工程から考えます。
+      - type: p
+        text: |-
+          この見方が生まれたのは、戦時中の操縦席でした。第二次世界大戦中のB-17爆撃機などでは、フラップと着陸装置の操作レバーがよく似た形で並んでいたために、着陸した後に車輪を格納してしまう事故が繰り返されました。心理学者たちがそれぞれのつまみに違う形を付けると、取り違えは大きく減ったと伝えられています。「操縦士の不注意」とされていた事故の多くは、設計の問題でもあったのです。
+        note: |-
+          [P. M. Fitts & R. E. Jones による操縦ミスの分析(1947年)](https://bibliotek.vti.se/bib/175382)と、[A. Chapanis の回想](https://ci.nii.ac.jp/ncid/BA45595028)による。逸話の細部(レバーかスイッチか、改良の効果など)は資料によって異なる。
+      - type: figure
+        name: shape-coding
+      - type: p
+        text: |-
+          「形で区別する」考え方は、今も使われています。気をつけるよう呼びかけるより、**触っただけで区別できる形**にするほうが確実だからです。
+      - type: example
+        kind: real
+        title: シャンプーの刻み
+        text: |-
+          シャンプーとリンスの容器はよく似ていて、髪を洗うときは目を閉じています。花王は利用者の声を受けて1991年、シャンプーの容器の横に刻みを付け、権利を取らずに業界に呼びかけました。今ではほとんどのシャンプーに刻みがあり、包装の規格JIS S 0021にも例として挙がっています。
+        source: '[花王の解説](https://www.kao.com/jp/sustainability/me/universal-design/shampoo-notches/)による。'
+      - type: p
+        text: |-
+          ヒューマンインターフェースの設計は、見た目を整える仕上げより前、機能や構造を決めるところから始まります。使いにくさの原因が機能や構造にあると、画面を整えるだけでは直せないからです。だから人の特性は、[[requirements|要件を定める工程]]から設計に組み込みます。
+
+  - id: how
+    heading: 人間中心設計の進め方
+    blocks:
+      - type: point
+        text: 利用状況を理解し、要件を明らかにし、案をつくり、利用者に試してもらう。この繰り返しが人間中心設計です。
+      - type: p
+        text: |-
+          では、人の特性をどうやって設計に組み込むのか。その進め方をまとめたのが人間中心設計(使う人とその利用状況を出発点にし、利用者による評価を繰り返しながら進める設計)です。国際規格ISO 9241-210は、人間中心設計を次の活動の繰り返しとして定めています。この流れは、設計会で使う5つの工程とも重なります。
+        note: |-
+          [ISO 9241-210:2019](https://www.iso.org/standard/77520.html)。使いやすさ(ユーザビリティ)は [ISO 9241-11:2018](https://www.iso.org/standard/63500.html) で、特定の利用者が特定の利用状況で特定の目標を達成するときの、有効さ、効率、満足度の度合いとして定義されている。
+      - type: figure
+        name: hcd-cycle
+      - type: p
+        text: |-
+          評価では、利用者に試作を使ってもらい、考えていることを声に出してもらいます(思考発話法)。どこで、なぜつまずくのかが聞き取れます。5人ほどで試すだけでも、主な問題の多くが見つかるとされます。話の聞き方は[[problem-finding#listen|問題を見つける工程]]で紹介しています。
+        note: |-
+          [C. Lewis, IBM Research Report RC 9265, 1982](https://search.worldcat.org/title/38214134)。[J. Nielsen, "Why You Only Need to Test with 5 Users", 2000](https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/)(必要な人数は製品や利用者の多様さで変わるという反論もある)。
+      - type: p
+        text: |-
+          利用者に試してもらう前に、専門家が経験則に照らして設計を点検する方法もあります(ヒューリスティック評価)。その指針としては、ニールセンの「10のユーザビリティ・ヒューリスティクス」がよく知られています。システムの状態を見えるようにする、現実の世界の言葉に合わせる、誤りを防ぐ、覚えさせるより見て分かるようにする、などの原則です。
+        note: |-
+          [J. Nielsen, "Enhancing the explanatory power of usability heuristics", CHI '94, 1994](https://doi.org/10.1145/191666.191729)。最初の版は [J. Nielsen & R. Molich, 1990](https://doi.org/10.1145/97243.97281)。
+      - type: p
+        text: |-
+          人間中心設計で考える「使う人」には、目や耳、手に障害のある人も含まれます。できるだけ幅広い人が、目的を果たせるように使えること。これをアクセシビリティと呼びます。色の違いに加えて形や文字でも情報を伝える、文字を十分な大きさと濃さで表示する、キーボードだけでも操作できるようにする。こうした配慮は、明るい屋外でスマートフォンを見る人や、片手が塞がっている人にとっての使いやすさにもつながります。
+      - type: heading
+        text: 足の裏と白い杖に、道を伝える
+      - type: image
+        src: /uploads/design/tactile-paving.jpg
+        alt: 歩道に敷かれた黄色い点字ブロック。細長い突起が並んだ線状のブロックの列と、丸い突起が並んだ点状のブロックが交わっている。周りは赤と灰色の舗装。
+        caption: 線状のブロックは進む方向を、点状のブロックは止まる・注意する場所を、足の裏や白い杖に伝える。
+        credit: Midnightcomm, Tactile pavers Japan yellow(Wikimedia Commons、縮小して使用)
+        license: CC BY 4.0
+        licenseUrl: https://creativecommons.org/licenses/by/4.0/
+        sourceUrl: https://commons.wikimedia.org/wiki/File:Tactile_pavers_Japan_yellow.jpg
+      - type: example
+        kind: real
+        title: 岡山で生まれた点字ブロック
+        text: |-
+          1967年3月18日、三宅精一が考えたブロックが、岡山盲学校に近い岡山市の原尾島交差点の付近に敷かれました。これが点字ブロックの始まりです。形はのちに日本産業規格[JIS T 9251](https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&jisStdNo=T9251)と国際規格[ISO 23599](https://www.iso.org/standard/55867.html)(2012年)になり、世界で使われています。
+        source: '[岡山県の解説](https://www.pref.okayama.jp/page/950468.html)による。'
+      - type: per-step
+
+  - id: now
+    heading: 画面の外へ広がる境界
+    blocks:
+      - type: point
+        text: 人と人工物の境界は画面の外へ広がり、アクセシビリティは法律でも求められるようになってきました。
+      - type: p
+        text: |-
+          スマートフォン、音声での操作、車の運転支援。人と人工物の境界は、画面やボタンから、声や運転の場面にまで広がりました。目に見えない仕組みが増えるほど、「今システムが何をしようとしているのか」を人が理解できるように設計することが大切になっています。
+      - type: p
+        text: |-
+          アクセシビリティは、法律でも求められるようになってきました。日本では2024年4月に改正障害者差別解消法が施行され、障害のある人から求められたときの「合理的配慮の提供」が、事業者の義務になりました。ウェブサイトのように、前もって誰でも使えるように整えておくこと(環境の整備)は、努力義務として求められています。ウェブについては、W3CのWCAG 2.2(2023年)や日本産業規格JIS X 8341-3が、設計の基準として参照されています。
+        note: |-
+          [障害を理由とする差別の解消の推進に関する法律](https://www8.cao.go.jp/shougai/suishin/sabekai.html)(2021年改正、2024年4月1日施行)。環境の整備の努力義務は[同法 第5条(e-Gov法令検索)](https://laws.e-gov.go.jp/law/425AC0000000065)。[WCAG 2.2](https://www.w3.org/TR/WCAG22/) は2023年10月に W3C 勧告となった。
+      - type: p
+        text: |-
+          このサイトも、アクセシビリティに配慮してつくっています。見出しの階層を守り、画像に代わりの文章を付け、端末で動きを減らす設定(iPhoneの「視差効果を減らす」など)をしている人には、アニメーションを止めています。
+
+  - id: club
+    heading: 部員どうしで、試して、観察する
+    blocks:
+      - type: point
+        text: 紙の試作を部員どうしで試し、迷うところを観察して直します。
+      - type: p
+        text: |-
+          設計会で扱うテーマの多くは、最終的に人が使うものです。ペルソナ(想定する利用者を、一人の具体的な人物として描いたもの)を立てて利用状況を想定し、紙の試作品を部員どうしで試して、どこで迷うかを観察します。使い方の説明が要る部分は、設計を見直す候補です。
+
+  - id: history
+    label: "寄り道: 歴史"
+    heading: 機械を人に合わせる、という発想
+    blocks:
+      - type: point
+        text: 「機械に人を合わせる」から「機械を人に合わせる」へ。始まりは、戦時中の操縦席でした。
+      - type: timeline
+        items:
+          - year: 1940年代
+            title: 人間工学の誕生
+            body: 戦時中の航空機の操縦ミスの研究から、機械を人に合わせて設計するという考え方が生まれる。
+          - year: "1954"
+            title: フィッツの法則
+            body: 指し示す動作の速さと正確さの関係が定式化される。
+          - year: "1956"
+            title: マジカルナンバー7±2
+            body: ジョージ・ミラーが、人が一度に覚えておける量の限界を論じる(現在は、より少ない4つ前後とする研究が有力)。
+          - year: "1963"
+            title: Sketchpad
+            body: ライトペンで画面上の図形を直接操作できるシステムが登場する。
+          - year: "1968"
+            title: 全てのデモの母
+            body: ダグラス・エンゲルバートが、マウス、ウィンドウ、ハイパーテキスト、離れた場所との共同編集を一度に実演する。
+          - year: "1973"
+            title: Xerox Alto
+            body: ゼロックスのパロアルト研究所で、画面上の絵やウィンドウを操作するコンピューターがつくられる。
+          - year: "1984"
+            title: Macintosh
+            body: グラフィカルなユーザーインターフェースを備えたパソコンが一般向けに発売され、広く普及するきっかけになる。
+          - year: "1988"
+            title: 『誰のためのデザイン？』の原著
+            body: ノーマンがThe Psychology of Everyday Things(のちにThe Design of Everyday Thingsと改題。邦訳は1990年)で、日用品の使いにくさを通して人間中心の設計を説く。
+          - year: "1997"
+            title: ユニバーサルデザインの7原則
+            body: ロナルド・メイスらが、できるだけ多くの人が使える設計の原則をまとめる。
+          - year: "2007"
+            title: マルチタッチの普及
+            body: 指で画面を直接操作するスマートフォンが登場し、インターフェースの前提が大きく変わる。
+
+perStep:
+  - cell: 使う人を観察し、話を聞く
+    body: 使う人の行動を観察し、話を聞いて、言葉にならない困りごとを見つけます。
+  - cell: ペルソナと利用状況を定める
+    body: ペルソナと利用状況を定め、使いやすさも「3回以内の操作で完了する」のような確かめられる要件にします。
+  - cell: 紙の試作で操作を試す
+    body: 画面や操作を紙に描き、指で動かしながら流れを試します(ペーパープロトタイピング)。
+  - cell: 利用者に試してもらい比べる
+    body: 案ごとに利用者に試してもらい、つまずいた回数やかかった時間で比べます。
+  - cell: 画面と操作の細部を詰める
+    body: ボタンの大きさや配置、言葉遣い、色のコントラストを、フィッツの法則や設計の原則に照らして詰めます。
+references:
+  - text: 'N. Cowan, "The magical number 4 in short-term memory: A reconsideration of mental storage capacity", Behavioral and Brain Sciences, 24(1), 2001.'
+    url: https://doi.org/10.1017/S0140525X01003922
+  - text: P. M. Fitts, "The information capacity of the human motor system in controlling the amplitude of movement", Journal of Experimental Psychology, 47(6), pp.381–391, 1954.
+    url: https://doi.org/10.1037/h0055392
+  - text: I. S. MacKenzie, "Fitts' law as a research and design tool in human-computer interaction", Human-Computer Interaction, 7(1), 1992.
+    url: https://doi.org/10.1207/s15327051hci0701_3
+  - text: D. A. Norman, The Design of Everyday Things, Revised and Expanded Edition, Basic Books, 2013(邦訳『誰のためのデザイン？ 増補・改訂版』新曜社, 2015年).
+    url: https://ci.nii.ac.jp/ncid/BB13924998
+  - text: E. L. Hutchins, J. D. Hollan, D. A. Norman, "Direct Manipulation Interfaces", Human-Computer Interaction, 1(4), 1985.
+    url: https://doi.org/10.1207/s15327051hci0104_2
+  - text: 'ISO 9241-210:2019 Ergonomics of human-system interaction — Part 210: Human-centred design for interactive systems.'
+    url: https://www.iso.org/standard/77520.html
+  - text: 'ISO 9241-11:2018 Ergonomics of human-system interaction — Part 11: Usability: Definitions and concepts.'
+    url: https://www.iso.org/standard/63500.html
+  - text: J. Nielsen, "10 Usability Heuristics for User Interface Design", Nielsen Norman Group.
+    url: https://www.nngroup.com/articles/ten-usability-heuristics/
+  - text: J. Nielsen, "Why You Only Need to Test with 5 Users", Nielsen Norman Group, 2000.
+    url: https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/
+  - text: W3C, Web Content Accessibility Guidelines (WCAG) 2.2, 2023.
+    url: https://www.w3.org/TR/WCAG22/
+  - text: 内閣府「障害を理由とする差別の解消の推進」.
+    url: https://www8.cao.go.jp/shougai/suishin/sabekai.html
+  - text: 岡山県 障害福祉課「点字ブロックは岡山で生まれました！」.
+    url: https://www.pref.okayama.jp/page/950468.html
+  - text: ISO 23599:2012 Assistive products for blind and vision-impaired persons — Tactile walking surface indicators.
+    url: https://www.iso.org/standard/55867.html
+  - text: JIS T 9251 高齢者・障害者配慮設計指針―視覚障害者誘導用ブロック等の突起の形状・寸法及びその配列.
+    url: https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&jisStdNo=T9251
+  - text: JIS S 0021 包装―アクセシブルデザイン―一般要求事項(現在は JIS S 0021-1 他に分かれている).
+    url: https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&jisStdNo=S0021
+  - text: 花王「シャンプー容器のきざみ」.
+    url: https://www.kao.com/jp/sustainability/me/universal-design/shampoo-notches/
+  - text: Report of the President's Commission on the Accident at Three Mile Island(ケメニー委員会報告), 1979.
+    url: https://ci.nii.ac.jp/ncid/BA35327962
+  - text: U.S. NRC, "Backgrounder on the Three Mile Island Accident".
+    url: https://www.nrc.gov/reading-rm/doc-collections/fact-sheets/3mile-isle
+  - text: 'C. Lewis, "Using the ''thinking-aloud'' method in cognitive interface design", IBM Research Report RC 9265, 1982.'
+    url: https://search.worldcat.org/title/38214134
+  - text: J. Nielsen, "Enhancing the explanatory power of usability heuristics", CHI '94, 1994.
+    url: https://doi.org/10.1145/191666.191729
+  - text: J. Nielsen & R. Molich, "Heuristic evaluation of user interfaces", CHI '90, 1990.
+    url: https://doi.org/10.1145/97243.97281
+  - text: P. M. Fitts & R. E. Jones, "Analysis of factors contributing to 460 'pilot-error' experiences in operating aircraft controls", 1947(1961年の論文集に再録).
+    url: https://bibliotek.vti.se/bib/175382
+  - text: 'A. Chapanis, The Chapanis Chronicles: 50 Years of Human Factors Research, Education, and Design, Aegean, 1999.'
+    url: https://ci.nii.ac.jp/ncid/BA45595028
+related:
+  - process
+  - modeling
+  - data-analysis
+
+courses:
+  - name: ヒューマンインタフェース
+    dept: 情報システム工学科
+    relation: 人の特性、デザインのプロセス、試作、思考発話法での評価、アクセシビリティ
+    path: 0222/0222_22142701
+  - name: 人間工学
+    dept: デザイン学部共通
+    relation: 人間中心設計、ユーザビリティ評価、ユニバーサルデザイン、アクセシビリティ
+    path: 03/03_30532201
+  - name: 人間工学
+    dept: 人間情報工学科
+    relation: 人体寸法、ヒューマンエラーと安全設計、人間中心設計のプロセス
+    path: 0224/0224_23184701
+  - name: 生活とエルゴノミクス
+    dept: 現代福祉学科
+    relation: 人と機械の関係、インターフェースのデザイン、使いやすさと安全
+    path: 0116/0116_16104901
+  - name: ＵＸデザイン論
+    dept: ビジュアルデザイン学科
+    relation: UXリサーチの方法と、心理学・HCIとのつながり
+    path: 0335/0335_35002501

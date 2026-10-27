@@ -1,0 +1,113 @@
+---
+// 公差(つくるときに許すずれの幅)の考え方を、穴と軸で描く図。
+// 灰色の帯が「つくった結果がばらつく範囲」。左は帯が重なっていて、大きめの軸と小さめの穴が組み合わさると入らない。
+// 右は帯の間に隙間を見込んでいるので、どの組み合わせでも入る。寸法は説明のための例で、実際の値ではない。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const panels = [
+  { ox: 0, hole: [52, 62], shaft: [48, 58], ok: false, label: "帯が重なる" },
+  { ox: 320, hole: [58, 66], shaft: [44, 52], ok: true, label: "隙間を見込む" },
+];
+const cy = 150;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="ずれを見込んで、寸法を決める"
+  caption="帯は、つくった寸法が収まればよい範囲(公差域)で、帯の幅が公差。左は穴と軸の帯が重なっていて、大きめにできた軸と小さめにできた穴が組み合わさると入らない。右は帯の間に隙間を見込んでいるので、どの組み合わせでも入る。"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 290"
+    class="w-full"
+    role="img"
+    aria-label="穴と軸の公差の図。帯が重なると入らないことがある。隙間を見込むと必ず入る。"
+  >
+    {panels.map((p) => {
+      const cx = p.ox + 160;
+      return (
+        <g>
+          <text x={cx} y="26" text-anchor="middle" font-size="14" font-weight="700" fill={ink}>
+            {p.label}
+          </text>
+          <!-- 穴の壁(上下)と、穴の大きさがばらつく帯 -->
+          <rect
+            x={cx - 120}
+            y={cy - p.hole[1] - 30}
+            width="240"
+            height="30"
+            fill="var(--color-paper-muted)"
+            stroke={ink}
+          />
+          <rect x={cx - 120} y={cy + p.hole[1]} width="240" height="30" fill="var(--color-paper-muted)" stroke={ink} />
+          <rect
+            x={cx - 120}
+            y={cy - p.hole[1]}
+            width="240"
+            height={p.hole[1] - p.hole[0]}
+            fill="var(--color-ink)"
+            fill-opacity="0.15"
+          />
+          <rect
+            x={cx - 120}
+            y={cy + p.hole[0]}
+            width="240"
+            height={p.hole[1] - p.hole[0]}
+            fill="var(--color-ink)"
+            fill-opacity="0.15"
+          />
+          <!-- 軸と、軸の大きさがばらつく帯 -->
+          <rect
+            x={cx - 90}
+            y={cy - p.shaft[0]}
+            width="180"
+            height={p.shaft[0] * 2}
+            fill="var(--color-link)"
+            fill-opacity="0.25"
+            stroke="var(--color-link)"
+          />
+          <rect
+            x={cx - 90}
+            y={cy - p.shaft[1]}
+            width="180"
+            height={p.shaft[1] - p.shaft[0]}
+            fill="var(--color-link)"
+            fill-opacity="0.45"
+          />
+          <rect
+            x={cx - 90}
+            y={cy + p.shaft[0]}
+            width="180"
+            height={p.shaft[1] - p.shaft[0]}
+            fill="var(--color-link)"
+            fill-opacity="0.45"
+          />
+          <text x={cx} y={cy + 5} text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+            軸
+          </text>
+          <!-- 「穴」の文字は、穴の中で軸の左の隙間(壁と軸の間)に置く -->
+          <text x={cx - 105} y={cy + 5} text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+            穴
+          </text>
+          <text
+            x={cx}
+            y="276"
+            text-anchor="middle"
+            font-size="14"
+            font-weight="700"
+            fill={p.ok ? "var(--color-link)" : "var(--color-accent-strong)"}
+          >
+            {p.ok ? "○ どの組み合わせでも入る" : "× 入らないことがある"}
+          </text>
+        </g>
+      );
+    })}
+  </svg>
+</FigureFrame>

@@ -1,0 +1,362 @@
+---
+// 長文のブロックを上から順に表示する(ブロックの種類と書き方は src/content.config.ts)。
+// 読む人が拾い読みできるように、ブロックの種類ごとに見た目をはっきり分けている(読者に「読み方」を説明する文は書かない):
+//   要点(point)  … オレンジの線。ここだけ拾っても話の筋が通る
+//   問いかけ       … 「?」の印。答えは隠さずにすぐ下に出す
+//   例             … 灰色の箱。実際にあった例(kind: real)は実線の枠と「実際にあった例」の札、
+//                    説明のための場面(kind: scene)は点線の枠と「例えば」の札
+//   短い補足・出典 … 段落の note。本文の右(スマホでは段落の下)
+//   長い補足・事例 … 折りたたみ(aside)
+// 注と図の番号は src/lib/blocks.ts の numberChapters で付けたものを使う。
+import type { NumberedBlock } from "../lib/blocks";
+import InlineText from "./InlineText.astro";
+import Figure from "./Figure.astro";
+import DesignMatrix from "./DesignMatrix.astro";
+import PerStep from "./PerStep.astro";
+import Idef0 from "./figures/Idef0.astro";
+import Courses from "./Courses.astro";
+
+interface Props {
+  blocks: NumberedBlock[];
+  // 視点のページで「工程ごとの使い方」(per-step)を出すための情報
+  lens?: { short: string; perStep?: { cell: string; body: string }[] };
+  // true にすると、図を番号・題・説明なしで出す(トップページ用。説明は前後の本文で書く。出典は出す)
+  compactFigures?: boolean;
+}
+
+const { blocks, lens, compactFigures = false } = Astro.props;
+---
+
+{blocks.map(({ block, note, figure }) => {
+  switch (block.type) {
+    case "p":
+      return (
+        <div class="longform-row">
+          <p>
+            <InlineText text={block.text} />
+            {note && (
+              <a href={`#note-${note}`} id={`ref-${note}`} class="note-ref" aria-label={`注 ${note}`}>
+                {note}
+              </a>
+            )}
+          </p>
+          {block.note && (
+            <aside class="sidenote" id={`note-${note}`}>
+              <span class="annotation mr-1 text-link">注{note}</span>
+              <InlineText text={block.note} />
+            </aside>
+          )}
+        </div>
+      );
+
+    case "heading":
+      return (
+        <h3 class="mt-14 mb-4 flex max-w-[36em] items-baseline gap-3 font-display text-xl leading-snug font-bold sm:text-2xl">
+          <span class="h-3 w-3 shrink-0 rounded-sm bg-ink" aria-hidden="true" />
+          {block.text}
+        </h3>
+      );
+
+    case "point":
+      return (
+        <div class="my-8 max-w-[38em] rounded-r-card border-l-4 border-accent bg-accent/6 px-5 py-4" data-reveal>
+          <p class="text-[1.1em] leading-relaxed font-semibold text-ink">
+            <InlineText text={block.text} />
+          </p>
+        </div>
+      );
+
+    case "question":
+      return (
+        <div class="my-10 flex max-w-[38em] gap-4" data-reveal>
+          <span
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-link font-display text-xl font-bold text-paper"
+            aria-hidden="true"
+          >
+            ?
+          </span>
+          <div>
+            <p class="annotation text-link">考えてみよう</p>
+            <p class="mt-1 text-[1.1em] leading-relaxed font-semibold">
+              <InlineText text={block.text} />
+            </p>
+            {block.answer && (
+              <p class="mt-3 border-l-2 border-link/40 pl-4 text-[0.98em] leading-relaxed text-ink/85">
+                <InlineText text={block.answer} />
+              </p>
+            )}
+          </div>
+        </div>
+      );
+
+    case "example":
+      return (
+        <div
+          class:list={[
+            "my-8 max-w-[38em] rounded-card border bg-paper-muted p-5 font-sans sm:p-6",
+            // 実際にあった例は実線、説明のための場面は点線の枠にして、ひと目で見分けられるようにする
+            block.kind === "real" ? "border-grid" : "border-dashed border-muted/40",
+          ]}
+          data-reveal
+        >
+          <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold text-ink/75">
+            <span
+              class:list={["h-2.5 w-2.5 rounded-full", block.kind === "real" ? "bg-positive" : "bg-muted/60"]}
+              aria-hidden="true"
+            />
+            {/* 札は kind から決まる。題(title)は札の後に続ける */}
+            <span class:list={["annotation", block.kind === "real" ? "text-positive" : "text-muted"]}>
+              {block.kind === "real" ? "実際にあった例" : "例えば"}
+            </span>
+            {block.title && <span>{block.title}</span>}
+          </p>
+          <p class="mt-2 text-[0.98rem] leading-loose tracking-normal">
+            <InlineText text={block.text} />
+          </p>
+          {block.source && (
+            <p class="mt-2 text-xs text-muted">
+              出典:
+              <InlineText text={block.source} />
+            </p>
+          )}
+        </div>
+      );
+
+    case "aside":
+      return (
+        <details class="group my-8 max-w-[38em] rounded-card border border-dashed border-muted/40 font-sans">
+          <summary class="flex cursor-pointer list-none items-center gap-3 px-5 py-3 text-sm">
+            <span class="font-mono text-base text-muted transition group-open:rotate-45" aria-hidden="true">
+              +
+            </span>
+            <span class="font-bold text-ink/80">{block.title}</span>
+          </summary>
+          <div class="space-y-3 px-5 pb-5 text-[0.95rem] leading-relaxed tracking-normal text-ink/80">
+            {block.body.map((text) => (
+              <p>
+                <InlineText text={text} />
+              </p>
+            ))}
+          </div>
+        </details>
+      );
+
+    case "list":
+      return (
+        <ul class="my-6 max-w-[36em] list-disc space-y-2 pl-6 marker:text-accent">
+          {block.items.map((item) => (
+            <li>
+              <InlineText text={item} />
+            </li>
+          ))}
+        </ul>
+      );
+
+    case "figure":
+      return compactFigures ? (
+        <div class="my-10">
+          <Figure name={block.name} compact />
+        </div>
+      ) : (
+        <Figure name={block.name} number={figure} />
+      );
+
+    case "idef0":
+      return (
+        <Idef0
+          number={figure}
+          title={block.title}
+          caption={block.caption}
+          fn={block.function}
+          inputs={block.inputs}
+          controls={block.controls}
+          outputs={block.outputs}
+          mechanisms={block.mechanisms}
+          steps={block.steps}
+        />
+      );
+
+    case "courses":
+      return <Courses courses={block.items} inline />;
+
+    case "image":
+      return (
+        <figure class="my-10 font-sans" data-reveal>
+          <!-- 縦長の写真が画面を埋めないように、高さに上限を付ける -->
+          <img
+            src={block.src}
+            alt={block.alt}
+            loading="lazy"
+            class="mx-auto max-h-[26rem] w-auto max-w-full rounded-card border border-grid bg-paper"
+          />
+          <figcaption class="mt-3 text-sm text-ink/80">
+            {block.caption}
+            <span class="mt-1 block text-xs text-muted">
+              出典:
+              <a href={block.sourceUrl} class="underline" rel="noopener">
+                {block.credit}
+              </a>
+              (
+              {block.licenseUrl ? (
+                <a href={block.licenseUrl} class="underline" rel="noopener license">
+                  {block.license}
+                </a>
+              ) : (
+                block.license
+              )}
+              )
+            </span>
+          </figcaption>
+        </figure>
+      );
+
+    case "table":
+      return (
+        <div class="my-10 overflow-x-auto font-sans" data-reveal>
+          <table class="w-full min-w-[32rem] border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal">
+            <caption class="mb-3 text-left font-display font-bold">{block.caption}</caption>
+            <thead>
+              <tr class="border-b-2 border-ink">
+                {block.head.map((h) => (
+                  <th scope="col" class="px-3 py-2 align-bottom text-sm">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((row) => (
+                <tr class="border-b border-grid">
+                  {row.map((cell, i) =>
+                    i === 0 ? (
+                      <th scope="row" class="px-3 py-2.5 align-top font-bold">
+                        <InlineText text={cell} />
+                      </th>
+                    ) : (
+                      <td class="px-3 py-2.5 align-top">
+                        <InlineText text={cell} />
+                      </td>
+                    ),
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+
+    case "steps":
+      return (
+        <ol class="my-10 grid gap-4 font-sans text-base leading-relaxed sm:grid-cols-2">
+          {block.items.map((item, i) => (
+            <li class="rounded-card border border-grid bg-paper p-5" data-reveal>
+              {block.ordered ? (
+                <p class="annotation text-accent-strong">手順 {i + 1}</p>
+              ) : (
+                <span class="block h-1 w-8 rounded-full bg-accent" aria-hidden="true" />
+              )}
+              <p class:list={["font-display text-lg font-bold", block.ordered ? "mt-1" : "mt-3"]}>{item.title}</p>
+              <p class="mt-2 text-[0.95rem] tracking-normal text-ink/85">
+                <InlineText text={item.body} />
+              </p>
+            </li>
+          ))}
+        </ol>
+      );
+
+    case "timeline":
+      return (
+        <ol class="relative my-10 border-l-2 border-grid pl-6 font-sans text-base leading-relaxed sm:ml-28 sm:pl-8">
+          {block.items.map((item) => (
+            <li class="relative pb-7 last:pb-0" data-reveal>
+              <span
+                class="absolute top-2.5 -left-[30px] h-2.5 w-2.5 rounded-full border-2 border-link bg-paper sm:-left-[38px]"
+                aria-hidden="true"
+              />
+              <p class="annotation text-link sm:absolute sm:top-1 sm:-left-[8.9rem] sm:w-24 sm:text-right">
+                {item.year}
+              </p>
+              <p class="font-display text-lg font-bold">{item.title}</p>
+              <p class="mt-1 text-[0.95rem] tracking-normal text-ink/85">
+                <InlineText text={item.body} />
+              </p>
+            </li>
+          ))}
+        </ol>
+      );
+
+    case "compare":
+      return (
+        <div class="my-10 overflow-hidden rounded-card border border-grid bg-paper font-sans" data-reveal>
+          <div class="grid grid-cols-[1fr_auto_1fr] gap-3 border-b border-grid bg-paper-muted px-5 py-3 sm:px-6">
+            <p class="annotation text-muted">{block.fromLabel}</p>
+            <span />
+            <p class="annotation text-accent-strong">{block.toLabel}</p>
+          </div>
+          <ul>
+            {block.rows.map((row) => (
+              <li class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-grid px-5 py-4 last:border-b-0 sm:px-6">
+                <span class="text-muted">{row.from}</span>
+                <span class="text-accent-strong" aria-label="から">
+                  →
+                </span>
+                <span class="font-bold">{row.to}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+
+    case "tags":
+      return (
+        <div class="my-8 font-sans" data-reveal>
+          {block.label && <p class="annotation mb-3 text-muted">{block.label}</p>}
+          <ul class="flex flex-wrap gap-2.5">
+            {block.items.map((tag) => (
+              <li class="rounded-full border border-grid px-4 py-2 text-sm font-bold sm:text-base">{tag}</li>
+            ))}
+          </ul>
+        </div>
+      );
+
+    case "cards":
+      return (
+        <ol class="my-10 grid gap-4 font-sans md:grid-cols-3">
+          {block.items.map((item, i) => (
+            <li class="rounded-card border border-grid bg-paper p-5" data-reveal>
+              <span class="font-mono text-xl text-accent-strong">{String(i + 1).padStart(2, "0")}</span>
+              <p class="mt-2 font-display text-lg font-bold">{item.title}</p>
+              <p class="mt-2 text-[0.95rem] leading-relaxed tracking-normal text-ink/85">{item.body}</p>
+              {item.note && <p class="mt-3 text-xs text-muted">{item.note}</p>}
+            </li>
+          ))}
+        </ol>
+      );
+
+    case "map":
+      return (
+        <div class="my-10 font-sans text-base leading-relaxed tracking-normal">
+          <DesignMatrix variant={block.variant} />
+        </div>
+      );
+
+    case "per-step":
+      if (!lens?.perStep) return null;
+      return <PerStep short={lens.short} perStep={lens.perStep} />;
+
+    case "link":
+      return (
+        <p class="my-8 font-sans" data-reveal>
+          <a
+            href={block.href}
+            class="group inline-flex items-center gap-2 border-b-2 border-link pb-1 font-bold text-link"
+          >
+            {block.label}
+            <span class="transition group-hover:translate-x-1" aria-hidden="true">
+              →
+            </span>
+          </a>
+        </p>
+      );
+  }
+})}

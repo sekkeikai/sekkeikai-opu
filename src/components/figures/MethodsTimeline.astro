@@ -1,0 +1,118 @@
+---
+// 設計の手法が生まれた年を、工程ごとの行に点で並べた図(横軸は 1950~2010 年)。
+// 一番上の行は、特定の工程ではなく「設計の進め方の全体」についての方法。
+// 年は「設計の方法の歴史」のページ(src/content/design/design-methods-history.yaml)の年表に合わせている。
+// 手法を足すときは、下の methods に一行足す(up: true でラベルを点の上に、side: true で点の右に出す。
+// 上下の行の近い点のラベルとくっついて、一つのラベルに見えないようにするため)。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+
+const rows = ["進め方の全体", "1 問題発見", "2 要件定義", "3 発想", "4 評価・選定", "5 詳細設計"];
+const methods: { row: number; year: number; label: string; up?: boolean; side?: boolean; dx?: number }[] = [
+  { row: 0, year: 1962, label: "設計方法会議", up: true },
+  { row: 0, year: 1970, label: "『Design Methods』" },
+  { row: 0, year: 1977, label: "パールとバイツ", up: true },
+  { row: 0, year: 1995, label: "セットベース" },
+  { row: 0, year: 1999, label: "ISO 13407", up: true },
+  { row: 0, year: 2004, label: "ダブルダイヤモンド", dx: 16 },
+  // すぐ下の行の「品質機能展開」(1966年)のラベルと縦に並ばないよう、点の右に出す
+  { row: 1, year: 1967, label: "KJ法", side: true },
+  { row: 2, year: 1966, label: "品質機能展開", up: true },
+  { row: 2, year: 1981, label: "IDEF0", up: true },
+  { row: 2, year: 1984, label: "狩野モデル" },
+  { row: 2, year: 1990, label: "公理的設計", up: true },
+  { row: 3, year: 1953, label: "ブレインストーミング", up: true },
+  { row: 3, year: 1966, label: "形態分析" },
+  { row: 3, year: 1971, label: "SCAMPER", up: true },
+  { row: 4, year: 1977, label: "AHP", up: true },
+  { row: 4, year: 1981, label: "ピューの概念選定法" },
+  { row: 5, year: 1956, label: "有限要素法", up: true },
+  { row: 5, year: 1963, label: "Sketchpad" },
+];
+
+// 座標: 横は年、縦は行
+const x0 = 150;
+const x1 = 620;
+const sx = (year: number) => x0 + ((year - 1950) / 60) * (x1 - x0);
+const rowY = (i: number) => 58 + i * 46;
+// 横軸の線の高さ
+const axisY = 322;
+const decades = [1950, 1960, 1970, 1980, 1990, 2000, 2010];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="手法が生まれた年を、工程ごとに並べる"
+  caption="このページの年表を基に描いた(詳細設計の行の有限要素法とSketchpadは、「モデル化」のページの歴史による)。点は手法が発表された年で、出典はそれぞれのページの参考文献に載せている。一番上の行は、工程を問わず設計の進め方の全体を扱う方法。"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 346"
+    class="w-full"
+    role="img"
+    aria-label={`設計の手法が生まれた年を工程ごとに並べた図。${rows
+      .map(
+        (r, i) =>
+          `${r}:${methods
+            .filter((m) => m.row === i)
+            .map((m) => `${m.label}(${m.year}年)`)
+            .join("、")}`,
+      )
+      .join("。")}。`}
+  >
+    <!-- 10 年ごとの縦線と、横軸の年 -->
+    {decades.map((d) => (
+      <g>
+        <line x1={sx(d)} x2={sx(d)} y1="36" y2={axisY} stroke="var(--color-grid)" stroke-width="1" />
+        <text x={sx(d)} y={axisY + 16} text-anchor="middle" font-size="12" fill={muted}>
+          {d}
+        </text>
+      </g>
+    ))}
+    <line x1={x0} x2={x1} y1={axisY} y2={axisY} stroke={ink} stroke-width="1.5" />
+
+    <!-- 行(工程) -->
+    {rows.map((r, i) => (
+      <g>
+        <line x1={x0} x2={x1} y1={rowY(i)} y2={rowY(i)} stroke={ink} stroke-opacity="0.25" />
+        <text x="10" y={rowY(i) + 5} font-size="13" font-weight={i === 0 ? "700" : "400"} fill={ink}>
+          {r}
+        </text>
+      </g>
+    ))}
+
+    <!-- 手法の点とラベル -->
+    {methods.map((m) => (
+      <g>
+        <circle
+          cx={sx(m.year)}
+          cy={rowY(m.row)}
+          r="6"
+          fill={m.row === 0 ? "var(--color-accent-strong)" : "var(--color-link)"}
+          stroke="var(--color-paper)"
+          stroke-width="1.5"
+        />
+        <text
+          x={m.side ? sx(m.year) + 10 : sx(m.year) + (m.dx ?? 0)}
+          y={m.side ? rowY(m.row) + 4 : m.up ? rowY(m.row) - 11 : rowY(m.row) + 21}
+          text-anchor={m.side ? "start" : "middle"}
+          font-size="11"
+          fill={ink}
+          stroke={m.side ? "var(--color-paper)" : undefined}
+          stroke-width={m.side ? "4" : undefined}
+          paint-order={m.side ? "stroke" : undefined}
+        >
+          {m.label}
+        </text>
+      </g>
+    ))}
+  </svg>
+</FigureFrame>

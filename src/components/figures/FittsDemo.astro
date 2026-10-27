@@ -1,0 +1,121 @@
+---
+// フィッツの法則を体験するデモ。丸をクリックするたびに、難しさ(ID)とかかった時間(MT)を記録してグラフに描く。
+// 動きは src/scripts/figures/fitts.ts。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// グラフの座標(src/scripts/figures/fitts.ts と同じ値を使う)
+const plot = { left: 44, right: 290, top: 26, bottom: 184, maxId: 6, maxMt: 1500 };
+const xTicks = [0, 1, 2, 3, 4, 5, 6];
+const yTicks = [0, 500, 1000, 1500];
+const px = (id: number) => plot.left + (id / plot.maxId) * (plot.right - plot.left);
+const py = (mt: number) => plot.bottom - (mt / plot.maxMt) * (plot.bottom - plot.top);
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="試してみる: フィッツの法則"
+  caption="ID(難しさ)= log₂(距離 ÷ 大きさ + 1)。点が右上がりの直線に近く並ぶほど、法則がよく当てはまっている。MT(移動時間)の式の係数は人や機器によって違う。測った値はこのページの中だけで使い、どこにも送信しない。"
+  source="[P. M. Fitts (1954)](https://doi.org/10.1037/h0055392)、[I. S. MacKenzie (1992)](https://doi.org/10.1207/s15327051hci0701_3) の定式化による"
+>
+  <div data-fitts class="grid gap-6 md:grid-cols-[1fr_19rem]">
+    <div
+      data-fitts-area
+      class="bg-blueprint-grid relative h-72 touch-manipulation overflow-hidden rounded-md border border-grid select-none sm:h-80"
+    >
+      <button
+        type="button"
+        data-fitts-target
+        class="absolute top-1/2 left-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-strong text-sm font-bold text-paper ring-6 ring-accent-strong/15"
+      >
+        開始
+      </button>
+      <p
+        class="pointer-events-none absolute right-3 bottom-2 left-3 text-center text-xs text-muted"
+        data-fitts-hint
+        aria-live="polite"
+      >
+        オレンジの丸を、マウスや指でできるだけ速く正確に押してください。全20回。時間を正しく測れるのは、マウスか指で押したときです。
+      </p>
+    </div>
+    <div class="text-sm">
+      <svg
+        viewBox="0 0 300 214"
+        class="w-full"
+        role="img"
+        aria-label="難しさ(ID)と移動時間(MT)の散布図"
+        data-fitts-plot
+      >
+        <g font-family="var(--font-mono)" font-size="10" fill="var(--color-muted)">
+          {xTicks.map((t) => (
+            <g>
+              <line x1={px(t)} x2={px(t)} y1={plot.top} y2={plot.bottom} stroke="var(--color-grid)" />
+              <text x={px(t)} y={plot.bottom + 14} text-anchor="middle">
+                {t}
+              </text>
+            </g>
+          ))}
+          {yTicks.map((t) => (
+            <g>
+              <line x1={plot.left} x2={plot.right} y1={py(t)} y2={py(t)} stroke="var(--color-grid)" />
+              <text x={plot.left - 6} y={py(t) + 3} text-anchor="end">
+                {t}
+              </text>
+            </g>
+          ))}
+          <text x={(plot.left + plot.right) / 2} y="210" text-anchor="middle">
+            ID(bit)
+          </text>
+          <text x="4" y="11">
+            MT(ms)
+          </text>
+        </g>
+        <line
+          data-fitts-line
+          stroke="var(--color-link)"
+          stroke-width="2"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="0"
+          visibility="hidden"
+        />
+        <g data-fitts-points fill="var(--color-accent-strong)" fill-opacity="0.75"></g>
+      </svg>
+      <dl aria-live="polite" class="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+        <dt class="text-muted">回数</dt>
+        <dd class="font-mono">
+          <span data-fitts-count>0</span> / 20(外れ <span data-fitts-miss>0</span>)
+        </dd>
+        <dt class="text-muted">あなたの式</dt>
+        <dd class="font-mono" data-fitts-formula>
+          —
+        </dd>
+        <dt class="text-muted">相関係数</dt>
+        <dd class="font-mono" data-fitts-r>
+          —
+        </dd>
+      </dl>
+      <button
+        type="button"
+        data-fitts-reset
+        class="mt-3 rounded-full border border-ink px-4 py-1.5 text-sm hover:bg-ink hover:text-paper"
+      >
+        やり直す
+      </button>
+    </div>
+  </div>
+  <noscript>
+    <p class="mt-3 text-sm text-muted">このデモを動かすには、JavaScriptを有効にしてください。</p>
+  </noscript>
+</FigureFrame>
+
+<script>
+  import { initFitts } from "../../scripts/figures/fitts";
+  initFitts();
+</script>

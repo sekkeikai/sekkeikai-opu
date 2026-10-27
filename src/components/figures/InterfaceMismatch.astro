@@ -1,0 +1,117 @@
+---
+// 2024年7月の CrowdStrike の障害を、受け渡すデータの「数の食い違い」として描く図。
+// 設定の側は 21 項目を読む前提、渡すプログラムの側は 20 項目しか渡していなかった。21 番目を読もうとして止まった。
+// 数字は CrowdStrike の原因分析(2024年8月)と Microsoft の発表による。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const slot = 17;
+const left = 150;
+const ink = "var(--color-ink)";
+const bad = "var(--color-accent-strong)";
+const top = Array.from({ length: 21 }, (_, i) => i + 1);
+const bottom = Array.from({ length: 20 }, (_, i) => i + 1);
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="小さな前提の食い違いが、全体を止める"
+  caption="設定を読む側は21項目あるつもりで、渡す側は20項目しか渡していなかった。それぞれの部分は単独では正しく動いても、つなげたときの前提がずれていると、全体が止まる。"
+  source="[CrowdStrike, Channel File 291 Incident: Root Cause Analysis (2024)](https://www.crowdstrike.com/wp-content/uploads/2024/08/Channel-File-291-Incident-Root-Cause-Analysis-08.06.2024.pdf)、[Microsoft (2024) の発表](https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/)による"
+  scroll
+>
+  <svg
+    viewBox="0 0 680 220"
+    class="w-full"
+    role="img"
+    aria-label="読む側は21項目、渡す側は20項目を前提にしていた。21番目を読もうとして止まり、約850万台のWindows端末が停止した。"
+  >
+    <text x="12" y="54" font-size="13" font-weight="700" fill={ink}>
+      読む側
+    </text>
+    <text x="12" y="72" font-size="12" fill={ink}>
+      21項目あるつもり
+    </text>
+    <text x="12" y="134" font-size="13" font-weight="700" fill={ink}>
+      渡す側
+    </text>
+    <text x="12" y="152" font-size="12" fill={ink}>
+      20項目を渡す
+    </text>
+    {top.map((n, i) => (
+      <rect
+        x={left + i * slot}
+        y="44"
+        width={slot - 3}
+        height="30"
+        rx="2"
+        fill={n === 21 ? bad : "var(--color-link)"}
+        fill-opacity={n === 21 ? 0.85 : 0.2}
+        stroke={n === 21 ? bad : "var(--color-link)"}
+      />
+    ))}
+    {bottom.map((_, i) => (
+      <g>
+        <rect
+          x={left + i * slot}
+          y="124"
+          width={slot - 3}
+          height="30"
+          rx="2"
+          fill="var(--color-link)"
+          fill-opacity="0.2"
+          stroke="var(--color-link)"
+        />
+        <line
+          x1={left + i * slot + 7}
+          x2={left + i * slot + 7}
+          y1="122"
+          y2="76"
+          stroke="var(--color-link)"
+          stroke-opacity="0.35"
+        />
+      </g>
+    ))}
+    <!-- 21 番目には、対応する値がない -->
+    <rect
+      x={left + 20 * slot}
+      y="124"
+      width={slot - 3}
+      height="30"
+      rx="2"
+      fill="none"
+      stroke={bad}
+      stroke-dasharray="3 3"
+    />
+    <text x={left + 20 * slot + 7} y="144" text-anchor="middle" font-size="14" font-weight="700" fill={bad}>
+      ×
+    </text>
+    <text x={left + 20 * slot + 7} y="36" text-anchor="middle" font-size="11" fill={bad}>
+      21
+    </text>
+    <text x={left} y="190" font-size="13" fill={bad} font-weight="700">
+      ない21番目を読もうとして、停止
+    </text>
+
+    <!-- 影響の広がり -->
+    <line x1={left + 21 * slot + 10} x2="540" y1="100" y2="100" stroke={ink} stroke-width="1.5" />
+    <polygon points="546,100 536,94 536,106" fill={ink} />
+    <text x="552" y="94" font-size="14" font-weight="700" fill={ink}>
+      約850万台の
+    </text>
+    <text x="552" y="112" font-size="14" font-weight="700" fill={ink}>
+      端末が停止
+    </text>
+    <text x="552" y="140" font-size="12" fill={ink}>
+      多くの企業の
+    </text>
+    <text x="552" y="158" font-size="12" fill={ink}>
+      仕事が止まる
+    </text>
+  </svg>
+</FigureFrame>

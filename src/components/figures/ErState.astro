@@ -1,0 +1,217 @@
+---
+// 架空の例「部室の予約」を、2種類のモデルで描いた図。
+//   左: ER図(実体関連図)… 何(部員・予約・部室)があり、どうつながっているか。「1」と「多」はつながる数
+//   右: 状態遷移図 … 一つの予約が、どんな状態を通って移り変わるか
+// 同じ対象でも、確かめたいこと(データの形か、移り変わりか)によって描くモデルが変わることを見せる。
+// 個人の情報(学籍番号など)は例にも入れない決まりなので、部員の項目は「名前・学年」だけにしている。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+const link = "var(--color-link)";
+const accent = "var(--color-accent-strong)";
+
+// ER図の箱(実体)。attrs は箱の中に並べる項目
+const entities = [
+  { name: "部員", y: 46, attrs: ["名前", "学年"] },
+  { name: "予約", y: 142, attrs: ["日付・時間帯", "用件", "状態"] },
+  { name: "部室", y: 260, attrs: ["部屋の名前", "定員"] },
+];
+const ex = 30;
+const ew = 170;
+const head = 24;
+const row = 18;
+const boxH = (n: number) => head + n * row + 8;
+
+// 状態遷移図の箱(状態)
+const sw = 100;
+const sh = 44;
+const states = {
+  draft: { name: "仮予約", x: 368, y: 80, color: link },
+  fixed: { name: "確定", x: 520, y: 80, color: link },
+  cancel: { name: "取消", x: 444, y: 236, color: accent },
+};
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="同じ予約を、2つのモデルで描く"
+  caption="架空の部室の予約を、ER図と状態遷移図で描いた。ER図は「1人の部員がいくつも予約し、一つの予約は部室を一つ使う」というデータの形を、状態遷移図は一つの予約の移り変わりを表す。「取消から確定には戻れない」のような決まりは、右の図を描くと話し合える。"
+  source="[P. P. Chen (1976)](https://doi.org/10.1145/320434.320440) のERモデルと、[UML 2.5.1](https://www.omg.org/spec/UML/2.5.1) の状態機械図の考え方を基に作図。内容は架空の例"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 350"
+    class="w-full"
+    role="img"
+    aria-label="部室の予約の2つのモデル。左のER図では、部員1人が多くの予約をし、予約は部室1つを使う。右の状態遷移図では、予約は仮予約から始まり、締め切りで確定になる。仮予約と確定のどちらからも、取り消すと取消になる。"
+  >
+    <defs>
+      <marker id="es-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill={ink} />
+      </marker>
+    </defs>
+
+    <text x="115" y="24" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      ER図: 何が、どうつながるか
+    </text>
+    <text x="494" y="24" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      状態遷移図: 予約の移り変わり
+    </text>
+    <line x1="330" x2="330" y1="40" y2="340" stroke="var(--color-grid)" stroke-width="1.5" />
+
+    <!-- ER図: 実体の箱 -->
+    {entities.map((e) => (
+      <g>
+        <rect
+          x={ex}
+          y={e.y}
+          width={ew}
+          height={boxH(e.attrs.length)}
+          rx="4"
+          fill="var(--color-paper)"
+          stroke={ink}
+          stroke-width="2"
+        />
+        <rect
+          x={ex}
+          y={e.y}
+          width={ew}
+          height={head}
+          rx="4"
+          fill={link}
+          fill-opacity="0.15"
+          stroke={ink}
+          stroke-width="2"
+        />
+        <text x={ex + ew / 2} y={e.y + 17} text-anchor="middle" font-size="14" font-weight="700" fill={ink}>
+          {e.name}
+        </text>
+        {e.attrs.map((a, i) => (
+          <text x={ex + 12} y={e.y + head + 16 + i * row} font-size="12" fill={ink}>
+            {a}
+          </text>
+        ))}
+      </g>
+    ))}
+    <!-- ER図: つながり(1 と 多) -->
+    {[
+      { y1: 46 + boxH(2), y2: 142, top: "1", bottom: "多", label: "1人がいくつも予約する" },
+      { y1: 142 + boxH(3), y2: 260, top: "多", bottom: "1", label: "どの予約も部室を一つ使う" },
+    ].map((r) => (
+      <g>
+        <line x1={ex + 40} x2={ex + 40} y1={r.y1} y2={r.y2} stroke={ink} stroke-width="2" />
+        <text x={ex + 30} y={r.y1 + 13} text-anchor="end" font-size="12" font-weight="700" fill={accent}>
+          {r.top}
+        </text>
+        <text x={ex + 30} y={r.y2 - 4} text-anchor="end" font-size="12" font-weight="700" fill={accent}>
+          {r.bottom}
+        </text>
+        <text x={ex + 52} y={(r.y1 + r.y2) / 2 + 4} font-size="12" fill={muted}>
+          {r.label}
+        </text>
+      </g>
+    ))}
+
+    <!-- 状態遷移図: はじまりの黒丸 -->
+    <circle cx="368" cy="58" r="7" fill={ink} />
+    <line
+      x1="374"
+      y1="62"
+      x2={states.draft.x + 20}
+      y2={states.draft.y - 1}
+      stroke={ink}
+      stroke-width="2"
+      marker-end="url(#es-arrow)"
+    />
+    <text x="384" y="52" font-size="11" fill={muted}>
+      予約を書き込む
+    </text>
+
+    <!-- 状態の箱 -->
+    {Object.values(states).map((s) => (
+      <g>
+        <rect
+          x={s.x}
+          y={s.y}
+          width={sw}
+          height={sh}
+          rx="20"
+          fill="var(--color-paper)"
+          stroke={s.color}
+          stroke-width="2.5"
+        />
+        <text x={s.x + sw / 2} y={s.y + 27} text-anchor="middle" font-size="14" font-weight="700" fill={ink}>
+          {s.name}
+        </text>
+      </g>
+    ))}
+
+    <!-- 移り変わりの矢印 -->
+    <line
+      x1={states.draft.x + sw}
+      y1={states.draft.y + sh / 2}
+      x2={states.fixed.x - 2}
+      y2={states.fixed.y + sh / 2}
+      stroke={ink}
+      stroke-width="2"
+      marker-end="url(#es-arrow)"
+    />
+    <text x="494" y={states.draft.y + sh / 2 - 8} text-anchor="middle" font-size="11" fill={muted}>
+      締め切り
+    </text>
+    <line
+      x1={states.draft.x + 40}
+      y1={states.draft.y + sh}
+      x2={states.cancel.x + 30}
+      y2={states.cancel.y - 2}
+      stroke={ink}
+      stroke-width="2"
+      marker-end="url(#es-arrow)"
+    />
+    <text x="430" y="186" text-anchor="end" font-size="11" fill={muted}>
+      譲る・取り消す
+    </text>
+    <line
+      x1={states.fixed.x + 60}
+      y1={states.fixed.y + sh}
+      x2={states.cancel.x + 70}
+      y2={states.cancel.y - 2}
+      stroke={ink}
+      stroke-width="2"
+      marker-end="url(#es-arrow)"
+    />
+    <text x="562" y="186" font-size="11" fill={muted}>
+      取り消す
+    </text>
+
+    <!-- 確定の後: 使い終わり -->
+    <line
+      x1={states.fixed.x + sw / 2}
+      y1={states.fixed.y}
+      x2={states.fixed.x + sw / 2}
+      y2="56"
+      stroke={ink}
+      stroke-width="2"
+      marker-end="url(#es-arrow)"
+    />
+    <circle cx={states.fixed.x + sw / 2} cy="48" r="8" fill="none" stroke={ink} stroke-width="2" />
+    <circle cx={states.fixed.x + sw / 2} cy="48" r="4" fill={ink} />
+    <text x={states.fixed.x + sw / 2 + 14} y="52" font-size="11" fill={muted}>
+      使い終わる
+    </text>
+
+    <text x="480" y="314" text-anchor="middle" font-size="12" fill={ink}>
+      取消から確定へ戻る矢印は無い
+    </text>
+    <text x="480" y="332" text-anchor="middle" font-size="12" fill={muted}>
+      (決まりを図で確かめられる)
+    </text>
+  </svg>
+</FigureFrame>

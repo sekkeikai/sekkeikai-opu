@@ -1,0 +1,97 @@
+---
+// 5つの工程を、ダブルダイヤモンドの上に置いた図。工程1・2は左のひし形(問題)、工程3~5は右のひし形(解)に入る。
+// 下の段には、各工程が終わりに残すもの(次の工程に渡すもの)を並べる。
+// 丸の色は、考えを広げる工程(オレンジ)か、絞る工程(青)か。設計のプロセスの全体図と同じ色分け。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const link = "var(--color-link)";
+const accent = "var(--color-accent-strong)";
+const muted = "var(--color-muted)";
+
+// ひし形の大きさと位置
+const half = 150;
+const cy = 140;
+const h = 95;
+const diamonds = [
+  { cx: 205, color: "var(--color-accent)", top: "正しい問題を見つける" },
+  { cx: 545, color: link, top: "正しい解を見つける" },
+];
+
+// 工程。x はひし形の上の丸の位置、col は下の段の列の位置
+const colGap = 150;
+const steps = [
+  { n: 1, x: 135, name: "問題を見つける", out: ["問題の一文"], mode: "diverge" },
+  { n: 2, x: 275, name: "要件を定める", out: ["要件の表"], mode: "converge" },
+  { n: 3, x: 470, name: "案を広げる", out: ["案の一覧"], mode: "diverge" },
+  { n: 4, x: 590, name: "比べて選ぶ", out: ["比較の表と", "選んだ理由"], mode: "converge" },
+  { n: 5, x: 655, name: "形を詰める", out: ["仕様書"], mode: "converge" },
+].map((s, i) => ({ ...s, col: 80 + i * colGap }));
+
+const r = 14;
+const labelY = 284;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="5つの工程と、それぞれが残すもの"
+  caption="工程1と2で「どの問題を解くか」を広げて絞り、工程3から5で「どう解くか」を広げて絞る。下の段は、各工程が終わりに残すもの。前の工程が残したものが、次の工程の出発点になる。丸の色は、オレンジが広げる工程、青が絞る工程。"
+  source="[Design Council (UK), The Double Diamond](https://www.designcouncil.org.uk/resources/the-double-diamond/) に、このサイトの5つの工程を重ねて作図"
+  scroll
+>
+  <svg
+    viewBox="0 0 760 350"
+    class="w-full"
+    role="img"
+    aria-label="ダブルダイヤモンドに5つの工程を重ねた図。左のひし形に工程1(問題の一文を残す)と工程2(要件の表)、右のひし形に工程3(案の一覧)、工程4(比較の表と選んだ理由)、工程5(仕様書)。"
+  >
+    {diamonds.map((d) => (
+      <g>
+        <path
+          d={`M${d.cx - half} ${cy} L${d.cx} ${cy - h} L${d.cx + half} ${cy} L${d.cx} ${cy + h} Z`}
+          fill="none"
+          stroke={d.color}
+          stroke-width="2.5"
+        />
+        <line x1={d.cx} x2={d.cx} y1={cy - h + 6} y2={cy + h - 6} stroke={d.color} stroke-dasharray="4 5" />
+        <text x={d.cx} y="28" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+          {d.top}
+        </text>
+      </g>
+    ))}
+
+    {steps.map((s) => (
+      <g>
+        <!-- 丸から、下の段の「残すもの」へ -->
+        <line x1={s.x} x2={s.col} y1={cy + r} y2={labelY - 18} stroke={muted} stroke-dasharray="2 4" />
+        <circle cx={s.x} cy={cy} r={r} fill={s.mode === "diverge" ? accent : link} />
+        <text x={s.x} y={cy + 5} text-anchor="middle" font-size="14" font-weight="700" fill="var(--color-paper)">
+          {s.n}
+        </text>
+        <text x={s.col} y={labelY} text-anchor="middle" font-size="14" font-weight="700" fill={ink}>
+          {s.name}
+        </text>
+        <text x={s.col} y={labelY + 14} text-anchor="middle" font-size="11" fill={muted}>
+          ↓ 残すもの
+        </text>
+        {s.out.map((line, k) => (
+          <text
+            x={s.col}
+            y={labelY + 34 + k * 16}
+            text-anchor="middle"
+            font-size="13"
+            fill={s.mode === "diverge" ? accent : link}
+          >
+            {line}
+          </text>
+        ))}
+      </g>
+    ))}
+  </svg>
+</FigureFrame>

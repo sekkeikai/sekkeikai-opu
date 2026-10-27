@@ -1,0 +1,39 @@
+---
+// 視点(lens)のページで、「設計のプロセスの各工程で、この視点をどう使うか」を見せる。
+// ふつうの手順(steps)と見分けがつくよう、工程の番号と名前を左に置き、各工程の解説へリンクする。
+// 中身は視点のページの perStep、工程の名前は工程のページ(layer: step)から読む。
+import { getProcessSteps } from "../lib/design";
+import InlineText from "./InlineText.astro";
+
+interface Props {
+  short: string;
+  perStep: { cell: string; body: string }[];
+}
+
+const { short, perStep } = Astro.props;
+const steps = await getProcessSteps();
+---
+
+<div class="my-12 font-sans text-base leading-relaxed tracking-normal" data-reveal>
+  <p class="annotation text-link">工程ごとの使い方</p>
+  <p class="mt-1 font-display text-lg font-bold">
+    「{short}」を、設計の{steps.length}つの工程で
+  </p>
+  <ol class="mt-5 overflow-hidden rounded-card border border-grid">
+    {steps.map((s, i) => (
+      <li class="grid border-b border-grid last:border-b-0 sm:grid-cols-[11rem_1fr]">
+        <a href={s.href} class="group flex items-baseline gap-2 bg-paper-muted px-4 py-3 sm:block sm:py-4">
+          <span class="font-mono text-xs text-accent-strong">工程 {s.n}</span>
+          <span class="font-display font-bold group-hover:text-link sm:mt-1 sm:block">{s.title}</span>
+          <span class="text-xs text-muted sm:block">{s.sub} →</span>
+        </a>
+        <div class="px-4 py-3 sm:py-4">
+          <p class="font-bold">{perStep[i]?.cell}</p>
+          <p class="mt-1 text-[0.95rem] text-ink/85">
+            <InlineText text={perStep[i]?.body ?? ""} />
+          </p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

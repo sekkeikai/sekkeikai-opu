@@ -1,0 +1,86 @@
+---
+// 「設計とは何か」を、OXO のピーラーの例で左から右へたどる図。
+// 誰が・どんな場面で → 困りごと → 形・材料 → 図面・仕様書 までが設計(設計会が扱う範囲)。最後の「つくる」は範囲の外なので薄く描く。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const steps = [
+  { head: "誰が・どんな場面で", ex: ["手の弱い人が", "料理をするとき"] },
+  { head: "何に困っているか", ex: ["細い金属の柄が", "握りにくい"] },
+  { head: "形・材料を決める", ex: ["太くて滑りにくい", "柄にする"] },
+  { head: "図面・仕様書", ex: ["寸法と材料を", "書いて伝える"] },
+  { head: "つくる", ex: ["工場で", "製造する"], out: true },
+];
+const w = 128;
+const gap = 15;
+const x0 = 14;
+const ink = "var(--color-ink)";
+const scopeRight = x0 + 4 * w + 3 * gap;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="設計は、何を・誰のためにつくるかを決めること"
+  caption="ピーラーの例。誰の、どんな困りごとかを決めると、形や材料が決まり、それを図面や仕様書にしてつくる人に渡す。ここまでが設計で、設計会が扱う範囲。"
+  source="[Cooper Hewitt「Getting a Grip on User-Inspired Design」](https://www.cooperhewitt.org/2018/02/12/getting-a-grip-on-user-inspired-design-2/) のピーラーの例を基に作図"
+  scroll
+>
+  <svg
+    viewBox="0 0 720 190"
+    class="w-full"
+    role="img"
+    aria-label={`設計の流れ。${steps.map((s) => `${s.head}(${s.ex.join("")})`).join("、")}。つくる手前までが設計。`}
+  >
+    <!-- 設計の範囲を示すかっこ -->
+    <path d={`M${x0} 40 V28 H${scopeRight} V40`} fill="none" stroke="var(--color-accent-strong)" stroke-width="2" />
+    <text
+      x={(x0 + scopeRight) / 2}
+      y="20"
+      text-anchor="middle"
+      font-size="14"
+      font-weight="700"
+      fill="var(--color-accent-strong)"
+    >
+      設計(設計会が扱う範囲)
+    </text>
+    {steps.map((s, i) => {
+      const x = x0 + i * (w + gap);
+      return (
+        <g opacity={s.out ? 0.45 : 1}>
+          <rect
+            x={x}
+            y="52"
+            width={w}
+            height="118"
+            rx="8"
+            fill={s.out ? "var(--color-paper-muted)" : "var(--color-paper)"}
+            stroke={ink}
+            stroke-width="1.5"
+            stroke-dasharray={s.out ? "5 4" : undefined}
+          />
+          <text x={x + w / 2} y="84" text-anchor="middle" font-size="13" font-weight="700" fill={ink}>
+            {s.head}
+          </text>
+          <line x1={x + 14} x2={x + w - 14} y1="98" y2="98" stroke={ink} stroke-opacity="0.15" />
+          {s.ex.map((line, j) => (
+            <text x={x + w / 2} y={124 + j * 20} text-anchor="middle" font-size="13" fill={ink}>
+              {line}
+            </text>
+          ))}
+          {i < steps.length - 1 && (
+            <polygon
+              points={`${x + w + gap - 4},111 ${x + w + 6},104 ${x + w + 6},118`}
+              fill={ink}
+              fill-opacity="0.6"
+            />
+          )}
+        </g>
+      );
+    })}
+  </svg>
+</FigureFrame>

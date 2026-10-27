@@ -1,0 +1,45 @@
+---
+// 文章の中の [[modeling]] のようなリンク(設計を知るページへ)、**強調**、[出典](https://…) のリンクを表示する(書き方は src/lib/inline.ts)。
+// 存在しないページの名前が書かれていたら、ビルドを止めて知らせる。
+import { getCollection } from "astro:content";
+import { parseInline } from "../lib/inline";
+import { layerLabel } from "../lib/design";
+
+interface Props {
+  text: string;
+}
+
+const tokens = parseInline(Astro.props.text);
+const pages = await getCollection("design");
+const bySlug = new Map(pages.map((e) => [e.id, e]));
+
+for (const t of tokens) {
+  if (t.kind === "element" && !bySlug.has(t.slug)) {
+    throw new Error(
+      `文章の中の [[${t.slug}]] に対応するページがありません(src/content/design/${t.slug}.yaml を確認してください)`,
+    );
+  }
+}
+---
+
+{tokens.map((t) => {
+  if (t.kind === "text") return t.value;
+  if (t.kind === "strong") return <strong class="font-semibold">{t.value}</strong>;
+  if (t.kind === "link")
+    return (
+      <a href={t.href} class="underline underline-offset-2 hover:text-link" rel="noopener">
+        {t.label}
+      </a>
+    );
+  const el = bySlug.get(t.slug)!;
+  return (
+    <a href={`/design/${t.slug}/${t.anchor ? `#${t.anchor}` : ""}`} class="term">
+      {t.label ?? el.data.title}
+      <span class="term-card" aria-hidden="true">
+        <span class="annotation block text-link">{layerLabel(el)}</span>
+        <span class="mt-1 block font-display text-base font-bold">{el.data.title}</span>
+        <span class="mt-1 block text-muted">{el.data.summary}</span>
+      </span>
+    </a>
+  );
+})}

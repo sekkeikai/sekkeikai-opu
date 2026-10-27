@@ -1,41 +1,46 @@
 ---
-// 新しい順にお知らせを表示する（draft: true の記事は出さない）。
+// 新しい順にお知らせを表示する、ページ末尾の小さなセクション(draft: true の記事は出さない)。
 import { getCollection } from "astro:content";
-import SectionShell from "../SectionShell.astro";
 import { formatDate } from "../../lib/format";
 
 interface Props {
-  tone?: "light" | "dark";
   title: string;
   limit?: number;
 }
 
-const { tone, title, limit = 3 } = Astro.props;
+const { title, limit = 3 } = Astro.props;
 const posts = (await getCollection("news", ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, limit);
 ---
 
-<SectionShell tone={tone} title={title} eyebrow="News" id="news">
-  {posts.length === 0 ? (
-    <p class="text-muted">まだお知らせはありません。</p>
-  ) : (
-    <ul class="divide-y divide-grid border-y border-grid">
-      {posts.map((post) => (
-        <li data-reveal>
-          <a href={`/news/${post.id}/`} class="flex flex-col gap-1 py-5 hover:text-investor sm:flex-row sm:gap-8">
-            <time class="annotation shrink-0 text-muted" datetime={post.data.date.toISOString()}>
-              {formatDate(post.data.date)}
-            </time>
-            <span class="font-bold">{post.data.title}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  )}
-  <p class="mt-8">
-    <a href="/news/" class="underline">
-      お知らせ一覧へ
-    </a>
-  </p>
-</SectionShell>
+<section id="news" class="scroll-mt-14 bg-paper py-16" aria-labelledby="news-title">
+  <div class="container-page grid gap-6 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-5">
+      <h2 id="news-title" class="text-2xl font-bold">
+        {title}
+      </h2>
+      <a href="/news/" class="mt-3 inline-block text-sm text-link underline underline-offset-4">
+        一覧へ
+      </a>
+    </div>
+    <div class="lg:col-span-7">
+      {posts.length === 0 ? (
+        <p class="text-muted">まだお知らせはありません。</p>
+      ) : (
+        <ul class="divide-y divide-grid border-y border-grid">
+          {posts.map((post) => (
+            <li>
+              <a href={`/news/${post.id}/`} class="flex flex-col gap-1 py-4 hover:text-link sm:flex-row sm:gap-8">
+                <time class="annotation shrink-0 text-muted" datetime={post.data.date.toISOString()}>
+                  {formatDate(post.data.date)}
+                </time>
+                <span class="font-bold">{post.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</section>

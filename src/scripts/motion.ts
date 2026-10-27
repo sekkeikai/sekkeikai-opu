@@ -1,12 +1,12 @@
-// サイト全体の動き（GSAP + Lenis）。
+// サイト全体の動き(GSAP + Lenis)。
 // - OS の「視差効果を減らす」設定がオンの人には動きを一切付けない
-// - スムーススクロール（Lenis）はマウス操作の端末だけ。スマホは標準スクロールのまま
-// 動きの長さやイージングは tokens/tokens.json の motion で決める（CSS 変数から読む）
+// - スムーススクロール(Lenis)はマウス操作の端末だけ。スマホは標準スクロールのまま
+// 動きの長さやイージングは tokens/tokens.json の motion で決める(CSS 変数から読む)
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
-// CSS 変数の長さ（"700ms" や ".7s"）を秒に直す。読めなければ fallback（秒）
+// CSS 変数の長さ("700ms" や ".7s")を秒に直す。読めなければ fallback(秒)
 function readSeconds(name: string, fallback: number): number {
   const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const value = parseFloat(raw);
@@ -45,7 +45,7 @@ export function initMotion(): void {
 
   // data-draw: SVG の線を描くように表示する
   gsap.utils.toArray<SVGGeometryElement>("[data-draw]").forEach((path) => {
-    // スマホなどで非表示（display: none）の線は長さを測れないので飛ばす
+    // スマホなどで非表示(display: none)の線は長さを測れないので飛ばす
     if (path.getClientRects().length === 0) return;
     const length = path.getTotalLength();
     gsap.fromTo(
@@ -55,7 +55,8 @@ export function initMotion(): void {
         strokeDashoffset: 0,
         duration: draw,
         ease: "power2.inOut",
-        scrollTrigger: { trigger: path.closest("section") ?? path, start: "top 75%", once: true },
+        // 図の中の線は図が見えたときに、それ以外はセクションが見えたときに描く
+        scrollTrigger: { trigger: path.closest("figure, section") ?? path, start: "top 75%", once: true },
       },
     );
   });

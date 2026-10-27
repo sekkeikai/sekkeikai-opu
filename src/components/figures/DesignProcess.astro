@@ -1,0 +1,56 @@
+---
+// 設計のプロセスの全体図。5 つの工程と、それぞれの問い・代表的な手法を並べる。
+// 上の帯は、考えを広げる(発散)工程と、絞る(収束)工程の別を表す。
+// 中身は工程のページ(src/content/design/ の layer: step)から読む。各工程のカードは、その工程のページへのリンク。
+import FigureFrame from "./FigureFrame.astro";
+import { getProcessSteps } from "../../lib/design";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const steps = await getProcessSteps();
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="設計のプロセス: 5つの工程"
+  caption="工程は順に進み、必要に応じて前へ戻る。案を比べる工程で要件の見落としに気付けば、要件の工程に戻る。行き来しながら、少しずつ設計の答えを確かなものにしていく。"
+  source="[G. Pahl & W. Beitz 他, Engineering Design 第3版 (2007)](https://doi.org/10.1007/978-1-84628-319-2) の設計段階、[英国デザイン・カウンシルのダブルダイヤモンド](https://www.designcouncil.org.uk/resources/the-double-diamond/)などを基に整理"
+>
+  <ol class="grid gap-3 md:grid-cols-5">
+    {steps.map((s, i) => (
+      <li class="relative flex flex-col rounded-md border border-grid bg-paper transition hover:border-link">
+        <p
+          class:list={[
+            "rounded-t-md px-3 py-1 text-center text-xs font-bold text-paper",
+            s.mode === "diverge" ? "bg-accent-strong" : "bg-link",
+          ]}
+        >
+          {s.mode === "diverge" ? "広げる" : "絞る"}
+        </p>
+        <a href={s.href} class="group flex-1 p-4">
+          <p class="font-mono text-xs text-muted">{String(s.n).padStart(2, "0")}</p>
+          <p class="font-display text-lg leading-snug font-bold group-hover:text-link">{s.title}</p>
+          <p class="text-xs text-muted">{s.sub}</p>
+          <p class="mt-3 text-sm">「{s.question}」</p>
+          <p class="mt-3 text-xs text-ink/70">{s.tools}</p>
+        </a>
+        {i < steps.length - 1 && (
+          <span
+            class="absolute -bottom-3 left-1/2 z-10 -translate-x-1/2 text-muted md:top-1/2 md:-right-3 md:bottom-auto md:left-auto md:translate-x-0"
+            aria-hidden="true"
+          >
+            <span class="md:hidden">↓</span>
+            <span class="hidden md:inline">▶</span>
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+  <p class="mt-4 flex items-center justify-center gap-2 text-sm text-muted">
+    <span aria-hidden="true">↺</span> 必要に応じて、前の工程へ戻る
+  </p>
+</FigureFrame>

@@ -1,0 +1,122 @@
+---
+// アンスコムの例(1973)。統計量がほぼ同じでも、グラフにすると全く違う 4 組のデータ。
+// 下の統計量は、このデータからビルドのときに計算している。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const x123 = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5];
+const sets = [
+  { name: "I", x: x123, y: [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68] },
+  { name: "II", x: x123, y: [9.14, 8.14, 8.74, 8.77, 9.26, 8.1, 6.13, 3.1, 9.13, 7.26, 4.74] },
+  { name: "III", x: x123, y: [7.46, 6.77, 12.74, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73] },
+  {
+    name: "IV",
+    x: [8, 8, 8, 8, 8, 8, 8, 19, 8, 8, 8],
+    y: [6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 12.5, 5.56, 7.91, 6.89],
+  },
+];
+
+const mean = (v: number[]) => v.reduce((s, a) => s + a, 0) / v.length;
+const variance = (v: number[]) => {
+  const m = mean(v);
+  return v.reduce((s, a) => s + (a - m) ** 2, 0) / (v.length - 1);
+};
+function stats(x: number[], y: number[]) {
+  const mx = mean(x);
+  const my = mean(y);
+  let sxy = 0;
+  for (let i = 0; i < x.length; i++) sxy += (x[i] - mx) * (y[i] - my);
+  sxy /= x.length - 1;
+  const b = sxy / variance(x);
+  return { mx, vx: variance(x), my, vy: variance(y), r: sxy / Math.sqrt(variance(x) * variance(y)), a: my - b * mx, b };
+}
+const computed = sets.map((s) => ({ ...s, s: stats(s.x, s.y) }));
+
+const rows: { label: string; value: (s: ReturnType<typeof stats>) => string }[] = [
+  { label: "xの平均", value: (s) => s.mx.toFixed(2) },
+  { label: "xの分散", value: (s) => s.vx.toFixed(2) },
+  { label: "yの平均", value: (s) => s.my.toFixed(2) },
+  { label: "yの分散", value: (s) => s.vy.toFixed(2) },
+  { label: "相関係数", value: (s) => s.r.toFixed(3) },
+  { label: "回帰直線", value: (s) => `y = ${s.a.toFixed(2)} + ${s.b.toFixed(3)}x` },
+];
+
+// 小さなグラフの座標(x: 2~20、y: 2~14)
+const W = 220;
+const H = 170;
+const sx = (v: number) => 24 + ((v - 2) / 18) * (W - 34);
+const sy = (v: number) => H - 20 - ((v - 2) / 12) * (H - 32);
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="数字は同じ、形は全く違う"
+  caption="4組とも、平均・分散・相関係数・回帰直線がほぼ同じ。しかしグラフにすると、Iは素直な直線関係、IIは曲線、IIIは一つの外れ値が直線を傾け、IVは一つの点だけが相関を生んでいる。要約の数字だけで判断する前に、まず見ること。"
+  source="[F. J. Anscombe, Graphs in Statistical Analysis, The American Statistician 27(1) (1973)](https://doi.org/10.1080/00031305.1973.10478966) のデータ"
+>
+  <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    {computed.map((set) => (
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        class="w-full rounded-md bg-paper-muted"
+        role="img"
+        aria-label={`データ ${set.name} の散布図`}
+      >
+        <text x="30" y="20" font-family="var(--font-mono)" font-size="14" font-weight="700" fill="var(--color-ink)">
+          {set.name}
+        </text>
+        <path
+          d={`M24 ${H - 20} H${W - 10} M24 ${H - 20} V12`}
+          stroke="var(--color-muted)"
+          stroke-opacity="0.6"
+          fill="none"
+        />
+        <line
+          x1={sx(3)}
+          x2={sx(19)}
+          y1={sy(set.s.a + set.s.b * 3)}
+          y2={sy(set.s.a + set.s.b * 19)}
+          stroke="var(--color-link)"
+          stroke-width="1.5"
+        />
+        {set.x.map((xv, i) => (
+          <circle cx={sx(xv)} cy={sy(set.y[i])} r="4.5" fill="var(--color-accent-strong)" fill-opacity="0.8" />
+        ))}
+      </svg>
+    ))}
+  </div>
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full min-w-[30rem] border-collapse text-sm">
+      <caption class="sr-only">4組のデータの統計量</caption>
+      <thead>
+        <tr class="border-b border-grid text-left">
+          <th scope="col" class="py-1.5 pr-3 font-normal text-muted">
+            統計量
+          </th>
+          {computed.map((set) => (
+            <th scope="col" class="py-1.5 pr-3 font-mono">
+              {set.name}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody class="font-mono text-[0.8rem]">
+        {rows.map((row) => (
+          <tr class="border-b border-grid/70">
+            <th scope="row" class="py-1.5 pr-3 text-left font-sans font-normal text-muted">
+              {row.label}
+            </th>
+            {computed.map((set) => (
+              <td class="py-1.5 pr-3">{row.value(set.s)}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</FigureFrame>

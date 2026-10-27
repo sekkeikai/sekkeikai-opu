@@ -1,0 +1,53 @@
+---
+// 観察や聞き取りの記録で、「見たこと・聞いたこと(事実)」と「そこから読み取ったこと(解釈)」を分けて書く図。
+// 例は、部室の予約を観察したときのカードの書き方の見本(架空)。記録の形で現在形で書き、起きた出来事の報告にはしない。左の事実のカードから、右の解釈のカードが生まれる、という向きを矢印で表す。
+// 事実を残しておけば、解釈が間違っていたときに、元の事実に戻って考え直せる。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// 事実のカード(見たこと・聞いたこと。いつ・どこで、を添える)
+const facts = [
+  { text: "火曜の3限の後、部室の前まで来た2人が、中に人がいるのを見て引き返す", when: "観察・部室の前" },
+  { text: "部のグループに「今、部室空いてる?」という投稿が、1週間に5回ある", when: "記録・連絡の履歴" },
+  { text: "「とりあえず行ってみて、空いてなかったら図書館に行く」", when: "聞き取り・2年生" },
+];
+// 解釈のカード(事実から読み取ったこと。後で確かめ直す前提で書く)
+const reading = "空いているかどうかを、行く前に確かめる手段がない";
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="見たことと、読み取ったことを分けて書く"
+  caption="左は誰が見ても同じになる事実、右はそこから自分が読み取ったこと。分けて書いておけば、解釈が間違っていても、事実に戻って考え直せる。部室の予約を観察するなら、カードはこう書く(架空の見本)。"
+>
+  <div class="grid items-center gap-4 sm:grid-cols-[1fr_auto_1fr]">
+    <div>
+      <p class="annotation mb-2 text-link">事実: 見たこと・聞いたこと</p>
+      <ul class="grid gap-3">
+        {facts.map((f) => (
+          <li class="rounded-md border border-ink/40 bg-paper p-3">
+            <p class="text-sm">{f.text}</p>
+            <p class="mt-1 text-xs text-muted">{f.when}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <!-- 事実から解釈へ、という向きを表す矢印(スマホでは下向き) -->
+    <svg viewBox="0 0 48 48" class="mx-auto w-10 rotate-90 sm:rotate-0" aria-hidden="true">
+      <path d="M6 24 H36" stroke="var(--color-accent-strong)" stroke-width="3" />
+      <polygon points="42,24 32,17 32,31" fill="var(--color-accent-strong)" />
+    </svg>
+    <div>
+      <p class="annotation mb-2 text-accent-strong">解釈: 読み取ったこと</p>
+      <div class="rounded-md border-2 border-dashed border-accent-strong bg-paper-muted p-3">
+        <p class="text-sm font-bold">{reading}</p>
+        <p class="mt-1 text-xs text-muted">他の曜日や、他の部員にも当てはまるか、後で確かめる</p>
+      </div>
+    </div>
+  </div>
+</FigureFrame>

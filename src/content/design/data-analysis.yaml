@@ -1,0 +1,274 @@
+title: データ分析
+en: Data Analysis
+layer: lens
+order: 3
+short: データで考える
+question: 過去のデータを、どう設計に生かすか
+summary: 事実を数字で捉え、目に見える形にし、仮説を確かめて設計に返す。設計会ではJupyter Notebookの形式で、チームが同じデータを見ながら分析する。
+lead: 良い設計は、確かめられた根拠から生まれます。データ分析とは、集めた事実を数字で捉え、形にして眺め、問いを立てて確かめること。過去のデータは、これからつくるものをより良く設計するための、確かな手がかりになります。
+chapters:
+  - id: basics
+    heading: まず、見ることから
+    blocks:
+      - type: question
+        text: 平均も、ばらつきも、相関係数もほとんど同じ4組のデータ。グラフにすると、同じ形に見えるでしょうか?
+        answer: 全く違う形になります。下の図で確かめてください。データの本当の姿は、グラフにして初めて見えてきます。
+      - type: point
+        text: データ分析は、まず見ること。集め方の偏りに気をつけながら、数字を形にして眺め、問いを立てて確かめます。
+      - type: p
+        text: |-
+          1973年、統計学者フランシス・アンスコムは、平均、分散、相関係数(2つの量が直線的にどれだけそろって動くかを表す数)、回帰直線(点の並びに一番よく合う直線)がほとんど同じなのに、グラフにすると全く違う形をした4組のデータを示しました。判断の前にグラフにすれば、この違いはすぐに見えます。下の図と表は、アンスコムのデータから、このサイトのプログラムが計算して描いたものです。
+        note: |-
+          [F. J. Anscombe, "Graphs in Statistical Analysis", The American Statistician, 27(1), 1973](https://doi.org/10.1080/00031305.1973.10478966)。
+      - type: figure
+        name: anscombe
+      - type: p
+        text: |-
+          まず図にして眺め、それから考える。この順番を分析の方法にまとめたのが、統計学者ジョン・テューキーの「探索的データ分析」です。データを眺めて、意外な形や外れた値から問いを見つける段階を、仮説を確かめる(検証する)段階の前に置くことの大切さを説きました。
+        note: |-
+          [J. W. Tukey, Exploratory Data Analysis, Addison-Wesley, 1977](https://archive.org/details/exploratorydataa0000tuke_7616)。
+      - type: p
+        text: |-
+          グラフにする前に、もう一つ確かめることがあります。そのデータが、どのように集められたかです。例えば、戦闘から帰ってきた飛行機の弾の跡だけを調べて補強する場所を決めると、撃ち落とされて帰ってこなかった機体の情報が抜け落ちてしまいます。残ったものだけを見て判断することで生まれるこの偏りは「生存者バイアス」と呼ばれます。この例は、統計学者エイブラハム・ウォールドが第二次世界大戦中に行った研究にちなんで語られることの多いものです。
+        note: |-
+          [A. Wald, "A Method of Estimating Plane Vulnerability Based on Damage of Survivors"](https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability)(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。1980年に再刊)。よく語られる逸話は、実際の研究を単純化したものである。
+
+  - id: pictures
+    heading: 図にすると、数字が人に伝わる
+    blocks:
+      - type: point
+        text: 数字を図にすると、表では埋もれていた違いが誰にでも見え、人を説得する力になります。19世紀のロンドンのコレラと、クリミア戦争の病院の記録が、その例です。
+      - type: image
+        src: /uploads/design/snow-cholera-map.jpg
+        alt: ロンドンのソーホー地区の地図。通りに沿って、コレラで亡くなった人の数を表す黒い棒が積み重なり、ブロード・ストリートの井戸のポンプの周りに集中している。
+        caption: ジョン・スノウのコレラの地図(1854年作成、1855年の著書に掲載)。亡くなった人を家ごとに黒い棒で記すと、一台の井戸のポンプの周りに集まっていることが分かる。スノウはまず死者の集計を基にポンプの柄を外すよう訴え(1854年9月)、この地図はその後、主張を広く示すために描かれた。
+        credit: John Snow, On the Mode of Communication of Cholera, 2nd ed., 1855(Wikimedia Commons)
+        license: パブリックドメイン
+        sourceUrl: https://commons.wikimedia.org/wiki/File:Snow-cholera-map-1.jpg
+      - type: image
+        src: /uploads/design/nightingale-mortality.jpg
+        alt: 2つの円形のグラフ。月ごとの扇形が、防げる病気による死者(青)、戦傷による死者(赤)、その他の死者(黒)に塗り分けられ、青い部分が最も大きい。
+        caption: ナイチンゲールの「鶏頭図」(1858年)。クリミア戦争の兵士の死因を月ごとの扇形で表し、戦いの傷よりも、防げる病気で亡くなる兵士のほうがずっと多いことを示した。この図は、軍の病院の衛生を改める訴えに使われた。
+        credit: Florence Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858(Wikimedia Commons)
+        license: パブリックドメイン
+        sourceUrl: https://commons.wikimedia.org/wiki/File:Nightingale-mortality.jpg
+      - type: p
+        text: |-
+          どちらの図も、既に手元にあった数字からつくられ、主張を人に伝えるために描かれました。違いが一目で分かる形にしたことで、数字が人に届いたのです。設計の話し合いでも、同じ数字をどう見せるかで、決め方が変わります。
+
+  - id: why
+    heading: 「設計」は統計学の言葉でもある
+    blocks:
+      - type: point
+        text: 設計は未来についての判断ですが、その根拠の多くは過去のデータにあります。統計学には、実験を「設計」する分野(実験計画法)があります。
+      - type: p
+        text: |-
+          今ある製品はどのように使われ、どこで壊れ、どこで人がつまずいたのか。データは、設計する人の思い込みを確かめ、ときに覆してくれます。
+      - type: p
+        text: |-
+          設計とデータの結び付きは、統計学の歴史そのものにも刻まれています。ロナルド・フィッシャーが1935年に著した『実験計画法(The Design of Experiments)』は、偶然による差と本当の差を見分けて結論を出すには何をどう比べればよいかを、実験を「設計」する問題として論じました。条件をくじのように割り当てる無作為化、同じ条件を何度も試す反復、条件のそろった区画ごとに比べる局所管理という3つの原則は、農業試験場で生まれ、医療の臨床試験やウェブサービスのA/Bテストにまで受け継がれています。
+        note: |-
+          [R. A. Fisher, The Design of Experiments, Oliver and Boyd, 1935](https://ci.nii.ac.jp/ncid/BA60729447)。フィッシャーは英国ロザムステッド農業試験場での研究を通じて、これらの方法を発展させた。
+      - type: example
+        kind: real
+        title: 検診の案内の文面を比べる
+        text: |-
+          東京都八王子市は2016年度、前の年度に大腸がん検診を受けて検査キットが自動で届いた人のうち、10月の時点でまだ受けていない人に、受診を勧めるはがきを2通りの文面で送って比べました。1,761人には「受ければ来年度もキットが届く」という得の形で、1,767人には「受けなければ来年度はキットが自動では届かなくなる」という損の形で伝えました(文面の要旨)。受けた人の割合は、得の形が22.7%、損の形が29.9%でした。中身が同じでも、伝え方の設計で人の行動が変わり、その差を数字で確かめられます。
+        source: "[キャンサースキャンの事例紹介(八王子市の大腸がん検診)](https://www.cancerscan.jp/approach/case02/)(人数・受診率・文面の要旨)、八王子市の取り組みを紹介した[環境省の掲載資料](https://www.env.go.jp/content/000047406.pdf)と[日本版ナッジ・ユニットの資料](https://www.env.go.jp/content/900447977.pdf)による。"
+      - type: p
+        text: |-
+          実験計画法を、物の設計に生かした人もいます。日本では、田口玄一が品質工学(タグチメソッド)を体系化しました。使われる環境や部品にばらつきがあっても性能が安定する「ロバストな」設計を、直交表(少ない組み合わせで多くの条件の効果を調べられるように組んだ表)を使った少ない実験から導く方法です。データ分析は、設計案を評価するだけでなく、設計そのものを良くしていく道具にもなるのです。
+        note: |-
+          [田口玄一(刊行委員長)『品質工学講座』日本規格協会, 1988–1990年](https://ci.nii.ac.jp/ncid/BN02521393)。
+
+  - id: how
+    heading: 問いから始めて、設計に返す
+    blocks:
+      - type: point
+        text: 問いを立て、集め、整え、見て、確かめ、設計に返す。この循環を、設計とともに回し続けます。
+      - type: p
+        text: |-
+          データ分析を設計に生かす流れは、データ分析の標準的な進め方として知られるCRISP-DMなどを参考に、次のように整理できます。
+        note: |-
+          CRISP-DM(Cross-Industry Standard Process for Data Mining)は、データ分析に関わる企業の共同プロジェクトがまとめ、[2000年に1.0版が公開された](https://www.kdnuggets.com/news/2000/n17/17i.html)。
+      - type: figure
+        name: analysis-cycle
+      - type: p
+        text: |-
+          データは、問いを先に決めてから集めると、設計の判断に使えます。「どの学年の利用者が、どの画面で使うのをやめているのか」のように、設計の判断に結び付く問いを立てます。集めた後は、欠けた値や入力の誤り、単位の違いを直す「整える」作業が要ります。実際の分析では、ここに一番時間がかかることがよくあります。
+      - type: p
+        text: |-
+          データを見て「確かめる」ときに気をつけたいのは、**相関があっても、因果は別に確かめる必要がある**ということです。2つの数値がそろって動いていても、下の図のように、隠れた第三の要因(交絡因子)が両方を動かしていることがあります。設計の判断に使うときは、比べる条件をそろえた実験をしたり、他の説明がありうるかを調べたりして、一方が他方の原因かどうかを確かめます。
+      - type: figure
+        name: confounder
+      - type: heading
+        text: アンケートは、聞き方で答えが変わる
+      - type: p
+        text: |-
+          ここまでは、記録や実験から得たデータの話でした。設計会で一番よく使うのは、自分たちで質問して集めるデータ、つまりアンケートです。その数字は、質問の書き方と、誰に聞いたかで変わります。
+        note: '質問の書き方の研究の総説: [N. C. Schaeffer & S. Presser, "The Science of Asking Questions", Annual Review of Sociology, 29, 2003](https://doi.org/10.1146/annurev.soc.29.110702.110112)。'
+      - type: steps
+        ordered: false
+        items:
+          - title: 中立の言葉で聞く
+            body: 「部室の予約が不便だと思いませんか?」は「はい」に誘います。「部室の予約について、困ったことはありますか。あればどんなことですか」のように、どちらにも答えやすく書きます。
+          - title: 一つの質問で、一つのことを聞く
+            body: 「予約は簡単で速いですか?」と聞くと、「簡単だが遅い」と感じた人は、どちらで答えればよいか迷います。「簡単か」と「速いか」は、別の質問に分けます。
+          - title: 目盛りをそろえる
+            body: 「とても不満」から「とても満足」までのように、良い側と悪い側を同じ数だけ並べます。真ん中の「どちらでもない」を置くかどうかも、前もって決めます。
+          - title: 答えた人の偏りを考える
+            body: 部室によく来る人だけに聞くと、生存者バイアスと同じで、来なくなった人の不満が抜け落ちます。誰に届き、誰が答えなかったかを書き留めます。
+      - type: per-step
+
+  - id: now
+    heading: 出した後も、データで育てる
+    blocks:
+      - type: point
+        text: 製品は出した後も使われ方のデータで育てるものになり、同時に、集めるデータへの責任も重くなっています。
+      - type: p
+        text: |-
+          センサーやスマートフォン、ウェブサービスが生み出すデータの量は、かつてより桁違いに増えました。製品がどのように使われているかを発売後も知り続けられるようになり、設計は、出した後もデータを見ながら改善し続けるものになりつつあります。
+      - type: example
+        kind: real
+        title: コンビニのPOS
+        text: |-
+          セブン-イレブン・ジャパンは1982年、レジで売れた商品をその場で記録するPOSシステムを本格的に取り入れました。「明日は暑くなるから、冷たい麺がよく売れるはず」のように店ごとに仮説を立てて注文し、商品一つずつ(単品)の売れ方のデータで確かめる。この繰り返しが、品ぞろえを少しずつ直していく仕組みになりました。データは、仮説を持って見るときに、一番役に立ちます。
+        source: '[セブン&アイ・ホールディングスの解説](https://www.7andi.com/company/challenge/2989/2.html)と[沿革](https://www.7andi.com/company/history.html)による。'
+      - type: p
+        text: |-
+          一方で、データには個人に関する情報が含まれることも多く、プライバシーへの配慮は、それ自体が設計の要件になっています。日本の個人情報保護法や欧州の一般データ保護規則(GDPR)のような規制に従うことはもちろん、本当に必要なデータだけを集めるという姿勢が求められます。
+
+  - id: club
+    heading: Jupyter Notebookで、同じ数字を見ながら話す
+    blocks:
+      - type: point
+        text: データは、コード・結果のグラフ・説明を一つにまとめるJupyter Notebookの形式で分析し、チームで同じグラフを見ながら決めます。
+      - type: p
+        text: |-
+          設計会のデータ分析は、**Jupyter Notebook**の形式で進めます。ノートブックとは、PythonやSQLのコードと、その結果のグラフ、説明の文章を一つの文書にまとめたものです。分析の手順と根拠が一か所に残るので、ほかの人が読み直したり、同じ分析をやり直したりできます。研究や仕事のデータ分析でも、広く使われている形式です。
+        note: |-
+          [J. M. Perkel, "Why Jupyter is data scientists' computational notebook of choice", Nature, 2018](https://doi.org/10.1038/d41586-018-07196-1) は、Jupyter がデータ分析の計算ノートブックとして広く選ばれていると報じた。
+      - type: p
+        text: |-
+          ノートブックを書く環境には、ブラウザーで動くDeepnoteを使います。Jupyter Notebookの形式(.ipynb)のファイルを読み込んだり書き出したりでき、複数人が同時に同じノートブックを編集できるので、プログラミングを始めたばかりの部員も、画面を共有しながら一緒に分析に参加できます。
+        note: |-
+          Deepnote は2025年に、ノートブックの形式などを[オープンソースとして公開](https://github.com/deepnote/deepnote)した。機能や料金は変わることがあるので、最新の情報は[公式サイト](https://deepnote.com/)で確認してほしい。Jupyter Notebookの読み込みと書き出しは、[公式の説明](https://deepnote.com/docs/importing-and-exporting-jupyter-notebooks)による。
+      - type: p
+        text: |-
+          例えば要件を定める工程では、アンケートの結果をノートブックに読み込み、回答の分布をグラフにしながら「この不満は本当に多いのか」「どの層に偏っているのか」をチームで確かめます。分析の過程がノートブックに残るので、発表のときに、結論だけでなく、その根拠まで示すことができます。
+      - type: p
+        text: |-
+          データ分析は、身近なデータをグラフにして眺めることから始められます。プログラミングは、その後で必要な分だけ身に付ければ十分です。設計会では、分析の基本を部員どうしで教え合っています。
+  - id: history
+    label: "寄り道: 歴史"
+    heading: 数字が社会を動かしてきた
+    blocks:
+      - type: point
+        text: 一枚の地図、一枚のグラフが、社会の仕組みを変えてきました。
+      - type: timeline
+        items:
+          - year: "1786"
+            title: 折れ線グラフと棒グラフ
+            body: ウィリアム・プレイフェアが『商業と政治の図解』で、統計を図で表す方法を広める。
+          - year: "1924"
+            title: 管理図
+            body: ウェスタン・エレクトリック社(翌年に発足するベル研究所の前身の一つ)のウォルター・シューハートが、製造工程のばらつきが、偶然によるばらつきか、突き止めて取り除ける原因(異常原因)によるばらつきかを見分ける図(管理図)を考案する。
+          - year: "1935"
+            title: 『実験計画法』
+            body: フィッシャーが、実験を設計する原理をまとめる。
+          - year: "1950"
+            title: デミングの来日講義
+            body: W・E・デミングが日本の技術者に統計的品質管理を講義し、日本の品質管理運動に大きな影響を与える。
+          - year: 1950年代~
+            title: 品質工学
+            body: 田口玄一が実験計画法を応用し、ばらつきに強い設計の方法を体系化していく。
+          - year: "1977"
+            title: 探索的データ分析
+            body: テューキーが、データを眺めて問いを見つける方法を一冊にまとめる。
+          - year: 2000年代
+            title: ウェブのA/Bテスト
+            body: インターネット企業が、利用者を無作為に分けて設計案を比べる実験を日常的に行うようになる。
+          - year: 2010年代
+            title: ノートブックの普及
+            body: コード、結果、説明を一つの文書にまとめるJupyter Notebookが、データ分析の標準的な道具になる。
+
+perStep:
+  - cell: 今あるデータを眺める
+    body: 利用の記録や公開データをグラフにして眺め、意外な傾向や外れた値から問題の手がかりを探します。
+  - cell: アンケートで要求の重みを測る
+    body: アンケートで、どの要求がどれだけ多くの人にとって大事なのかを数字で確かめます。
+  - cell: 似た事例の数字を調べる
+    body: 似た製品やサービスの数字を集め、案の手がかりや、目指す水準の目安にします。
+  - cell: 試した結果を統計で比べる
+    body: 案ごとの利用テストや試作の結果を集め、その差が偶然のばらつきで説明できる範囲を超えているかを、統計的な検定で確かめてから選びます。
+  - cell: 実験計画で条件を絞る
+    body: 実験計画法や品質工学で、少ない試行から、ばらつきに強い条件を探します。
+references:
+  - text: J. W. Tukey, Exploratory Data Analysis, Addison-Wesley, 1977.
+    url: https://archive.org/details/exploratorydataa0000tuke_7616
+  - text: F. J. Anscombe, "Graphs in Statistical Analysis", The American Statistician, 27(1), pp.17–21, 1973.
+    url: https://doi.org/10.1080/00031305.1973.10478966
+  - text: R. A. Fisher, The Design of Experiments, Oliver and Boyd, 1935.
+    url: https://ci.nii.ac.jp/ncid/BA60729447
+  - text: A. Wald, A Method of Estimating Plane Vulnerability Based on Damage of Survivors(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。Center for Naval Analyses, CRC 432, 1980 再刊).
+    url: https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability
+  - text: W. A. Shewhart, Economic Control of Quality of Manufactured Product, Van Nostrand, 1931.
+    url: https://ci.nii.ac.jp/ncid/BA11774525
+  - text: MacTutor History of Mathematics Archive, "Walter Andrew Shewhart".
+    url: https://mathshistory.st-andrews.ac.uk/Biographies/Shewhart/
+  - text: 日本科学技術連盟「デミング賞」.
+    url: https://www.juse.or.jp/deming_en/award/
+  - text: 田口玄一『実験計画法』丸善, 1957年.
+    url: https://ci.nii.ac.jp/ncid/BN07391706
+  - text: 田口玄一(刊行委員長)『品質工学講座』全7巻, 日本規格協会, 1988–1990年.
+    url: https://ci.nii.ac.jp/ncid/BN02521393
+  - text: J. Snow, On the Mode of Communication of Cholera, 2nd ed., John Churchill, 1855.
+    url: https://archive.org/details/b28985266
+  - text: F. Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858.
+    url: https://archive.org/details/b20387118
+  - text: SPSS, NCR, DaimlerChrysler による CRISP-DM 1.0 の公開の告知(KDnuggets News, 2000年8月).
+    url: https://www.kdnuggets.com/news/2000/n17/17i.html
+  - text: R. Kohavi, R. M. Henne, D. Sommerfield, "Practical Guide to Controlled Experiments on the Web", KDD 2007.
+    url: https://doi.org/10.1145/1281192.1281295
+  - text: J. M. Perkel, "Why Jupyter is data scientists' computational notebook of choice", Nature, 563, 2018.
+    url: https://doi.org/10.1038/d41586-018-07196-1
+  - text: W. Playfair, The Commercial and Political Atlas, 1786.
+    url: https://archive.org/details/bim_eighteenth-century_the-commercial-and-polit_corry-james_1786
+  - text: 環境省 掲載資料「社会の課題解決のために行動科学を活用した取組事例 東京都八王子市／（株）キャンサースキャンの取組」.
+    url: https://www.env.go.jp/content/000047406.pdf
+  - text: 日本版ナッジ・ユニット BEST「「おもてなし」フレームの活用例 八王子市の取組（大腸がん検診受診率向上策）」, 2020年.
+    url: https://www.env.go.jp/content/900447977.pdf
+  - text: キャンサースキャン, 八王子市の大腸がん検診の受診勧奨の事例紹介.
+    url: https://www.cancerscan.jp/approach/case02/
+  - text: セブン&アイ・ホールディングス「今、さらなる「近くて便利」へ。進化の原動力を読み解く5つの視点。」, 2018年.
+    url: https://www.7andi.com/company/challenge/2989/2.html
+  - text: 'N. C. Schaeffer & S. Presser, "The Science of Asking Questions", Annual Review of Sociology, 29, 2003.'
+    url: https://doi.org/10.1146/annurev.soc.29.110702.110112
+  - text: Deepnote(公式サイト).
+    url: https://deepnote.com/
+related:
+  - process
+  - modeling
+  - human-interface
+
+courses:
+  - name: 統計学
+    dept: 共通教育
+    relation: 確率分布、推定、検定など、統計的なものの見方の基本
+    path: 99/99_00A47701
+  - name: データサイエンス概論
+    dept: 共通教育
+    relation: データの集め方、因果関係と因果推論、機械学習の演習
+    path: 99/99_00A47601
+  - name: 確率統計
+    dept: 情報工学部
+    relation: 推測統計、推定と検定、重回帰
+    path: 0222/0222_22271401
+  - name: 社会福祉調査の基礎
+    dept: 現代福祉学科
+    relation: 調査の設計、量的調査と質的調査、多変量解析
+    path: 0116/0116_16001501
+  - name: 疫学・保健統計学
+    dept: 看護学科
+    relation: 研究デザイン、バイアスと交絡、統計的な方法
+    path: 0111/0111_11B21501

@@ -1,0 +1,97 @@
+---
+// 棚板のたわみを、つまみを動かして試せる図。計算式は src/lib/beam.ts、動きは src/scripts/figures/beam.ts。
+// JavaScript が動かない環境でも、最初の設定での計算結果は表示される。
+import FigureFrame from "./FigureFrame.astro";
+import { deflectionMm, materials, shelfDefaults, depthMm, shelfPath } from "../../lib/beam";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const initial = deflectionMm(shelfDefaults);
+const controls = [
+  { key: "thicknessMm", label: "板の厚さ", unit: "mm", min: 9, max: 30, step: 1, value: shelfDefaults.thicknessMm },
+  { key: "spanMm", label: "支えの間隔", unit: "mm", min: 400, max: 1200, step: 50, value: shelfDefaults.spanMm },
+  { key: "loadKg", label: "本の重さ", unit: "kg", min: 5, max: 40, step: 1, value: shelfDefaults.loadKg },
+];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="試作の前に、計算で比べる: 棚板のたわみ"
+  caption={`両端を支えた板に本の重さが均等にかかる、という単純なモデルで計算している(奥行き${depthMm}mm)。材料の硬さはおおよその目安。木材は長い時間荷重がかかると少しずつたわみが増える(クリープ)ため、実際の設計では余裕を持たせる。`}
+>
+  <div data-beam class="grid gap-6 md:grid-cols-[1fr_16rem]">
+    <div>
+      <svg viewBox="0 0 600 170" class="w-full" role="img" aria-label="たわんだ棚板の図(たわみは6倍に誇張)">
+        <g stroke="var(--color-accent-strong)" stroke-width="1.5" fill="none" data-beam-load>
+          {Array.from({ length: 12 }, (_, i) => (
+            <path d={`M${80 + i * 40} 18 V52 m-4 -6 l4 6 l4 -6`} />
+          ))}
+        </g>
+        <path
+          data-beam-shape
+          d={shelfPath(initial)}
+          fill="none"
+          stroke="var(--color-ink)"
+          stroke-width="7"
+          stroke-linecap="round"
+        />
+        <path d="M60 70 H540" stroke="var(--color-muted)" stroke-dasharray="4 5" />
+        <path d="M60 76 l-12 22 h24 z M540 76 l-12 22 h24 z" fill="none" stroke="var(--color-ink)" stroke-width="1.5" />
+        <text x="300" y="160" text-anchor="middle" font-size="12" fill="var(--color-muted)">
+          たわみは6倍に誇張して描いています
+        </text>
+      </svg>
+      <p class="mt-4 text-center">
+        <span class="annotation text-muted">中央のたわみ</span>
+        <br />
+        <output class="font-mono text-4xl font-bold text-link" data-beam-result>
+          {initial.toFixed(1)}
+        </output>
+        <span class="font-mono text-lg">mm</span>
+        <span class="ml-2 text-sm text-muted" data-beam-ratio>
+          (最初の設定の 1.0 倍)
+        </span>
+      </p>
+    </div>
+    <form class="space-y-4 text-sm" data-beam-form>
+      {controls.map((c) => (
+        <label class="block">
+          <span class="flex justify-between">
+            <span class="font-bold">{c.label}</span>
+            <span class="font-mono">
+              <span data-beam-value={c.key}>{c.value}</span> {c.unit}
+            </span>
+          </span>
+          <input
+            type="range"
+            name={c.key}
+            min={c.min}
+            max={c.max}
+            step={c.step}
+            value={c.value}
+            class="mt-1 w-full accent-link"
+          />
+        </label>
+      ))}
+      <label class="block">
+        <span class="font-bold">材料</span>
+        <select name="e" class="mt-1 w-full rounded border border-grid bg-paper px-2 py-1.5">
+          {materials.map((m) => (
+            <option value={m.e}>
+              {m.name}(E ≒ {m.e / 1e9} GPa)
+            </option>
+          ))}
+        </select>
+      </label>
+    </form>
+  </div>
+</FigureFrame>
+
+<script>
+  import { initBeam } from "../../scripts/figures/beam";
+  initBeam();
+</script>

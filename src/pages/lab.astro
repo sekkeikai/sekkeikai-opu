@@ -1,10 +1,12 @@
 ---
-// /lab … デザインの実験台。トークン（色・フォント・動き）とすべてのセクションを一覧できる。
+// /lab … デザインの実験台。トークン(色・フォント・動き)と全てのセクションを一覧できる。
 // デザインを変えたら PR のプレビュー URL でこのページを開いて確認する。
 import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import SectionRenderer from "../components/SectionRenderer.astro";
 import tokens from "../../tokens/tokens.json";
+import Figure from "../components/Figure.astro";
+import { figureNames } from "../lib/figures";
 
 const home = await getEntry("pages", "home");
 const sections = home?.data.sections ?? [];
@@ -17,7 +19,7 @@ const fonts = Object.entries(tokens.font) as [string, { $value: string }][];
     <p class="annotation mb-3 text-muted">Lab / for designers</p>
     <h1 class="text-4xl font-bold">デザインの実験台</h1>
     <p class="mt-4 max-w-2xl text-muted">
-      ここに出ている値は <code>tokens/tokens.json</code> から作られています。Figma の Tokens Studio で直すと、PR
+      ここに出ている値は <code>tokens/tokens.json</code> からつくられています。Figma の Tokens Studio で直すと、PR
       のプレビューでこのページに反映されます。
     </p>
 
@@ -47,13 +49,25 @@ const fonts = Object.entries(tokens.font) as [string, { $value: string }][];
       ))}
     </ul>
 
+    <h2 class="mt-14 text-2xl font-bold">Figures</h2>
+    <p class="mt-2 text-muted">
+      「設計を知る」とトップページで使う図の一覧。YAML の <code>type: figure</code> の <code>name</code>{" "}
+      に、灰色の名前を書くと使えます。
+    </p>
+    {figureNames.map((name, i) => (
+      <div class="mt-10 max-w-[57rem] scroll-mt-16" id={`fig-${name}`}>
+        <p class="annotation text-muted">name: {name}</p>
+        <Figure name={name} number={i + 1} />
+      </div>
+    ))}
+
     <h2 class="mt-14 text-2xl font-bold">Sections</h2>
     <p class="mt-2 text-muted">トップページと同じセクションを、種類名つきで並べています。</p>
   </section>
 
   {sections.map((section) => (
-    <div class="border-t-4 border-dashed border-proposer">
-      <p class="annotation container-page py-2 text-proposer">type: {section.type}</p>
+    <div class="border-t-4 border-dashed border-accent">
+      <p class="annotation container-page py-2 text-accent">type: {section.type}</p>
       <SectionRenderer sections={[section]} />
     </div>
   ))}
