@@ -105,7 +105,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
               aria-hidden="true"
             />
             {/* 札は kind から決まる。題(title)は札の後に続ける */}
-            <span class:list={["annotation", block.kind === "real" ? "text-positive" : "text-muted"]}>
+            <span class:list={["annotation", block.kind === "real" ? "text-positive-strong" : "text-muted"]}>
               {block.kind === "real" ? "実際にあった例" : "例えば"}
             </span>
             {block.title && <span>{block.title}</span>}
@@ -162,18 +162,22 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       );
 
     case "idef0":
+      // トップページ(compactFigures)では FigureFrame の上下の余白が無くなるので、図のブロックと同じ余白で包む
       return (
-        <Idef0
-          number={figure}
-          title={block.title}
-          caption={block.caption}
-          fn={block.function}
-          inputs={block.inputs}
-          controls={block.controls}
-          outputs={block.outputs}
-          mechanisms={block.mechanisms}
-          steps={block.steps}
-        />
+        <div class:list={[compactFigures && "my-10"]}>
+          <Idef0
+            number={figure}
+            compact={compactFigures}
+            title={block.title}
+            caption={block.caption}
+            fn={block.function}
+            inputs={block.inputs}
+            controls={block.controls}
+            outputs={block.outputs}
+            mechanisms={block.mechanisms}
+            steps={block.steps}
+          />
+        </div>
       );
 
     case "courses":
@@ -297,9 +301,11 @@ const { blocks, lens, compactFigures = false } = Astro.props;
             {block.rows.map((row) => (
               <li class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-grid px-5 py-4 last:border-b-0 sm:px-6">
                 <span class="text-muted">{row.from}</span>
-                <span class="text-accent-strong" aria-label="から">
+                <!-- 矢印は読み上げで「右矢印」と読まれるので隠し、代わりに「から」を読ませる -->
+                <span class="text-accent-strong" aria-hidden="true">
                   →
                 </span>
+                <span class="sr-only">から</span>
                 <span class="font-bold">{row.to}</span>
               </li>
             ))}

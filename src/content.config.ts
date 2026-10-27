@@ -7,6 +7,9 @@ import { hasAnyLink, hasExternalLink, visibleLength } from "./lib/inline";
 // エラーメッセージを日本語にする(CI のログで読めるように)
 z.config(z.locales.ja());
 
+// ウェブのページの URL(http:// か https:// で始まるもの)。z.url() だけだと javascript: なども通るので、ここで絞る
+const webUrl = () => z.url({ protocol: /^https?$/, message: "http:// か https:// から始まる URL を書いてください" });
+
 // 文章(src/content/)の値をここで検証する。編集画面(CMS)から入力された値もここで検証される。
 // 文字数の上限などを変えたら、public/admin/config.yml の同じ入力欄の maxlength なども同じ値にする。
 // 文字数の上限などを超えるとビルドが失敗するので、デザインが崩れたまま公開されることはない。
@@ -130,8 +133,8 @@ const block = z.discriminatedUnion("type", [
       caption: z.string().max(200),
       credit: z.string().max(160),
       license: z.string().max(60),
-      licenseUrl: z.url().optional(),
-      sourceUrl: z.url(),
+      licenseUrl: webUrl().optional(),
+      sourceUrl: webUrl(),
     })
     .refine((b) => !/^CC BY/i.test(b.license) || b.licenseUrl, {
       message: "CC BY 系のライセンスの画像には licenseUrl(ライセンスの本文へのリンク)を書いてください",
@@ -194,7 +197,14 @@ const block = z.discriminatedUnion("type", [
   // 岡山県立大学の関連授業(トップページの章などで使う)。1か所に5件まで
   z.object({ type: z.literal("courses"), items: z.array(course).min(1).max(5) }),
   // 他のページへの「詳しく読む」リンク
-  z.object({ type: z.literal("link"), label: z.string().max(40), href: z.string() }),
+  // href はサイトの中のページ(/design/process/ など)か、http(s):// のページ
+  z.object({
+    type: z.literal("link"),
+    label: z.string().max(40),
+    href: z
+      .string()
+      .regex(/^(\/|#|https?:\/\/)/, { message: "リンク先は / か # か https:// から始まる形で書いてください" }),
+  }),
 ]);
 
 export type Block = z.infer<typeof block>;
@@ -207,7 +217,7 @@ const section = z.discriminatedUnion("type", [
     eyebrow: z.string().max(60).optional(),
     title: z.string().max(30),
     lead: z.string().max(160),
-    // ボタンは「入部はこちら」だけで、文言は決まっている(src/components/JoinButton.astro)ので、ここには書かない。行き先は site の joinForm
+    // ボタンは「入部はこちら」(行き先は site の joinForm)と、Discord のリンクがあれば「Discord」。文言と行き先は決まっているので、ここには書かない
   }),
   // 全体の見取り図。後ろに続く章の見出しと要点を並べる(中身は自動)
   z.object({ type: z.literal("summary"), title: z.string().max(30), lead: z.string().max(120).optional() }),
@@ -312,7 +322,7 @@ const design = defineCollection({
         .max(16),
       references: z
         // 参考文献には必ず URL を書く(URL のない出典は使わない)
-        .array(z.object({ text: z.string().max(240), url: z.url() }))
+        .array(z.object({ text: z.string().max(240), url: webUrl() }))
         .max(30)
         .default([]),
       // 岡山県立大学の関連授業(補足)。ページの終わりに小さな枠で出す
@@ -366,9 +376,9 @@ const site = defineCollection({
       ])
       .default(""),
     // Discord の招待リンク。空の間は出さない
-    discord: z.union([z.literal(""), z.url()]).default(""),
+    discord: z.union([z.literal(""), webUrl()]).default(""),
     // TimeTree(活動予定のカレンダー)の共有リンク。空の間は出さない
-    timetree: z.union([z.literal(""), z.url()]).default(""),
+    timetree: z.union([z.literal(""), webUrl()]).default(""),
     // 問い合わせ用のメールアドレス。団体で共有しているアドレスにする(個人や大学の個人用アドレスは書かない)
     // 大学の個人用アドレス(英字の後に数字が続く、学籍番号の形)は入力できないようにしている
     email: z

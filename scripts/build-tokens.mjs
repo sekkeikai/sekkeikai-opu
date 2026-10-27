@@ -56,14 +56,19 @@ for (const [group, ns] of Object.entries(NAMESPACE)) {
 const REQUIRED = [
   "color-ink",
   "color-paper",
+  "color-paper-muted",
   "color-muted",
   "color-grid",
   "color-accent",
   "color-accent-strong",
   "color-positive",
+  "color-positive-strong",
   "color-link",
   "font-sans",
   "font-display",
+  "font-serif",
+  "font-mono",
+  "radius-card",
 ];
 for (const name of REQUIRED) {
   if (!lines.some((line) => line.startsWith(`  --${name}:`)))

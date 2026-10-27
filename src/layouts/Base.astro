@@ -109,7 +109,7 @@ const contacts = await getSiteLinks();
                     {c.external && <span aria-hidden="true"> ↗</span>}
                   </a>
                 ) : (
-                  <span class="text-muted/70">{c.name}(準備中)</span>
+                  <span class="text-muted">{c.name}(準備中)</span>
                 )}
               </li>
             ))}
@@ -130,7 +130,7 @@ const contacts = await getSiteLinks();
                   入部はこちら<span aria-hidden="true"> →</span>
                 </a>
               ) : (
-                <span class="text-muted/70">入部はこちら(準備中)</span>
+                <span class="text-muted">入部はこちら(準備中)</span>
               )}
             </li>
           </ul>
@@ -142,8 +142,10 @@ const contacts = await getSiteLinks();
     <script>
       import { initMotion } from "../scripts/motion";
       import { initReading } from "../scripts/reading";
+      import { initSidenotes } from "../scripts/sidenotes";
       initMotion();
       initReading();
+      initSidenotes();
     </script>
   </body>
 </html>

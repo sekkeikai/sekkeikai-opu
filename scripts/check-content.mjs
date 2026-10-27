@@ -8,7 +8,8 @@
 //   - 一段落（YAML の 1 行）に強調（**…**）が2か所以上
 //   - 架空の例（事例のページと、説明のための場面の例）が、起きていない出来事を過去の形で語っている
 //   - 同じ出典の実例が、2つ以上のページにある（同じ実例は1ページにだけ置く）
-//   - public/uploads/ の画像が docs/image-credits.md に載っていない
+//   - image ブロック（src: /uploads/…）の画像が docs/image-credits.md に載っていない
+//     （お知らせ（Markdown）は調べない。部員が撮った写真などは一覧に載せなくてよいため）
 // 参考文献（references:）とリンクの表示名（[…](https://…)）は、作品の名前なのでそのまま使う（調べない）。
 // 使い方: npm run check:content
 import { readdirSync, readFileSync } from "node:fs";
@@ -45,9 +46,13 @@ const images = [];
 
 // 架空の例は「これからこう進める」という計画の形で書く。起きていない出来事を過去の形で書かない（存在しない過去の話には価値がない）。
 // 調べるのは、事例（layer: case）のページの本文と、説明のための場面の例（kind: real でない example）。
-// 「〜だったら」のような仮定は調べない。
-const pastTense = /ました|でした|だった(?!ら)|ていた/;
-const ownText = /^\s+(?:- )?(?:text|point|caption|heading|lead|summary|title|answer):\s*(.*)$/;
+// 「〜だったら」のような仮定と、「何を考えていたかを聞く」のような問いの中身は調べない。
+const pastTense = /ました|でした|だった(?!ら)|ていた(?!か)/;
+// 調べる欄: 本文・題・説明など、このサイトの言葉で書く欄(出典の注 note と source は、実際の出来事なので調べない)
+const ownText =
+  /^(\s+)(?:- )?(?:text|point|caption|heading|lead|summary|title|answer|body|cell|label|from|to):\s*(.*)$/;
+// 文字だけの箇条書きの項目(list・aside の段落・表のマスなど)
+const listItem = /^(\s+)(?:- )+(?![\w-]+:)(.*)$/;
 
 for (const file of files) {
   const content = readFileSync(file, "utf8");
@@ -66,6 +71,8 @@ for (const file of files) {
     }
     example = null;
   };
+  // 複数行にわたる文(|- や、次の行に続く文)の続きの行を、直前の欄の文として扱うための字下げ
+  let continuing = -1;
   lines.forEach((raw, i) => {
     if (/^\S/.test(raw)) inReferences = /^references:/.test(raw);
     if (inReferences || /^\s*#/.test(raw)) return;
@@ -75,7 +82,17 @@ for (const file of files) {
       flushExample();
       if (block[2] === "example") example = { real: false, texts: [] };
     }
-    const own = raw.match(ownText);
+    const indent = raw.match(/^\s*/)[0].length;
+    let own = null;
+    const key = raw.match(ownText) ?? raw.match(listItem);
+    if (key) {
+      own = [raw, key[2]];
+      continuing = key[1].length;
+    } else if (continuing >= 0 && raw.trim() && indent > continuing && !/^\s*(?:- )?[\w-]+:(\s|$)/.test(raw)) {
+      own = [raw, raw.trim()];
+    } else if (raw.trim()) {
+      continuing = -1;
+    }
     if (example) {
       if (/^\s+kind:\s*real\s*$/.test(raw)) example.real = true;
       if (own) example.texts.push([where, own[1]]);

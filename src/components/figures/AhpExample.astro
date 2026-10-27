@@ -99,7 +99,7 @@ const fmt = (v: number) => (v >= 1 ? String(Math.round(v)) : `1/${Math.round(1 /
         <dt>CR</dt>
         <dd>{cr.toFixed(3)}</dd>
       </dl>
-      <p class:list={["mt-2 text-sm font-bold", cr < 0.1 ? "text-positive" : "text-accent-strong"]}>
+      <p class:list={["mt-2 text-sm font-bold", cr < 0.1 ? "text-positive-strong" : "text-accent-strong"]}>
         {cr < 0.1 ? "整合している(整合比 CR < 0.1)" : "判断を見直す(整合比 CR ≥ 0.1)"}
       </p>
     </div>

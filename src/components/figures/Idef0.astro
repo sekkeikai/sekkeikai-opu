@@ -9,6 +9,8 @@ import FigureFrame from "./FigureFrame.astro";
 
 interface Props {
   number?: number;
+  // トップページの章の中では、番号・題・説明を出さない(FigureFrame の compact)
+  compact?: boolean;
   title: string;
   caption?: string;
   fn: string;
@@ -19,7 +21,7 @@ interface Props {
   steps?: { name: string; output: string }[];
 }
 
-const { number, title, caption, fn, inputs, controls, outputs, mechanisms, steps } = Astro.props;
+const { number, compact = false, title, caption, fn, inputs, controls, outputs, mechanisms, steps } = Astro.props;
 
 // 文字の大きさと、行の間隔
 const fs = 13;
@@ -77,6 +79,7 @@ const accent = "var(--color-accent-strong)";
 
 <FigureFrame
   number={number}
+  compact={compact}
   title={title}
   caption={caption}
   source="[IDEF0(FIPS PUB 183, 1993)](https://doi.org/10.6028/NIST.FIPS.183) の書き方にならって作図"
