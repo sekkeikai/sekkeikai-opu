@@ -1,7 +1,1 @@
-# サイト全体で使う連絡先とリンク。空("")の間は、その項目は出ない(フッターでは「準備中」と出る)
-# Discord の招待リンク
-discord: ""
-# TimeTree(活動予定のカレンダー)の共有リンク
-timetree: ""
-# 問い合わせ用のメールアドレス。団体で共有しているアドレスにする(個人や大学の個人用アドレスは書かない)
-email: ""
+timetree: https://timetreeapp.com/public_calendars/ktdewaah0z4s5q5rfeta
