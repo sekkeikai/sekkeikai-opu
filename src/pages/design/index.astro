@@ -1,0 +1,152 @@
+---
+// 「設計を知る」の入口(/design/)。階層が分かるように、次の順に並べる:
+//   流れ(プロセスの全体 → 5 つの工程)→ 視点 → 工程 × 視点の地図 → その他のテーマ → 例(事例のページ。理論を読み終えたあとに置く)
+// どの一覧も src/content/design/ のページ(YAML)からつくるので、ページを足せば自動で増える。
+// 地図(工程 × 視点の表)は、工程のページと各視点の perStep からつくる(src/components/DesignMatrix.astro)。
+import Base from "../../layouts/Base.astro";
+import DesignMatrix from "../../components/DesignMatrix.astro";
+import { getDesignPages, getProcessSteps } from "../../lib/design";
+
+const [process] = await getDesignPages("process");
+const steps = await getProcessSteps();
+const cases = await getDesignPages("case");
+const lenses = await getDesignPages("lens");
+const topics = await getDesignPages("topic");
+---
+
+<Base
+  title="設計を知る"
+  description="設計のプロセス(工程)と、どの工程にも通じる視点(モデル化・ヒューマンインターフェース・データ分析など)の解説。"
+>
+  <header class="bg-blueprint-grid border-b border-grid">
+    <div class="container-page py-16 sm:py-24">
+      <h1 class="text-4xl font-black sm:text-6xl">設計を知る</h1>
+      <p class="mt-8 max-w-2xl font-serif text-lg leading-loose text-ink/85 sm:text-xl">
+        設計は、5つの工程を行き来しながら進みます。どの工程でも、「モデルで考える」「人から考える」「データで考える」のような視点を使います。
+      </p>
+    </div>
+  </header>
+
+  <div class="container-page space-y-20 py-16 sm:py-24">
+    {process && (
+      <section aria-labelledby="process-title">
+        <p class="annotation text-accent-strong">流れを知る</p>
+        <a
+          href={`/design/${process.id}/`}
+          class="group mt-4 block rounded-card border-2 border-ink p-6 transition hover:bg-ink hover:text-paper sm:p-10"
+        >
+          <p class="annotation text-link group-hover:text-paper/70">{process.data.en}</p>
+          <h2 id="process-title" class="mt-2 text-3xl font-black sm:text-4xl">
+            {process.data.title}
+          </h2>
+          <p class="mt-4 max-w-2xl">{process.data.summary}</p>
+          <p class="mt-6 font-bold">
+            全体を読む <span aria-hidden="true">→</span>
+          </p>
+        </a>
+        <ol class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {steps.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-5 transition hover:border-link"
+              >
+                <p class="annotation text-accent-strong">
+                  工程 {s.n} / {s.sub}
+                </p>
+                <p class="mt-1 font-display text-xl font-bold group-hover:text-link">{s.title}</p>
+                <p class="mt-2 text-sm text-ink/80">「{s.question}」</p>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {lenses.length > 0 && (
+      <section aria-labelledby="lenses-title">
+        <p class="annotation text-accent-strong">視点を深める</p>
+        <h2 id="lenses-title" class="mt-4 text-2xl font-bold sm:text-3xl">
+          どの工程にも通じる視点
+        </h2>
+        <ul class="mt-8 grid gap-4 md:grid-cols-3">
+          {lenses.map((l) => (
+            <li>
+              <a
+                href={`/design/${l.id}/`}
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+              >
+                <p class="annotation text-link">
+                  視点 {l.data.order} / {l.data.en}
+                </p>
+                <p class="mt-2 font-display text-2xl font-bold">{l.data.short}</p>
+                <p class="text-sm text-muted">{l.data.title}</p>
+                <p class="mt-4 flex-1 text-sm text-ink/85">{l.data.summary}</p>
+                <p class="mt-5 text-sm font-bold text-link">
+                  読む <span aria-hidden="true">→</span>
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section aria-labelledby="matrix-title">
+      <p class="annotation text-accent-strong">組み合わせを見る</p>
+      <h2 id="matrix-title" class="mt-4 mb-8 text-2xl font-bold sm:text-3xl">
+        工程 × 視点の地図
+      </h2>
+      <DesignMatrix />
+    </section>
+
+    {topics.length > 0 && (
+      <section aria-labelledby="topics-title">
+        <h2 id="topics-title" class="text-2xl font-bold sm:text-3xl">
+          その他のテーマ
+        </h2>
+        <ul class="mt-8 grid gap-4 md:grid-cols-3">
+          {topics.map((t) => (
+            <li>
+              <a
+                href={`/design/${t.id}/`}
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+              >
+                <p class="annotation text-link">{t.data.en}</p>
+                <p class="mt-2 font-display text-2xl font-bold">{t.data.title}</p>
+                <p class="mt-4 flex-1 text-sm text-ink/85">{t.data.summary}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {/* 例は、理論のページを読み終えたあとに置く(理論の途中に例を挟まない) */}
+    {cases.length > 0 && (
+      <section aria-labelledby="cases-title">
+        <p class="annotation text-accent-strong">例で見る</p>
+        <h2 id="cases-title" class="mt-4 text-2xl font-bold sm:text-3xl">
+          設計の流れの例
+        </h2>
+        <p class="mt-3 max-w-2xl text-ink/85">
+          設計会で一つのテーマに取り組むなら、どんな手順で進めるか。目的を決めるところから、仕様書や手順書ができるまでを示した計画の例です。
+        </p>
+        <ul class="mt-8 grid gap-4 md:grid-cols-2">
+          {cases.map((c) => (
+            <li>
+              <a
+                href={`/design/${c.id}/`}
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+              >
+                <p class="annotation text-link">{c.data.short}</p>
+                <p class="mt-2 font-display text-2xl font-bold group-hover:text-link">{c.data.title}</p>
+                <p class="mt-4 flex-1 text-sm text-ink/85">{c.data.summary}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</Base>

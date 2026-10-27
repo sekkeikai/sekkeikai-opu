@@ -1,0 +1,33 @@
+---
+// データ分析を設計に生かす循環。
+import FigureFrame from "./FigureFrame.astro";
+import Cycle from "./Cycle.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="データ分析の循環"
+  caption="設計に返した結果は、次の製品やサービスが使われることで新しいデータを生む。分析は、設計とともに何度も回り続ける。"
+  source="[CRISP-DM 1.0 の手引き (2000)](https://web.archive.org/web/20160119050720/https://the-modeling-agency.com/crisp-dm.pdf) などのデータ分析の進め方を基に、設計向けに整理"
+  scroll
+>
+  <Cycle
+    label="データ分析の6つの段階が輪になって繰り返す図"
+    color="var(--color-link)"
+    center={["データ分析", "for Design"]}
+    nodes={[
+      { label: "問いを立てる", sub: "設計の判断に結び付く問い" },
+      { label: "集める", sub: "記録・調査・実験" },
+      { label: "整える", sub: "欠け・誤り・単位" },
+      { label: "見る", sub: "グラフで分布と関係を" },
+      { label: "確かめる", sub: "検定・回帰・機械学習" },
+      { label: "設計に返す", sub: "要件と判断に反映" },
+    ]}
+  />
+</FigureFrame>

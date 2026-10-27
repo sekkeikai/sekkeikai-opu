@@ -1,0 +1,45 @@
+---
+// Discord・TimeTree・メールのアイコンリンク(ヘッダーで使う)。
+// URL は src/content/site/links.yaml。空の項目は出さない。
+// Discord の形は Simple Icons(CC0)のもの。封筒は、このサイトで描いた単純な形。
+// TimeTree は公式のシンボルのファイルをそのまま出す。色を変えたり、背景の丸などの効果を重ねたりしない決まりなので、
+// 押せることは、マウスを重ねたときの指の形と名前の表示(title)、キーボードで選んだときの枠(ブラウザーの標準)で示す。
+import { getSiteLinks } from "../lib/site";
+
+interface Props {
+  size?: number;
+  // 出す項目を名前で選ぶ(例: ["Discord", "TimeTree"])。書かなければ全部出す
+  only?: string[];
+}
+
+const { size = 20, only } = Astro.props;
+const links = (await getSiteLinks()).filter((l) => l.href && (!only || only.includes(l.name)));
+---
+
+{links.length > 0 && (
+  <ul class="flex items-center gap-1">
+    {links.map((l) => (
+      <li>
+        <a
+          href={l.href}
+          class:list={[
+            "flex h-9 w-9 items-center justify-center rounded-full",
+            !l.image && "text-ink/75 transition hover:bg-ink hover:text-paper",
+          ]}
+          rel={l.external ? "noopener" : undefined}
+          target={l.external ? "_blank" : undefined}
+          aria-label={l.external ? `${l.name}(新しいタブで開く)` : l.name}
+          title={l.name}
+        >
+          {l.image ? (
+            <img src={l.image} width={size + 4} height={size + 4} alt="" />
+          ) : (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d={l.icon} />
+            </svg>
+          )}
+        </a>
+      </li>
+    ))}
+  </ul>
+)}

@@ -1,0 +1,72 @@
+---
+// 願いを「確かめられる約束」にするまでの層。例は部室の予約(解き方はまだ決めない)。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const layers = [
+  {
+    en: "Why",
+    name: "目的",
+    q: "なぜつくるのか",
+    items: ["部室の使い方を前もって調整し、練習や作業の時間を無駄なく使えるようにしたい"],
+  },
+  {
+    en: "What",
+    name: "機能要件",
+    q: "何ができればよいか",
+    items: ["空き状況を見られる", "予約と取り消しができる", "同じ時間帯に予約が重ならない"],
+  },
+  {
+    en: "How well",
+    name: "非機能要件",
+    q: "どれくらいうまく",
+    items: ["スマートフォンから使える", "初めての人が説明なしで予約できる", "24時間いつでも使える"],
+  },
+  {
+    en: "Must",
+    name: "制約",
+    q: "守るべき条件",
+    items: ["費用は0円", "大学のルールに従う", "部員の個人情報を必要以上に集めない"],
+  },
+  {
+    en: "How much",
+    name: "仕様",
+    q: "確かめられる数値",
+    items: ["予約の完了まで3操作以内", "空き状況の確認まで30秒以内", "重複した予約は0件"],
+  },
+];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="願いを、確かめられる約束にする"
+  caption="上の層ほど「なぜ」に、下の層ほど「どれだけ」に近い。仕様の数値は、完成したものを試験するときの合格基準になる。例は架空の「部室の予約」。アプリか紙かといった解き方は、この工程ではまだ決めない。"
+>
+  <ol class="relative space-y-3 border-l-2 border-dashed border-link/40 pl-5 sm:pl-6">
+    {layers.map((l, i) => (
+      <li class="grid gap-3 rounded-md border border-grid bg-paper p-4 sm:grid-cols-[10rem_1fr] sm:items-center">
+        <div>
+          <p class="annotation text-link">
+            {String(i + 1).padStart(2, "0")} / {l.en}
+          </p>
+          <p class="font-display text-lg font-bold">{l.name}</p>
+          <p class="text-xs text-muted">{l.q}</p>
+        </div>
+        <ul class="flex flex-wrap gap-2 text-sm">
+          {l.items.map((item) => (
+            <li
+              class:list={["rounded bg-paper-muted px-3 py-1.5", i === layers.length - 1 && "font-mono text-[0.8rem]"]}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ol>
+</FigureFrame>

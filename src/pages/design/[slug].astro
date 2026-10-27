@@ -1,0 +1,247 @@
+---
+// 「設計を知る」のページ(/design/〇〇/)。中身は src/content/design/〇〇.yaml。
+// 階層(layer)を見出しの上に出し、「設計のプロセス」「工程」「どの工程にも通じる視点」の関係が分かるようにする。
+// 工程のページには、5 つの工程を並べた帯(StepNav)を出し、他の工程へすぐ移れるようにする。
+// 広い画面では左に目次、本文の右に注を出す。
+import { getCollection, getEntries } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Blocks from "../../components/Blocks.astro";
+import StepNav from "../../components/StepNav.astro";
+import Courses from "../../components/Courses.astro";
+import { numberChapters } from "../../lib/blocks";
+import { getProcessSteps, layerLabel } from "../../lib/design";
+
+export async function getStaticPaths() {
+  // プロセス → 工程 → 視点 → 事例 → テーマの順に、同じ階層の中は order の順に並べる(前後のページへのリンクに使う)
+  const rank = { process: 0, step: 1, lens: 2, case: 3, topic: 4 } as const;
+  const pages = (await getCollection("design")).sort((a, b) =>
+    a.data.layer === b.data.layer ? a.data.order - b.data.order : rank[a.data.layer] - rank[b.data.layer],
+  );
+  return pages.map((page, i) => ({
+    params: { slug: page.id },
+    props: { page, prev: pages[i - 1], next: pages[i + 1] },
+  }));
+}
+
+interface Props {
+  page: CollectionEntry<"design">;
+  prev?: CollectionEntry<"design">;
+  next?: CollectionEntry<"design">;
+}
+
+const { page, prev, next } = Astro.props;
+const { title, en, layer, order, short, stepName, question, summary, lead, chapters, references, perStep, courses } =
+  page.data;
+const related = await getEntries(page.data.related);
+const steps = await getProcessSteps();
+
+// 目次とリンクの行き先になる章の id。YAML に id があればそれを、無ければ ch-1, ch-2… を使う。
+// 事例のページで step(工程の番号)を書いた章には、「工程 N — 〇〇」のラベルと工程のページへのリンクを付ける
+const withIds = numberChapters(chapters).map((c, i) => {
+  const step = c.step ? steps.find((s) => s.n === c.step) : undefined;
+  if (c.step && !step) throw new Error(`src/content/design/${page.id}.yaml: 工程 ${c.step} のページがありません`);
+  const label = c.label ?? (step ? `工程 ${step.n} — ${step.sub}` : undefined);
+  return { ...c, id: c.id ?? `ch-${i + 1}`, label, stepHref: step?.href };
+});
+const crumb =
+  layer === "process"
+    ? "設計のプロセス"
+    : layer === "step"
+      ? `工程 ${order}`
+      : layer === "lens"
+        ? `視点 ${order}`
+        : layer === "case"
+          ? "設計の流れの例"
+          : "テーマ";
+---
+
+<Base title={title} description={summary} progress>
+  <header class="bg-blueprint-grid border-b border-grid">
+    <div class="container-page py-16 sm:py-24">
+      <p class="annotation text-muted">
+        <a href="/design/" class="underline hover:text-link">
+          設計を知る
+        </a>{" "}
+        / {crumb}
+      </p>
+      <p class="annotation mt-8 text-link">
+        {en}
+        {layer === "step"
+          ? ` — 工程 ${order}「${stepName}」`
+          : layer !== "process" && layer !== "case" && ` — ${short}`}
+      </p>
+      <h1 class="mt-2 text-4xl font-black sm:text-6xl">{title}</h1>
+      <p class="mt-8 font-serif text-xl font-semibold sm:text-2xl">「{question}」</p>
+      <p class="longform mt-6 max-w-[36em] text-ink/85">{lead}</p>
+      {layer === "step" && <StepNav current={order} />}
+      {layer === "process" && <StepNav />}
+    </div>
+  </header>
+
+  <div class="container-page py-14 xl:grid xl:grid-cols-[11rem_minmax(0,1fr)] xl:gap-12" data-progress-target>
+    <!-- 狭い画面では、本文の前に折りたためる目次を出す -->
+    <details class="mb-10 rounded-card border border-grid bg-paper-muted xl:hidden">
+      <summary class="cursor-pointer px-5 py-3 font-bold">目次</summary>
+      <ol class="space-y-1 px-5 pb-4 text-sm">
+        {withIds.map((c) => (
+          <li>
+            <a href={`#${c.id}`} class="block py-1 text-ink/80 underline-offset-4 hover:underline">
+              {c.label && <span class="mr-2 text-xs text-link">{c.label}</span>}
+              {c.heading}
+            </a>
+          </li>
+        ))}
+        {references.length > 0 && (
+          <li>
+            <a href="#references" class="block py-1 text-ink/80 underline-offset-4 hover:underline">
+              参考文献
+            </a>
+          </li>
+        )}
+      </ol>
+    </details>
+
+    <nav aria-label="このページの目次" class="hidden xl:block" data-toc>
+      <div class="sticky top-24">
+        <p class="annotation mb-3 text-muted">目次</p>
+        <ol class="space-y-1 text-sm">
+          {withIds.map((c) => (
+            <li>
+              <a href={`#${c.id}`} class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
+                {c.label && <span class="block text-[0.7rem] text-link">{c.label}</span>}
+                {c.heading}
+              </a>
+            </li>
+          ))}
+          {references.length > 0 && (
+            <li>
+              <a href="#references" class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
+                参考文献
+              </a>
+            </li>
+          )}
+        </ol>
+        {layer !== "process" && (
+          <a href="/design/process/" class="mt-8 block text-xs text-muted underline hover:text-link">
+            ← 設計のプロセスの全体
+          </a>
+        )}
+        <a
+          href="/design/"
+          class:list={["block text-xs text-muted underline hover:text-link", layer === "process" ? "mt-8" : "mt-2"]}
+        >
+          ← 設計を知る(一覧)
+        </a>
+      </div>
+    </nav>
+
+    <article class="max-w-[57rem]">
+      <div class="longform">
+        {withIds.map((chapter) => (
+          <section
+            id={chapter.id}
+            class="scroll-mt-20 pt-10 first:pt-0"
+            aria-labelledby={`${chapter.id}-title`}
+            data-toc-section
+          >
+            {chapter.label && (
+              <p class="annotation mb-2 text-link" data-reveal>
+                {chapter.stepHref ? (
+                  <a href={chapter.stepHref} class="underline underline-offset-4 hover:text-ink">
+                    {chapter.label}
+                  </a>
+                ) : (
+                  chapter.label
+                )}
+              </p>
+            )}
+            <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl" data-reveal>
+              {chapter.heading}
+            </h2>
+            <Blocks blocks={chapter.numbered} lens={{ short, perStep }} />
+          </section>
+        ))}
+      </div>
+
+      {courses.length > 0 && <Courses courses={courses} />}
+
+      {references.length > 0 && (
+        <section
+          id="references"
+          class="mt-20 scroll-mt-20 border-t border-grid pt-10"
+          aria-labelledby="references-title"
+          data-toc-section
+        >
+          <h2 id="references-title" class="text-2xl font-bold">
+            参考文献
+          </h2>
+          <ol class="mt-6 space-y-2 text-sm text-ink/85">
+            {references.map((r, i) => (
+              <li class="grid grid-cols-[2.5rem_1fr]">
+                <span class="font-mono text-muted">[{i + 1}]</span>
+                <span>
+                  {r.text}
+                  {r.url && (
+                    <>
+                      {" "}
+                      <a href={r.url} class="break-all text-link underline" rel="noopener">
+                        {r.url}
+                      </a>
+                    </>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section class="mt-16" aria-labelledby="related-title">
+          <h2 id="related-title" class="text-2xl font-bold">
+            あわせて読む
+          </h2>
+          <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+            {related.map((r) => (
+              <li>
+                <a
+                  href={`/design/${r.id}/`}
+                  class="block h-full rounded-card border border-grid p-5 transition hover:border-link"
+                >
+                  <p class="annotation text-link">{layerLabel(r)}</p>
+                  <p class="mt-1 font-display text-xl font-bold">{r.data.title}</p>
+                  <p class="mt-2 text-sm text-muted">{r.data.summary}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </article>
+  </div>
+
+  <nav aria-label="前後のページ" class="border-t border-grid">
+    <div class="container-page grid gap-4 py-10 sm:grid-cols-3 sm:items-center">
+      <div>
+        {prev && (
+          <a href={`/design/${prev.id}/`} class="group block">
+            <span class="annotation text-muted">← 前へ</span>
+            <span class="block font-display text-lg font-bold group-hover:text-link">{prev.data.title}</span>
+          </a>
+        )}
+      </div>
+      <a href="/design/" class="text-center text-sm text-muted underline hover:text-link">
+        設計を知る(一覧)
+      </a>
+      <div class="sm:text-right">
+        {next && (
+          <a href={`/design/${next.id}/`} class="group block">
+            <span class="annotation text-muted">次へ →</span>
+            <span class="block font-display text-lg font-bold group-hover:text-link">{next.data.title}</span>
+          </a>
+        )}
+      </div>
+    </div>
+  </nav>
+</Base>

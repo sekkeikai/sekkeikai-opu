@@ -1,0 +1,140 @@
+---
+// 「飲み物を運ぶロボット」(これから取り組む設計の計画の例)の仕様書の数字を、横から見た図と正面から見た図に描く。
+// トレーの高さは、段ボールの模型で車いすの利用者に試してもらって決める値なので、「70cm前後」と描く。
+// 数字は src/content/design/case-delivery-robot.yaml の仕様書の表と同じ。1cm を px ピクセルで描く。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const px = 2.2;
+const floor = 290;
+const tray = 70;
+const width = 50;
+const stop = 50;
+// 人・車いすの目印の高さ(cm)。人の形は描かず、枠だけで示す
+const personH = 110;
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+const link = "var(--color-link)";
+const accent = "var(--color-accent-strong)";
+// 横から見た図のロボットの位置(前後の長さは 45cm として描く)
+const body = { x: 90, w: 45 * px };
+const front = body.x + body.w;
+const person = front + stop * px;
+const y = (cm: number) => floor - cm * px;
+// 正面から見た図の中心
+const fc = 580;
+const half = (width * px) / 2;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="仕様書の数字を図にする"
+  caption="計画の例(数字は仮の値)。トレーの高さは70cm前後とし、段ボールの模型で車いすの利用者に試してもらって決める。幅は廊下で車いすとすれ違える50cm以下、人の50cm手前で止まり、速さは秒速0.8m以下。"
+  scroll
+>
+  <svg
+    viewBox="0 0 680 330"
+    class="w-full"
+    role="img"
+    aria-label="ロボットの寸法の図。トレーの高さ70cm前後(模型で試して決める)、幅50cm以下、人の50cm手前で止まる、速さは秒速0.8m以下、上面に非常停止ボタン。"
+  >
+    <text x="20" y="22" font-size="13" font-weight="700" fill={ink}>
+      横から見た図
+    </text>
+    <line x1="20" x2="440" y1={floor} y2={floor} stroke={ink} stroke-width="2" />
+
+    <!-- 本体・トレー・車輪 -->
+    <rect
+      x={body.x}
+      y={y(tray) + 8}
+      width={body.w}
+      height={tray * px - 26}
+      rx="6"
+      fill="var(--color-paper-muted)"
+      stroke={ink}
+      stroke-width="1.5"
+    />
+    <rect x={body.x - 6} y={y(tray)} width={body.w + 12} height="8" fill={ink} />
+    <circle cx={body.x + 18} cy={floor - 9} r="9" fill={ink} />
+    <circle cx={front - 18} cy={floor - 9} r="9" fill={ink} />
+
+    <!-- 非常停止ボタン(上面) -->
+    <rect x={front - 34} y={y(tray) - 9} width="20" height="9" rx="3" fill={accent} />
+    <text x={front + 12} y={y(tray) + 22} font-size="12" fill={accent}>
+      ← 非常停止
+    </text>
+
+    <!-- トレーの高さ(70cm前後。模型で試して決める) -->
+    <line x1="56" x2="56" y1={floor} y2={y(tray)} stroke={link} stroke-width="1.5" />
+    <line x1="50" x2={body.x - 8} y1={y(tray)} y2={y(tray)} stroke={link} />
+    <text x="50" y={y(tray / 2)} text-anchor="end" font-size="14" font-weight="700" fill={link}>
+      70cm
+    </text>
+    <!-- 「前後」は2行目に置く(1行だと左にはみ出して切れるため) -->
+    <text x="50" y={y(tray / 2) + 18} text-anchor="end" font-size="12" font-weight="700" fill={link}>
+      前後
+    </text>
+    <text x="20" y={y(tray) - 8} font-size="12" fill={muted}>
+      模型で試して決める
+    </text>
+
+    <!-- 速さ -->
+    <line x1={body.x} x2={front} y1={y(tray) - 46} y2={y(tray) - 46} stroke={ink} stroke-width="1.5" />
+    <polygon
+      points={`${front + 8},${y(tray) - 46} ${front - 2},${y(tray) - 52} ${front - 2},${y(tray) - 40}`}
+      fill={ink}
+    />
+    <text x={body.x} y={y(tray) - 56} font-size="12" fill={ink}>
+      秒速0.8m以下
+    </text>
+
+    <!-- 止まる距離と、人・車いすの目印 -->
+    <rect
+      x={person}
+      y={y(personH)}
+      width="40"
+      height={personH * px}
+      rx="4"
+      fill="none"
+      stroke={ink}
+      stroke-dasharray="4 3"
+    />
+    <text x={person + 20} y={y(personH) - 8} text-anchor="middle" font-size="12" fill={ink}>
+      人・車いす
+    </text>
+    <line x1={front} x2={person} y1={floor + 16} y2={floor + 16} stroke={link} />
+    <line x1={front} x2={front} y1={floor + 10} y2={floor + 22} stroke={link} />
+    <line x1={person} x2={person} y1={floor + 10} y2={floor + 22} stroke={link} />
+    <text x={(front + person) / 2} y={floor + 34} text-anchor="middle" font-size="13" font-weight="700" fill={link}>
+      50cm手前で止まる
+    </text>
+
+    <!-- 正面から見た図 -->
+    <text x={fc} y="22" text-anchor="middle" font-size="13" font-weight="700" fill={ink}>
+      正面から見た図
+    </text>
+    <line x1={fc - 90} x2={fc + 90} y1={floor} y2={floor} stroke={ink} stroke-width="2" />
+    <rect
+      x={fc - half}
+      y={y(tray) + 8}
+      width={width * px}
+      height={tray * px - 26}
+      rx="6"
+      fill="var(--color-paper-muted)"
+      stroke={ink}
+      stroke-width="1.5"
+    />
+    <rect x={fc - half - 4} y={y(tray)} width={width * px + 8} height="8" fill={ink} />
+    <line x1={fc - half} x2={fc + half} y1={floor + 16} y2={floor + 16} stroke={link} />
+    <line x1={fc - half} x2={fc - half} y1={floor + 10} y2={floor + 22} stroke={link} />
+    <line x1={fc + half} x2={fc + half} y1={floor + 10} y2={floor + 22} stroke={link} />
+    <text x={fc} y={floor + 34} text-anchor="middle" font-size="13" font-weight="700" fill={link}>
+      幅50cm以下
+    </text>
+  </svg>
+</FigureFrame>

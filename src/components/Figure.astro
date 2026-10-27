@@ -1,0 +1,95 @@
+---
+// 名前(YAML の「type: figure」の name)から図のコンポーネントを選んで表示する。
+// 図を足すときは: figures/ にコンポーネントをつくる → src/lib/figures.ts に名前を足す → ここの map に登録する
+// → public/admin/config.yml の図の選択肢(type: figure の name)にも足す(npm run cms:check で確かめる)
+import type { FigureName } from "../lib/figures";
+import DesignProcess from "./figures/DesignProcess.astro";
+import CostEscalation from "./figures/CostEscalation.astro";
+import DoubleDiamond from "./figures/DoubleDiamond.astro";
+import RequirementsLayers from "./figures/RequirementsLayers.astro";
+import VModel from "./figures/VModel.astro";
+import KanoModel from "./figures/KanoModel.astro";
+import KjMethod from "./figures/KjMethod.astro";
+import AbstractionLadder from "./figures/AbstractionLadder.astro";
+import BeamCalculator from "./figures/BeamCalculator.astro";
+import FittsDemo from "./figures/FittsDemo.astro";
+import Gulfs from "./figures/Gulfs.astro";
+import HcdCycle from "./figures/HcdCycle.astro";
+import Anscombe from "./figures/Anscombe.astro";
+import AnalysisCycle from "./figures/AnalysisCycle.astro";
+import ParetoFront from "./figures/ParetoFront.astro";
+import AhpExample from "./figures/AhpExample.astro";
+import DoorSignifier from "./figures/DoorSignifier.astro";
+import FittsLaw from "./figures/FittsLaw.astro";
+import DesignScope from "./figures/DesignScope.astro";
+import InterfaceMismatch from "./figures/InterfaceMismatch.astro";
+import SubtitleUsers from "./figures/SubtitleUsers.astro";
+import RobotDimensions from "./figures/RobotDimensions.astro";
+import SessionTimeline from "./figures/SessionTimeline.astro";
+import SetBased from "./figures/SetBased.astro";
+import ToleranceFit from "./figures/ToleranceFit.astro";
+import BrainstormLanes from "./figures/BrainstormLanes.astro";
+
+import FactInterpretation from "./figures/FactInterpretation.astro";
+import MorphologicalChart from "./figures/MorphologicalChart.astro";
+import MustFilterFunnel from "./figures/MustFilterFunnel.astro";
+import SpecAnatomy from "./figures/SpecAnatomy.astro";
+import StepsOnDoubleDiamond from "./figures/StepsOnDoubleDiamond.astro";
+import ShapeCoding from "./figures/ShapeCoding.astro";
+import RouteMap from "./figures/RouteMap.astro";
+import ErState from "./figures/ErState.astro";
+import Confounder from "./figures/Confounder.astro";
+import MethodsTimeline from "./figures/MethodsTimeline.astro";
+import SteamEngineAxiomatic from "./figures/SteamEngineAxiomatic.astro";
+interface Props {
+  name: FigureName;
+  number?: number;
+  // true にすると番号・題・説明を出さない(トップページの章の中で使う。出典は出す)
+  compact?: boolean;
+}
+
+const components: Record<FigureName, (props: { number?: number; compact?: boolean }) => any> = {
+  "design-process": DesignProcess,
+  "cost-escalation": CostEscalation,
+  "double-diamond": DoubleDiamond,
+  "requirements-layers": RequirementsLayers,
+  "v-model": VModel,
+  "kano-model": KanoModel,
+  "kj-method": KjMethod,
+  "abstraction-ladder": AbstractionLadder,
+  "beam-calculator": BeamCalculator,
+  "fitts-demo": FittsDemo,
+  gulfs: Gulfs,
+  "hcd-cycle": HcdCycle,
+  anscombe: Anscombe,
+  "analysis-cycle": AnalysisCycle,
+  "pareto-front": ParetoFront,
+  "ahp-example": AhpExample,
+  "door-signifier": DoorSignifier,
+  "fitts-law": FittsLaw,
+  "design-scope": DesignScope,
+  "interface-mismatch": InterfaceMismatch,
+  "subtitle-users": SubtitleUsers,
+  "robot-dimensions": RobotDimensions,
+  "session-timeline": SessionTimeline,
+  "set-based": SetBased,
+  "tolerance-fit": ToleranceFit,
+  "brainstorm-lanes": BrainstormLanes,
+  "fact-vs-interpretation": FactInterpretation,
+  "morphological-chart": MorphologicalChart,
+  "must-filter-funnel": MustFilterFunnel,
+  "spec-anatomy": SpecAnatomy,
+  "steps-on-double-diamond": StepsOnDoubleDiamond,
+  "shape-coding": ShapeCoding,
+  "route-map": RouteMap,
+  "er-state": ErState,
+  confounder: Confounder,
+  "methods-timeline": MethodsTimeline,
+  "steam-engine": SteamEngineAxiomatic,
+};
+
+const { name, number, compact } = Astro.props;
+const Component = components[name];
+---
+
+<Component number={number} compact={compact} />

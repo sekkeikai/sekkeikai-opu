@@ -1,6 +1,6 @@
 # 設計会サイトの編集画面（Sveltia CMS）の設定
 # - 入力欄の上限は src/content.config.ts の検証ルールと揃えてある（変えるときは両方直す）
-# - 書式チェック: npm run cms:check
+# - 書式チェック: npm run cms:check（図の名前が src/lib/figures.ts と揃っているかも確かめる）
 # - 詳しい仕様: https://sveltiacms.app/en/docs
 
 backend:
@@ -27,6 +27,10 @@ publish_mode:
 app_title: 設計会 編集画面
 logo:
   src: /favicon.svg
+
+# 空のまま残した任意の欄はファイルに書かない（空の一覧が「2 件以上」などの検証に引っかからないように）
+output:
+  omit_empty_optional_fields: true
 
 media_folder: public/uploads
 public_folder: /uploads
@@ -67,43 +71,478 @@ collections:
         }
       - { name: summary, label: 概要（一覧に出る短い説明）, widget: text, required: false, maxlength: 140 }
       - { name: cover, label: カバー画像, widget: image, required: false }
-      - &coverAlt {
-          name: coverAlt,
-          label: カバー画像の説明（目の見えない人向けの読み上げ用。例「ベイゴマを回している様子」）,
-          widget: string,
-          required: false,
-          maxlength: 100,
-        }
-      - &draft { name: draft, label: 下書き（オンにするとサイトに表示しない）, widget: boolean, default: false }
+      - name: coverAlt
+        label: カバー画像の説明（目の見えない人向けの読み上げ用。カバー画像を入れたら必須）
+        widget: string
+        required: false
+        maxlength: 100
+      - { name: draft, label: 下書き（オンにするとサイトに表示しない）, widget: boolean, default: false }
       - { name: body, label: 本文, widget: markdown }
 
-  - name: projects
-    label: プロジェクト
-    label_singular: プロジェクト
-    description: 設計プロジェクトの紹介。並び順は「表示順」の小さい順です。
-    folder: src/content/projects
+  - name: design
+    label: 設計を知る
+    label_singular: ページ
+    description: 「設計を知る」（/design/）のページ。1ページ1テーマで書きます。足したページは一覧・地図・リンクに自動で加わります。書き方は docs/writing-guide.md を見てください。
+    folder: src/content/design
     create: true
-    extension: md
-    format: frontmatter
-    slug: "{{slug}}"
-    summary: "{{title}}（{{stage}}）"
+    extension: yaml
+    format: yaml
+    # ファイル名が URL になる（例: modeling → /design/modeling/）。最初は英語の題から作られ、直すこともできる
+    slug:
+      template: "{{en}}"
+      editable: true
+      pattern: ["^[a-z0-9-]+$", "英小文字・数字・ハイフンで書いてください"]
+    summary: "{{title}} ― {{layer}}"
+    sortable_fields: [title, layer, order]
     fields:
-      - { name: title, label: プロジェクト名, widget: string, maxlength: 40 }
-      - name: category
-        label: テーマの分類
+      - { name: title, label: 題, widget: string, maxlength: 24 }
+      - { name: en, label: "英語の題（例: Modeling）", widget: string, maxlength: 30 }
+      - name: layer
+        label: 種類
         widget: select
-        options: [イノベーション, 問題解決, 設計下流]
-      - name: stage
-        label: いまの段階
+        hint: 種類を混ぜない。設計のプロセスの全体は1ページだけ、工程は1工程1ページ
+        options:
+          - { label: 設計のプロセスの全体（process）, value: process }
+          - { label: 工程（step）, value: step }
+          - { label: どの工程にも通じる視点（lens）, value: lens }
+          - { label: 設計の流れの例（case）, value: case }
+          - { label: その他のテーマ（topic）, value: topic }
+      - name: order
+        label: 並び順（同じ種類の中で小さい順。工程ではこれが工程の番号）
+        widget: number
+        value_type: int
+        min: 1
+        default: 1
+      - { name: short, label: "短い言い方（例: モデルで考える）", widget: string, maxlength: 14 }
+      - name: stepName
+        label: "工程の正式な呼び名（例: 要件定義）。工程のページでは必須"
+        widget: string
+        required: false
+        maxlength: 10
+      - name: mode
+        label: 考えを広げる工程か、絞る工程か（工程のページでは必須）
         widget: select
-        options: [企画, 小プレゼン, 設計, 大プレゼン, 完了]
-      - { name: summary, label: 概要, widget: text, maxlength: 140 }
-      - { name: methods, label: 使う手法・ツール, widget: list, required: false }
-      - { name: cover, label: カバー画像, widget: image, required: false }
-      - *coverAlt
-      - { name: order, label: 表示順（小さいほど前）, widget: number, value_type: int, default: 10 }
-      - *draft
-      - { name: body, label: 本文, widget: markdown }
+        required: false
+        options:
+          - { label: 広げる（diverge）, value: diverge }
+          - { label: 絞る（converge）, value: converge }
+      - name: tools
+        label: "代表的な手法（例: 観察・インタビュー・KJ法）。工程のページでは必須"
+        widget: string
+        required: false
+        maxlength: 24
+      - { name: question, label: このページが答える問い, widget: string, maxlength: 40 }
+      - { name: summary, label: 一覧に出る説明, widget: text, maxlength: 120 }
+      - { name: lead, label: リード文（ページの主張を一文で言えるように）, widget: text, maxlength: 300 }
+      - name: chapters
+        label: 章
+        label_singular: 章
+        widget: list
+        min: 1
+        max: 16
+        summary: "{{heading}}"
+        fields:
+          - name: id
+            label: "章へのリンク用の名前（例: basics。省略すると ch-1, ch-2…）"
+            widget: string
+            required: false
+            pattern: ["^[a-z0-9-]+$", "英小文字・数字・ハイフンで書いてください"]
+          - { name: label, label: 見出しの上の小さなラベル, widget: string, required: false, maxlength: 20 }
+          - { name: heading, label: 見出し, widget: string, maxlength: 40 }
+          - name: step
+            label: 工程の番号（設計の流れの例のページで、章が1つの工程にはっきり入るときだけ）
+            widget: number
+            value_type: int
+            required: false
+            min: 1
+          # ── 長文の「ブロック」 ──
+          # トップページの章と「設計を知る」のページで同じものを使うので、ここで一度だけ定義して *blocks で使い回す。
+          # 中身は src/content.config.ts の block と同じ（表示は src/components/Blocks.astro）。
+          # 文章の中には [[modeling]]（ページへのリンク）、[[process#loop|工程の行き来]]（章へのリンク）、**強調** が書ける。
+          - &blocks
+            name: blocks
+            label: ブロック（上から順に表示）
+            label_singular: ブロック
+            widget: list
+            min: 1
+            max: 30
+            collapsed: true
+            hint: 文章の中に [[modeling]] と書くと「設計を知る」のページへのリンク、**言葉** と書くと強調になります。書き方の決まりは docs/writing-guide.md
+            types:
+              - name: p
+                label: 段落
+                widget: object
+                summary: "{{text | truncate(40)}}"
+                fields:
+                  - { name: text, label: 本文, widget: text, maxlength: 600 }
+                  - name: note
+                    label: 注（本文の右に出る短い出典・補足）
+                    widget: text
+                    required: false
+                    maxlength: 1000
+                    hint: 出典は [表示名](https://…) の形でリンクを必ず書く。画面に出る文字で300字まで（URL は数えない）
+              - name: heading
+                label: 小見出し
+                widget: object
+                summary: "{{text}}"
+                fields:
+                  - { name: text, label: 小見出し（主張の形で）, widget: string, maxlength: 40 }
+              - name: point
+                label: 要点（目立つ枠）
+                widget: object
+                summary: "{{text | truncate(40)}}"
+                fields:
+                  - { name: text, label: 要点（一、二文で）, widget: text, maxlength: 160 }
+              - name: question
+                label: 問いかけ
+                widget: object
+                summary: "{{text | truncate(40)}}"
+                fields:
+                  - { name: text, label: 問い, widget: text, maxlength: 100 }
+                  - { name: answer, label: 答え（隠さずにすぐ下に出る）, widget: text, required: false, maxlength: 240 }
+              - name: example
+                label: 例
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - name: kind
+                    label: 種類
+                    widget: select
+                    default: scene
+                    options:
+                      - { label: 説明のための場面（「例えば」の札。架空なら「〜なら、こうする」の形で）, value: scene }
+                      - { label: 実際にあった例（出典が必須）, value: real }
+                  - { name: title, label: 題, widget: string, required: false, maxlength: 30 }
+                  - { name: text, label: 本文, widget: text, maxlength: 400 }
+                  - name: source
+                    label: 出典（実際にあった例では必須）
+                    widget: text
+                    required: false
+                    maxlength: 800
+                    hint: "[表示名](https://…) の形でリンクを書く。画面に出る文字で200字まで"
+              - name: aside
+                label: 折りたたみの補足
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - { name: title, label: 題, widget: string, maxlength: 40 }
+                  - name: body
+                    label: 段落
+                    widget: list
+                    min: 1
+                    max: 6
+                    field: { name: paragraph, label: 段落, widget: text, maxlength: 500 }
+              - name: list
+                label: 箇条書き
+                widget: object
+                fields:
+                  - name: items
+                    label: 項目
+                    widget: list
+                    min: 1
+                    max: 8
+                    field: { name: item, label: 項目, widget: text, maxlength: 160 }
+              - name: figure
+                label: 図
+                widget: object
+                summary: "{{name}}"
+                fields:
+                  - name: name
+                    label: 図の名前（どんな図かは /lab/ で見られます）
+                    widget: select
+                    # src/lib/figures.ts の figureNames と同じ並び（npm run cms:check で確かめる）
+                    options:
+                      - design-process
+                      - cost-escalation
+                      - double-diamond
+                      - requirements-layers
+                      - v-model
+                      - kano-model
+                      - kj-method
+                      - abstraction-ladder
+                      - beam-calculator
+                      - fitts-demo
+                      - gulfs
+                      - hcd-cycle
+                      - anscombe
+                      - analysis-cycle
+                      - pareto-front
+                      - ahp-example
+                      - door-signifier
+                      - fitts-law
+                      - design-scope
+                      - interface-mismatch
+                      - subtitle-users
+                      - robot-dimensions
+                      - session-timeline
+                      - set-based
+                      - tolerance-fit
+                      - brainstorm-lanes
+                      - fact-vs-interpretation
+                      - morphological-chart
+                      - must-filter-funnel
+                      - spec-anatomy
+                      - steps-on-double-diamond
+                      - shape-coding
+                      - route-map
+                      - er-state
+                      - confounder
+                      - methods-timeline
+                      - steam-engine
+              - name: idef0
+                label: 機能の図（IDEF0）
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - { name: title, label: 題, widget: string, maxlength: 40 }
+                  - { name: caption, label: 説明, widget: text, required: false, maxlength: 200 }
+                  - { name: function, label: 機能（箱の中の言葉）, widget: string, maxlength: 24 }
+                  - name: inputs
+                    label: 入力（左から入る）
+                    widget: list
+                    min: 1
+                    max: 3
+                    field: { name: item, label: 入力, widget: string, maxlength: 14 }
+                  - name: controls
+                    label: 制御（上から入る）
+                    widget: list
+                    required: false
+                    max: 3
+                    field: { name: item, label: 制御, widget: string, maxlength: 14 }
+                  - name: outputs
+                    label: 出力（右へ出る）
+                    widget: list
+                    min: 1
+                    max: 3
+                    field: { name: item, label: 出力, widget: string, maxlength: 14 }
+                  - name: mechanisms
+                    label: 機構（下から入る）
+                    widget: list
+                    required: false
+                    max: 3
+                    field: { name: item, label: 機構, widget: string, maxlength: 14 }
+                  - name: steps
+                    label: 分解図の機能（書くなら2〜4個。前の出力が次の入力になる）
+                    widget: list
+                    required: false
+                    min: 2
+                    max: 4
+                    summary: "{{name}} → {{output}}"
+                    fields:
+                      - { name: name, label: 機能, widget: string, maxlength: 16 }
+                      - { name: output, label: 出力, widget: string, maxlength: 14 }
+              - name: image
+                label: 外部の画像
+                widget: object
+                summary: "{{caption}}"
+                fields:
+                  - name: src
+                    label: 画像
+                    widget: image
+                    hint: パブリックドメインか再利用が許されたライセンスの画像だけ。足したら docs/image-credits.md にも書く
+                  - { name: alt, label: 画像の説明（読み上げ用）, widget: string, maxlength: 160 }
+                  - { name: caption, label: キャプション, widget: text, maxlength: 200 }
+                  - { name: credit, label: 作者・出典, widget: string, maxlength: 160 }
+                  - {
+                      name: license,
+                      label: "ライセンス（例: パブリックドメイン、CC BY 4.0）",
+                      widget: string,
+                      maxlength: 60,
+                    }
+                  - name: licenseUrl
+                    label: ライセンスの本文の URL（CC BY 系では必須）
+                    widget: string
+                    required: false
+                    pattern: ["^https?://", "https:// から始まる URL を書いてください"]
+                  - name: sourceUrl
+                    label: 画像の元のページの URL
+                    widget: string
+                    pattern: ["^https?://", "https:// から始まる URL を書いてください"]
+              - name: table
+                label: 表
+                widget: object
+                summary: "{{caption}}"
+                fields:
+                  - { name: caption, label: 表の題, widget: string, maxlength: 80 }
+                  - name: head
+                    label: 見出しの行（左の列から順に）
+                    widget: list
+                    min: 2
+                    max: 6
+                    field: { name: cell, label: 見出し, widget: string, maxlength: 30 }
+                  - name: rows
+                    label: 本文の行
+                    label_singular: 行
+                    widget: list
+                    min: 1
+                    max: 12
+                    field:
+                      name: row
+                      label: 行（左の列から順に。見出しの行と同じ数）
+                      widget: list
+                      min: 2
+                      max: 6
+                      field: { name: cell, label: マス, widget: string, maxlength: 80 }
+              - name: steps
+                label: 手順・手法の一覧
+                widget: object
+                fields:
+                  - name: ordered
+                    label: 順番のある手順（オンで「手順 1, 2…」と番号が付く。オフは順番の無い手法の一覧）
+                    widget: boolean
+                    default: true
+                  - name: items
+                    label: 項目
+                    widget: list
+                    min: 1
+                    max: 8
+                    summary: "{{title}}"
+                    fields:
+                      - { name: title, label: 名前, widget: string, maxlength: 30 }
+                      - { name: body, label: 説明, widget: text, maxlength: 240 }
+              - name: timeline
+                label: 年表
+                widget: object
+                fields:
+                  - name: items
+                    label: 出来事
+                    widget: list
+                    min: 1
+                    max: 16
+                    summary: "{{year}} {{title}}"
+                    fields:
+                      - { name: year, label: 年, widget: string, maxlength: 14 }
+                      - { name: title, label: 出来事, widget: string, maxlength: 40 }
+                      - { name: body, label: 説明, widget: text, maxlength: 200 }
+              - name: compare
+                label: 左右の対比
+                widget: object
+                summary: "{{fromLabel}} → {{toLabel}}"
+                fields:
+                  - { name: fromLabel, label: 左の見出し, widget: string, maxlength: 20 }
+                  - { name: toLabel, label: 右の見出し（強調される方）, widget: string, maxlength: 20 }
+                  - name: rows
+                    label: 行
+                    widget: list
+                    min: 1
+                    max: 6
+                    summary: "{{from}} → {{to}}"
+                    fields:
+                      - { name: from, label: 左, widget: string, maxlength: 20 }
+                      - { name: to, label: 右, widget: string, maxlength: 20 }
+              - name: tags
+                label: 言葉の札
+                widget: object
+                summary: "{{label}}"
+                fields:
+                  - { name: label, label: 札の上の小見出し, widget: string, required: false, maxlength: 30 }
+                  - name: items
+                    label: 札
+                    widget: list
+                    min: 1
+                    max: 20
+                    field: { name: item, label: 言葉, widget: string, maxlength: 12 }
+              - name: cards
+                label: カード
+                widget: object
+                fields:
+                  - name: items
+                    label: カード
+                    widget: list
+                    min: 1
+                    max: 6
+                    summary: "{{title}}"
+                    fields:
+                      - { name: title, label: 見出し, widget: string, maxlength: 20 }
+                      - { name: body, label: 本文, widget: text, maxlength: 160 }
+                      - { name: note, label: 注記（小さい文字）, widget: string, required: false, maxlength: 60 }
+              - name: map
+                label: 設計の地図（工程 × 視点。中身は自動）
+                widget: object
+                fields:
+                  - name: variant
+                    label: 大きさ
+                    widget: select
+                    default: compact
+                    options:
+                      - { label: 小さい, value: compact }
+                      - { label: 全部, value: full }
+              - name: per-step
+                label: 工程ごとの使い方（視点のページの「工程ごとの使い方」から自動）
+              - name: courses
+                label: 関連授業
+                widget: object
+                fields:
+                  - name: items
+                    label: 関連授業（5件まで）
+                    label_singular: 授業
+                    widget: list
+                    min: 1
+                    max: 5
+                    summary: "{{name}}（{{dept}}）"
+                    fields: &courseFields
+                      - { name: name, label: 授業名（シラバスの表記どおり）, widget: string, maxlength: 40 }
+                      - {
+                          name: dept,
+                          label: "学科名（例: 人間情報工学科。全学共通なら「共通教育」）",
+                          widget: string,
+                          maxlength: 24,
+                        }
+                      - { name: relation, label: このページとのつながり（一言で）, widget: string, maxlength: 80 }
+                      - name: path
+                        label: "シラバスのページの場所（例: 0222/0222_22147401）"
+                        widget: string
+                        required: false
+                        pattern: ["^\\d{2,4}/\\d{2,4}_[0-9A-Z]{8}$", "0222/0222_22147401 の形で書いてください"]
+                        hint: 担当教員の名前は書かない。年度は src/lib/syllabus.ts で一か所にまとめている
+              - name: link
+                label: 「詳しく読む」リンク
+                widget: object
+                summary: "{{label}}"
+                fields:
+                  - { name: label, label: リンクの文字, widget: string, maxlength: 40 }
+                  - { name: href, label: "リンク先（例: /design/process/）", widget: string }
+      - name: references
+        label: 参考文献（URL は必須）
+        label_singular: 参考文献
+        widget: list
+        required: false
+        max: 30
+        summary: "{{text | truncate(40)}}"
+        fields:
+          - { name: text, label: 書誌, widget: text, maxlength: 240 }
+          - name: url
+            label: "URL（本は国立国会図書館サーチか CiNii の書誌ページ）"
+            widget: string
+            pattern: ["^https?://", "https:// から始まる URL を書いてください"]
+      - name: courses
+        label: 岡山県立大学の関連授業（ページの終わりに出る）
+        label_singular: 授業
+        widget: list
+        required: false
+        max: 5
+        summary: "{{name}}（{{dept}}）"
+        fields: *courseFields
+      - name: related
+        label: 関連するページ（4件まで）
+        widget: relation
+        collection: design
+        value_field: "{{slug}}"
+        display_fields: [title]
+        search_fields: [title, en]
+        multiple: true
+        required: false
+        max: 4
+      - name: perStep
+        label: 工程ごとの使い方（視点のページだけ。工程の順に、工程の数だけ）
+        label_singular: 工程
+        widget: list
+        required: false
+        max: 8
+        summary: "{{cell}}"
+        fields:
+          - { name: cell, label: 地図のマスに出る短い言葉, widget: string, maxlength: 24 }
+          - { name: body, label: 説明, widget: text, maxlength: 240 }
 
   - name: pages
     label: ページ
@@ -119,152 +558,74 @@ collections:
             label: セクション
             label_singular: セクション
             widget: list
+            min: 1
             types:
               - name: hero
                 label: ヒーロー（一番上の大見出し）
                 widget: object
                 summary: "{{title}}"
                 fields:
-                  - { name: eyebrow, label: 小見出し（英字など）, widget: string, required: false, maxlength: 60 }
+                  - { name: eyebrow, label: 小見出し, widget: string, required: false, maxlength: 60 }
                   - { name: title, label: 大見出し, widget: string, maxlength: 30 }
-                  - { name: lead, label: リード文, widget: text, maxlength: 160 }
-                  - { name: ctaLabel, label: ボタンの文字, widget: string, required: false, maxlength: 20 }
-                  - { name: ctaHref, label: "ボタンのリンク先（例: #join）", widget: string, required: false }
-              - name: statement
-                label: 比較（左→右）
+                  - { name: lead, label: リード文（最初の一文は設計の価値から）, widget: text, maxlength: 160 }
+              - name: summary
+                label: 考え方のまとめ（後ろの章の見出しと要点から自動）
                 widget: object
                 summary: "{{title}}"
                 fields:
-                  - &tone {
-                      name: tone,
-                      label: 背景,
-                      widget: select,
-                      options: [{ label: 明るい, value: light }, { label: 濃い（設計図風）, value: dark }],
-                      default: light,
-                    }
-                  - &eyebrow { name: eyebrow, label: 小見出し, widget: string, required: false, maxlength: 60 }
-                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - { name: body, label: 本文, widget: text, maxlength: 400 }
-                  - name: left
-                    label: 左側
-                    widget: object
-                    fields:
-                      - { name: label, label: ラベル, widget: string, maxlength: 20 }
-                      - {
-                          name: items,
-                          label: 項目,
-                          widget: list,
-                          max: 5,
-                          field: { name: item, label: 項目, widget: string, maxlength: 20 },
-                        }
-                  - name: right
-                    label: 右側（強調される方）
-                    widget: object
-                    fields:
-                      - { name: label, label: ラベル, widget: string, maxlength: 20 }
-                      - {
-                          name: items,
-                          label: 項目,
-                          widget: list,
-                          max: 5,
-                          field: { name: item, label: 項目, widget: string, maxlength: 20 },
-                        }
-              - name: flow
-                label: 工程の流れ
+                  - { name: title, label: 見出し, widget: string, maxlength: 30 }
+                  - { name: lead, label: リード文, widget: text, required: false, maxlength: 120 }
+              - name: chapter
+                label: 章（長文）
                 widget: object
                 summary: "{{title}}"
                 fields:
-                  - *tone
-                  - *eyebrow
-                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - { name: body, label: 本文, widget: text, required: false, maxlength: 300 }
+                  - name: id
+                    label: "章へのリンク用の名前（例: why-now → /#why-now）"
+                    widget: string
+                    pattern: ["^[a-z0-9-]+$", "英小文字・数字・ハイフンで書いてください"]
+                  - { name: eyebrow, label: 読者の問い（見出しの上）, widget: string, maxlength: 30 }
+                  - { name: title, label: 見出し（主張の形で）, widget: string, maxlength: 30 }
+                  - { name: point, label: 要点（まとめにも出る）, widget: text, maxlength: 120 }
+                  - *blocks
+              - name: join
+                label: 入部案内
+                widget: object
+                summary: "{{title}}"
+                fields:
+                  - { name: eyebrow, label: 小見出し, widget: string, required: false, maxlength: 20 }
+                  - { name: title, label: 見出し, widget: string, maxlength: 30 }
+                  - { name: body, label: 本文, widget: text, maxlength: 200 }
                   - {
-                      name: steps,
-                      label: 工程（左から順に）,
-                      widget: list,
-                      min: 2,
-                      max: 6,
-                      field: { name: step, label: 工程, widget: string, maxlength: 10 },
+                      name: traitsTitle,
+                      label: "身に付く力の小見出し（例: 設計会で身に付く力）",
+                      widget: string,
+                      required: false,
+                      maxlength: 20,
                     }
-                  - {
-                      name: focusCount,
-                      label: 先頭から何個を強調するか,
-                      widget: number,
-                      value_type: int,
-                      min: 1,
-                      max: 6,
-                    }
-                  - { name: focusLabel, label: 強調部分の説明, widget: string, maxlength: 20 }
-              - name: steps
-                label: 段階（タイムライン）
-                widget: object
-                summary: "{{title}}"
-                fields:
-                  - *tone
-                  - *eyebrow
-                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - name: items
-                    label: 段階
-                    label_singular: 段階
+                  - name: traits
+                    label: 身に付く力
+                    label_singular: 力
                     widget: list
-                    min: 1
-                    max: 6
-                    summary: "{{label}} {{title}}"
-                    fields:
-                      - { name: label, label: 番号など（例 第1段階）, widget: string, maxlength: 12 }
-                      - { name: title, label: 名前, widget: string, maxlength: 20 }
-                      - { name: body, label: 説明, widget: text, maxlength: 140 }
-                      - name: role
-                        label: 役割の色
-                        widget: select
-                        default: none
-                        options:
-                          - { label: なし, value: none }
-                          - { label: 発案者（オレンジ）, value: proposer }
-                          - { label: 設計仲間（緑）, value: partner }
-                          - { label: 投資家（青）, value: investor }
-              - name: tags
-                label: タグ一覧
-                widget: object
-                summary: "{{title}}"
-                fields:
-                  - *tone
-                  - *eyebrow
-                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - { name: body, label: 本文, widget: text, required: false, maxlength: 200 }
-                  - {
-                      name: tags,
-                      label: タグ,
-                      widget: list,
-                      max: 20,
-                      field: { name: tag, label: タグ, widget: string, maxlength: 12 },
-                    }
-              - name: cards
-                label: カード
-                widget: object
-                summary: "{{title}}"
-                fields:
-                  - *tone
-                  - *eyebrow
-                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - name: items
-                    label: カード
-                    label_singular: カード
-                    widget: list
-                    min: 1
-                    max: 6
+                    required: false
+                    max: 4
                     summary: "{{title}}"
                     fields:
-                      - { name: title, label: 見出し, widget: string, maxlength: 20 }
-                      - { name: body, label: 本文, widget: text, maxlength: 160 }
-                      - { name: note, label: 注記（小さい文字）, widget: string, required: false, maxlength: 60 }
+                      - { name: title, label: 名前, widget: string, maxlength: 10 }
+                      - { name: body, label: 説明, widget: string, maxlength: 40 }
+                  - name: formUrl
+                    label: 入部フォーム（Microsoft Forms）の URL
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^https://(forms\\.office\\.com|forms\\.microsoft\\.com|forms\\.cloud\\.microsoft)/"
+                      - "Microsoft Forms の URL（https://forms.office.com/…）を入力してください"
+                    hint: ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクが、すべてここを開きます。空の間は押せない見た目になります。フォームでは学籍番号を集めません
               - name: info
                 label: 団体概要（項目と内容の表）
                 widget: object
                 summary: "{{title}}"
                 fields:
-                  - *tone
-                  - *eyebrow
                   - { name: title, label: 見出し, widget: string, maxlength: 40 }
                   - name: items
                     label: 項目（代表者は年度が変わったら更新してください）
@@ -286,28 +647,32 @@ collections:
                 widget: object
                 summary: "{{title}}"
                 fields:
-                  - *tone
                   - { name: title, label: 見出し, widget: string, maxlength: 40 }
                   - { name: limit, label: 表示する件数, widget: number, value_type: int, min: 1, max: 6, default: 3 }
-              - name: projects
-                label: プロジェクト（自動で表示）
-                widget: object
-                summary: "{{title}}"
-                fields:
-                  - *tone
-                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - { name: body, label: 本文, widget: text, required: false, maxlength: 200 }
-              - name: join
-                label: 入部案内
-                widget: object
-                summary: "{{title}}"
-                fields:
-                  - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - { name: body, label: 本文, widget: text, maxlength: 300 }
-                  - {
-                      name: formUrl,
-                      label: 入部フォームの URL（空ならボタンを出さない）,
-                      widget: string,
-                      required: false,
-                    }
-                  - { name: buttonLabel, label: ボタンの文字, widget: string, maxlength: 20 }
+
+  - name: site
+    label: サイトの設定
+    description: ヘッダー・フッター・入部の章に出る連絡先とリンク。空の項目は出ません。
+    files:
+      - name: links
+        label: 連絡先とリンク
+        file: src/content/site/links.yaml
+        fields:
+          - name: discord
+            label: Discord の招待リンク
+            widget: string
+            required: false
+            pattern: ["^https?://", "https:// から始まる URL を書いてください"]
+          - name: timetree
+            label: TimeTree（活動予定のカレンダー）の共有リンク
+            widget: string
+            required: false
+            pattern: ["^https?://", "https:// から始まる URL を書いてください"]
+          - name: email
+            label: 問い合わせ用のメールアドレス（団体で共有しているアドレスだけ）
+            widget: string
+            type: email
+            required: false
+            pattern:
+              - "^(?![a-zA-Z]{1,4}\\d{5,}@([\\w-]+\\.)*oka-pu\\.ac\\.jp$)"
+              - 大学の個人用アドレスは書けません。団体で共有しているアドレスを書いてください

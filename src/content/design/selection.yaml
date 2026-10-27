@@ -1,0 +1,165 @@
+title: 比べて選ぶ
+en: Evaluation & Selection
+layer: step
+order: 4
+stepName: 評価・選定
+mode: converge
+tools: ピューの概念選定法・AHP
+short: 比べて選ぶ
+question: どの案を、なぜ選ぶか
+summary: 目的どうしがぶつかる中で、案を比べて一つを選ぶ。基準は案を見る前に決め、選んだ理由と選ばなかった理由を残す。
+lead: たくさんの案から一つを選びます。軽さと値段のように、設計の目的はたいていぶつかり合います。この工程では、何をどれだけ大切にするかを、話し合える形にして選びます。
+chapters:
+  - id: tradeoff
+    heading: どの案にも、長所と短所がある
+    blocks:
+      - type: point
+        text: 設計の目的はぶつかり合うので、どの案にも長所と短所があります。どれを選ぶかは、何をどれだけ大切にするかという判断で決まります。
+      - type: question
+        text: 自転車を選ぶとき、軽くて、丈夫で、安いものを探したことはありませんか? 3つとも一番のものは、見つかったでしょうか。
+        answer: 軽くて丈夫な素材は高く、安くて丈夫なものは重くなりがちです。たいていは、どれかを少し譲って、他を取ることになります。
+      - type: p
+        text: どの目的を良くしようとしても、他のどれかが悪くなる案を「**パレート最適**」と呼びます。パレート最適な案はたいてい複数あり、その中からどれを選ぶかには、価値の判断が要ります。
+      - type: figure
+        name: pareto-front
+
+  - id: must
+    heading: まず、必須の要件でふるいにかける
+    blocks:
+      - type: point
+        text: 必須の要件や制約を一つでも満たさない案は、他の点が高くても外します。先に要件でふるいにかけ、残った案だけを比べます。
+      - type: question
+        text: 費用は0円と決めたのに、月500円の予約サービスが使いやすさで満点だったら、選んでよいでしょうか?
+        answer: 外します。点数を足し合わせると、使いやすさの高い点が、費用の欠点を埋めてしまいます。必須の要件は点数にせず、満たすかどうかだけを先に確かめます。
+      - type: p
+        text: 基準ごとの点を足し合わせる比べ方では、ある基準の大きな欠点が、他の基準の長所で埋め合わされてしまいます。そこで、必須の要件と制約は「満たすか、満たさないか」だけで見て、満たさない案を先に外します。点数を付けて比べるのは、ふるいを通った案だけです。
+        note: パールとバイツは、要件の一覧(requirements list)を「必ず満たす要件(demands)」と「望ましい要件(wishes)」に分け、必ず満たす要件に合わない案を、点数で比べる前に外す「選定リスト」を示した([G. Pahl & W. Beitz, Engineering Design, 1984](https://ci.nii.ac.jp/ncid/BA07271699))。
+      - type: figure
+        name: must-filter-funnel
+      - type: p
+        text: ふるいで外した案も、理由と一緒に記録に残します。要件が変わったときに、見直せるからです。外した案の良いところを、残った案に取り入れられないかも考えます。紙の予約表なら、部室の前で一目で空きが分かることです。
+
+  - id: criteria
+    heading: 基準は、案を見る前に決める
+    blocks:
+      - type: point
+        text: 評価の基準は、案を見る前に要件から決めます。案を見てから決めると、先に見た案や気に入った案に、判断が引っ張られやすいからです。
+      - type: p
+        text: 人の判断は、最初に示された数字に引きずられやすいことが知られています(アンカリング)。同じように、案を見てから基準や重みを決めると、先に見た案の印象に判断が引っ張られる恐れがあります。そこで、基準を先に決めてから、数値で比べます。その目的は、どこで意見が分かれているのかを見えるようにして、話し合いを具体的にすることです。最後に判断するのは人です。
+        note: '[T. L. Saaty, The Analytic Hierarchy Process, McGraw-Hill, 1980](https://ci.nii.ac.jp/ncid/BA00342336)。[S. Pugh, Total Design, Addison-Wesley, 1991](https://ci.nii.ac.jp/ncid/BA18272194)。[A. Tversky & D. Kahneman, Science, 185(4157), 1974](https://doi.org/10.1126/science.185.4157.1124)。'
+      - type: steps
+        ordered: false
+        items:
+          - title: ピューの概念選定法
+            body: 比べる元にする案(基準案)を一つ決め、他の案を評価の基準ごとに「良い(+)」「同じ(S)」「悪い(-)」で比べます。長所と短所を一覧でき、良いところを組み合わせた新しい案のきっかけにもなります。
+          - title: 階層分析法(AHP)
+            body: 基準どうしを2つずつ比べて「どちらがどれくらい大事か」を1~9の数で答え、その表(一対比較行列)から各基準の重みを計算します。答えどうしの矛盾の度合いも整合比(CR)で確かめられ、0.1未満が目安です。
+          - title: 重み付きの評価
+            body: 各案を基準ごとに採点し、重みを掛けて合計します。点差が小さいときは、重みを少し変えたときに順位が入れ替わるか(感度分析)を確かめます。
+          - title: 選んだ理由を残す
+            body: 選んだ案と一緒に、選ばなかった案とその理由も記録します。条件が変わったときに、判断を見直せるからです。
+        # AHPの計算の例
+      - type: figure
+        name: ahp-example
+      - type: example
+        kind: real
+        title: 新国立競技場の選び直し
+        text: 2015年7月、新国立競技場は総工費の見込みが大きく膨らみ、それまでの計画(ザハ・ハディド氏の案)が白紙に戻されました。8月には、工事費の上限(1,550億円)と完成の時期を先に決めた新しい整備計画がつくられ、設計と施工をまとめて案が募られました。12月、審査委員会は集まった2つの案を同じ基準で採点し、610点のA案を、602点のB案より上として選びました。
+        source: "[文部科学省「国立霞ヶ丘競技場の改築計画について」2015年8月](https://www.mext.go.jp/b_menu/shingi/chousa/sports/029/shiryo/__icsFiles/afieldfile/2015/08/12/1360792_3_1.pdf)、[関係閣僚会議「新国立競技場整備計画」2015年8月](https://www.jpnsport.go.jp/newstadium/Portals/0/kinennhinnhozonn/1_12seibikeikaku.pdf)と[日本スポーツ振興センターの審査結果 2015年12月](https://www.jpnsport.go.jp/newstadium/Portals/0/NNSJ/teiannshoshinnsakekka.pdf)による"
+      - type: p
+        text: 条件と基準を案より先に決めていたので、選んだ理由は「どの基準で何点違ったか」という形で公表されました。A案の本体工事は、公募時の上限額より約38億円低い1,490億円で契約されました。2018年8月の時点でも、工事費は先に決めた上限の中に保たれていました。
+        note: '[日本スポーツ振興センターの説明資料, 2018年8月](https://www.jpnsport.go.jp/newstadium/Portals/0/briefing/2018/20180803_briefing27_siryou_03-02.pdf)による。'
+
+  - id: example
+    heading: 今あるものを使う案が、一番になることもある
+    blocks:
+      - type: point
+        text: 要件を満たす案の中では、一番手間のかからない案が最良のこともあります。選ぶ目的は、つくることより、要件を満たすことです。
+      - type: table
+        caption: ふるいを通った3案を、ピューの概念選定法で比べる(基準案は、今のやり方に近い「紙の予約表」)
+        head:
+          - 評価の基準
+          - 専用の予約アプリ
+          - 曜日で使う人を決める
+          - 無料の共有カレンダー
+        rows:
+          - - 部員が入れ替わっても続けられる
+            - "-"
+            - S
+            - S
+          - - 予約の前日に知らせが届く
+            - "+"
+            - S
+            - "+"
+          - - 準備の手間
+            - "-"
+            - "+"
+            - S
+          - - 重なりの防ぎやすさ
+            - "+"
+            - "+"
+            - "+"
+          - - 外から空きを確かめられる
+            - "+"
+            - "-"
+            - "+"
+          - - 合計(+の数から-の数を引く)
+            - "+1"
+            - "+1"
+            - "+3"
+      - type: example
+        title: 部室の予約なら(架空の例)
+        text: 専用アプリは重なりを防げても、準備に手間がかかります。今は無料で動かせても、部員が入れ替わるたびに直し続ける人と、利用が増えたときの費用が要ります。だから、無料の共有カレンダーを予約表として使う案を選びます。選ばなかった案も、その理由と一緒に記録に残します。
+      - type: example
+        kind: real
+        title: 枯れた技術の水平思考
+        text: 任天堂の横井軍平は、「枯れた技術の水平思考」という考え方で知られます。使い古されて安く確かになった技術を、新しい使い道に回すという意味です。1980年のゲーム&ウオッチは、電卓で広く使われていた液晶でつくられました。
+        source: "[横井軍平・牧野武文『横井軍平ゲーム館』アスキー, 1997年](https://ndlsearch.ndl.go.jp/books/R100000002-I000002652768)([ちくま文庫, 2015年](https://ndlsearch.ndl.go.jp/books/R100000002-I026613290))。"
+      - type: p
+        text: 最新の技術は、性能では勝っても、値段や確かさ、手に入りやすさで負けることがあります。比べる基準を要件から決めておけば、「新しいから」ではなく「要件をよく満たすから」という理由で選べます。
+
+references:
+  - text: 'S. Pugh, Total Design: Integrated Methods for Successful Product Engineering, Addison-Wesley, 1991.'
+    url: https://ci.nii.ac.jp/ncid/BA18272194
+  - text: T. L. Saaty, The Analytic Hierarchy Process, McGraw-Hill, 1980.
+    url: https://ci.nii.ac.jp/ncid/BA00342336
+  - text: 'A. Tversky & D. Kahneman, "Judgment under Uncertainty: Heuristics and Biases", Science, 185(4157), pp.1124–1131, 1974.'
+    url: https://doi.org/10.1126/science.185.4157.1124
+  - text: G. Pahl & W. Beitz, Engineering Design(K. Wallace 編), Design Council / Springer, 1984(原著 Konstruktionslehre, 1977).
+    url: https://ci.nii.ac.jp/ncid/BA07271699
+  - text: 文部科学省「国立霞ヶ丘競技場の改築計画について」2015年8月.
+    url: https://www.mext.go.jp/b_menu/shingi/chousa/sports/029/shiryo/__icsFiles/afieldfile/2015/08/12/1360792_3_1.pdf
+  - text: 新国立競技場の整備計画再検討のための関係閣僚会議「新国立競技場整備計画」2015年8月28日.
+    url: https://www.jpnsport.go.jp/newstadium/Portals/0/kinennhinnhozonn/1_12seibikeikaku.pdf
+  - text: 日本スポーツ振興センター「新国立競技場整備事業 技術提案等審査委員会」審査結果, 2015年12月.
+    url: https://www.jpnsport.go.jp/newstadium/Portals/0/NNSJ/teiannshoshinnsakekka.pdf
+  - text: 日本スポーツ振興センター, 新国立競技場整備事業の説明資料, 2018年8月3日.
+    url: https://www.jpnsport.go.jp/newstadium/Portals/0/briefing/2018/20180803_briefing27_siryou_03-02.pdf
+  - text: 横井軍平・牧野武文『横井軍平ゲーム館』アスキー, 1997年(ちくま文庫, 2015年).
+    url: https://ndlsearch.ndl.go.jp/books/R100000002-I000002652768
+related:
+  - ideation
+  - detailing
+  - data-analysis
+
+courses:
+  - name: 設計工学・生産システム
+    dept: 情報システム工学科
+    relation: 製品の価値と評価を扱い、品質機能展開(QFD)と階層分析法(AHP)を学ぶ
+    path: 0222/0222_22272701
+  - name: 数理計画法
+    dept: 情報工学部
+    relation: 制約条件と評価の尺度を数式にして、最も良い案を求める
+    path: 0222/0222_22140501
+  - name: ユーザビリティ
+    dept: 工芸工業デザイン学科
+    relation: モックアップをつくり、ユーザビリティテストで確かめて直す
+    path: 0336/0336_36002701
+  - name: 感性工学
+    dept: 人間情報工学科
+    relation: 「使いやすい」「美しい」を、SD法や多変量解析、生体計測で評価する
+    path: 0224/0224_23188701
+  - name: 人文・社会科学セミナーC
+    dept: 共通教育
+    relation: 集団で意思決定するグループワークで、みんなで決めるときの心理を体験する
+    path: 99/99_00A45401

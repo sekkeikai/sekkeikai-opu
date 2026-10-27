@@ -1,0 +1,88 @@
+---
+// V 字モデル: 左側で決めたことを、右側の試験でそれぞれ確かめる。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const left = [
+  { label: "要件定義", x: 90, y: 52 },
+  { label: "基本設計", x: 160, y: 128 },
+  { label: "詳細設計", x: 230, y: 204 },
+];
+const right = [
+  { label: "受入試験", x: 630, y: 52, check: "要件を満たすか" },
+  { label: "統合試験", x: 560, y: 128, check: "設計通り組み合わさるか" },
+  { label: "単体試験", x: 490, y: 204, check: "部品が正しく動くか" },
+];
+const bottom = { label: "実装・製作", x: 360, y: 280 };
+const w = 124;
+const h = 44;
+const vPath = [...left, bottom, ...[...right].reverse()].map((n, i) => `${i === 0 ? "M" : "L"}${n.x} ${n.y}`).join(" ");
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="V字モデル: 決めたことは、必ず確かめる"
+  caption="左側を下りながら決めることを詳しくしていき、底で実際につくり、右側を上りながら試験で確かめる。点線は「どの試験が、どの決めごとを確かめるか」の対応。設計会が扱うのは、オレンジで囲んだ左側の範囲。"
+  source="[NASA Systems Engineering Handbook (2016)](https://ntrs.nasa.gov/citations/20170001761) のV字の図を基に、日本で一般的な工程名で作図"
+  scroll
+>
+  <svg
+    viewBox="0 0 720 320"
+    class="w-full"
+    role="img"
+    aria-label="V字モデル。要件定義は受入試験、基本設計は統合試験、詳細設計は単体試験で確かめる。"
+  >
+    <rect
+      x="12"
+      y="14"
+      width="288"
+      height="222"
+      rx="10"
+      fill="var(--color-accent)"
+      fill-opacity="0.08"
+      stroke="var(--color-accent)"
+      stroke-dasharray="6 5"
+    />
+    <text x="22" y="228" font-size="13" fill="var(--color-accent-strong)" font-weight="700">
+      設計会の範囲
+    </text>
+    <path data-draw d={vPath} fill="none" stroke="var(--color-ink)" stroke-opacity="0.35" stroke-width="2" />
+    {left.map((n, i) => (
+      <g>
+        <line
+          x1={n.x + w / 2}
+          x2={right[i].x - w / 2}
+          y1={n.y}
+          y2={n.y}
+          stroke="var(--color-link)"
+          stroke-dasharray="5 5"
+        />
+        <text x="360" y={n.y - 8} text-anchor="middle" font-size="12.5" fill="var(--color-link)">
+          {right[i].check}
+        </text>
+      </g>
+    ))}
+    {[...left, bottom, ...right].map((n) => (
+      <g>
+        <rect
+          x={n.x - w / 2}
+          y={n.y - h / 2}
+          width={w}
+          height={h}
+          rx="6"
+          fill="var(--color-paper)"
+          stroke="var(--color-ink)"
+          stroke-width="1.5"
+        />
+        <text x={n.x} y={n.y + 6} text-anchor="middle" font-size="16" font-weight="700" fill="var(--color-ink)">
+          {n.label}
+        </text>
+      </g>
+    ))}
+  </svg>
+</FigureFrame>

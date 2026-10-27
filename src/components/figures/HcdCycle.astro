@@ -1,0 +1,31 @@
+---
+// ISO 9241-210 の人間中心設計の活動。
+import FigureFrame from "./FigureFrame.astro";
+import Cycle from "./Cycle.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="人間中心設計のサイクル"
+  caption="評価で要件を満たしたと分かれば、その設計解で次へ進む。足りない点が見つかれば、必要な活動に戻ってやり直す。"
+  source="[ISO 9241-210:2019](https://www.iso.org/standard/77520.html) を基に作図"
+  scroll
+>
+  <Cycle
+    label="人間中心設計の4つの活動が輪になって繰り返す図"
+    color="var(--color-positive)"
+    center={["人間中心設計", "ISO 9241-210"]}
+    nodes={[
+      { label: "利用状況を理解する", sub: "誰が・どこで・何のために" },
+      { label: "要件を明らかにする", sub: "要求を確かめられる形に" },
+      { label: "解決案をつくる", sub: "スケッチから試作へ" },
+      { label: "評価する", sub: "利用者に試してもらう" },
+    ]}
+  />
+</FigureFrame>

@@ -1,0 +1,92 @@
+---
+// 要求の誤りを直すコストが、開発の段階が進むほどどれだけ増えるか(NASA の見積もり)。横軸は対数目盛。
+// スマホでも横スクロールせずに読めるよう、SVG ではなく HTML の帯で描く(帯の位置は % で計算)。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// Stecklein 他 (2004) の結果。幅は推定方法による違い
+const phases = [
+  { label: "要件定義", min: 1, max: 1 },
+  { label: "設計", min: 3, max: 8 },
+  { label: "製造", min: 7, max: 16 },
+  { label: "統合・試験", min: 21, max: 78 },
+  { label: "運用", min: 29, max: 1500, more: true },
+];
+
+const maxValue = 2000;
+// 値を、帯の左端からの位置(%)に直す(対数目盛)
+const pos = (v: number) => (Math.log10(v) / Math.log10(maxValue)) * 100;
+const ticks = [1, 10, 100, 1000];
+const fmt = (v: number) => v.toLocaleString("ja-JP");
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="誤りは、見つけるのが遅いほど高くつく"
+  caption="要件定義の段階で紛れ込んだ誤りを、どの段階で見つけて直すかによる修正コストの見積もり。要件定義の段階で直すコストを1としたときの倍率で、横軸は対数目盛(1目盛りで10倍)。帯の幅は推定方法による違い。"
+  source="[J. M. Stecklein 他, Error Cost Escalation Through the Project Life Cycle, NASA Johnson Space Center (2004)](https://ntrs.nasa.gov/citations/20100036670)"
+>
+  <div
+    role="img"
+    aria-label="修正コストの倍率。要件定義1倍、設計3~8倍、製造7~16倍、統合・試験21~78倍、運用29~1,500倍以上。"
+  >
+    <p class="mb-4 text-xs text-muted">要件定義の段階で直すコストを1としたとき(1目盛りで10倍)</p>
+    <ol class="space-y-4">
+      {phases.map((p, i) => {
+        const late = i >= 3;
+        const label = p.min === p.max ? `×${p.min}` : `×${fmt(p.min)}~${fmt(p.max)}${p.more ? " 以上" : ""}`;
+        return (
+          <li class="grid gap-1 sm:grid-cols-[6.5rem_1fr] sm:items-center sm:gap-4" aria-hidden="true">
+            <p class="text-sm font-bold sm:text-right">{p.label}</p>
+            <div class="relative h-7">
+              {ticks.map((t) => (
+                <span class="absolute inset-y-0 border-l border-dashed border-grid" style={`left:${pos(t)}%`} />
+              ))}
+              {p.min === p.max ? (
+                <span
+                  class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-positive"
+                  style={`left:${pos(p.min)}%`}
+                />
+              ) : (
+                <span
+                  class:list={["absolute inset-y-0.5 rounded-sm", late ? "bg-accent-strong" : "bg-link/75"]}
+                  style={`left:${pos(p.min)}%; width:${pos(p.max) - pos(p.min)}%`}
+                />
+              )}
+              <span
+                class:list={[
+                  "absolute top-1/2 -translate-y-1/2 font-mono text-xs whitespace-nowrap sm:text-sm",
+                  p.more ? "text-paper" : "text-ink",
+                ]}
+                style={p.more ? `left:calc(${pos(p.min)}% + 0.5rem)` : `left:calc(${pos(p.max)}% + 0.75rem)`}
+              >
+                {label}
+              </span>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+    <div class="mt-2 grid sm:grid-cols-[6.5rem_1fr] sm:gap-4" aria-hidden="true">
+      <span></span>
+      <div class="relative h-5 border-t border-ink">
+        {ticks.map((t, i) => (
+          <span
+            class:list={[
+              "absolute top-1 font-mono text-[0.7rem] text-muted",
+              i === 0 ? "" : i === ticks.length - 1 ? "-translate-x-full" : "-translate-x-1/2",
+            ]}
+            style={`left:${pos(t)}%`}
+          >
+            ×{fmt(t)}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</FigureFrame>

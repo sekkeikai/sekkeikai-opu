@@ -1,0 +1,106 @@
+---
+// 設計の地図。横に「工程(設計のプロセス)」、縦に「どの工程にも通じる視点」を並べる。
+// 工程の名前は工程のページ(layer: step)から、各マスの中身は視点のページの perStep から読む(src/lib/design.ts)。
+//   variant="full"    … 表(table)で、交わるところに「その工程でその視点をどう使うか」を書く(/design/ 用)
+//   variant="compact" … マスの中身は出さず、「工程の上を視点が横切る」形だけを見せる軽い版(トップページ用)
+// 工程の見出しは各工程のページへ、視点の見出しはそれぞれのページへリンクする。
+import type { CollectionEntry } from "astro:content";
+import { getLenses, getProcessSteps } from "../lib/design";
+
+interface Props {
+  variant?: "full" | "compact";
+}
+
+// 視点のページは、src/content/design/ に layer: lens のページを足せば自動でここに加わる
+const { variant = "full" } = Astro.props;
+const steps = await getProcessSteps();
+const rows: CollectionEntry<"design">[] = await getLenses();
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+
+{variant === "compact" && (
+  <div class="surface rounded-card border border-grid bg-paper p-5 sm:p-6" data-reveal>
+    <p class="annotation mb-3 text-muted">工程(行き来しながら進む)</p>
+    <ol class="grid gap-2 sm:grid-cols-5">
+      {steps.map((s) => (
+        <li>
+          <a
+            href={s.href}
+            class="group flex h-full items-baseline gap-2 rounded-md border border-grid px-3 py-2.5 transition hover:border-link sm:block"
+          >
+            <span class="font-mono text-xs text-accent-strong">{pad(s.n)}</span>
+            <span class="font-display font-bold group-hover:text-link sm:mt-1 sm:block [word-break:auto-phrase]">
+              {s.title}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <p class="annotation mt-6 mb-3 text-muted">視点(どの工程にも通じる)</p>
+    <ul class="space-y-2">
+      {rows.map((row) => (
+        <li>
+          <a
+            href={`/design/${row.id}/`}
+            class="group flex items-center justify-between gap-4 rounded-md bg-link/8 px-4 py-3 transition hover:bg-link hover:text-paper"
+          >
+            <span>
+              <span class="font-display text-lg font-bold">{row.data.short}</span>
+              <span class="ml-2 text-sm text-muted group-hover:text-paper/80">{row.data.title}</span>
+            </span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+{variant === "full" && (
+  <div class="surface overflow-x-auto rounded-card border border-grid bg-paper" data-reveal>
+    <table class="w-full min-w-[46rem] table-fixed border-collapse text-left">
+      <caption class="sr-only">工程と視点の組み合わせ(行が視点、列が工程)</caption>
+      <colgroup>
+        <col class="w-44" />
+      </colgroup>
+      <thead>
+        <tr class="border-b border-grid">
+          <td class="p-4 align-bottom">
+            <span class="annotation text-muted">視点 ↓ / 工程 →</span>
+          </td>
+          {steps.map((s) => (
+            <th scope="col" class="border-l border-grid p-0 align-top font-normal">
+              <a href={s.href} class="group block h-full p-4 transition hover:bg-paper-muted">
+                <span class="block font-mono text-xs text-accent-strong">{pad(s.n)}</span>
+                <span class="mt-1 block font-display font-bold group-hover:text-link">{s.title}</span>
+                <span class="block text-xs text-muted">{s.sub}</span>
+              </a>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr class="border-b border-grid last:border-b-0">
+            <th scope="row" class="p-0 align-top font-normal">
+              <a href={`/design/${row.id}/`} class="group block h-full p-4 transition hover:bg-paper-muted">
+                <span class="annotation block text-link">{row.data.en}</span>
+                <span class="mt-1 block font-display text-lg leading-snug font-bold group-hover:text-link">
+                  {row.data.short}
+                </span>
+                <span class="block text-xs text-muted">{row.data.title} →</span>
+              </a>
+            </th>
+            {steps.map((_, i) => (
+              <td class="border-l border-grid p-4 align-top text-sm leading-relaxed [word-break:auto-phrase]">
+                {row.data.perStep?.[i]?.cell ?? <span class="text-muted">—</span>}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
+{variant === "full" && <p class="annotation mt-2 text-muted normal-case lg:hidden">← 表は横にスクロールできます →</p>}

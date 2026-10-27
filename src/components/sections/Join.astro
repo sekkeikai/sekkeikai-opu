@@ -1,39 +1,62 @@
 ---
-// 入部案内。formUrl が空のときはボタンを出さずに案内文だけにする。
+// 入部の呼びかけ。身に付く力と、「入部はこちら」ボタン(入部フォームが開く)・Discord・TimeTree・メールへの入り口を並べる。
+// 「入部はこちら」ボタンの行き先は formUrl(JoinButton が読む)。Discord などは src/content/site/links.yaml が空なら出さない。
+import JoinButton from "../JoinButton.astro";
+import { getSiteLinks } from "../../lib/site";
+
 interface Props {
+  eyebrow?: string;
   title: string;
   body: string;
-  formUrl?: string;
-  buttonLabel: string;
+  traitsTitle?: string;
+  traits: { title: string; body: string }[];
 }
 
-const { title, body, formUrl, buttonLabel } = Astro.props;
+const { eyebrow = "入部する", title, body, traitsTitle, traits } = Astro.props;
+const contacts = (await getSiteLinks()).filter((c) => c.href);
 ---
 
-<section id="join" class="bg-ink py-24 text-paper" aria-labelledby="join-title">
-  <div class="container-page text-center">
-    <p class="annotation mb-3 text-paper/60">Join us</p>
-    <h2 id="join-title" class="text-3xl font-bold sm:text-5xl" data-reveal>
+<section id="join" class="scroll-mt-14 bg-ink py-24 text-paper sm:py-32" aria-labelledby="join-title">
+  <div class="container-page">
+    <p class="annotation text-accent" data-reveal>
+      {eyebrow}
+    </p>
+    <h2 id="join-title" class="mt-5 text-[2.5rem] leading-tight font-black sm:text-7xl" data-reveal>
       {title}
     </h2>
-    <p class="mx-auto mt-8 max-w-2xl text-left text-lg text-paper/85 sm:text-center" data-reveal>
+    <p class="mt-8 max-w-2xl font-serif text-lg leading-loose text-paper/85 sm:text-xl" data-reveal>
       {body}
     </p>
-    {formUrl ? (
-      <a
-        href={formUrl}
-        class="mt-10 inline-flex items-center gap-2 rounded-full bg-proposer-strong px-8 py-4 font-bold text-white transition hover:bg-paper hover:text-ink"
-        rel="noopener"
-        target="_blank"
-        data-reveal
-      >
-        {buttonLabel}
-        <span aria-hidden="true">↗</span>
-      </a>
-    ) : (
-      <p class="mt-10 text-paper/60" data-reveal>
-        入部フォームは準備中です。
+
+    {traitsTitle && traits.length > 0 && (
+      <p class="annotation mt-14 text-paper/60" data-reveal>
+        {traitsTitle}
       </p>
     )}
+    {traits.length > 0 && (
+      <ul class:list={["grid gap-4 sm:grid-cols-3", traitsTitle ? "mt-4" : "mt-14"]}>
+        {traits.map((t, i) => (
+          <li class="border-t-2 border-accent pt-5" data-reveal data-reveal-delay={String(i * 0.08)}>
+            <p class="font-display text-2xl font-bold">{t.title}</p>
+            <p class="mt-2 text-paper/75">{t.body}</p>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal>
+      <JoinButton size="lg" tone="light" />
+      {contacts.map((c) => (
+        <a
+          href={c.href}
+          class="inline-flex items-center gap-2 rounded-full border-2 border-paper px-8 py-3.5 font-bold transition hover:bg-paper hover:text-ink"
+          rel={c.external ? "noopener" : undefined}
+          target={c.external ? "_blank" : undefined}
+        >
+          {c.action}
+          <span aria-hidden="true">{c.external ? "↗" : "→"}</span>
+        </a>
+      ))}
+    </div>
   </div>
 </section>

@@ -7,20 +7,50 @@
 - 大学サークル「設計会」のサイト。Astro 7（静的出力）+ Tailwind CSS 4 + GSAP/Lenis。Cloudflare Workers の静的アセットとして配信
 - 記事は Sveltia CMS（`public/admin/config.yml`）から Git に保存される。内容の検証は `src/content.config.ts`（zod）
 - デザイントークンの正本は `tokens/tokens.json`（DTCG 形式、Figma の Tokens Studio と同期）。`src/styles/tokens.css` は生成物で Git 管理外
+- `/lab/` はデザイン確認用ページ（トークン、図、全セクションの一覧）
+
+## コンテンツの構成
+
+- **文章を書く・直す前に `docs/writing-guide.md` を読む**（ウェブの読まれ方と読みやすい文章について調べたことと、このサイトの決まり）
+- トップページ（`src/content/pages/home.yaml`）は「なぜ今、設計が大事なのか」を伝える長文。**読者の大半はトップページしか見ないので、トップページだけで「概要がわかる」から「興味がわく」までを担う**。章（`type: chapter`）を並べ、各章は「読者の問い（eyebrow）→ 主張の見出し → 要点（point）→ 本文」。先頭の「設計会の考え方」（`type: summary`）は各章の見出しと要点から自動で作られる。章は前の章が次の章の前提になる順に並べる。主張には実際にあった例を添え、短い出典は段落の `note`（本文の右）に入れる。ヒーローの最初の一文は設計の価値から書き、AI は「つくる手間が下がった例の一つ」として扱う
+- 長文は「ブロック」を並べて書く（`src/content.config.ts` の `block`、表示は `src/components/Blocks.astro`、編集画面は `public/admin/config.yml` の `&blocks`）。要点 `point`・問いかけ `question`・例 `example`・補足 `aside`（折りたたみ）・小見出し `heading`・段落 `p`・表 `table`・画像 `image`・機能の図 `idef0` などを、大事さに合わせて使い分ける。トップページと「設計を知る」で同じブロックが使える。**問いかけの答えは隠さない。折りたたみは、本題でない長い補足や詳しい事例だけに使う**。読者に「読み飛ばしてよい」「3分で読める」などの読み方は書かない（拾い読みしやすさは見た目と構成でつくる。「架空の例」と明かすのは読み方の指示ではないので書く）
+- 本文中の `[[modeling]]`、`[[modeling|モデル]]`、`[[process#loop|工程の行き来]]` は「設計を知る」のページ（や章）へのリンク、`**強調**` は強調になる（`src/lib/inline.ts`）
+- 「設計を知る」（`/design/`）は `src/content/design/*.yaml`（ファイル名が URL）。**YAML を一つ足せば、一覧・地図・リンクに自動で加わる**。決まった章立てはなく、テーマがいちばん伝わる組み立てで書く。**トップ以外のページは、1ページ1テーマ**（ページの主張を一文で言え、それを lead か最初の point に書く。章はその一文を支えるものだけにする）。長くなったらページを分ける。**階層は混ぜない**：
+  - `layer: process` … 設計のプロセスの全体（1 ページ）
+  - `layer: step` … 工程 1 つにつき 1 ページ（`order` が工程の番号。上に工程の帯 `StepNav` が出る）
+  - `layer: lens` … どの工程にも通じる視点（`perStep` を書くと地図の表に出る）
+  - `layer: case` … 設計の流れの例。**決まった型で書かない。5つの工程に合わせる必要もない**。実際の設計では、1つの工程に手順がいくつも入ったり、境界があいまいな手順もあるので、手順を順に並べ、設計として大事な手順は詳しく書く。文字数の制限はない。**手順を行った結果（選んだ案、決めた数値、問題の一文の中身、比べた点数など）は書かない**。出てくる設計はグループや状況で違ってよく、押しつけるものではないので、書くのは「何をするか・なぜ今するか・どうやるか・何に気をつけるか・どんな形のものができ、次の手順でどう使うか」まで。章に `step: 番号` を書くのは、その手順が1つの工程にはっきり入るときだけ（工程のページへのリンクが付く）。冒頭で、目的・誰のため・計画の終わりにできるもの・届いたかの確かめ方を示す
+  - `layer: topic` … それ以外のテーマ
+- 図は `src/components/figures/`（名前の一覧は `src/lib/figures.ts`）。図を足したら `src/components/Figure.astro` と `public/admin/config.yml` の図の選択肢にも足す（`npm run cms:check` が揃っているかを確かめる）。トップページでは図の番号・題・説明を省く（説明は前後の本文で書く）。出典は省かず、図の下に小さく出す
+- 想定する読者は頭のいい大学生。正しい用語・仕組み・数字を省かない
+- 出典は必ずリンク付き（`[表示名](https://…)`、参考文献は `url`）。URL のない出典は使わない。本は国立国会図書館サーチか CiNii の書誌ページにリンクする
+- 例（`example`）は `kind` で分ける。`kind: real` は実際にあった例で、`source` に出典のリンクが必須。`kind: scene`（省略時）は説明のための場面（部室の予約など）で、「たとえば」の見た目で出る。架空の例なら題か lead にそう書く
+- **架空の例は、未来の計画として書く**（「もし〜を設計するなら、こう進めます」）。起きていない出来事を過去の形（「〜しました」「〜とわかった」「アンケート42件を読むと…」）で書かない。調べた結果や試した結果は「たとえば〜なら、〜する」の仮定で書き、数字は仮の値と明かす（`npm run check:content` が、事例のページと場面の例の過去形を見つける）
+- 一つの主張に添える実例は1件（多くて2件）。同じ実例は1ページにだけ置き、ほかのページからはリンクする（`npm run check:content` が、同じ出典の実例が2ページにあると失敗する）
+- 岡山県立大学の関連授業は、「設計を知る」のページの `courses`（ページの終わりに枠で出る）か、トップの章のブロック `type: courses` に書く。授業名はシラバスどおり、担当教員の名前は書かない。`path` はシラバスのページの場所で、年度は `src/lib/syllabus.ts` の一か所だけ。年度が変わったら、`npm run check:links` で各ページの授業がまだあるかを確かめる（`docs/handover.md`）。関連授業は1ページ5件まで
+- 人物やキャラクターの挿絵（イラスト）は使わない。わかりにくいところは図（`src/components/figures/`）で示す。アイコンと説明の図は使ってよい。外部の画像は必要最低限にし、パブリックドメインか再利用が許されたライセンスのものだけを `public/uploads/` に置いて、`image` ブロックに作者・ライセンス・元のページを書く（CC BY 系は `licenseUrl` も必須。一覧は `docs/image-credits.md` で、載っていない画像があると `npm run check:content` が失敗する）
+- Discord・TimeTree・問い合わせメールは `src/content/site/links.yaml`（編集画面の「サイトの設定」。ヘッダーのアイコン、フッター、入部の章のボタン。空の項目は出ない）。入部フォームは Microsoft Forms の URL を `home.yaml` の join の `formUrl` に書く。ヘッダー・トップの上部・目次・入部の章の「入部はこちら →」ボタン（`src/components/JoinButton.astro`。ヘッダーだけは幅の都合で「→」なし）と、フッターのリンクは、すべてこの URL を新しいタブで開く（空の間は押せない見た目になる）。フォームで集めるのは連絡に必要な最小限（名前・連絡先・学年など）で、学籍番号は集めない。フォームの冒頭に、目的・見る人（役員だけ）・消す時期を書く。メールは団体で共有しているアドレスだけ。サイトには GitHub のリンクと「サイトをみんなでつくっている」という文言は載せない
+- 活動の段階（なんでもプレゼン〜大プレゼン）、発案者・設計仲間・投資家の役割、プロジェクト紹介は古い情報なので使わない
 
 ## コマンド
 
 - `npm run check` … CMS 設定の検証 + astro check（必須チェックと同じ）
-- `npm run build` … `dist/` に出力
+- `npm run build` … `dist/` に出力（先に `check:sources` と `check:content` が走る）
 - `npm test` … Playwright のスモークテスト（build 後）
+- `npm run check:sources` … 図の出典にリンクがあるか
+- `npm run check:content` … 表記の決まり、同じ実例の重複、画像の一覧（`docs/image-credits.md`）との突き合わせ
+- `npm run check:links` … 外部リンクとシラバスのリンクが開けるか（ネットにつなぐので、ビルドには入れていない。年度の初めに走らせる）
 
 ## ルール
 
 - UI の文言・コメントは日本語。部員の多くはプログラミング初心者なので、コメントは「何のためか」を平易に書く
-- セクションを追加・変更したら、次の 4 か所をそろえる: `src/components/sections/*.astro`、`src/content.config.ts`、`src/components/SectionRenderer.astro`、`public/admin/config.yml`。文字数上限は zod と CMS の `maxlength` で同じ値にする
+- セクションを追加・変更したら、次の 4 か所をそろえる: `src/components/sections/*.astro`、`src/content.config.ts`、`src/components/SectionRenderer.astro`、`public/admin/config.yml`。ブロックなら `src/components/Blocks.astro`、`src/content.config.ts` の `block`、`public/admin/config.yml` の `&blocks`。文字数上限は zod と CMS の `maxlength` で同じ値にする
+- 編集画面は空のまま残した任意の欄をファイルに書かない（`output.omit_empty_optional_fields`）。zod で任意の欄は `.optional()` か `.default()` にする
 - 色・フォント・動きの値をコードに直接書かない。`tokens/tokens.json` に足して Tailwind のクラスや CSS 変数で使う
 - アニメーションは `src/scripts/motion.ts` に集約。`prefers-reduced-motion: reduce` のときは動かさない。スマホ（pointer: coarse）では Lenis を使わない
-- 画像には意味のある `alt`（装飾なら `alt=""`）。見出しの階層を飛ばさない
+- 画像には意味のある `alt`（装飾なら `alt=""`）。お知らせの `cover` には `coverAlt` が必須。見出しの階層を飛ばさない
+- 文字と背景の色の組み合わせは、WCAG 2.2 の AA（本文はコントラスト比 4.5:1 以上、大きな文字は 3:1 以上）を満たす
+- 文章を公開する前に、書いた人とは別の部員が一人読み、出典のリンクを開いて主張と合っているかを確かめる
 - 代表者の氏名はサイトに載せてよいが、年度ごとに変わるのでコードに直接書かず、`home.yaml` の団体概要（info セクション）に置く
 - 学籍番号・大学のメールアドレス・個人の連絡先はコード・コンテンツ・サンプルデータに入れない（卒業すると無効になり、個人の特定にもつながるため）。連絡先が必要ならサークルの共用アドレスや問い合わせフォームを使う
 - 依存パッケージを追加するときは理由を PR に書く。CDN からのスクリプト読み込みは増やさない

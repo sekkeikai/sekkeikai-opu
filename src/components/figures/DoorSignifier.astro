@@ -1,0 +1,117 @@
+---
+// 押して開けるドアを2つ並べた図。取っ手の形が「どう動かすか」を伝えてしまう(シグニファイア)ことを見せる。
+//   左: つかむ棒が付いている → 「引いて」と伝わるのに押すドア。「押」の表示を貼らないと迷う
+//   右: 平らな板が付いている → つかめないので「押して」と伝わる。表示がなくても押すと分かる
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const doors = [
+  {
+    x: 70,
+    good: false,
+    head: "つかむ棒の付いた、押すドア",
+    note: ["棒は「つかんで引いて」と", "伝える。だから表示が要る"],
+  },
+  {
+    x: 390,
+    good: true,
+    head: "平らな板の付いた、押すドア",
+    note: ["板はつかめないので", "「押して」と伝わる"],
+  },
+];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="形が、使い方を伝える"
+  caption="どちらも押して開けるドア。左は取っ手の形が「引いて」と伝えてしまうので、「押」の表示を貼っても間違える人が出る。右は形そのものが「押して」と伝えている。"
+  source="[D. A. Norman, The Design of Everyday Things, 2013](https://www.basicbooks.com/titles/don-norman/the-design-of-everyday-things/9780465050659/) の考え方を基に作図"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 330"
+    class="w-full"
+    role="img"
+    aria-label="押して開けるドアの比較。左はつかむ棒が付いていて「押」の表示が要る。右は平らな板が付いていて表示がなくても押すと分かる。"
+  >
+    {doors.map((d) => (
+      <g>
+        <text x={d.x + 90} y="22" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+          {d.head}
+        </text>
+        <!-- ドアの枠と扉 -->
+        <rect x={d.x} y="38" width="180" height="220" fill="var(--color-paper-muted)" stroke={ink} stroke-width="2" />
+        <rect x={d.x + 10} y="48" width="160" height="210" fill="var(--color-paper)" stroke={ink} stroke-width="1.5" />
+        {d.good ? (
+          <rect
+            x={d.x + 128}
+            y="120"
+            width="30"
+            height="64"
+            rx="3"
+            fill="var(--color-link)"
+            fill-opacity="0.25"
+            stroke="var(--color-link)"
+            stroke-width="2"
+          />
+        ) : (
+          <g>
+            <line
+              x1={d.x + 146}
+              x2={d.x + 146}
+              y1="112"
+              y2="196"
+              stroke={ink}
+              stroke-width="7"
+              stroke-linecap="round"
+            />
+            <line x1={d.x + 146} x2={d.x + 134} y1="116" y2="116" stroke={ink} stroke-width="3" />
+            <line x1={d.x + 146} x2={d.x + 134} y1="192" y2="192" stroke={ink} stroke-width="3" />
+            <rect
+              x={d.x + 46}
+              y="128"
+              width="44"
+              height="30"
+              rx="3"
+              fill="var(--color-accent)"
+              fill-opacity="0.2"
+              stroke="var(--color-accent-strong)"
+            />
+            <text
+              x={d.x + 68}
+              y="149"
+              text-anchor="middle"
+              font-size="16"
+              font-weight="700"
+              fill="var(--color-accent-strong)"
+            >
+              押
+            </text>
+          </g>
+        )}
+        <text x={d.x + 90} y="284" text-anchor="middle" font-size="13" fill={ink}>
+          {d.note[0]}
+        </text>
+        <text x={d.x + 90} y="304" text-anchor="middle" font-size="13" fill={ink}>
+          {d.note[1]}
+        </text>
+        <text
+          x={d.x + 90}
+          y="326"
+          text-anchor="middle"
+          font-size="13"
+          font-weight="700"
+          fill={d.good ? "var(--color-link)" : "var(--color-accent-strong)"}
+        >
+          {d.good ? "一目で分かる" : "迷いやすい"}
+        </text>
+      </g>
+    ))}
+  </svg>
+</FigureFrame>

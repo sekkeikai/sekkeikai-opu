@@ -23,12 +23,14 @@
     line-height: 1.35;
     letter-spacing: 0.04em;
     text-wrap: balance;
-    /* 日本語を文節で改行する（対応ブラウザのみ） */
+    /* 日本語を文節で改行する（対応ブラウザのみ）。
+       「ヒューマンインターフェース」のような長い語が画面からはみ出すときだけ、語の途中でも改行する */
     word-break: auto-phrase;
+    overflow-wrap: anywhere;
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-investor);
+    outline: 3px solid var(--color-link);
     outline-offset: 3px;
   }
 
@@ -67,8 +69,8 @@
   .bg-blueprint-grid-dark {
     background-color: var(--color-blueprint);
     background-image:
-      linear-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(255 255 255 / 0.07) 1px, transparent 1px);
+      linear-gradient(color-mix(in srgb, var(--color-paper) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--color-paper) 7%, transparent) 1px, transparent 1px);
     background-size: 32px 32px;
   }
 
@@ -100,8 +102,114 @@
   }
 
   .prose-ja :where(a) {
-    color: var(--color-investor);
+    color: var(--color-link);
     text-decoration: underline;
+  }
+
+  /* ── 長文（「設計を知る」のページ） ──
+     本文は明朝体で、1 行を 36 字前後に抑えて読みやすくする。
+     広い画面では本文の右に注（.sidenote）を並べ、狭い画面では段落の下に出す */
+  .longform {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 2.05;
+    letter-spacing: 0.04em;
+    text-wrap: pretty;
+    line-break: strict;
+  }
+  @media (min-width: 640px) {
+    .longform {
+      font-size: 1.125rem;
+    }
+  }
+  .longform-row {
+    display: grid;
+    gap: 0.5rem;
+    margin-block: 1.4em;
+  }
+  @media (min-width: 1024px) {
+    .longform-row {
+      grid-template-columns: minmax(0, 36em) minmax(0, 13rem);
+      column-gap: 2.5rem;
+      align-items: start;
+    }
+  }
+
+  .sidenote {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+    border-left: 2px solid var(--color-grid);
+    padding-left: 0.875rem;
+  }
+  @media (min-width: 1024px) {
+    .sidenote {
+      margin-top: 0.45rem;
+      /* 注が段落より長いときも、段落の行を高くしない（注は下へはみ出して、次の段落の横に続く）。
+         段落のあいだに大きな空白ができるのを防ぐため */
+      /* 下の余白を大きく負にして、行の高さの計算から注の長さを外す（枠の線は注の長さのまま出る） */
+      margin-bottom: -40rem;
+    }
+  }
+  .note-ref {
+    font-family: var(--font-mono);
+    font-size: 0.68em;
+    color: var(--color-link);
+    vertical-align: super;
+    line-height: 0;
+    margin-left: 0.15em;
+  }
+
+  /* 本文中の「設計を知る」のページへのリンク。マウスを乗せるとページの概要が出る */
+  .term {
+    position: relative;
+    font-weight: 600;
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-link);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.32em;
+    transition: color var(--motion-duration-fast);
+  }
+  .term:hover {
+    color: var(--color-link);
+  }
+  .term-card {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 0.6rem);
+    z-index: 30;
+    width: 17rem;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    color: var(--color-ink);
+    background: var(--color-paper);
+    border: 1px solid var(--color-ink);
+    box-shadow: 4px 4px 0 var(--color-grid);
+  }
+  @media (hover: hover) {
+    .term:hover .term-card,
+    .term:focus-visible .term-card {
+      display: block;
+    }
+  }
+
+  /* トップページの章の本文。読みやすさを優先して、少し大きめの文字と広い行間にする */
+  .story-body {
+    font-size: 1.0625rem;
+    line-height: 2;
+  }
+
+  /* 目次で、いま読んでいる章 */
+  .toc-link[aria-current="true"] {
+    color: var(--color-ink);
+    border-color: var(--color-link);
   }
 }
 

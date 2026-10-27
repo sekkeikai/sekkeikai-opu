@@ -1,0 +1,213 @@
+title: モデル化
+en: Modeling
+layer: lens
+order: 1
+short: モデルで考える
+question: まだ存在しないものを、どう確かめるか
+summary: まだ存在しないものを、図・模型・数式・シミュレーションで表し、つくる前に確かめる。何を残し、何を捨てるかを決める設計行為。
+lead: 設計の対象は、設計している間、まだ存在しません。存在しないものについて考え、議論し、確かめるために、私たちはモデルをつくります。モデル化とは、現実の複雑さの中から、今考えるべきことだけを取り出す技術です。
+chapters:
+  - id: basics
+    heading: モデルは、目的のために何かを捨てている
+    blocks:
+      - type: question
+        text: 駅の路線図は、本物の地図と比べると、距離も方角も正確ではありません。それなのに、なぜ乗り換えには路線図の方が役に立つのでしょう?
+        answer: 乗り換えに必要な「駅の順番」と「つながり」だけを残し、他を大胆に捨てているからです。
+      - type: point
+        text: モデルとは、目的のために、対象の一部だけを取り出して表したもの。何を残し、何を捨てるかを決めることが、モデル化の核心です。
+      - type: figure
+        name: route-map
+      - type: p
+        text: |-
+          この描き方は、1933年にロンドンの地下鉄の路線図として発行されました。描いたのは、地下鉄の信号の図面を描く仕事をしていたハリー・ベックです。駅の本当の位置を捨て、線を縦・横・斜めの直線だけで描きました。地理に正確な地図より乗り換えがずっと分かりやすく、今では多くの都市の路線図がこの考え方で描かれています。
+        note: |-
+          [K. Garland, Mr Beck's Underground Map, Capital Transport, 1994](https://ci.nii.ac.jp/ncid/BA27096263)。
+      - type: p
+        text: |-
+          路線図は図のモデルですが、設計で使うモデルは他にもあります。スケッチや三面図のような「図のモデル」、縮尺模型や試作品のような「物理モデル」、方程式で表す「数理モデル」、数理モデルをコンピューターで細かく解いて振る舞いを調べる「計算モデル」(シミュレーション)、そして要素どうしの関係を表す「概念モデル」や「データモデル」です。どれを使うかは、何を確かめたいかで決まります。
+      - type: figure
+        name: abstraction-ladder
+      - type: p
+        text: |-
+          統計学者ジョージ・ボックスは「全てのモデルは間違っている」と書きました。モデルは必ず何かを捨てているので、現実とはどこかで必ず違います。だから問うべきなのは、目的に対して十分に役に立つかどうかです。
+        note: |-
+          [G. E. P. Box, "Science and Statistics", Journal of the American Statistical Association, 71(356), 1976](https://doi.org/10.1080/01621459.1976.10480949)。のちに「しかし、役に立つものもある」と続けた形で広く引用される。
+
+  - id: why
+    heading: つくる前に、何度でも壊せる
+    blocks:
+      - type: point
+        text: モデルがあれば、つくる前に何度でも試せます。そしてモデルは、人と人が設計について話すための共通の言葉にもなります。
+      - type: p
+        text: |-
+          モデルを使えば、つくる前に試せます。本物の橋は、建ててから壊して確かめるには大きすぎ、お金もかかりすぎますが、計算や模型なら何度でも壊せます。案を比べる、弱点を見つける、性能を予測する。設計の判断の多くは、モデルを使った「思考実験」の上に成り立っています。
+      - type: p
+        text: |-
+          身近な例で試してみましょう。下の計算は、本棚の棚板がどれだけたわむかを、両端を支えた梁(単純支持梁)という単純なモデルで見積もるものです。板の厚さを18mmから12mmにすると、たわみは約3.4倍になります。直感より大きな差ですが、たわみは厚さの3乗に反比例するという梁のモデルを使えば、すぐに計算できます。つまみを動かして確かめてみてください。
+      - type: figure
+        name: beam-calculator
+      - type: example
+        kind: real
+        title: 明石海峡大橋の模型
+        text: |-
+          1940年、米国のタコマナローズ橋は、完成から4か月ほどで、秒速19m(時速68km)ほどの風を受けて大きくねじれ、落ちました。それ以来、長いつり橋は、風を当てた模型で揺れを確かめてから建てます。明石海峡大橋(1998年開通)は、それまでのつり橋の規模を大きく超える橋でした。そこで、長さ40m、実物の約100分の1の全橋模型を大きな風洞に入れ、本物が出会うかもしれない強い風を、建てる前に何度も当てて確かめました。この模型は今も神戸市の橋の科学館に展示されています。
+        source: タコマナローズ橋は[ワシントン州運輸局「Tacoma Narrows Bridge history」](https://wsdot.wa.gov/tnbhistory/bridge-timeline.htm)、明石海峡大橋は本州四国連絡高速道路「橋の科学館」の[展示の解説](https://www.hashinokagakukan.jp/exhibition/build)と[館の紹介](https://www.hashinokagakukan.jp/about)による。
+      - type: p
+        text: |-
+          試すことに加えて、モデルにはもう一つの役割があります。人と人が設計について話すための、共通の言葉になることです。同じ図面を見ていれば、形や寸法を正確に共有できます。逆に、関係者がそれぞれ違うモデルを頭に描いていると、議論は食い違い、ときには事故につながります。火星探査機マーズ・クライメート・オービターが1999年に失われたのは、2つのソフトウェアのうち一方が、取り決めと違う単位で数値を渡していたためでした。
+        note: |-
+          [NASA, Mars Climate Orbiter Mishap Investigation Board Phase I Report, 1999](https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf)。地上のソフトウェアが、インターフェース仕様で定められたニュートン秒ではなく、ポンド重秒で値を出力していた。
+
+  - id: how
+    heading: モデルをつくり、使い、直す
+    blocks:
+      - type: point
+        text: 目的を決め、境界と仮定を書き出し、表し方を選び、確かめて直す。モデルは、使いながら直し続けるものです。
+      - type: p
+        text: |-
+          ここまでの例のように、モデルが役に立つかどうかは目的で決まります。だから、役に立つモデルは、目的を決めるところからつくり始めます。次の手順で進めると見通しが良くなります。
+      - type: steps
+        items:
+          - title: 目的を決める
+            body: そのモデルで何を確かめたいのかを、最初に一文で書きます。目的が決まれば、何を残し何を捨てるかも決まります。
+          - title: 境界を決める
+            body: どこまでを対象に含め、何を外から与えられる条件として扱うかを決めます。
+          - title: 仮定を書き出す
+            body: 「材料はどこも同じ」「荷重は均等」など、単純にするための仮定をはっきり書きます。仮定の一覧は、モデルの弱点の一覧でもあります。
+          - title: 表し方を選ぶ
+            body: 図、数式、表計算、シミュレーション、物理的な試作。目的と手間に見合う表し方を選びます。
+          - title: 確かめる
+            body: 分かっている結果や実際に測った値と比べ、モデルが目的に足りる精度を持っているかを確かめます。
+          - title: 使って、直す
+            body: モデルの結果を設計の判断に使い、新しく分かったことに合わせてモデルを直します。
+      - type: p
+        text: |-
+          物の設計では式や模型をよく使いますが、アプリやサービスのような情報系の設計でよく使うのは、構造や振る舞いを図で表すモデルです。記録する対象(実体)とその関係を表す実体関連図(ER図)は、1976年にピーター・チェンが提案しました。プログラムを組み立てるクラス(データとその処理をまとめた型)の関係を表すクラス図や、状態の移り変わりを表す状態機械図(状態遷移図とも呼ぶ)は、統一モデリング言語(UML)の図として描き方が標準化されています。機能のつながりを箱と矢印で表すIDEF0は、要件を定める工程で機能を整理するのに役立ちます。
+        note: |-
+          UML は1997年にオブジェクト・マネジメント・グループ(OMG)が[標準(UML 1.1)](https://www.omg.org/spec/UML/1.1/)として採択した。IDEF0 は米空軍のICAM計画の中で開発され、1993年に米国の連邦情報処理規格([FIPS PUB 183](https://nvlpubs.nist.gov/nistpubs/Legacy/FIPS/fipspub183.pdf))となった。
+      - type: figure
+        name: er-state
+      - type: p
+        text: |-
+          同じ部室の予約でも、確かめたいことで描く図が変わります。何を記録し、どうつなぐか(データの形)を決めたいならER図。一つの予約がどんな順番で状態を変えるかを決めたいなら状態遷移図です。状態遷移図を描くと、「取消にした予約を、また確定に戻せるか」のような決まりが矢印の有無として目に見えるので、つくる前に話し合って決めておけます。
+      - type: per-step
+
+  - id: now
+    heading: コンピューターの中で、先に完成させる
+    blocks:
+      - type: point
+        text: コンピューターの中のモデルで先に完成させ、出した後も、実物のデータでモデルを直し続ける使い方が広がっています。
+      - type: p
+        text: |-
+          紙の図面と模型の時代から、モデルの中心はコンピューターの中へ移りました。3次元CADで形をつくり、そのままCAE(コンピューターで構造や流れ、熱などを解析すること)にかけて、試作の前に性能を確かめるのが当たり前になりました。自動車の衝突試験も、実車で行う前に、コンピューターの上で何度も繰り返されています。
+      - type: p
+        text: |-
+          モデルの役目は、製品を出した後も続きます。実物のデータで直し続けるモデルは、デジタルツインと呼ばれます。モデルが[[data-analysis]]と結び付くことで、設計は使われながら改善され続けるものになりつつあります。
+
+  - id: club
+    heading: 図と数値で示すと、質問が具体的になる
+    blocks:
+      - type: point
+        text: テーマに合わせてモデルを選び、発表や議論の共通の言葉として使います。
+      - type: p
+        text: |-
+          設計会では、テーマの性質に合わせてモデルを使い分けます。アプリやサービスの設計ではIDEF0やER図で機能やデータの関係を整理し、物の設計では、スケッチや三面図から始めて、必要に応じてCADやCAEで性能を確かめます。
+      - type: p
+        text: |-
+          考えたことを発表するときも、モデルが議論の共通言語になります。言葉だけで話した案には「なんとなく良さそう」という感想が返りがちですが、図や数値で示せば、具体的な質問や反論が返ってきます。そのやりとりが、モデルをさらに磨いていくのです。
+  - id: history
+    label: "寄り道: 歴史"
+    heading: 模型と図面から、コンピューターの中へ
+    blocks:
+      - type: point
+        text: 模型と図面から、コンピューターの中のモデルへ。モデルは、ものづくりとともに進化してきました。
+      - type: timeline
+        items:
+          - year: 紀元前1世紀
+            title: 平面図・立面図・透視図
+            body: ウィトルウィウスが『建築について』で、建築家が描くべき図として平面図、立面図、透視図を挙げる。
+          - year: "1638"
+            title: ガリレオ『新科学対話』
+            body: 梁の強さや、形が相似でも大きさが変わると強さの割合が変わることを論じる。
+          - year: 1790年代
+            title: 画法幾何学
+            body: ガスパール・モンジュが、立体を平面に正確に描き表す方法を体系化する。のちの製図法の基礎になる。
+          - year: 1870年代
+            title: 船の模型実験
+            body: ウィリアム・フルードが水槽で船の模型を引き、実物の抵抗を予測する相似則を確立する。
+          - year: "1901"
+            title: ライト兄弟の風洞
+            body: 自作の風洞で200種類ほどの翼の模型を試験し、2年後の初飛行につなげる。
+          - year: "1956"
+            title: 有限要素法
+            body: ターナーやクラフらが、ボーイング社での研究を基に、航空機の構造を解析する方法を発表。1960年にクラフが「有限要素」と名付ける。
+          - year: "1963"
+            title: Sketchpad
+            body: アイバン・サザランドが、コンピューターの画面上で図形を直接描いて操作するシステムをつくる。技術図面を画面で直接描けるようにした、最初期のシステム。
+          - year: "1976"
+            title: 実体関連モデル
+            body: ピーター・チェンがデータどうしの関係を表すERモデルを発表する。
+          - year: "1997"
+            title: UML
+            body: ソフトウェアの設計を描く共通の言語が標準になる。
+
+perStep:
+  - cell: 今の仕組みの流れを図にする
+    body: 今の仕組みや生活の流れを図にして、どこで問題が起きているのかを見える形にします。
+  - cell: 機能のつながりを図にする
+    body: IDEF0やユースケース図で、果たすべき機能とその入出力、機能どうしのつながりを整理します。
+  - cell: スケッチと簡単な模型
+    body: 精度より速さ。スケッチや紙・段ボールの模型で、形や大きさの感覚をつかみます。
+  - cell: 計算やシミュレーションで比べる
+    body: 上の棚板の例のような簡単な数理モデルで、案ごとの性能を見積もって比べます。
+  - cell: 3次元CADとCAEで確かめる
+    body: 3次元CADで形を決め、構造や流れをコンピューターで解析するCAEで、性能を確かめます。
+references:
+  - text: G. E. P. Box, "Science and Statistics", Journal of the American Statistical Association, 71(356), pp.791–799, 1976.
+    url: https://doi.org/10.1080/01621459.1976.10480949
+  - text: NASA, Mars Climate Orbiter Mishap Investigation Board Phase I Report, 1999.
+    url: https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf
+  - text: M. J. Turner, R. W. Clough, H. C. Martin, L. J. Topp, "Stiffness and Deflection Analysis of Complex Structures", Journal of the Aeronautical Sciences, 23(9), 1956.
+    url: https://doi.org/10.2514/8.3664
+  - text: 'I. E. Sutherland, "Sketchpad: A Man-Machine Graphical Communication System", MIT, 1963(ケンブリッジ大学による2003年の電子版).'
+    url: https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf
+  - text: P. P. Chen, "The Entity-Relationship Model — Toward a Unified View of Data", ACM Transactions on Database Systems, 1(1), 1976.
+    url: https://doi.org/10.1145/320434.320440
+  - text: Object Management Group, Unified Modeling Language (UML) 1.1, 1997.
+    url: https://www.omg.org/spec/UML/1.1/
+  - text: FIPS PUB 183, Integration Definition for Function Modeling (IDEF0), 1993.
+    url: https://nvlpubs.nist.gov/nistpubs/Legacy/FIPS/fipspub183.pdf
+  - text: K. Garland, Mr Beck's Underground Map, Capital Transport, 1994.
+    url: https://ci.nii.ac.jp/ncid/BA27096263
+  - text: Washington State Department of Transportation, "Tacoma Narrows Bridge history — Bridge timeline".
+    url: https://wsdot.wa.gov/tnbhistory/bridge-timeline.htm
+  - text: 本州四国連絡高速道路「橋の科学館」(明石海峡大橋の全橋模型の展示).
+    url: https://www.hashinokagakukan.jp/exhibition/build
+  - text: 本州四国連絡高速道路「橋の科学館」(館の紹介).
+    url: https://www.hashinokagakukan.jp/about
+related:
+  - process
+  - human-interface
+  - data-analysis
+
+courses:
+  - name: 設計工学・生産システム
+    dept: 情報システム工学科
+    relation: 機能のモデリング(IDEF0)や構造分析の手法を学ぶ
+    path: 0222/0222_22272701
+  - name: オブジェクト指向プログラミング
+    dept: 情報システム工学科
+    relation: クラスの設計とクラス図
+    path: 0222/0222_22230301
+  - name: データ工学
+    dept: 情報工学部
+    relation: データの格納と、データどうしの関係の設計(リレーショナルデータベース)
+    path: 0222/0222_22146301
+  - name: モデリングとシミュレーション
+    dept: 人間情報工学科
+    relation: 振動や熱伝導を微分方程式でモデルにしてシミュレーションし、人体の運動のモデル化を目指す
+    path: 0224/0224_24271001
+  - name: CAD演習
+    dept: 建築学科
+    relation: 2次元の図面から3次元CADのCG、プレゼンテーションまで
+    path: 0337/0337_37001701

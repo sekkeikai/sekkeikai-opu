@@ -1,0 +1,269 @@
+---
+// 公理的設計(N. P. スー)を、蒸気機関の例で見せる図。
+// 左: ニューコメン機関(1712年)。一つのシリンダーを、蒸気で温めては冷水で冷やす → 干渉設計
+// 右: ワット機関(1769年の特許)。冷やす役を別の容器(復水器)に分けた → 独立設計
+// 下の表は「要求機能(FR: やりたいこと)× 設計パラメーター(DP: 設計で決めるもの)」。● はその設計パラメーターがその要求機能に効くこと。
+// FR1 はスーの原文では「蒸気でピストンを押し出す」だが、ニューコメン機関の蒸気は大気圧に近く、ピストンを押すのは大気の圧力なので、
+// 「シリンダーを蒸気で満たす」と言い換えている(表の形は変わらない)。
+// 判定はスーの教科書の草稿(Example 1.3, 1996)による。ワットの改良のうち、ここで描くのは「復水器を分けたこと」だけ。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+const hot = "var(--color-accent-strong)";
+const cold = "var(--color-link)";
+
+// 表の行(要求機能)と、それぞれの機関の列(設計パラメーター)と、効くかどうか
+const frs = [
+  ["FR1: シリンダーを", "蒸気で満たす"],
+  ["FR2: 蒸気を凝縮して", "真空をつくる"],
+];
+const engines = [
+  {
+    x: 20,
+    title: "ニューコメン機関(1712年)",
+    dps: [
+      ["DP1:", "蒸気を入れる"],
+      ["DP2: 冷やす", "(シリンダー)"],
+    ],
+    // 行 = FR、列 = DP
+    matrix: [
+      [true, true],
+      [true, true],
+    ],
+    verdict: "干渉設計",
+    verdictNote: "どちらを変えても、両方に効く",
+    why: ["冷やすとシリンダーも冷え、", "次に入れた蒸気がすぐ水に戻る"],
+    color: hot,
+  },
+  {
+    x: 400,
+    title: "ワット機関(1769年の特許)",
+    dps: [
+      ["DP1:", "蒸気を入れる"],
+      ["DP2: 冷やす", "(復水器)"],
+    ],
+    matrix: [
+      [true, false],
+      [false, true],
+    ],
+    verdict: "独立設計",
+    verdictNote: "一つずつ、別々に調節できる",
+    why: ["シリンダーは熱いまま、", "冷やすのは復水器だけ"],
+    color: cold,
+  },
+];
+// 表の位置(各機関の左端からの距離)
+const table = { top: 274, labelW: 146, colW: 94, headH: 42, rowH: 46 };
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="冷やす場所を分けた、ワットの蒸気機関"
+  caption="表の行は要求機能(やりたいこと)、列は設計パラメーター(設計で決めるもの)。● はその設計パラメーターがその要求機能に効くことを表す。ニューコメン機関は一つのシリンダーを温めては冷やすので、どちらの設計パラメーターも両方の要求機能に効く(干渉設計)。ワットは冷やす役を復水器に分け、● を斜めにそろえた(独立設計)。表が三角の形でも、決める順番を守れば独立は保てる(準独立設計)。"
+  source="[N. P. Suh, Axiomatic Design 第1章 Example 1.3](https://web.mit.edu/2.882/www/chapter1/chapter1.htm)(MIT 2.882 の教科書草稿, 1996)の判定と、[Science Museum Group の解説](https://collection.sciencemuseumgroup.org.uk/objects/co50928/watts-second-separate-condenser-1765-condensers)を基に作図。ニューコメン機関(最初の機関は1712年)は [Science Museum Group の記録](https://collection.sciencemuseumgroup.org.uk/objects/co50900/newcomen-atmospheric-engine-atmospheric-steam-engine) による"
+  scroll
+  wide
+>
+  <svg
+    viewBox="0 0 760 560"
+    class="w-full"
+    role="img"
+    aria-label="ニューコメン機関とワット機関の比較。ニューコメン機関は一つのシリンダーを蒸気で温めては冷水で冷やすため、蒸気を入れることも冷やすことも、シリンダーを蒸気で満たすことと真空をつくることの両方に効く干渉設計。ワット機関は冷やす役を別の復水器に分けたため、蒸気を入れることはシリンダーを満たすことだけに、復水器で冷やすことは真空をつくることだけに効く独立設計。"
+  >
+    <defs>
+      <linearGradient id="steam-newcomen-cylinder" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--color-accent-strong); stop-opacity: 0.3" />
+        <stop offset="1" style="stop-color: var(--color-link); stop-opacity: 0.3" />
+      </linearGradient>
+    </defs>
+
+    {engines.map((e) => (
+      <text x={e.x + 170} y="26" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+        {e.title}
+      </text>
+    ))}
+
+    <!-- ── ニューコメン機関: シリンダー一つ。蒸気を入れては、同じシリンダーに冷水を噴射する ── -->
+    <g>
+      <line x1="175" x2="175" y1="102" y2="52" stroke={ink} stroke-width="3" />
+      <text x="185" y="58" font-size="13" fill={muted}>
+        てこ(ビーム)へ → 鉱山の排水ポンプ
+      </text>
+      <rect
+        x="130"
+        y="84"
+        width="90"
+        height="130"
+        rx="4"
+        fill="url(#steam-newcomen-cylinder)"
+        stroke={ink}
+        stroke-width="2"
+      />
+      <rect x="132" y="100" width="86" height="10" fill={ink} />
+      <!-- 蒸気(ボイラーから) -->
+      <line x1="40" x2="124" y1="198" y2="198" stroke={hot} stroke-width="3" />
+      <polygon points="130,198 120,192 120,204" fill={hot} />
+      <text x="40" y="188" font-size="13" font-weight="700" fill={hot}>
+        蒸気
+      </text>
+      <!-- 同じシリンダーに冷水を噴射 -->
+      <line x1="310" x2="226" y1="150" y2="150" stroke={cold} stroke-width="3" />
+      <polygon points="220,150 230,144 230,156" fill={cold} />
+      <text x="240" y="140" font-size="13" font-weight="700" fill={cold}>
+        冷水を噴射
+      </text>
+      <text x="175" y="238" text-anchor="middle" font-size="13" fill={ink}>
+        同じシリンダーを、毎回
+      </text>
+      <text x="175" y="256" text-anchor="middle" font-size="13" font-weight="700" fill={ink}>
+        温める ⇄ 冷やす
+      </text>
+    </g>
+
+    <!-- ── ワット機関: 熱いままのシリンダーと、冷たいままの復水器を弁でつなぐ ── -->
+    <g>
+      <line x1="495" x2="495" y1="102" y2="52" stroke={ink} stroke-width="3" />
+      <text x="505" y="58" font-size="13" fill={muted}>
+        てこへ
+      </text>
+      <rect
+        x="450"
+        y="84"
+        width="90"
+        height="130"
+        rx="4"
+        fill={hot}
+        fill-opacity="0.25"
+        stroke={ink}
+        stroke-width="2"
+      />
+      <rect x="452" y="100" width="86" height="10" fill={ink} />
+      <!-- 蒸気 -->
+      <line x1="410" x2="444" y1="198" y2="198" stroke={hot} stroke-width="3" />
+      <polygon points="450,198 440,192 440,204" fill={hot} />
+      <text x="410" y="188" font-size="13" font-weight="700" fill={hot}>
+        蒸気
+      </text>
+      <!-- シリンダーと復水器をつなぐ管と弁 -->
+      <line x1="540" x2="610" y1="198" y2="198" stroke={ink} stroke-width="3" />
+      <polygon points="566,190 566,206 584,198" fill={ink} />
+      <polygon points="584,190 584,206 566,198" fill={ink} />
+      <text x="575" y="222" text-anchor="middle" font-size="13" fill={muted}>
+        弁
+      </text>
+      <!-- 復水器 -->
+      <rect
+        x="610"
+        y="150"
+        width="72"
+        height="64"
+        rx="4"
+        fill={cold}
+        fill-opacity="0.25"
+        stroke={ink}
+        stroke-width="2"
+      />
+      <line x1="740" x2="688" y1="166" y2="166" stroke={cold} stroke-width="3" />
+      <polygon points="682,166 692,160 692,172" fill={cold} />
+      <text x="700" y="156" font-size="13" font-weight="700" fill={cold}>
+        冷水
+      </text>
+      <text x="495" y="238" text-anchor="middle" font-size="13" fill={ink}>
+        シリンダー
+      </text>
+      <text x="495" y="256" text-anchor="middle" font-size="13" font-weight="700" fill={hot}>
+        いつも熱い
+      </text>
+      <text x="646" y="238" text-anchor="middle" font-size="13" fill={ink}>
+        復水器
+      </text>
+      <text x="646" y="256" text-anchor="middle" font-size="13" font-weight="700" fill={cold}>
+        いつも冷たい
+      </text>
+    </g>
+
+    <!-- ── それぞれの設計行列 ── -->
+    {engines.map((e) => {
+      const x0 = e.x;
+      const colX = (j: number) => x0 + table.labelW + j * table.colW;
+      const rowY = (i: number) => table.top + table.headH + i * table.rowH;
+      return (
+        <g>
+          {e.dps.map((dp, j) => (
+            <g>
+              <text x={colX(j) + table.colW / 2} y={table.top + 14} text-anchor="middle" font-size="13" fill={ink}>
+                {dp[0]}
+              </text>
+              <text x={colX(j) + table.colW / 2} y={table.top + 30} text-anchor="middle" font-size="13" fill={ink}>
+                {dp[1]}
+              </text>
+            </g>
+          ))}
+          {frs.map((fr, i) => (
+            <g>
+              <text x={x0} y={rowY(i) + 18} font-size="13" fill={ink}>
+                {fr[0]}
+              </text>
+              <text x={x0} y={rowY(i) + 34} font-size="13" fill={ink}>
+                {fr[1]}
+              </text>
+              {e.matrix[i].map((on, j) => (
+                <g>
+                  <rect
+                    x={colX(j)}
+                    y={rowY(i)}
+                    width={table.colW}
+                    height={table.rowH}
+                    fill="var(--color-paper)"
+                    stroke={ink}
+                    stroke-opacity="0.25"
+                  />
+                  {on ? (
+                    <circle cx={colX(j) + table.colW / 2} cy={rowY(i) + table.rowH / 2} r="8" fill={ink} />
+                  ) : (
+                    <text
+                      x={colX(j) + table.colW / 2}
+                      y={rowY(i) + table.rowH / 2 + 5}
+                      text-anchor="middle"
+                      font-size="14"
+                      fill={muted}
+                    >
+                      —
+                    </text>
+                  )}
+                </g>
+              ))}
+            </g>
+          ))}
+          <text x={x0} y="430" font-size="15" font-weight="700" fill={e.color}>
+            {e.verdict}
+            <tspan font-size="13" font-weight="400" fill={ink} dx="8">
+              {e.verdictNote}
+            </tspan>
+          </text>
+          {e.why.map((line, k) => (
+            <text x={x0} y={454 + k * 18} font-size="13" fill={muted}>
+              {line}
+            </text>
+          ))}
+        </g>
+      );
+    })}
+
+    <!-- 読み方 -->
+    <line x1="20" x2="740" y1="502" y2="502" stroke={ink} stroke-opacity="0.15" />
+    <text x="20" y="526" font-size="13" fill={ink}>
+      行=要求機能(FR: やりたいこと) / 列=設計パラメーター(DP: 決めるもの) / ●=効く
+    </text>
+    <text x="20" y="546" font-size="13" fill={ink}>
+      独立公理「要求機能どうしの独立を保て」。● が斜めだけに並べば、一つずつ調節できる
+    </text>
+  </svg>
+</FigureFrame>

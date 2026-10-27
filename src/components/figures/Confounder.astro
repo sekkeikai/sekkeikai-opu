@@ -1,0 +1,162 @@
+---
+// 「隠れた要因(交絡)」の図。数字は全て架空。
+//   左: ある町の 1 年分(12 か月)の、アイスの売り上げと水の事故の件数の散布図。きれいに一緒に動いて見える
+//   右: 本当は「気温」が両方を動かしている、という関係の図。アイスが事故の原因ではない
+// 相関係数は、このファイルの中の架空のデータから計算している。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+const warm = "var(--color-accent-strong)";
+const cool = "var(--color-link)";
+
+// 架空のデータ: 月ごとの平均気温(℃)。売り上げと事故は、気温に少しのばらつきを足してつくった
+// (1月・2月・12月の点が同じ場所に重ならないよう、ばらつきを少し大きめにしている)
+const temp = [5, 6, 10, 15, 20, 23, 27, 28, 24, 18, 12, 7];
+const noiseIce = [0.6, -1.0, 0.8, -0.5, 1.0, -0.8, 0.5, -0.3, 0.9, -0.6, 0.2, 0.8];
+const noiseAcc = [0.4, -0.1, -0.5, 0.6, -0.4, 0.7, -0.6, 0.5, -0.2, 0.3, -0.3, 0.2];
+const data = temp.map((t, i) => ({
+  month: i + 1,
+  t,
+  ice: Math.round((2 + 0.5 * t + noiseIce[i]) * 10) / 10, // 売り上げ(千個)
+  acc: Math.max(0, Math.round(0.25 * t + noiseAcc[i])), // 水の事故(件)
+}));
+
+// 相関係数を計算する
+const mean = (v: number[]) => v.reduce((s, a) => s + a, 0) / v.length;
+function corr(x: number[], y: number[]) {
+  const mx = mean(x);
+  const my = mean(y);
+  let sxy = 0;
+  let sxx = 0;
+  let syy = 0;
+  for (let i = 0; i < x.length; i++) {
+    sxy += (x[i] - mx) * (y[i] - my);
+    sxx += (x[i] - mx) ** 2;
+    syy += (y[i] - my) ** 2;
+  }
+  return sxy / Math.sqrt(sxx * syy);
+}
+const r = corr(
+  data.map((d) => d.ice),
+  data.map((d) => d.acc),
+);
+
+// 散布図の座標(売り上げ 0~18 千個、事故 0~9 件)
+const px = (v: number) => 60 + (v / 18) * 240;
+const py = (v: number) => 270 - (v / 9) * 210;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="一緒に動いても、原因とは限らない"
+  caption={`説明のためにつくった、架空の町の1年分のデータ。アイスがよく売れる月ほど、水の事故も多い(相関係数 ${r.toFixed(2)})。しかし、アイスが事故を起こすわけではない。暑い月には、アイスも売れ、泳ぐ人も増える。気温という隠れた要因が、両方を動かしている。`}
+  scroll
+>
+  <svg
+    viewBox="0 0 640 320"
+    class="w-full"
+    role="img"
+    aria-label={`架空のデータの散布図と関係の図。アイスの売り上げと水の事故の件数は一緒に増え、相関係数は${r.toFixed(2)}。暑い月ほど右上に集まる。右の図では、気温が売り上げと事故の両方の原因になっていて、売り上げと事故の間に直接の矢印は無い。`}
+  >
+    <defs>
+      <marker id="cf-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill={ink} />
+      </marker>
+    </defs>
+
+    <text x="180" y="24" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      見えている数字(架空)
+    </text>
+    <text x="500" y="24" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      本当の関係
+    </text>
+
+    <!-- 散布図の軸 -->
+    <line x1="60" x2="300" y1="270" y2="270" stroke={ink} stroke-width="1.5" />
+    <line x1="60" x2="60" y1="56" y2="270" stroke={ink} stroke-width="1.5" />
+    {[0, 6, 12, 18].map((v) => (
+      <text x={px(v)} y="286" text-anchor="middle" font-size="11" fill={muted}>
+        {v}
+      </text>
+    ))}
+    {[0, 3, 6, 9].map((v) => (
+      <text x="52" y={py(v) + 4} text-anchor="end" font-size="11" fill={muted}>
+        {v}
+      </text>
+    ))}
+    <text x="180" y="306" text-anchor="middle" font-size="12" fill={ink}>
+      アイスの売り上げ(千個/月)
+    </text>
+    <text x="26" y="163" text-anchor="middle" font-size="12" fill={ink} transform="rotate(-90 26 163)">
+      水の事故(件/月)
+    </text>
+    {data.map((d) => (
+      <circle
+        cx={px(d.ice)}
+        cy={py(d.acc)}
+        r="6"
+        fill={d.t >= 18 ? warm : cool}
+        fill-opacity="0.75"
+        stroke="var(--color-paper)"
+      />
+    ))}
+    <!-- 凡例 -->
+    <circle cx="80" cy="60" r="5" fill={warm} fill-opacity="0.75" />
+    <text x="90" y="64" font-size="11" fill={ink}>
+      暑い月(18℃以上)
+    </text>
+    <circle cx="80" cy="80" r="5" fill={cool} fill-opacity="0.75" />
+    <text x="90" y="84" font-size="11" fill={ink}>
+      涼しい月
+    </text>
+    <text x="296" y="254" text-anchor="end" font-size="13" font-weight="700" fill={ink}>
+      相関係数 {r.toFixed(2)}
+    </text>
+
+    <!-- 右: 関係の図 -->
+    <line x1="350" x2="350" y1="40" y2="300" stroke="var(--color-grid)" stroke-width="1.5" />
+    <rect
+      x="440"
+      y="58"
+      width="120"
+      height="44"
+      rx="6"
+      fill={warm}
+      fill-opacity="0.15"
+      stroke={warm}
+      stroke-width="2"
+    />
+    <text x="500" y="86" text-anchor="middle" font-size="15" font-weight="700" fill={ink}>
+      気温
+    </text>
+    <text x="500" y="122" text-anchor="middle" font-size="12" fill={muted}>
+      隠れた要因
+    </text>
+    <rect x="370" y="210" width="110" height="44" rx="6" fill="var(--color-paper)" stroke={ink} stroke-width="2" />
+    <text x="425" y="237" text-anchor="middle" font-size="13" fill={ink}>
+      アイスが売れる
+    </text>
+    <!-- 「水の事故が増える」は字数が多いので、箱を少し広くしている -->
+    <rect x="512" y="210" width="124" height="44" rx="6" fill="var(--color-paper)" stroke={ink} stroke-width="2" />
+    <text x="574" y="237" text-anchor="middle" font-size="13" fill={ink}>
+      水の事故が増える
+    </text>
+    <line x1="470" y1="130" x2="432" y2="206" stroke={ink} stroke-width="2" marker-end="url(#cf-arrow)" />
+    <line x1="530" y1="130" x2="572" y2="206" stroke={ink} stroke-width="2" marker-end="url(#cf-arrow)" />
+    <!-- アイスと事故の間には、直接の矢印が無い -->
+    <line x1="486" x2="506" y1="232" y2="232" stroke={muted} stroke-width="2" stroke-dasharray="4 4" />
+    <text x="500" y="280" text-anchor="middle" font-size="12" fill={muted}>
+      この2つの間に、
+    </text>
+    <text x="500" y="298" text-anchor="middle" font-size="12" fill={muted}>
+      原因と結果の関係は無い
+    </text>
+  </svg>
+</FigureFrame>

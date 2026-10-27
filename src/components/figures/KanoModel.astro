@@ -1,0 +1,124 @@
+---
+// 狩野モデル: 要求が満たされる度合い(横軸)と、使う人の満足(縦軸)の関係。
+// 曲線は考え方を示す概念図(実測値ではない)なので、指数関数で形をつくっている。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ox = 290;
+const oy = 200;
+const toX = (t: number) => 60 + t * 460; // t: 0(不充足)~ 1(充足)
+const toY = (s: number) => oy - s * 150; // s: -1(不満)~ 1(満足)
+const rise = (t: number) => (Math.exp(3 * t) - 1) / (Math.exp(3) - 1);
+
+function curve(f: (t: number) => number): string {
+  const pts: string[] = [];
+  for (let i = 0; i <= 40; i++) {
+    const t = i / 40;
+    pts.push(`${i === 0 ? "M" : "L"}${toX(t).toFixed(1)} ${toY(f(t)).toFixed(1)}`);
+  }
+  return pts.join(" ");
+}
+
+const curves = [
+  {
+    name: "魅力的品質",
+    sub: "なくても不満はないが、あると喜ばれる",
+    color: "var(--color-accent-strong)",
+    f: (t: number) => 0.06 + 0.9 * rise(t),
+    at: [0.03, 0.74],
+  },
+  {
+    name: "一元的品質",
+    sub: "満たすほど満足が増す",
+    color: "var(--color-link)",
+    f: (t: number) => -0.85 + 1.7 * t,
+    at: [0.6, -0.66],
+  },
+  {
+    name: "当たり前品質",
+    sub: "満たされて当然。欠けると強い不満",
+    color: "var(--color-positive)",
+    f: (t: number) => -(0.06 + 0.9 * rise(1 - t)),
+    at: [0.6, -0.3],
+  },
+];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="狩野モデル: 要求には性格がある"
+  caption="同じ「要求を満たす」でも、満足への効き方は要求の性格によって違う。曲線は考え方を示す概念図。魅力的品質は、時間がたつと一元的品質や当たり前品質へ移っていく、という説もある。"
+  source="[狩野紀昭ら「魅力的品質と当り前品質」『品質』14巻2号 (1984)](https://doi.org/10.20684/quality.14.2_147) を基に作図。時間による移り変わりは [Löfgren, Witell & Gustafsson, The TQM Journal, 23(2), 2011](https://doi.org/10.1108/17542731111110267) による"
+  scroll
+>
+  <svg
+    viewBox="0 0 580 400"
+    class="w-full"
+    role="img"
+    aria-label="狩野モデルの図。魅力的品質、一元的品質、当たり前品質の3本の曲線。"
+  >
+    <defs>
+      <marker
+        id="kano-arrow"
+        viewBox="0 0 10 10"
+        refX="8"
+        refY="5"
+        markerWidth="7"
+        markerHeight="7"
+        orient="auto-start-reverse"
+      >
+        <path d="M0 0 L10 5 L0 10 z" fill="var(--color-ink)" />
+      </marker>
+    </defs>
+    <line
+      x1="40"
+      x2="545"
+      y1={oy}
+      y2={oy}
+      stroke="var(--color-ink)"
+      stroke-width="1.5"
+      marker-end="url(#kano-arrow)"
+      marker-start="url(#kano-arrow)"
+    />
+    <line
+      x1={ox}
+      x2={ox}
+      y1="370"
+      y2="28"
+      stroke="var(--color-ink)"
+      stroke-width="1.5"
+      marker-end="url(#kano-arrow)"
+      marker-start="url(#kano-arrow)"
+    />
+    <g font-size="14" fill="var(--color-muted)">
+      <text x={ox + 10} y="34">
+        満足
+      </text>
+      <text x={ox + 10} y="372">
+        不満
+      </text>
+      <text x="548" y={oy - 10} text-anchor="end">
+        充足している
+      </text>
+      <text x="36" y={oy + 24}>
+        不充足
+      </text>
+    </g>
+    {curves.map((c) => (
+      <g>
+        <path data-draw d={curve(c.f)} fill="none" stroke={c.color} stroke-width="3" />
+        <text x={toX(c.at[0])} y={toY(c.at[1])} font-size="16" font-weight="700" fill={c.color}>
+          {c.name}
+        </text>
+        <text x={toX(c.at[0])} y={toY(c.at[1]) + 19} font-size="12" fill="var(--color-muted)">
+          {c.sub}
+        </text>
+      </g>
+    ))}
+  </svg>
+</FigureFrame>

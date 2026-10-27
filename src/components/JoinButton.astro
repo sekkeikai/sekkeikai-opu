@@ -1,0 +1,58 @@
+---
+// 「入部はこちら →」ボタン。押すと、入部フォーム(Microsoft Forms)が新しいタブで開く。
+// ヘッダー・トップの上部・目次・入部の章で同じものを使い、文言と行き先をそろえる。
+// 行き先は src/content/pages/home.yaml の join の formUrl。空の間は、押せない見た目になる。
+//   size  … sm(ヘッダー・目次) / md(トップの上部) / lg(入部の章)
+//   tone  … dark(明るい背景の上。黒いボタン) / light(暗い背景の上。白いボタン)
+//   arrow … 「→」を付けるか。ヘッダーは幅がせまいので付けない(「入部はこちら」だけ)
+import { getJoinFormUrl } from "../lib/site";
+
+interface Props {
+  size?: "sm" | "md" | "lg";
+  tone?: "dark" | "light";
+  arrow?: boolean;
+}
+
+const { size = "md", tone = "dark", arrow = true } = Astro.props;
+const formUrl = await getJoinFormUrl();
+
+const sizeClass = {
+  sm: "px-4 py-1.5 text-sm",
+  md: "px-7 py-3.5",
+  lg: "px-8 py-4",
+}[size];
+const toneClass = tone === "dark" ? "bg-ink text-paper" : "bg-accent-strong text-paper";
+// 押せるときだけ、指を乗せたときに色を変える
+const hoverClass = tone === "dark" ? "hover:bg-accent-strong" : "hover:bg-paper hover:text-ink";
+---
+
+{formUrl ? (
+  <a
+    href={formUrl}
+    rel="noopener"
+    target="_blank"
+    class:list={[
+      "inline-flex items-center gap-2 rounded-full font-bold whitespace-nowrap transition",
+      sizeClass,
+      toneClass,
+      hoverClass,
+    ]}
+  >
+    入部はこちら
+    {arrow && <span aria-hidden="true">→</span>}
+    <span class="sr-only">(入部フォームが新しいタブで開きます)</span>
+  </a>
+) : (
+  <span
+    class:list={[
+      "inline-flex cursor-not-allowed items-center gap-2 rounded-full font-bold whitespace-nowrap opacity-50",
+      sizeClass,
+      toneClass,
+    ]}
+    title="入部フォームは準備中です"
+  >
+    入部はこちら
+    {arrow && <span aria-hidden="true">→</span>}
+    <span class="sr-only">(入部フォームは準備中です)</span>
+  </span>
+)}

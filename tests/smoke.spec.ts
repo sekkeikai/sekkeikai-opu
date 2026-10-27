@@ -1,7 +1,18 @@
 import { test, expect } from "@playwright/test";
 
 // 主要ページが表示でき、JavaScript のエラーが出ていないことを確かめる
-const pages = ["/", "/news/", "/projects/", "/lab/"];
+const pages = [
+  "/",
+  "/news/",
+  "/design/",
+  // 「設計を知る」の種類ごとに1ページずつ（全体・工程・視点・設計の流れの例・その他のテーマ）
+  "/design/process/",
+  "/design/requirements/",
+  "/design/modeling/",
+  "/design/case-open-campus/",
+  "/design/design-methods-history/",
+  "/lab/",
+];
 
 for (const path of pages) {
   test(`${path} が表示できる`, async ({ page }) => {

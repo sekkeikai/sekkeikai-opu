@@ -1,0 +1,127 @@
+---
+// フィッツの法則を、スマートフォンの2つのボタンで比べる図(動かない版。体験できるデモは FittsDemo.astro)。
+// 難しさ(ID)= log2(距離 ÷ 大きさ + 1)。押すのにかかる時間は、この難しさにほぼ比例して増える。
+// 数字はこのファイルの中で計算しているので、距離や大きさを変えれば図も変わる。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// 1cm を何ピクセルで描くか(図の中の長さをそろえるため)
+const cm = 20;
+const cases = [
+  { label: "A: すみの小さなボタン", d: 9, w: 0.6, tx: 130, ty: 108 },
+  { label: "B: 手元の大きなボタン", d: 4, w: 1.6, tx: 85, ty: 200 },
+].map((c) => ({ ...c, id: Math.log2(c.d / c.w + 1) }));
+const fmt = (n: number) => (Math.round(n * 10) / 10).toFixed(1);
+const ink = "var(--color-ink)";
+const muted = "var(--color-muted)";
+// 親指を置いている場所(画面の下のほう)
+const start = { x: 85, y: 288 };
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="押しやすさは、計算で予測できる"
+  caption="ボタンまでの距離が遠く、ボタンが小さいほど「難しさ」が上がり、押すのにかかる時間も長くなる。Aの難しさはBの約2倍。どちらが押しやすいかは、計算で比べられる。"
+  source="[P. M. Fitts (1954)](https://doi.org/10.1037/h0055392)、[I. S. MacKenzie (1992)](https://doi.org/10.1207/s15327051hci0701_3) の式による。距離と大きさは説明のための例"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 352"
+    class="w-full"
+    role="img"
+    aria-label={`フィッツの法則の比較。${cases.map((c) => `${c.label}は距離${c.d}cm、大きさ${c.w}cmで、難しさは${fmt(c.id)}`).join("。")}。`}
+  >
+    <text x="320" y="22" text-anchor="middle" font-size="16" font-weight="700" fill={ink}>
+      難しさ = log₂(距離 ÷ 大きさ + 1)
+    </text>
+    {cases.map((c, i) => {
+      const ox = i * 320;
+      const half = (c.w * cm) / 2;
+      return (
+        <g>
+          <!-- スマートフォンの外形と画面 -->
+          <rect
+            x={ox + 20}
+            y="44"
+            width="130"
+            height="276"
+            rx="16"
+            fill="var(--color-paper-muted)"
+            stroke={ink}
+            stroke-width="2"
+          />
+          <rect
+            x={ox + 28}
+            y="56"
+            width="114"
+            height="252"
+            rx="6"
+            fill="var(--color-paper)"
+            stroke={ink}
+            stroke-opacity="0.3"
+          />
+          <!-- 親指の位置からボタンまで -->
+          <line
+            x1={ox + start.x}
+            y1={start.y}
+            x2={ox + c.tx}
+            y2={c.ty}
+            stroke="var(--color-link)"
+            stroke-width="2"
+            stroke-dasharray="5 4"
+          />
+          <circle
+            cx={ox + start.x}
+            cy={start.y}
+            r="7"
+            fill="var(--color-link)"
+            fill-opacity="0.3"
+            stroke="var(--color-link)"
+          />
+          <rect
+            x={ox + c.tx - half}
+            y={c.ty - half}
+            width={c.w * cm}
+            height={c.w * cm}
+            rx="3"
+            fill="var(--color-accent-strong)"
+          />
+          <!-- 説明 -->
+          <text x={ox + 170} y="84" font-size="15" font-weight="700" fill={ink}>
+            {c.label}
+          </text>
+          <text x={ox + 170} y="116" font-size="13" fill={ink}>
+            距離 {c.d}cm
+          </text>
+          <text x={ox + 170} y="138" font-size="13" fill={ink}>
+            大きさ {c.w}cm
+          </text>
+          <text x={ox + 170} y="174" font-size="13" fill={muted}>
+            難しさ
+          </text>
+          <text x={ox + 170} y="204" font-size="26" font-weight="700" fill="var(--color-accent-strong)">
+            {fmt(c.id)}
+          </text>
+          <rect
+            x={ox + 170}
+            y="216"
+            width={c.id * 30}
+            height="12"
+            rx="2"
+            fill="var(--color-accent-strong)"
+            fill-opacity="0.8"
+          />
+          <rect x={ox + 170} y="216" width="120" height="12" rx="2" fill="none" stroke={ink} stroke-opacity="0.2" />
+          <text x={ox + 170} y="252" font-size="12" fill={muted}>
+            {i === 0 ? "押すのに時間がかかる" : "すぐ押せる"}
+          </text>
+        </g>
+      );
+    })}
+  </svg>
+</FigureFrame>

@@ -1,0 +1,45 @@
+---
+// 図の共通の枠(番号・題・説明・出典)。出典(source)には [名前](https://…) の形でリンクを書く。
+// scroll を付けると、スマホ幅では図を縮めすぎずに横スクロールで見せる(文字が小さくなりすぎないように)。
+// compact を付けると、番号・題・説明を出さず、図と出典だけにする(トップページの章の中で使う)。
+// wide を付けると、横スクロールのときの最小幅を広くする(文字の多い横長の図用)。
+interface Props {
+  number?: number;
+  compact?: boolean;
+  title: string;
+  caption?: string;
+  source?: string;
+  scroll?: boolean;
+  wide?: boolean;
+}
+
+const { number, compact = false, title, caption, source, scroll = false, wide = false } = Astro.props;
+import InlineText from "../InlineText.astro";
+---
+
+<figure
+  class:list={["surface font-sans text-base leading-relaxed tracking-normal text-ink", !compact && "my-14"]}
+  aria-label={compact ? title : undefined}
+  data-reveal
+>
+  {!compact && (
+    <figcaption class="mb-4 flex items-baseline gap-3">
+      {number && <span class="annotation shrink-0 text-link">図 {number}</span>}
+      <span class="font-display text-lg font-bold">{title}</span>
+    </figcaption>
+  )}
+  <div class:list={["rounded-card border border-grid bg-paper p-4 sm:p-6", scroll && "overflow-x-auto"]}>
+    <div class:list={[scroll && (wide ? "min-w-[44rem]" : "min-w-[34rem]")]}>
+      <slot />
+    </div>
+  </div>
+  {scroll && <p class="annotation mt-2 text-muted normal-case sm:hidden">← 図は横にスクロールできます →</p>}
+  {!compact && caption && <p class="mt-3 text-sm text-muted">{caption}</p>}
+  {/* 出典は compact(トップページ)でも省かない */}
+  {source && (
+    <p class:list={["text-xs text-muted", compact ? "mt-2" : "mt-1"]}>
+      出典:
+      <InlineText text={source} />
+    </p>
+  )}
+</figure>

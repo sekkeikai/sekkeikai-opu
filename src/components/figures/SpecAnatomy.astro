@@ -1,0 +1,158 @@
+---
+// 仕様書の中身と、それぞれの項目がどの工程から来たか。
+// 例は「部室の予約」の一枚の仕様書(架空の例)。数字や案の名前は、工程のページの文章と同じ値にしている。
+// 右の札の色は、考えを広げる工程(オレンジ)か、絞る工程(青)かを表す(設計のプロセスの全体図と同じ色分け)。
+// 広げる工程と絞る工程の両方にまたがる項目(工程3・4)は、どちらでもない灰色にする。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const link = "var(--color-link)";
+const accent = "var(--color-accent-strong)";
+const muted = "var(--color-muted)";
+
+// 仕様書の項目。lines は本文(一行 32 字まで)、from はその項目の元になった工程、mode は札の色
+const sections: {
+  head: string;
+  lines: string[];
+  from: string;
+  step: string;
+  mode: "diverge" | "converge" | "both";
+}[] = [
+  {
+    head: "目的",
+    lines: ["部員が、部室の空き状況を前もって確かめられるようにする"],
+    step: "工程1",
+    from: "問題を見つける",
+    mode: "diverge",
+  },
+  {
+    head: "要件と確かめ方",
+    lines: ["スマートフォンから3操作以内(部員5人で試して数える)", "予約の重なり0件(1か月分を見直す)・費用0円"],
+    step: "工程2",
+    from: "要件を定める",
+    mode: "converge",
+  },
+  {
+    head: "使い方の流れ",
+    lines: ["カレンダーを開く → 空いた枠を押す → 名前・用件を書く", "時間は30分単位。部員全員がカレンダーを見られる"],
+    step: "工程3・4",
+    from: "広げて、選んだ案",
+    mode: "both",
+  },
+  {
+    head: "決まりと、数字の理由",
+    lines: [
+      "締め切りは前日20時(当日の朝に全員が空きを確かめられる)",
+      "重なったら先に書いた人を優先(誰が決めても同じ結果になる)",
+    ],
+    step: "工程5",
+    from: "形を詰める",
+    mode: "converge",
+  },
+  {
+    head: "確かめる計画",
+    lines: ["使い始める前に何人かで試し、書き方を直す", "1か月後に、重なりの件数を数え、困った点を聞く"],
+    step: "工程2・5",
+    from: "要件の確かめ方から",
+    mode: "converge",
+  },
+  {
+    head: "判断の記録",
+    lines: ["選んだ案: 無料の共有カレンダー(ピューの合計 +3)", "見送った案: 専用アプリ(費用と準備の手間)他"],
+    step: "工程4",
+    from: "比べて選ぶ",
+    mode: "converge",
+  },
+];
+
+// 紙の上の並べ方
+const paperX = 24;
+const paperW = 432;
+const top = 92;
+const secH = 62;
+const secY = (i: number) => top + i * secH;
+const paperH = secY(sections.length) - 40 + 12;
+// 札の色: 広げる工程はオレンジ、絞る工程は青、両方にまたがるものは灰色
+const tagColor = (mode: "diverge" | "converge" | "both") =>
+  mode === "diverge" ? accent : mode === "converge" ? link : muted;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="仕様書の中身は、前の工程の答え"
+  caption="部室の予約の仕様書(架空の例)。目的は工程1、要件と確かめ方は工程2、判断の記録は工程4の答えをそのまま写す。工程5で新しく決めるのは、決まりや数字と、その理由。右の札の色は、オレンジが考えを広げる工程、青が絞る工程、灰色はその両方にまたがるもの。"
+  scroll
+>
+  <svg
+    viewBox="0 0 720 488"
+    class="w-full"
+    role="img"
+    aria-label="部室の予約の仕様書の図。目的、要件と確かめ方、使い方の流れ、決まりと数字の理由、確かめる計画、判断の記録の6つの項目と、それぞれの元になった工程。"
+  >
+    <!-- 仕様書の紙 -->
+    <rect
+      x={paperX}
+      y="40"
+      width={paperW}
+      height={paperH}
+      rx="4"
+      fill="var(--color-paper)"
+      stroke={ink}
+      stroke-width="1.5"
+    />
+    <text x={paperX + 16} y="68" font-size="15" font-weight="700" fill={ink}>
+      部室の予約の仕様書
+    </text>
+    <text x={paperX + paperW - 16} y="68" text-anchor="end" font-size="11" fill={muted}>
+      架空の例
+    </text>
+
+    {sections.map((s, i) => (
+      <g>
+        <line x1={paperX + 16} x2={paperX + paperW - 16} y1={secY(i) - 6} y2={secY(i) - 6} stroke="var(--color-grid)" />
+        <text x={paperX + 16} y={secY(i) + 12} font-size="13" font-weight="700" fill={ink}>
+          {s.head}
+        </text>
+        {s.lines.map((line, k) => (
+          <text x={paperX + 16} y={secY(i) + 30 + k * 17} font-size="12" fill={ink}>
+            {line}
+          </text>
+        ))}
+        <!-- 項目から、元になった工程の札へ -->
+        <line
+          x1={paperX + paperW}
+          x2="492"
+          y1={secY(i) + 8}
+          y2={secY(i) + 8}
+          stroke={tagColor(s.mode)}
+          stroke-dasharray="3 4"
+        />
+        <rect
+          x="492"
+          y={secY(i) - 6}
+          width="208"
+          height="44"
+          rx="4"
+          fill={tagColor(s.mode)}
+          fill-opacity="0.12"
+          stroke={tagColor(s.mode)}
+        />
+        <text x="504" y={secY(i) + 11} font-family="var(--font-mono)" font-size="11" fill={tagColor(s.mode)}>
+          {s.step}
+        </text>
+        <text x="504" y={secY(i) + 29} font-size="13" fill={ink}>
+          {s.from}
+        </text>
+      </g>
+    ))}
+    <text x="492" y="30" font-size="12" fill={muted}>
+      元になった工程
+    </text>
+  </svg>
+</FigureFrame>

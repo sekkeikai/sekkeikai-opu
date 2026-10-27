@@ -1,21 +1,29 @@
 ---
-// 全ページ共通の枠（<head>、ヘッダー、フッター）
+// 全ページ共通の枠(<head>、ヘッダー、フッター)
 import "../styles/global.css";
+import SocialLinks from "../components/SocialLinks.astro";
+import JoinButton from "../components/JoinButton.astro";
+import { getJoinFormUrl, getSiteLinks } from "../lib/site";
 
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  // true にすると、ヘッダーの下に「どこまで読んだか」の細い線を出す(長文のページ用)
+  progress?: boolean;
 }
 
-const { title, description, noindex = false } = Astro.props;
-const fullTitle = title === "設計会" ? "設計会 | 岡山県立大学 設計サークル" : `${title} | 設計会`;
+const { title, description, noindex = false, progress = false } = Astro.props;
+const fullTitle = title === "設計会" ? "設計会 | 岡山県立大学 公認サークル" : `${title} | 設計会`;
+// mobile: false の項目は、スマホ幅ではヘッダーに出さない(フッターには全部出る)。
+// 「入部はこちら」はページへのリンクではなく、入部フォームを開くボタン(JoinButton)なので、この一覧とは別に置く
 const nav = [
-  { href: "/#activities", label: "活動" },
-  { href: "/projects/", label: "プロジェクト" },
-  { href: "/news/", label: "お知らせ" },
-  { href: "/#join", label: "入部" },
+  { href: "/design/", label: "設計を知る", mobile: true },
+  { href: "/news/", label: "お知らせ", mobile: false },
 ];
+const joinFormUrl = await getJoinFormUrl();
+// Discord・TimeTree・メール(src/content/site/links.yaml)
+const contacts = await getSiteLinks();
 ---
 
 <!doctype html>
@@ -29,12 +37,14 @@ const nav = [
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <!-- サークルのアイコン(設計会の印)。タブには SVG、iPhone のホーム画面には PNG(透明だと黒くなるので白地)を使う -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap"
     />
   </head>
   <body class="min-h-dvh">
@@ -45,25 +55,33 @@ const nav = [
       本文へスキップ
     </a>
     <header class="sticky top-0 z-40 border-b border-grid bg-paper/85 backdrop-blur">
-      <div class="container-page flex h-14 items-center justify-between gap-4">
-        <a href="/" class="flex items-center gap-2 font-display text-lg font-bold tracking-widest">
-          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-            <rect x="1" y="1" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"></rect>
-            <path d="M1 11h20M11 1v20" stroke="var(--color-proposer)" stroke-width="2"></path>
-          </svg>
-          設計会
+      {progress && <div class="absolute -bottom-px left-0 h-0.5 w-0 bg-accent" data-progress aria-hidden="true" />}
+      <!-- 左にロゴ、中央にメニューと「入部はこちら」、右に Discord と TimeTree。左右の列を同じ幅（1fr）にして、中央の列をいつも真ん中に置く -->
+      <div class="container-page grid h-14 grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4">
+        <a href="/" class="flex items-center gap-2 justify-self-start font-display text-lg font-bold tracking-widest">
+          <!-- 設計会の印。すぐ横に「設計会」と書いてあるので、読み上げでは飛ばす(alt="") -->
+          <img src="/favicon.svg" width="28" height="28" alt="" class="h-7 w-7 shrink-0" />
+          <!-- スマホ幅では、中央のメニューと右のアイコンが入るように文字を隠し、印だけにする(読み上げでは読む) -->
+          <span class="sr-only sm:not-sr-only">設計会</span>
         </a>
-        <nav aria-label="メインメニュー">
-          <ul class="flex gap-4 text-sm sm:gap-6">
-            {nav.map((item) => (
-              <li>
-                <a href={item.href} class="hover:text-investor">
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div class="flex items-center gap-2 sm:gap-6">
+          <nav aria-label="メインメニュー">
+            <ul class="flex gap-4 text-sm sm:gap-6">
+              {nav.map((item) => (
+                <li class:list={[!item.mobile && "hidden md:block"]}>
+                  <a href={item.href} class="hover:text-link">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <JoinButton size="sm" arrow={false} />
+        </div>
+        <!-- とても狭い画面(幅 360px 未満)では隠す。フッターにも同じリンクがある -->
+        <div class="justify-self-end max-[359px]:hidden">
+          <SocialLinks only={["Discord", "TimeTree"]} />
+        </div>
       </div>
     </header>
 
@@ -71,21 +89,61 @@ const nav = [
       <slot />
     </main>
 
-    <footer class="border-t border-grid py-10 text-sm text-muted">
-      <div class="container-page flex flex-col gap-2 sm:flex-row sm:justify-between">
-        <p>© 設計会（岡山県立大学）</p>
-        <p>
-          このサイトは部員みんなで作っています。
-          <a class="underline" href="https://github.com/sekkeikai/sekkeikai-opu">
-            ソースコード（GitHub）
-          </a>
-        </p>
+    <footer class="border-t border-grid bg-paper-muted py-12 text-sm text-muted">
+      <div class="container-page flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p class="font-display text-lg font-bold tracking-widest text-ink">設計会</p>
+          <p class="mt-1">岡山県立大学 公認サークル</p>
+          <!-- 連絡先。links.yaml が空の項目は「準備中」と出す -->
+          <ul class="mt-4 space-y-1">
+            {contacts.map((c) => (
+              <li>
+                {c.href ? (
+                  <a
+                    href={c.href}
+                    class="underline underline-offset-4 hover:text-ink"
+                    rel={c.external ? "noopener" : undefined}
+                    target={c.external ? "_blank" : undefined}
+                  >
+                    {c.action}
+                    {c.external && <span aria-hidden="true"> ↗</span>}
+                  </a>
+                ) : (
+                  <span class="text-muted/70">{c.name}(準備中)</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <nav aria-label="サイト内のページ">
+          <ul class="grid grid-cols-2 gap-x-10 gap-y-2">
+            {nav.map((item) => (
+              <li>
+                <a href={item.href} class="hover:text-ink">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              {joinFormUrl ? (
+                <a href={joinFormUrl} class="hover:text-ink" rel="noopener" target="_blank">
+                  入部はこちら<span aria-hidden="true"> →</span>
+                </a>
+              ) : (
+                <span class="text-muted/70">入部はこちら(準備中)</span>
+              )}
+            </li>
+          </ul>
+        </nav>
       </div>
+      <p class="container-page mt-10 text-xs">© 設計会(岡山県立大学)</p>
     </footer>
 
     <script>
       import { initMotion } from "../scripts/motion";
+      import { initReading } from "../scripts/reading";
       initMotion();
+      initReading();
     </script>
   </body>
 </html>

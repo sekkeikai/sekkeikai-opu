@@ -1,0 +1,72 @@
+---
+// 案の進め方の比べ: 一つに決めて進める(やり直しが起きやすい)と、いくつかの案を並べて少しずつ絞る(セットベース設計)。
+// 案の数(6 → 3 → 1)は説明のための例。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const ink = "var(--color-ink)";
+const link = "var(--color-link)";
+const accent = "var(--color-accent-strong)";
+const cols = [
+  { x: 150, n: 6, note: "" },
+  { x: 330, n: 3, note: "要件に合わない案を外す" },
+  { x: 510, n: 1, note: "根拠を残して選ぶ" },
+];
+const dots = (n: number) => Array.from({ length: n }, (_, i) => 214 + (i - (n - 1) / 2) * 18);
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="一つに決めるか、並べて絞るか"
+  caption="上: 最初の案に早く決めると、問題が見つかるたびにやり直しになる。下: いくつかの案を並べたまま、根拠をもって少しずつ外していく(セットベース設計)。外した理由も記録に残る。"
+  source="[A. Ward 他, The Second Toyota Paradox (1995)](https://sloanreview.mit.edu/article/the-second-toyota-paradox-how-delaying-decisions-can-make-better-cars-faster/) の考え方を基に作図"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 300"
+    class="w-full"
+    role="img"
+    aria-label="上は一つの案に決めてやり直しを繰り返す進め方、下はいくつかの案を並べて少しずつ絞る進め方。"
+  >
+    <text x="12" y="30" font-size="14" font-weight="700" fill={ink}>
+      一つに決めて進める
+    </text>
+    <line x1="150" x2="590" y1="70" y2="70" stroke={ink} stroke-width="2" />
+    <circle cx="150" cy="70" r="7" fill={ink} />
+    {[300, 450].map((x) => (
+      <g>
+        <path d={`M${x} 64 C ${x} 30, ${x - 90} 30, ${x - 100} 62`} fill="none" stroke={accent} stroke-width="1.5" />
+        <polygon points={`${x - 100},70 ${x - 106},58 ${x - 94},60`} fill={accent} />
+        <text x={x - 50} y="30" text-anchor="middle" font-size="12" fill={accent}>
+          やり直し
+        </text>
+      </g>
+    ))}
+    <polygon points="598,70 588,64 588,76" fill={ink} />
+
+    <text x="12" y="140" font-size="14" font-weight="700" fill={ink}>
+      並べて絞る
+    </text>
+    {cols.map((c, i) => (
+      <g>
+        {dots(c.n).map((y) => (
+          <circle cx={c.x} cy={y} r="7" fill={link} fill-opacity={i === 2 ? 1 : 0.35} stroke={link} />
+        ))}
+        {c.note && (
+          <text x={c.x} y="290" text-anchor="middle" font-size="12" fill={ink}>
+            {c.note}
+          </text>
+        )}
+      </g>
+    ))}
+    <path d="M165 160 L315 190 M165 268 L315 238" fill="none" stroke={link} stroke-opacity="0.5" />
+    <path d="M345 192 L495 210 M345 236 L495 218" fill="none" stroke={link} stroke-opacity="0.5" />
+    <line x1="525" x2="590" y1="214" y2="214" stroke={ink} stroke-width="2" />
+    <polygon points="598,214 588,208 588,220" fill={ink} />
+  </svg>
+</FigureFrame>

@@ -1,0 +1,122 @@
+---
+// 現実からモデルをつくっていく流れ。例は本棚の棚板。どのモデルも、目的に合わせて何かを捨てている。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const rungs = [
+  {
+    level: "現実",
+    en: "Reality",
+    desc: "本が並んだ木の棚板。木目、節、色、湿気、本の種類と並べ方…あらゆる性質がある。",
+    keep: "全て",
+    drop: "なし(ただし、試すには実物が必要)",
+    sketch: "real",
+  },
+  {
+    level: "概念モデル",
+    en: "Conceptual",
+    desc: "「両端で支えられた板に、本の重さがほぼ均等にかかる」と言葉と図で捉える。",
+    keep: "支え方、荷重のかかり方",
+    drop: "色、木目、本の種類",
+    sketch: "concept",
+  },
+  {
+    level: "数理モデル",
+    en: "Mathematical",
+    desc: "単純支持梁に等分布荷重がかかる式で、たわみを計算する。δ = 5wL⁴ ⁄ 384EI",
+    keep: "長さ、厚さ、材料の硬さ、重さ",
+    drop: "節や継ぎ目、荷重の偏り",
+    sketch: "math",
+  },
+  {
+    level: "計算モデル",
+    en: "Numerical",
+    desc: "有限要素法で板を小さな要素に分け、穴や継ぎ目、荷重の偏りまで含めて計算する。",
+    keep: "形状の細部、荷重の分布",
+    drop: "手軽さ(準備と計算に時間がかかる)",
+    sketch: "fem",
+  },
+];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="何を残し、何を捨てるか"
+  caption="現実を言葉と図で捉え(概念モデル)、式で表し(数理モデル)、必要ならコンピューターで細部まで計算する(計算モデル)。「何ミリたわむか」をざっと知りたいなら数理モデルで十分で、穴を開けた棚板のどこが弱いかを知りたいなら計算モデルが要る。目的が、使うモデルを決める。"
+>
+  <ol class="space-y-3">
+    {rungs.map((r, i) => (
+      <li class="grid gap-4 rounded-md border border-grid p-4 sm:grid-cols-[8rem_9rem_1fr] sm:items-center">
+        <div>
+          <p class="annotation text-link">
+            {String(i + 1).padStart(2, "0")} / {r.en}
+          </p>
+          <p class="font-display text-lg font-bold">{r.level}</p>
+        </div>
+        <svg viewBox="0 0 140 64" class="w-36 rounded bg-paper-muted" aria-hidden="true">
+          {r.sketch === "real" && (
+            <g>
+              {[14, 26, 36, 50, 62, 74, 90, 104, 116].map((x, j) => (
+                <rect
+                  x={x}
+                  y={14 + (j % 3) * 3}
+                  width={j % 2 ? 9 : 11}
+                  height={28 - (j % 3) * 3}
+                  fill={["var(--color-accent)", "var(--color-link)", "var(--color-positive)"][j % 3]}
+                  fill-opacity="0.7"
+                />
+              ))}
+              <rect x="8" y="42" width="124" height="6" fill="var(--color-ink)" fill-opacity="0.6" />
+              <rect x="8" y="48" width="6" height="12" fill="var(--color-ink)" fill-opacity="0.6" />
+              <rect x="126" y="48" width="6" height="12" fill="var(--color-ink)" fill-opacity="0.6" />
+            </g>
+          )}
+          {r.sketch === "concept" && (
+            <g stroke="var(--color-ink)" fill="none" stroke-width="1.5">
+              <path d="M16 38 H124" stroke-width="3" />
+              <path d="M16 38 l-7 12 h14 z M124 38 l-7 12 h14 z" />
+              {[24, 40, 56, 72, 88, 104, 116].map((x) => (
+                <path d={`M${x} 14 V32 m-3 -5 l3 5 l3 -5`} stroke="var(--color-accent-strong)" />
+              ))}
+            </g>
+          )}
+          {r.sketch === "math" && (
+            <text
+              x="70"
+              y="40"
+              text-anchor="middle"
+              font-family="var(--font-mono)"
+              font-size="13"
+              fill="var(--color-ink)"
+            >
+              δ=5wL⁴/384EI
+            </text>
+          )}
+          {r.sketch === "fem" && (
+            <g stroke="var(--color-link)" stroke-width="0.8" fill="none">
+              <rect x="12" y="24" width="116" height="16" />
+              {Array.from({ length: 13 }, (_, k) => (
+                <path d={`M${12 + k * 9.67} 24 V40 M${12 + k * 9.67} 24 l9.67 16`} />
+              ))}
+              <path d="M12 32 H128" />
+            </g>
+          )}
+        </svg>
+        <div class="text-sm">
+          <p>{r.desc}</p>
+          <p class="mt-2 text-xs text-muted">
+            <span class="font-bold text-positive">残す:</span>
+            {r.keep}
+            <span class="ml-3 font-bold text-accent-strong">捨てる:</span>
+            {r.drop}
+          </p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</FigureFrame>

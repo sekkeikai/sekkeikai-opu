@@ -1,0 +1,103 @@
+---
+// KJ 法の流れ。小さな図はカード(付箋)の動きを表している。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// 各段階の小さな図に置くカードの位置 [x, y]
+const scattered = [
+  [10, 12],
+  [62, 8],
+  [92, 40],
+  [24, 50],
+  [70, 58],
+  [44, 30],
+];
+const grouped = [
+  [12, 14],
+  [34, 14],
+  [12, 34],
+  [78, 40],
+  [100, 40],
+  [78, 60],
+];
+
+const steps = [
+  {
+    title: "書く",
+    body: "一枚のカードに、一つの事実や意見だけを短く書く",
+    cards: scattered,
+    islands: false,
+    links: false,
+  },
+  { title: "集める", body: "読み比べて、似ていると感じるカードを寄せる", cards: grouped, islands: false, links: false },
+  { title: "名付ける", body: "集まりに、中身を言い表す「表札」を付ける", cards: grouped, islands: true, links: false },
+  {
+    title: "図にする",
+    body: "集まりどうしの関係(原因、対立など)を線で表す",
+    cards: grouped,
+    islands: true,
+    links: true,
+  },
+  { title: "文章にする", body: "図を読み解き、分かったことを文章にまとめる", cards: [], islands: false, links: false },
+];
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="KJ法: 散らばった事実から、構造を見つける"
+  caption="大切なのは、分類の枠をカードの方から見つけること。「集まりたがっている」まとまりを探していくと、予想していなかった構造が見えてくる。"
+  source="[川喜田二郎『発想法』中公新書 (1967)](https://ndlsearch.ndl.go.jp/books/R100000002-I000001091965) を基に作図"
+>
+  <ol class="grid gap-4 sm:grid-cols-5">
+    {steps.map((s, i) => (
+      <li class="flex gap-4 sm:block">
+        <svg
+          viewBox="0 0 132 84"
+          class="w-28 shrink-0 rounded-md border border-grid bg-paper-muted sm:w-full"
+          aria-hidden="true"
+        >
+          {s.islands && (
+            <g fill="none" stroke="var(--color-positive)" stroke-width="1.5">
+              <rect x="6" y="6" width="56" height="54" rx="8" />
+              <rect x="72" y="32" width="56" height="48" rx="8" />
+            </g>
+          )}
+          {s.links && <path d="M62 34 L72 52" stroke="var(--color-accent-strong)" stroke-width="2.5" />}
+          {s.cards.map(([x, y]) => (
+            <rect
+              x={x}
+              y={y}
+              width="18"
+              height="14"
+              rx="1.5"
+              fill="var(--color-paper)"
+              stroke="var(--color-ink)"
+              stroke-width="1"
+            />
+          ))}
+          {s.islands && (
+            <g fill="var(--color-positive)">
+              <rect x="14" y="0" width="30" height="8" rx="2" />
+              <rect x="84" y="26" width="30" height="8" rx="2" />
+            </g>
+          )}
+          {s.cards.length === 0 && (
+            <g stroke="var(--color-ink)" stroke-opacity="0.5" stroke-width="2">
+              <path d="M18 22 H114 M18 34 H108 M18 46 H114 M18 58 H84" />
+            </g>
+          )}
+        </svg>
+        <div class="sm:mt-3">
+          <p class="annotation text-positive">{String(i + 1).padStart(2, "0")}</p>
+          <p class="font-display font-bold">{s.title}</p>
+          <p class="mt-1 text-sm text-ink/80">{s.body}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</FigureFrame>
