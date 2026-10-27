@@ -24,12 +24,12 @@ const icons = {
   mail: "M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v.4l8 5.3 8-5.3V6H4Zm16 2.8-7.45 4.94a1 1 0 0 1-1.1 0L4 8.8V18h16V8.8Z",
 };
 
-// 入部フォーム(Microsoft Forms)の URL。書く場所は src/content/pages/home.yaml の join の formUrl の一か所だけ。
+// 入部フォーム(Microsoft Forms)の URL。書く場所は src/content/site/links.yaml の joinForm の一か所だけ
+// (編集画面の「サイトの設定 → 連絡先とリンク」)。
 // ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクは、すべてここから行き先を受け取る。空の間は ""
 export async function getJoinFormUrl(): Promise<string> {
-  const home = await getEntry("pages", "home");
-  const join = home?.data.sections.find((s) => s.type === "join");
-  return join?.type === "join" ? (join.formUrl ?? "") : "";
+  const site = await getEntry("site", "links");
+  return site?.data.joinForm ?? "";
 }
 
 export async function getSiteLinks(): Promise<SiteLink[]> {

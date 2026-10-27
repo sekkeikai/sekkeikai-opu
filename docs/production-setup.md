@@ -130,7 +130,7 @@ Cloudflare → 中継用 Worker → Settings → Variables and Secrets に追加
 ## 4. 仕上げ（独自ドメインなど）
 
 - **独自ドメイン**: 大学のサブドメインを使うなら情報センターに相談。自分たちで取るならサークル名義で取得し、Cloudflare の Worker → Settings → Domains & Routes で追加。取得したら `astro.config.mjs` の `site` を設定
-- **入部フォーム**: 編集画面の「ページ → トップページ → 入部案内」で URL を入れる
+- **入部フォーム**: 編集画面の「サイトの設定 → 入部フォーム・連絡先とリンク」で Microsoft Forms の URL を入れる
 - **Figma 連携**: [figma.md](figma.md)
 
 ## 元に戻す

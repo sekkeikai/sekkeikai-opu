@@ -1,6 +1,6 @@
 ---
 // 入部の呼びかけ。身に付く力と、「入部はこちら」ボタン(入部フォームが開く)・Discord・TimeTree・メールへの入り口を並べる。
-// 「入部はこちら」ボタンの行き先は formUrl(JoinButton が読む)。Discord などは src/content/site/links.yaml が空なら出さない。
+// 「入部はこちら」ボタンの行き先は src/content/site/links.yaml の joinForm(JoinButton が読む)。Discord などは src/content/site/links.yaml が空なら出さない。
 import JoinButton from "../JoinButton.astro";
 import { getSiteLinks } from "../../lib/site";
 

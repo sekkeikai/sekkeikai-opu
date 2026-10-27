@@ -207,7 +207,7 @@ const section = z.discriminatedUnion("type", [
     eyebrow: z.string().max(60).optional(),
     title: z.string().max(30),
     lead: z.string().max(160),
-    // ボタンは「入部はこちら」だけで、文言と行き先は決まっている(src/components/JoinButton.astro)ので、ここには書かない
+    // ボタンは「入部はこちら」だけで、文言は決まっている(src/components/JoinButton.astro)ので、ここには書かない。行き先は site の joinForm
   }),
   // 全体の見取り図。後ろに続く章の見出しと要点を並べる(中身は自動)
   z.object({ type: z.literal("summary"), title: z.string().max(30), lead: z.string().max(120).optional() }),
@@ -232,18 +232,6 @@ const section = z.discriminatedUnion("type", [
       .array(z.object({ title: z.string().max(10), body: z.string().max(40) }))
       .max(4)
       .default([]),
-    // 入部フォーム(Microsoft Forms)の URL。ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクは、すべてここを開く。空の間は押せない見た目になる。
-    // 共有リンクは forms.office.com の他、新しい forms.cloud.microsoft で出ることもある
-    formUrl: z
-      .union([
-        z.literal(""),
-        z
-          .url({ message: "入部フォームの URL は https:// から始まる形で入力してください" })
-          .refine((u) => /^https:\/\/(forms\.office\.com|forms\.microsoft\.com|forms\.cloud\.microsoft)\//.test(u), {
-            message: "入部フォームは Microsoft Forms の URL(https://forms.office.com/…)を入力してください",
-          }),
-      ])
-      .optional(),
   }),
   z.object({
     type: z.literal("info"),
@@ -365,6 +353,18 @@ const design = defineCollection({
 const site = defineCollection({
   loader: glob({ pattern: "**/*.yaml", base: "./src/content/site" }),
   schema: z.object({
+    // 入部フォーム(Microsoft Forms)の URL。ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクは、すべてここを開く。空の間は押せない見た目になる。
+    // 共有リンクは forms.office.com の他、新しい forms.cloud.microsoft で出ることもある
+    joinForm: z
+      .union([
+        z.literal(""),
+        z
+          .url({ message: "入部フォームの URL は https:// から始まる形で入力してください" })
+          .refine((u) => /^https:\/\/(forms\.office\.com|forms\.microsoft\.com|forms\.cloud\.microsoft)\//.test(u), {
+            message: "入部フォームは Microsoft Forms の URL(https://forms.office.com/…)を入力してください",
+          }),
+      ])
+      .default(""),
     // Discord の招待リンク。空の間は出さない
     discord: z.union([z.literal(""), z.url()]).default(""),
     // TimeTree(活動予定のカレンダー)の共有リンク。空の間は出さない
