@@ -613,14 +613,6 @@ collections:
                     fields:
                       - { name: title, label: 名前, widget: string, maxlength: 10 }
                       - { name: body, label: 説明, widget: string, maxlength: 40 }
-                  - name: formUrl
-                    label: 入部フォーム（Microsoft Forms）の URL
-                    widget: string
-                    required: false
-                    pattern:
-                      - "^https://(forms\\.office\\.com|forms\\.microsoft\\.com|forms\\.cloud\\.microsoft)/"
-                      - "Microsoft Forms の URL（https://forms.office.com/…）を入力してください"
-                    hint: ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクが、すべてここを開きます。空の間は押せない見た目になります。フォームでは学籍番号を集めません
               - name: info
                 label: 団体概要（項目と内容の表）
                 widget: object
@@ -652,12 +644,20 @@ collections:
 
   - name: site
     label: サイトの設定
-    description: ヘッダー・フッター・入部の章に出る連絡先とリンク。空の項目は出ません。
+    description: 入部フォームと、ヘッダー・フッター・入部の章に出る連絡先とリンク。空の項目は出ません。
     files:
       - name: links
-        label: 連絡先とリンク
+        label: 入部フォーム・連絡先とリンク
         file: src/content/site/links.yaml
         fields:
+          - name: joinForm
+            label: 入部フォーム（Microsoft Forms）の URL
+            widget: string
+            required: false
+            pattern:
+              - "^https://(forms\\.office\\.com|forms\\.microsoft\\.com|forms\\.cloud\\.microsoft)/"
+              - "Microsoft Forms の URL（https://forms.office.com/…）を入力してください"
+            hint: ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクが、すべてここを開きます。空の間は押せない見た目になります。フォームでは学籍番号を集めません
           - name: discord
             label: Discord の招待リンク
             widget: string
