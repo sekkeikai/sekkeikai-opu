@@ -679,6 +679,7 @@ collections:
             pattern:
               - "^https://(timetr\\.ee|timetreeapp\\.com)/"
               - "TimeTree の共有リンク（https://timetr.ee/… か https://timetreeapp.com/…）を書いてください"
+            hint: ヘッダーのアイコンとフッターに出ます（入部の章には出しません）
           - name: email
             label: 問い合わせ用のメールアドレス（団体で共有しているアドレスだけ）
             widget: string
