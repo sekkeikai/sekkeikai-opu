@@ -1,9 +1,3 @@
-# サイト全体で使う連絡先とリンク。空("")の間は、その項目は出ない(フッターでは「準備中」と出る)
-# 入部フォーム(Microsoft Forms)の URL。「入部はこちら」ボタンとフッターのリンクが開く。空の間は押せない見た目になる
-joinForm: ""
-# Discord の招待リンク
-discord: ""
-# TimeTree(活動予定のカレンダー)の共有リンク
-timetree: "https://timetr.ee/p/ktdewaah0z4s5q5rfeta"
-# 問い合わせ用のメールアドレス。団体で共有しているアドレスにする(個人や大学の個人用アドレスは書かない)
-email: "kyubya495@petchi.uk"
+joinForm: https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=v0IRw0HOvkibnCh6ZBC2yWOlRXe6R_JEmajAFY6cmj9UMlJaV1VQRkdTVVU2NDEwQ0NFWk9XWjBETiQlQCN0PWcu
+timetree: https://timetr.ee/p/ktdewaah0z4s5q5rfeta
+email: kyubya495@petchi.uk
