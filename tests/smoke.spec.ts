@@ -12,6 +12,8 @@ const pages = [
   "/design/case-open-campus/",
   "/design/design-methods-history/",
   "/lab/",
+  // ポスターの QR コードの行き先
+  "/poster/",
 ];
 
 for (const path of pages) {
@@ -46,6 +48,13 @@ test("スクロールすると要素が現れる（アニメーションが動�
   await page.locator("#join").scrollIntoViewIfNeeded();
   // 動きの長さは tokens.json の motion.duration-base（0.7 秒）なので、数秒以内に表示しきるはず
   await expect(page.locator("#join-title")).toHaveCSS("opacity", "1", { timeout: 5000 });
+});
+
+test("ポスター用の /poster/ は検索結果に出さず、本来のページはトップだと伝える", async ({ page }) => {
+  await page.goto("/poster/");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/$/);
+  await expect(page.locator("#join-title")).toBeAttached();
 });
 
 test("CMS の編集画面 /admin/ が配信されている", async ({ page }) => {

@@ -4,6 +4,7 @@ import "../styles/global.css";
 import SocialLinks from "../components/SocialLinks.astro";
 import JoinButton from "../components/JoinButton.astro";
 import { getJoinFormUrl, getSiteLinks } from "../lib/site";
+import { analyticsHostname, analyticsToken } from "../lib/analytics";
 
 interface Props {
   title: string;
@@ -11,9 +12,11 @@ interface Props {
   noindex?: boolean;
   // true にすると、ヘッダーの下に「どこまで読んだか」の細い線を出す(長文のページ用)
   progress?: boolean;
+  // 同じ中身のページが別にあるとき、検索エンジンに本来のページを伝える(例: "/")
+  canonical?: string;
 }
 
-const { title, description, noindex = false, progress = false } = Astro.props;
+const { title, description, noindex = false, progress = false, canonical } = Astro.props;
 const fullTitle = title === "設計会" ? "設計会 | 岡山県立大学 公認サークル" : `${title} | 設計会`;
 // mobile: false の項目は、スマホ幅ではヘッダーに出さない(フッターには全部出る)。
 // 「入部はこちら」はページへのリンクではなく、入部フォームを開くボタン(JoinButton)なので、この一覧とは別に置く
@@ -34,6 +37,7 @@ const contacts = await getSiteLinks();
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={new URL(canonical, Astro.site ?? Astro.url).href} />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -46,6 +50,16 @@ const contacts = await getSiteLinks();
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap"
     />
+    {analyticsToken && <script is:inline define:vars={{ token: analyticsToken, hostname: analyticsHostname }}>
+      // アクセス解析(src/lib/analytics.ts)。本番のホスト名で開いたときだけ読み込む
+      if (location.hostname === hostname) {
+        const s = document.createElement("script");
+        s.defer = true;
+        s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+        s.dataset.cfBeacon = JSON.stringify({ token });
+        document.head.appendChild(s);
+      }
+    </script>}
   </head>
   <body class="min-h-dvh">
     <a
