@@ -31,22 +31,23 @@
 
 ## フォルダの地図
 
-| 場所                          | 中身                                                    | 誰が触る？                   |
-| ----------------------------- | ------------------------------------------------------- | ---------------------------- |
-| `src/content/news/`           | お知らせ記事（Markdown）                                | 編集画面から誰でも           |
-| `src/content/design/`         | 「設計を知る」のページ（YAML。ファイル名が URL）        | 編集画面から誰でも           |
-| `src/content/pages/home.yaml` | トップページのセクション構成と文章                      | 編集画面から誰でも           |
-| `src/content/site/links.yaml` | 入部フォームの URL・Discord・TimeTree・問い合わせメール | 編集画面から誰でも           |
-| `public/uploads/`             | 画像（外部の画像の出典は `docs/image-credits.md`）      | 編集画面から自動で           |
-| `tokens/tokens.json`          | 色・フォント・動きの値（デザインの正本）                | Figma（Tokens Studio）か手で |
-| `src/components/sections/`    | セクションの見た目（Astro）                             | コードを書く人               |
-| `src/components/Blocks.astro` | 長文の部品（要点・問いかけ・例・表など）の見た目        | コードを書く人               |
-| `src/components/figures/`     | 図（一覧は `/lab/`）                                    | コードを書く人               |
-| `src/scripts/motion.ts`       | アニメーション（GSAP / Lenis）                          | コードを書く人               |
-| `src/content.config.ts`       | 入力内容のルール（文字数の上限など）                    | コードを書く人               |
-| `public/admin/config.yml`     | 編集画面の入力欄の設定                                  | コードを書く人               |
-| `docs/writing-guide.md`       | 文章の書き方（調べたことと、このサイトの決まり）        | 文章を書く人                 |
-| `docs/`                       | 管理者向けの手順書                                      | 管理者                       |
+| 場所                          | 中身                                               | 誰が触る？                   |
+| ----------------------------- | -------------------------------------------------- | ---------------------------- |
+| `src/content/news/`           | お知らせ記事（Markdown）                           | 編集画面から誰でも           |
+| `src/content/design/`         | 「設計を知る」のページ（YAML。ファイル名が URL）   | 編集画面から誰でも           |
+| `src/content/pages/home.yaml` | トップページのセクション構成と文章                 | 編集画面から誰でも           |
+| `src/content/site/links.yaml` | 入部フォームの URL・Discord・TimeTree              | 編集画面から誰でも           |
+| 環境変数 `CONTACT_EMAIL`      | 問い合わせメール（公開リポジトリに載せないため）   | Cloudflare の管理画面        |
+| `public/uploads/`             | 画像（外部の画像の出典は `docs/image-credits.md`） | 編集画面から自動で           |
+| `tokens/tokens.json`          | 色・フォント・動きの値（デザインの正本）           | Figma（Tokens Studio）か手で |
+| `src/components/sections/`    | セクションの見た目（Astro）                        | コードを書く人               |
+| `src/components/Blocks.astro` | 長文の部品（要点・問いかけ・例・表など）の見た目   | コードを書く人               |
+| `src/components/figures/`     | 図（一覧は `/lab/`）                               | コードを書く人               |
+| `src/scripts/motion.ts`       | アニメーション（GSAP / Lenis）                     | コードを書く人               |
+| `src/content.config.ts`       | 入力内容のルール（文字数の上限など）               | コードを書く人               |
+| `public/admin/config.yml`     | 編集画面の入力欄の設定                             | コードを書く人               |
+| `docs/writing-guide.md`       | 文章の書き方（調べたことと、このサイトの決まり）   | 文章を書く人                 |
+| `docs/`                       | 管理者向けの手順書                                 | 管理者                       |
 
 ## 使っている技術
 

@@ -2,6 +2,7 @@
 // 全ページ共通の枠(<head>、ヘッダー、フッター)
 import "../styles/global.css";
 import SocialLinks from "../components/SocialLinks.astro";
+import ContactEmail from "../components/ContactEmail.astro";
 import JoinButton from "../components/JoinButton.astro";
 import { getJoinFormUrl, getSiteLinks } from "../lib/site";
 import Analytics from "../components/Analytics.astro";
@@ -23,7 +24,7 @@ const nav = [
   { href: "/news/", label: "お知らせ", mobile: false },
 ];
 const joinFormUrl = await getJoinFormUrl();
-// Discord・TimeTree・メール(src/content/site/links.yaml)
+// Discord・TimeTree(src/content/site/links.yaml)。問い合わせメールは ContactEmail が別に出す
 const contacts = await getSiteLinks();
 ---
 
@@ -96,7 +97,7 @@ const contacts = await getSiteLinks();
         <div>
           <p class="font-display text-lg font-bold tracking-widest text-ink">設計会</p>
           <p class="mt-1">岡山県立大学 公認サークル</p>
-          <!-- 連絡先。links.yaml が空の項目は「準備中」と出す -->
+          <!-- 連絡先。links.yaml が空の項目と、問い合わせメール(環境変数 CONTACT_EMAIL)が空のときは「準備中」と出す -->
           <ul class="mt-4 space-y-1">
             {contacts.map((c) => (
               <li>
@@ -115,6 +116,9 @@ const contacts = await getSiteLinks();
                 )}
               </li>
             ))}
+            <li>
+              <ContactEmail class="underline underline-offset-4 hover:text-ink" />
+            </li>
           </ul>
         </div>
         <nav aria-label="サイト内のページ">
