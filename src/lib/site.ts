@@ -1,5 +1,5 @@
 // 連絡先とリンク(src/content/site/links.yaml)を、表示に使う形にそろえる。
-// ヘッダーのアイコン、フッター、入部の章で同じものを使う。
+// ヘッダーのアイコンとフッターで同じものを使う。
 import { getEntry } from "astro:content";
 
 export interface SiteLink {

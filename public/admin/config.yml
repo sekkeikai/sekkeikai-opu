@@ -650,7 +650,7 @@ collections:
 
   - name: site
     label: サイトの設定
-    description: 入部フォームと、ヘッダー・フッター・入部の章に出る連絡先とリンク。空の項目は出ません。
+    description: 入部フォームと、ヘッダー・フッターに出る連絡先とリンク。空の項目は出ません。
     files:
       - name: links
         label: 入部フォーム・連絡先とリンク
