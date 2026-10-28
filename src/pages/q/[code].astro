@@ -1,0 +1,78 @@
+---
+// QR コードの入り口(/q/<code>/)。一覧は src/lib/qr.ts。
+// アクセス解析の読み込みが終わるのを少し待って(最大 1.5 秒)、行き先のページへ移る。
+// 待つのは、「QR コードから来た」という記録が送られる前にページを離れないようにするため。
+// アクセス解析が無いとき(token が空・広告ブロックなど)は、すぐに移る。JavaScript が動かないときは、3 秒後に移る。
+// 移るときは location.replace を使い、戻るボタンでこのページに戻ってこないようにする。
+import "../../styles/global.css";
+import Analytics from "../../components/Analytics.astro";
+import { qrEntries } from "../../lib/qr";
+
+export function getStaticPaths() {
+  // /q/ の下には、このファイルのほかにページを作らない(QR コードの入り口と名前がぶつからないように)
+  const others = Object.keys(import.meta.glob("/src/pages/q/**/*")).filter((f) => !f.endsWith("/q/[code].astro"));
+  if (others.length > 0)
+    throw new Error(
+      `/q/ は QR コードの入り口だけに使います。次のファイルを別の場所に移してください: ${others.join(", ")}`,
+    );
+  for (const e of qrEntries) {
+    if (!/^[a-z0-9-]+$/.test(e.code))
+      throw new Error(`src/lib/qr.ts の code「${e.code}」は英小文字・数字・ハイフンで書いてください`);
+    if (!e.to.startsWith("/"))
+      throw new Error(`src/lib/qr.ts の「${e.code}」の to は / から始まるサイトの中のページにしてください`);
+  }
+  const codes = qrEntries.map((e) => e.code);
+  const dup = codes.find((c, i) => codes.indexOf(c) !== i);
+  if (dup) throw new Error(`src/lib/qr.ts の code「${dup}」が2回あります`);
+  return qrEntries.map((e) => ({ params: { code: e.code }, props: { to: e.to } }));
+}
+
+const { to } = Astro.props;
+const canonical = new URL(to, Astro.site ?? Astro.url).href;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>設計会</title>
+    <!-- 検索結果には出さず、本来のページを伝える -->
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+    <noscript>
+      <meta http-equiv="refresh" content={`3;url=${to}`} />
+    </noscript>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Analytics />
+  </head>
+  <body class="grid min-h-dvh place-items-center bg-paper p-6 text-center font-sans text-ink">
+    <p>
+      設計会のページへ移動しています…
+      <br />
+      <a href={to} class="text-link underline">
+        移動しないときはこちら
+      </a>
+    </p>
+    <script is:inline define:vars={{ to }}>
+      let moved = false;
+      const go = () => {
+        if (moved) return;
+        moved = true;
+        location.replace(to);
+      };
+      const beacon = document.querySelector("script[data-analytics]");
+      const state = beacon?.dataset.analytics;
+      if (!beacon || state === "failed") {
+        go();
+      } else if (state === "loaded") {
+        setTimeout(go, 400);
+      } else {
+        // 読み込みが終わってから少し待つ(記録を送る時間)。どんなに遅くても 1.5 秒で移る
+        beacon.addEventListener("load", () => setTimeout(go, 400));
+        beacon.addEventListener("error", go);
+        setTimeout(go, 1500);
+      }
+    </script>
+  </body>
+</html>

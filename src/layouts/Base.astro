@@ -4,6 +4,7 @@ import "../styles/global.css";
 import SocialLinks from "../components/SocialLinks.astro";
 import JoinButton from "../components/JoinButton.astro";
 import { getJoinFormUrl, getSiteLinks } from "../lib/site";
+import Analytics from "../components/Analytics.astro";
 
 interface Props {
   title: string;
@@ -46,6 +47,7 @@ const contacts = await getSiteLinks();
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap"
     />
+    <Analytics />
   </head>
   <body class="min-h-dvh">
     <a
@@ -109,7 +111,7 @@ const contacts = await getSiteLinks();
                     {c.external && <span aria-hidden="true"> ↗</span>}
                   </a>
                 ) : (
-                  <span class="text-muted/70">{c.name}(準備中)</span>
+                  <span class="text-muted">{c.name}(準備中)</span>
                 )}
               </li>
             ))}
@@ -130,7 +132,7 @@ const contacts = await getSiteLinks();
                   入部はこちら<span aria-hidden="true"> →</span>
                 </a>
               ) : (
-                <span class="text-muted/70">入部はこちら(準備中)</span>
+                <span class="text-muted">入部はこちら(準備中)</span>
               )}
             </li>
           </ul>
@@ -142,8 +144,10 @@ const contacts = await getSiteLinks();
     <script>
       import { initMotion } from "../scripts/motion";
       import { initReading } from "../scripts/reading";
+      import { initSidenotes } from "../scripts/sidenotes";
       initMotion();
       initReading();
+      initSidenotes();
     </script>
   </body>
 </html>

@@ -25,7 +25,7 @@ const icons = {
 };
 
 // 入部フォーム(Microsoft Forms)の URL。書く場所は src/content/site/links.yaml の joinForm の一か所だけ
-// (編集画面の「サイトの設定 → 連絡先とリンク」)。
+// (編集画面の「サイトの設定 → 入部フォーム・連絡先とリンク」)。
 // ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクは、すべてここから行き先を受け取る。空の間は ""
 export async function getJoinFormUrl(): Promise<string> {
   const site = await getEntry("site", "links");

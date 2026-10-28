@@ -7,7 +7,7 @@ body:
     attributes:
       label: やりたいこと
       description: どのページの、どこを、どうしたいか
-      placeholder: トップページの「活動の流れ」を、スクロールに合わせて 1 つずつ表示したい
+      placeholder: 「設計を知る」のページの図を、スクロールに合わせて描くようにしたい
     validations:
       required: true
   - type: textarea

@@ -25,3 +25,5 @@ This license applies to the program code only. Site content (text, photos,
 logos, and design assets) is © 設計会 and is not covered by this license.
 In particular, the following are excluded: src/content/, public/uploads/,
 public/favicon.svg, and any design files. See CONTENT-LICENSE.md.
+Third-party images and logos in public/uploads/ remain under their own
+licenses as listed in docs/image-credits.md.

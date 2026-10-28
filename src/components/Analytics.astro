@@ -1,0 +1,20 @@
+---
+// アクセス解析(Cloudflare Web Analytics)の読み込み。<head> の中に置く。設定は src/lib/analytics.ts。
+// token が空なら何も出さない。本番のホスト名で開いたときだけ読み込む(プレビュー・手元・自動テストの数をまぜないため)。
+// 読み込んだ <script> の data-analytics に、読み込みの状態(loading / loaded / failed)を書く
+// (QR コードの入り口のページ src/pages/q/[code].astro が、読み込みの終わりを待つのに使う)
+import { analyticsHostname, analyticsToken } from "../lib/analytics";
+---
+
+{analyticsToken && <script is:inline define:vars={{ token: analyticsToken, hostname: analyticsHostname }}>
+  if (location.hostname === hostname) {
+    const s = document.createElement("script");
+    s.defer = true;
+    s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    s.dataset.cfBeacon = JSON.stringify({ token });
+    s.dataset.analytics = "loading";
+    s.addEventListener("load", () => (s.dataset.analytics = "loaded"));
+    s.addEventListener("error", () => (s.dataset.analytics = "failed"));
+    document.head.appendChild(s);
+  }
+</script>}

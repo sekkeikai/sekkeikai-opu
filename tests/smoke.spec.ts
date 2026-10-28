@@ -48,6 +48,17 @@ test("スクロールすると要素が現れる（アニメーションが動�
   await expect(page.locator("#join-title")).toHaveCSS("opacity", "1", { timeout: 5000 });
 });
 
+test("QR コードの入り口 /q/poster/ は、検索結果に出さず、トップページへ移る", async ({ page }) => {
+  const res = await page.request.get("/q/poster/");
+  expect(res.status()).toBe(200);
+  const html = await res.text();
+  expect(html).toContain('<meta name="robots" content="noindex">');
+  // 手元ではアクセス解析を読み込まないので、すぐにトップページへ移る
+  await page.goto("/q/poster/");
+  await page.waitForURL((url) => url.pathname === "/");
+  await expect(page.locator("#join-title")).toBeAttached();
+});
+
 test("CMS の編集画面 /admin/ が配信されている", async ({ page }) => {
   const res = await page.goto("/admin/");
   expect(res?.status()).toBe(200);

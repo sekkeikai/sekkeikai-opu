@@ -9,7 +9,7 @@ backend:
   branch: main
   # 公開リポジトリなので、部員の非公開リポジトリには触れない最小の権限でログインする
   auth_scope: public_repo
-  # 本番のログイン用（docs/production-setup.md の手順2で作る Worker の URL に書き換える）
+  # 本番のログイン用（docs/production-setup.md の 3-1 で作る Worker の URL）
   base_url: https://sveltia-cms-auth.sekkeikai.workers.dev
   commit_messages:
     create: "記事を追加: {{collection}}「{{slug}}」"
@@ -56,19 +56,22 @@ collections:
     create: true
     extension: md
     format: frontmatter
+    # ファイル名（＝ページの URL）は、記事を作った日とタイトルから作る。あとで日付を変えても、URL は変わらない
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     summary: "{{date | date('YYYY/MM/DD')}} {{title}}"
-    sortable_fields: [date, title]
+    # 編集画面の一覧は、サイトと同じく新しい順に並べる
+    sortable_fields:
+      fields: [date, title]
+      default: { field: date, direction: descending }
     fields:
       - { name: title, label: タイトル, widget: string, maxlength: 60 }
-      - {
-          name: date,
-          label: 日付,
-          widget: datetime,
-          time_format: false,
-          date_format: "YYYY-MM-DD",
-          format: "YYYY-MM-DD",
-        }
+      - name: date
+        label: 日付（一覧に出る日付と並び順に使う）
+        widget: datetime
+        time_format: false
+        date_format: "YYYY-MM-DD"
+        format: "YYYY-MM-DD"
+        hint: 日付を変えても、ページの URL（記事を作った日が入っている）は変わりません。URL を変えると、共有したリンクが開けなくなるためです
       - { name: summary, label: 概要（一覧に出る短い説明）, widget: text, required: false, maxlength: 140 }
       - { name: cover, label: カバー画像, widget: image, required: false }
       - name: coverAlt
@@ -501,7 +504,10 @@ collections:
                 summary: "{{label}}"
                 fields:
                   - { name: label, label: リンクの文字, widget: string, maxlength: 40 }
-                  - { name: href, label: "リンク先（例: /design/process/）", widget: string }
+                  - name: href
+                    label: "リンク先（例: /design/process/）"
+                    widget: string
+                    pattern: ["^(/|#|https?://)", "/ か # か https:// から始まる形で書いてください"]
       - name: references
         label: 参考文献（URL は必須）
         label_singular: 参考文献
@@ -662,17 +668,23 @@ collections:
             label: Discord の招待リンク
             widget: string
             required: false
-            pattern: ["^https?://", "https:// から始まる URL を書いてください"]
+            pattern:
+              - "^https://(discord\\.gg|discord\\.com/invite)/"
+              - "Discord の招待リンク（https://discord.gg/… か https://discord.com/invite/…）を書いてください"
+            hint: 期限の無い招待リンクにしてください（Discord の招待の設定で「期限なし」）
           - name: timetree
             label: TimeTree（活動予定のカレンダー）の共有リンク
             widget: string
             required: false
-            pattern: ["^https?://", "https:// から始まる URL を書いてください"]
+            pattern:
+              - "^https://(timetr\\.ee|timetreeapp\\.com)/"
+              - "TimeTree の共有リンク（https://timetr.ee/… か https://timetreeapp.com/…）を書いてください"
           - name: email
             label: 問い合わせ用のメールアドレス（団体で共有しているアドレスだけ）
             widget: string
             type: email
             required: false
+            hint: サイトに表示され、誰でも見られます。個人のアドレスは書かないでください。卒業などで使えなくなっても困らない、サークルの共用アドレスにします
             pattern:
               - "^(?![a-zA-Z]{1,4}\\d{5,}@([\\w-]+\\.)*oka-pu\\.ac\\.jp$)"
               - 大学の個人用アドレスは書けません。団体で共有しているアドレスを書いてください
