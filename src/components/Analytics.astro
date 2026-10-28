@@ -9,7 +9,8 @@ import { analyticsHostname, analyticsToken } from "../lib/analytics";
 {analyticsToken && <script is:inline define:vars={{ token: analyticsToken, hostname: analyticsHostname }}>
   if (location.hostname === hostname) {
     const s = document.createElement("script");
-    s.defer = true;
+    // Cloudflare の管理画面が出すスニペットと同じく、module として読み込む(後から読み込まれ、ページの表示を止めない)
+    s.type = "module";
     s.src = "https://static.cloudflareinsights.com/beacon.min.js";
     s.dataset.cfBeacon = JSON.stringify({ token });
     s.dataset.analytics = "loading";
