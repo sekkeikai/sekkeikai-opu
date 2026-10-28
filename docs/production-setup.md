@@ -129,7 +129,7 @@ Cloudflare → 中継用 Worker → Settings → Variables and Secrets に追加
 
 ## 4. 仕上げ（独自ドメインなど）
 
-- **独自ドメイン**: 大学のサブドメインを使うなら情報センターに相談。自分たちで取るならサークル名義で取得し、Cloudflare の Worker → Settings → Domains & Routes で追加。取得したら `astro.config.mjs` の `site` と、`src/lib/analytics.ts` の `analyticsHostname` を書き換える。**`workers.dev` の URL は無効にしない**（ポスターの QR コードがこの URL を指しているため）
+- **独自ドメイン**: 大学のサブドメインを使うなら情報センターに相談。自分たちで取るならサークル名義で取得し、Cloudflare の Worker → Settings → Domains & Routes で追加。取得したら `astro.config.mjs` の `site` と、Web Analytics にそのドメインのサイトも足す。**`workers.dev` の URL は無効にしない**（ポスターの QR コードがこの URL を指しているため）
 - **入部フォーム**: 編集画面の「サイトの設定 → 入部フォーム・連絡先とリンク」で Microsoft Forms の URL を入れる
 - **Figma 連携**: [figma.md](figma.md)
 
@@ -143,12 +143,14 @@ Cookie を使わず、個人を特定しない数え方（ページごとの閲�
 2. 表示される JS スニペットの中の `"token": "…"` の値を控える（公開してよい値です）
 3. `src/lib/analytics.ts` の `analyticsToken` にその値を書いて、PR → マージ
 
-読み込むのは本番のホスト名で開いたときだけで、PR のプレビューや手元の確認の数はまざりません。
+記録されるのは、登録したホスト名で開いたときだけです。PR のプレビューや手元の確認で開いても、数はまざりません。
 画面の名前は Cloudflare 側で変わることがあります。見つからないときは Cloudflare のドキュメントで「Web Analytics」を探してください。
+
+**数が出ないとき**: パソコンの Chrome で本番のトップページを開き、開発者ツール（F12）の「Network」で `cloudflareinsights` に絞って再読み込みする。`beacon.min.js`（200）と、`cloudflareinsights.com` への送信（`rum`、204 など）が出ていれば、サイト側は正しく動いている。出ていなければ、広告ブロックなどで止められているか、`src/lib/analytics.ts` の token とホスト名を確かめる。
 
 ### 5-2. ポスターの QR コード
 
-- QR コードには `https://sekkeikai-opu.sekkeikai.workers.dev/q/<code>/` を入れる（今あるのは `/q/poster/`）。開くと、アクセス解析に記録してからトップページへ移る（長くて 1.5 秒）。アドレス欄は最後にトップページの URL になるので、人に送られたリンクで数が増えることはない
+- QR コードには `https://sekkeikai-opu.sekkeikai.workers.dev/q/<code>/` を入れる（今あるのは `/q/poster/`）。開くと、アクセス解析が記録を送り終えるのを待ってからトップページへ移る（ふつうは1〜2秒、長くて5秒）。アドレス欄は最後にトップページの URL になるので、人に送られたリンクで数が増えることはない
 - QR コードの一覧は `src/lib/qr.ts`。1 行が 1 つの QR コードで、`code`（URL の最後の部分）・`to`（行き先）・`note`（何に刷ったか）を書く。ポスターやチラシごとに行を足すと、どれから来たかを分けて数えられる
 - Web Analytics の画面で、Path を `/q/poster/` に絞ると、その QR コードから来た人の数と日ごとの変化が見られる（Web Analytics は `?from=…` のような URL の後ろの部分を数えないので、ページの場所を分けている）
 - `/q/` は QR コードの入り口だけに使う。ほかのページを `/q/` の下に作るとビルドが止まるので、普通のページと名前がぶつかることはない

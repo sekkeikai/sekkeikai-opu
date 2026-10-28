@@ -1,7 +1,8 @@
 ---
 // QR コードの入り口(/q/<code>/)。一覧は src/lib/qr.ts。
-// アクセス解析の読み込みが終わるのを少し待って(最大 1.5 秒)、行き先のページへ移る。
-// 待つのは、「QR コードから来た」という記録が送られる前にページを離れないようにするため。
+// アクセス解析が「QR コードから来た」という記録を Cloudflare に送り終えたのを確かめてから、行き先のページへ移る。
+// 送り終えたかは、ブラウザが記録している通信の一覧(Resource Timing)に、cloudflareinsights.com への送信が出たかで見る。
+// 送信が見つからなくても、5 秒たったら移る(移るときにも、解析はページを離れる前の記録を送る)。
 // アクセス解析が無いとき(token が空・広告ブロックなど)は、すぐに移る。JavaScript が動かないときは、3 秒後に移る。
 // 移るときは location.replace を使い、戻るボタンでこのページに戻ってこないようにする。
 import "../../styles/global.css";
@@ -61,17 +62,22 @@ const canonical = new URL(to, Astro.site ?? Astro.url).href;
         moved = true;
         location.replace(to);
       };
-      const beacon = document.querySelector("script[data-analytics]");
-      const state = beacon?.dataset.analytics;
-      if (!beacon || state === "failed") {
+      // アクセス解析のスクリプト(src/components/Analytics.astro)。読み込めないとき(広告ブロックなど)は、すぐに移る
+      const beacon = document.querySelector("script[data-cf-beacon]");
+      if (!beacon) {
         go();
-      } else if (state === "loaded") {
-        setTimeout(go, 400);
       } else {
-        // 読み込みが終わってから少し待つ(記録を送る時間)。どんなに遅くても 1.5 秒で移る
-        beacon.addEventListener("load", () => setTimeout(go, 400));
         beacon.addEventListener("error", go);
-        setTimeout(go, 1500);
+        // 記録の送信(cloudflareinsights.com への通信で、スクリプトの読み込みではないもの)が終わったら移る
+        const isReport = (e) => e.name.includes("cloudflareinsights.com") && !e.name.includes("beacon.min.js");
+        if (performance.getEntriesByType("resource").some(isReport)) go();
+        if ("PerformanceObserver" in window) {
+          new PerformanceObserver((list) => {
+            if (list.getEntries().some(isReport)) setTimeout(go, 100);
+          }).observe({ type: "resource", buffered: true });
+        }
+        // 送信が見つからなくても、5 秒で移る
+        setTimeout(go, 5000);
       }
     </script>
   </body>
