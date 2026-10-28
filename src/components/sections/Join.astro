@@ -1,9 +1,8 @@
 ---
-// 入部の呼びかけ。身に付く力と、「入部はこちら」ボタン(入部フォームが開く)・Discord・メールへの入り口を並べる。
-// 「入部はこちら」ボタンの行き先は src/content/site/links.yaml の joinForm(JoinButton が読む)。Discord などは src/content/site/links.yaml が空なら出さない。
-// TimeTree(活動の予定)はヘッダーとフッターにあるので、ここには出さない。
+// 入部の呼びかけ。身に付く力と、「入部はこちら」ボタン(入部フォームが開く)を並べる。
+// ボタンの行き先は src/content/site/links.yaml の joinForm(JoinButton が読む)。
+// 迷わず入部フォームへ進めるように、ボタンはこれ一つだけにする(Discord・TimeTree・メールはヘッダーとフッターにある)。
 import JoinButton from "../JoinButton.astro";
-import { getSiteLinks } from "../../lib/site";
 
 interface Props {
   eyebrow?: string;
@@ -14,7 +13,6 @@ interface Props {
 }
 
 const { eyebrow = "入部する", title, body, traitsTitle, traits } = Astro.props;
-const contacts = (await getSiteLinks()).filter((c) => c.href && c.name !== "TimeTree");
 ---
 
 <section id="join" class="scroll-mt-14 bg-ink py-24 text-paper sm:py-32" aria-labelledby="join-title">
@@ -45,19 +43,8 @@ const contacts = (await getSiteLinks()).filter((c) => c.href && c.name !== "Time
       </ul>
     )}
 
-    <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal>
+    <div class="mt-10" data-reveal>
       <JoinButton size="lg" tone="light" />
-      {contacts.map((c) => (
-        <a
-          href={c.href}
-          class="inline-flex items-center gap-2 rounded-full border-2 border-paper px-8 py-3.5 font-bold transition hover:bg-paper hover:text-ink"
-          rel={c.external ? "noopener" : undefined}
-          target={c.external ? "_blank" : undefined}
-        >
-          {c.action}
-          <span aria-hidden="true">{c.external ? "↗" : "→"}</span>
-        </a>
-      ))}
     </div>
   </div>
 </section>
