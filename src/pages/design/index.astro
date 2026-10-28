@@ -1,6 +1,6 @@
 ---
 // 「設計を知る」の入口(/design/)。階層が分かるように、次の順に並べる:
-//   流れ(プロセスの全体 → 5 つの工程)→ 視点 → 工程 × 視点の地図 → その他のテーマ → 例(事例のページ。理論を読み終えたあとに置く)
+//   流れ(プロセスの全体 → 5 つの工程)→ 視点 → 工程 × 視点の地図 → 例(事例のページ。理論を読み終えたあとに置く)→ その他のテーマ
 // どの一覧も src/content/design/ のページ(YAML)からつくるので、ページを足せば自動で増える。
 // 地図(工程 × 視点の表)は、工程のページと各視点の perStep からつくる(src/components/DesignMatrix.astro)。
 import Base from "../../layouts/Base.astro";
@@ -100,7 +100,7 @@ const topics = await getDesignPages("topic");
       <DesignMatrix />
     </section>
 
-    {/* 例は、理論のページを読み終えたあとに置く(理論の途中に例を挟まない) */}
+    {/* 例は、工程・視点・地図を読み終えたあとに置く(理論の途中に例を挟まない) */}
     {cases.length > 0 && (
       <section aria-labelledby="cases-title">
         <p class="annotation text-accent-strong">例で見る</p>

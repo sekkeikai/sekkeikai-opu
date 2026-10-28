@@ -11,6 +11,9 @@ interface Props {
 }
 
 const { class: linkClass = "" } = Astro.props;
+// アドレスは途中で折り返せない長い文字列になりやすく、スマホの狭い画面では横にはみ出す。
+// wrap-anywhere で、収まらないときだけアドレスの途中で折り返す(収まるなら1行のまま次の行へ送る)
+const linkClasses = `${linkClass} wrap-anywhere`.trim();
 const email = getContactEmail();
 const encoded = email ? btoa([...email].reverse().join("")) : "";
 ---
@@ -18,7 +21,7 @@ const encoded = email ? btoa([...email].reverse().join("")) : "";
 {encoded ? (
   <>
     メール:{" "}
-    <span data-contact-email={encoded} data-link-class={linkClass}>
+    <span data-contact-email={encoded} data-link-class={linkClasses}>
       <noscript>JavaScript を有効にすると表示されます</noscript>
     </span>
   </>
