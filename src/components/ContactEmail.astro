@@ -1,0 +1,42 @@
+---
+// 問い合わせ用のメールアドレスを「メール: アドレス」の形で出す。アドレスは押すとメールソフトが開くリンク(フッターで使う)。
+// アドレスは、HTML にはそのままの形で書かない。逆順にして Base64 にしたものを data 属性に入れておき、
+// ブラウザーで JavaScript が元に戻してリンクにする。HTML を読むだけのボットにアドレスを拾われにくくするため。
+// アドレスはビルド用の環境変数 CONTACT_EMAIL(src/lib/site.ts の getContactEmail)。空の間は「準備中」と出す。
+import { getContactEmail } from "../lib/site";
+
+interface Props {
+  // 組み立てたリンクに付ける class
+  class?: string;
+}
+
+const { class: linkClass = "" } = Astro.props;
+const email = getContactEmail();
+const encoded = email ? btoa([...email].reverse().join("")) : "";
+---
+
+{encoded ? (
+  <>
+    メール:{" "}
+    <span data-contact-email={encoded} data-link-class={linkClass}>
+      <noscript>JavaScript を有効にすると表示されます</noscript>
+    </span>
+  </>
+) : (
+  <span class="text-muted">メール(準備中)</span>
+)}
+
+<script>
+  // data-contact-email を元のアドレスに戻して、mailto: のリンクに置き換える
+  for (const el of document.querySelectorAll<HTMLElement>("[data-contact-email]")) {
+    const email = atob(el.dataset.contactEmail ?? "")
+      .split("")
+      .reverse()
+      .join("");
+    const link = document.createElement("a");
+    link.href = `mailto:${email}`;
+    link.textContent = email;
+    link.className = el.dataset.linkClass ?? "";
+    el.replaceWith(link);
+  }
+</script>

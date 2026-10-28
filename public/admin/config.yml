@@ -650,7 +650,7 @@ collections:
 
   - name: site
     label: サイトの設定
-    description: 入部フォームと、ヘッダー・フッターに出る連絡先とリンク。空の項目は出ません。
+    description: 入部フォームと、ヘッダー・フッターに出る連絡先とリンク。空の項目は出ません。問い合わせメールは、アドレスを集めるボットに拾われないよう、ここではなく Cloudflare の設定（環境変数 CONTACT_EMAIL）にあります。
     files:
       - name: links
         label: 入部フォーム・連絡先とリンク
@@ -679,12 +679,3 @@ collections:
             pattern:
               - "^https://(timetr\\.ee|timetreeapp\\.com)/"
               - "TimeTree の共有リンク（https://timetr.ee/… か https://timetreeapp.com/…）を書いてください"
-          - name: email
-            label: 問い合わせ用のメールアドレス（団体で共有しているアドレスだけ）
-            widget: string
-            type: email
-            required: false
-            hint: サイトに表示され、誰でも見られます。個人のアドレスは書かないでください。卒業などで使えなくなっても困らない、サークルの共用アドレスにします
-            pattern:
-              - "^(?![a-zA-Z]{1,4}\\d{5,}@([\\w-]+\\.)*oka-pu\\.ac\\.jp$)"
-              - 大学の個人用アドレスは書けません。団体で共有しているアドレスを書いてください

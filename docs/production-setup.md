@@ -78,6 +78,7 @@
    | Non-production branch deploy command | `npx wrangler versions upload`（PR ごとのプレビュー URL 用）                     |
    | Root directory                       | `/`                                                                              |
    | 環境変数（Build）                    | `NODE_VERSION` = `24.22.1`（`.node-version` と同じ。自動で読まれない場合の保険） |
+   | 環境変数（Build）                    | `CONTACT_EMAIL` = 問い合わせ用の共用アドレス（下の「問い合わせメール」）         |
 
 4. 「Deploy」。数分で `https://sekkeikai-opu.<アカウント名>.workers.dev` に公開されます
 5. Settings → Builds で次をオンにする
@@ -86,6 +87,18 @@
 6. 他の管理者は Manage Account → Members から招待（パスワードを共有しない）
 
 > 手元から確かめる: `npm run build && npx wrangler deploy --dry-run`（アップロードせずに設定だけ検査）
+
+### 問い合わせメール
+
+フッターに出す問い合わせ用のメールアドレスは、`links.yaml` ではなく、ビルド用の環境変数 `CONTACT_EMAIL` に入れます。
+このリポジトリは公開なので、ファイルに書くとアドレスを集めるボットに拾われ、迷惑メールが届くようになるためです。
+サイトの HTML にもそのままの形では書かず、ブラウザーで JavaScript が組み立てて表示します（`src/components/ContactEmail.astro`）。
+
+- 入れる場所: Workers & Pages → `sekkeikai-opu` → Settings → Build の環境変数（上の表の `NODE_VERSION` と同じ場所）
+- 入れるアドレス: 団体で共有しているアドレスだけ。迷惑メールが増えたら捨てて替えられるよう、問い合わせ専用の別名にしておくとよい。大学の個人用アドレスを入れるとビルドが止まる
+- 変えたとき: 次のビルドから反映されます。すぐ反映するには、最新のビルドをやり直します
+- 空のとき: フッターに「メール(準備中)」と出ます。手元のビルドや GitHub のチェックでは空なので、こう出るのが正しい動き
+- 手元で表示を確かめる: `CONTACT_EMAIL=アドレス npm run dev`
 
 ## 3. 編集画面のログインを使えるようにする
 
