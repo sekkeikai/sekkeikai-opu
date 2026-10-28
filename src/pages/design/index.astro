@@ -100,28 +100,6 @@ const topics = await getDesignPages("topic");
       <DesignMatrix />
     </section>
 
-    {topics.length > 0 && (
-      <section aria-labelledby="topics-title">
-        <h2 id="topics-title" class="text-2xl font-bold sm:text-3xl">
-          その他のテーマ
-        </h2>
-        <ul class="mt-8 grid gap-4 md:grid-cols-3">
-          {topics.map((t) => (
-            <li>
-              <a
-                href={`/design/${t.id}/`}
-                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
-              >
-                <p class="annotation text-link">{t.data.en}</p>
-                <p class="mt-2 font-display text-2xl font-bold">{t.data.title}</p>
-                <p class="mt-4 flex-1 text-sm text-ink/85">{t.data.summary}</p>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
-
     {/* 例は、理論のページを読み終えたあとに置く(理論の途中に例を挟まない) */}
     {cases.length > 0 && (
       <section aria-labelledby="cases-title">
@@ -148,5 +126,28 @@ const topics = await getDesignPages("topic");
         </ul>
       </section>
     )}
+
+    {topics.length > 0 && (
+      <section aria-labelledby="topics-title">
+        <h2 id="topics-title" class="text-2xl font-bold sm:text-3xl">
+          その他のテーマ
+        </h2>
+        <ul class="mt-8 grid gap-4 md:grid-cols-3">
+          {topics.map((t) => (
+            <li>
+              <a
+                href={`/design/${t.id}/`}
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+              >
+                <p class="annotation text-link">{t.data.en}</p>
+                <p class="mt-2 font-display text-2xl font-bold">{t.data.title}</p>
+                <p class="mt-4 flex-1 text-sm text-ink/85">{t.data.summary}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
   </div>
 </Base>
