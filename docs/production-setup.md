@@ -148,10 +148,11 @@ Cookie を使わず、個人を特定しない数え方（ページごとの閲�
 
 ### 5-2. ポスターの QR コード
 
-- QR コードには `https://sekkeikai-opu.sekkeikai.workers.dev/poster/` を入れる。中身はトップページと同じで、検索結果には出ない（`src/pages/poster.astro`）
-- Web Analytics の画面で、Path が `/poster/` のものに絞ると、ポスターから来た人の数と日ごとの変化が見られる（Web Analytics は `?from=…` のような URL の後ろの部分を数えないので、ページの場所を分けている）
-- ポスターを何種類か作って、どれから来たかを分けたいときは、`src/pages/poster.astro` を写して `poster-a.astro` などを作り、それぞれの URL で QR を作る
-- 刷った QR は直せないので、`/poster/` は消さない。行き先を変えたいときは `src/pages/poster.astro` の中身を変える
+- QR コードには `https://sekkeikai-opu.sekkeikai.workers.dev/q/<code>/` を入れる（今あるのは `/q/poster/`）。開くと、アクセス解析に記録してからトップページへ移る（長くて 1.5 秒）。アドレス欄は最後にトップページの URL になるので、人に送られたリンクで数が増えることはない
+- QR コードの一覧は `src/lib/qr.ts`。1 行が 1 つの QR コードで、`code`（URL の最後の部分）・`to`（行き先）・`note`（何に刷ったか）を書く。ポスターやチラシごとに行を足すと、どれから来たかを分けて数えられる
+- Web Analytics の画面で、Path を `/q/poster/` に絞ると、その QR コードから来た人の数と日ごとの変化が見られる（Web Analytics は `?from=…` のような URL の後ろの部分を数えないので、ページの場所を分けている）
+- `/q/` は QR コードの入り口だけに使う。ほかのページを `/q/` の下に作るとビルドが止まるので、普通のページと名前がぶつかることはない
+- 刷った QR コードは直せないので、一度使った `code` は消さない。行き先を変えたいときは `to` だけを変える
 
 ## 元に戻す
 
