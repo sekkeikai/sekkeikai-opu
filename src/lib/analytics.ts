@@ -7,7 +7,7 @@
 // - 独自ドメインに移ったら、hostname を書き換え、Web Analytics にもそのドメインを足す
 
 // Web Analytics で「サイトを追加」したときに出る JS スニペットの token の値(公開してよい値)
-export const analyticsToken = "";
+export const analyticsToken = "1b9b165dcc944b519800be4a9858ca68";
 
 // 本番のサイトのホスト名
 export const analyticsHostname = "sekkeikai-opu.sekkeikai.workers.dev";
