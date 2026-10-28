@@ -375,10 +375,24 @@ const site = defineCollection({
           }),
       ])
       .default(""),
-    // Discord の招待リンク。空の間は出さない
-    discord: z.union([z.literal(""), webUrl()]).default(""),
+    // Discord の招待リンク。空の間は出さない。別のサービスの URL を間違えて入れないように、招待リンクの形だけを受け付ける
+    discord: z
+      .union([
+        z.literal(""),
+        webUrl().regex(/^https:\/\/(discord\.gg|discord\.com\/invite)\//, {
+          message: "Discord の招待リンク(https://discord.gg/… か https://discord.com/invite/…)を書いてください",
+        }),
+      ])
+      .default(""),
     // TimeTree(活動予定のカレンダー)の共有リンク。空の間は出さない
-    timetree: z.union([z.literal(""), webUrl()]).default(""),
+    timetree: z
+      .union([
+        z.literal(""),
+        webUrl().regex(/^https:\/\/(timetr\.ee|timetreeapp\.com)\//, {
+          message: "TimeTree の共有リンク(https://timetr.ee/… か https://timetreeapp.com/…)を書いてください",
+        }),
+      ])
+      .default(""),
     // 問い合わせ用のメールアドレス。団体で共有しているアドレスにする(個人や大学の個人用アドレスは書かない)
     // 大学の個人用アドレス(英字の後に数字が続く、学籍番号の形)は入力できないようにしている
     email: z
