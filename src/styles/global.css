@@ -21,7 +21,8 @@
   h3 {
     font-family: var(--font-display);
     line-height: 1.4;
-    letter-spacing: 0.02em;
+    /* 見出しは字間を足さない(太い見出しに字間を足すと、読点の後が大きく空いて間延びして見えるため) */
+    letter-spacing: 0;
     /* balance にすると、Chromium では文節の区切りを無視して「見落と／さず」のように語の途中で折れるので pretty にする */
     text-wrap: pretty;
     /* 日本語を文節で改行する（対応ブラウザのみ）。

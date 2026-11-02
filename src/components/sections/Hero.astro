@@ -29,7 +29,11 @@ const steps = await getProcessSteps();
           {eyebrow}
         </p>
       )}
-      <h1 class="max-w-[16em] text-[2.25rem] leading-[1.3] font-bold sm:text-5xl lg:text-[3.25rem]" data-reveal>
+      <!-- 大見出しだけは balance で行の長さをそろえる(pretty だと「決める」だけが最後の行に残るため。行が短いので文節の途中では折れない) -->
+      <h1
+        class="max-w-[16em] text-[2.25rem] leading-[1.3] font-bold [text-wrap:balance] sm:text-5xl lg:text-[3.25rem]"
+        data-reveal
+      >
         {lines.map((line) => (
           <span class="block">{line}</span>
         ))}
