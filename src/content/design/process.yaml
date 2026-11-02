@@ -5,7 +5,7 @@ order: 1
 short: 工程で進める
 question: 問題から設計の答えまで、どう進むか
 summary: 問題を見つけ、要件を定め、案を広げ、比べて選び、形を詰める。設計は5つの工程を行き来しながら確かになっていく。
-lead: 設計では、いくつもの工程を踏んで、答えを少しずつ確かにしていきます。解くべき問題を見つけ、満たすべき条件を言葉にし、たくさんの案から根拠をもって選び、細部を詰めます。このページには5つの工程の全体とつながり方を、各工程の中身はそれぞれのページに書いています。
+lead: 設計では、いくつもの工程を踏み、ときに前の工程へ戻りながら、答えを少しずつ確かにしていきます。
 chapters:
   - id: overview
     heading: 設計は、5つの工程で進む
@@ -84,12 +84,12 @@ chapters:
         note: ドイツ技術者協会の指針 [VDI 2221](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-1-entwicklung-technischer-produkte-und-systeme-modell-der-produktentwicklung) は2019年の改訂で、製品開発の中心となる目標・活動・成果を定める形になった。実際の進め方は、会社やプロジェクトに合わせて組み立てるとしている([VDI 2221 Blatt 2](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-2-entwicklung-technischer-produkte-und-systeme-gestaltung-individueller-produktentwicklungsprozesse))。
 
   - id: examples
-    heading: 部室の予約を例に、5つの工程をたどる
+    heading: 部室の予約の取り合いも、5つの工程で進められる
     blocks:
       - type: point
-        text: どの工程のページにも、「部室の予約が取り合いになっている」という架空の問題を、その工程で進める例があります。
+        text: 最初に話を聞いて、取り合いの本当の理由を一文にまとめ、確かめられる条件にします。アプリや紙の予約表といった案は、その後で出します。
       - type: example
-        title: 部室の予約を、5つの工程で進めるなら
+        title: 部室の予約を、5つの工程で進めるなら(架空の例)
         text: まず部員に話を聞き、取り合いの本当の理由を確かめて、「部員が、部室の空き状況を前もって確かめられず、行ってから引き返すことがある」のような一文にまとめる(問題発見)。問題がこの一文なら、「スマートフォンから3操作以内」「重なりは0件」「費用は0円」のように、確かめられる条件にする(要件定義)。アプリ、紙の予約表、共有カレンダーなど、案をいくつも出す(発想)。条件で比べて一つを選ぶ(評価・選定)。最後に、予約の書き方と決まりを仕様書にまとめる(詳細設計)。
       - type: p
         text: もっと大きな例は、設計の流れの例のページにあります。[[case-open-campus|イベント]]、[[case-delivery-robot|ロボット]]、[[case-deadline|アプリ]]、[[case-bicycle-parking|設備]]、[[case-shelter-reception|防災]]の5つです。
