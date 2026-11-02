@@ -98,11 +98,12 @@ const contacts = await getSiteLinks();
         <div>
           <p class="font-display text-lg font-bold text-ink">設計会</p>
           <p class="mt-1">岡山県立大学 公認サークル</p>
-          <!-- 連絡先。links.yaml が空の項目と、問い合わせメール(環境変数 CONTACT_EMAIL)が空のときは「準備中」と出す -->
+          <!-- 連絡先。links.yaml が空の項目と、問い合わせメール(環境変数 CONTACT_EMAIL)が空のときは出さない(「準備中」と出すと、できかけのサイトに見えるため) -->
           <ul class="mt-4 space-y-1">
-            {contacts.map((c) => (
-              <li>
-                {c.href ? (
+            {contacts
+              .filter((c) => c.href)
+              .map((c) => (
+                <li>
                   <a
                     href={c.href}
                     class="underline underline-offset-4 hover:text-ink"
@@ -112,12 +113,9 @@ const contacts = await getSiteLinks();
                     {c.action}
                     {c.external && <span aria-hidden="true"> ↗</span>}
                   </a>
-                ) : (
-                  <span class="text-muted">{c.name}(準備中)</span>
-                )}
-              </li>
-            ))}
-            <li>
+                </li>
+              ))}
+            <li class="empty:hidden">
               <ContactEmail class="underline underline-offset-4 hover:text-ink" />
             </li>
           </ul>

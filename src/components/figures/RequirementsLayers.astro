@@ -9,31 +9,26 @@ interface Props {
 
 const layers = [
   {
-    en: "Why",
     name: "目的",
     q: "なぜつくるのか",
     items: ["部室の使い方を前もって調整し、練習や作業の時間を無駄なく使えるようにしたい"],
   },
   {
-    en: "What",
     name: "機能要件",
     q: "何ができればよいか",
     items: ["空き状況を見られる", "予約と取り消しができる", "同じ時間帯に予約が重ならない"],
   },
   {
-    en: "How well",
     name: "非機能要件",
     q: "どれくらいうまく",
     items: ["スマートフォンから使える", "初めての人が説明なしで予約できる", "24時間いつでも使える"],
   },
   {
-    en: "Must",
     name: "制約",
     q: "守るべき条件",
     items: ["費用は0円", "大学のルールに従う", "部員の個人情報を必要以上に集めない"],
   },
   {
-    en: "How much",
     name: "仕様",
     q: "確かめられる数値",
     items: ["予約の完了まで3操作以内", "空き状況の確認まで30秒以内", "重複した予約は0件"],
@@ -51,9 +46,7 @@ const layers = [
     {layers.map((l, i) => (
       <li class="grid gap-3 rounded-md border border-grid bg-paper p-4 sm:grid-cols-[10rem_1fr] sm:items-center">
         <div>
-          <p class="annotation text-link">
-            {String(i + 1).padStart(2, "0")} / {l.en}
-          </p>
+          <p class="font-mono text-xs text-muted">{i + 1}</p>
           <p class="font-display text-lg font-bold">{l.name}</p>
           <p class="text-xs text-muted">{l.q}</p>
         </div>

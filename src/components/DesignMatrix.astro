@@ -15,7 +15,8 @@ interface Props {
 const { variant = "full" } = Astro.props;
 const steps = await getProcessSteps();
 const rows: CollectionEntry<"design">[] = await getLenses();
-const pad = (n: number) => String(n).padStart(2, "0");
+// 工程の番号は 0 で埋めない(「01」のような番号は、どのサイトにもある飾りに見えるため)
+const pad = (n: number) => String(n);
 ---
 
 {variant === "compact" && (

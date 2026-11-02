@@ -33,7 +33,7 @@ let count = 0;
 const items: Item[] = [];
 for (const section of sections) {
   if (section.type === "chapter") {
-    const chapter = { ...section, number: String(++count).padStart(2, "0") };
+    const chapter = { ...section, number: String(++count) };
     const last = items.at(-1);
     if (last?.kind === "chapters") last.chapters.push(chapter);
     else items.push({ kind: "chapters", chapters: [chapter] });
