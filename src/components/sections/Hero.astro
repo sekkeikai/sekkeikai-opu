@@ -3,6 +3,7 @@
 // ボタンは「入部はこちら」(入部フォームが開く)と、Discord のリンクがあれば Discord。設計会の考え方は、スクロールすればすぐ下にあるのでボタンは置かない
 import { getEntry } from "astro:content";
 import JoinButton from "../JoinButton.astro";
+import { getProcessSteps } from "../../lib/design";
 
 interface Props {
   eyebrow?: string;
@@ -15,37 +16,61 @@ const site = await getEntry("site", "links");
 const discord = site?.data.discord ?? "";
 // 「、」の後ろで改行して、見出しを2行に組む
 const lines = title.split(/(?<=、)/);
+// 広い画面の右側に、設計会で学ぶ5つの工程を、図面の表題欄のような枠で出す(飾りの絵の代わりに、このサイトの中身そのものを見せる)
+const steps = await getProcessSteps();
 ---
 
 <section class="bg-blueprint-grid relative overflow-hidden border-b border-grid">
   <!-- 高さは中身に合わせる(画面いっぱいにしない)。広い画面でも、すぐ下の「設計会の考え方」が最初の画面に顔を出すようにするため -->
-  <div class="container-page relative pt-16 pb-14 sm:pt-24 sm:pb-20">
-    {eyebrow && (
-      <p class="mb-6 text-sm text-muted" data-reveal>
-        {eyebrow}
-      </p>
-    )}
-    <h1 class="max-w-[16em] text-[2.25rem] leading-[1.3] font-bold sm:text-5xl lg:text-[3.5rem]" data-reveal>
-      {lines.map((line) => (
-        <span class="block">{line}</span>
-      ))}
-    </h1>
-    <p class="mt-8 max-w-[34em] font-serif text-lg leading-loose text-ink/85" data-reveal>
-      {lead}
-    </p>
-    <div class="mt-10 flex flex-wrap items-center gap-3" data-reveal>
-      <JoinButton size="md" />
-      {discord && (
-        <a
-          href={discord}
-          rel="noopener"
-          target="_blank"
-          class="inline-flex h-12 items-center gap-2 rounded-control border border-ink/20 bg-paper px-6 font-medium transition-colors hover:border-ink/40"
-        >
-          Discordで話を聞く
-          <span aria-hidden="true">↗</span>
-        </a>
+  <div class="container-page relative pt-16 pb-14 sm:pt-24 sm:pb-20 lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center lg:gap-16">
+    <div>
+      {eyebrow && (
+        <p class="mb-6 text-sm text-muted" data-reveal>
+          {eyebrow}
+        </p>
       )}
+      <h1 class="max-w-[16em] text-[2.25rem] leading-[1.3] font-bold sm:text-5xl lg:text-[3.25rem]" data-reveal>
+        {lines.map((line) => (
+          <span class="block">{line}</span>
+        ))}
+      </h1>
+      <p class="mt-8 max-w-[34em] font-serif text-lg leading-loose text-ink/85" data-reveal>
+        {lead}
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-3" data-reveal>
+        <JoinButton size="md" />
+        {discord && (
+          <a
+            href={discord}
+            rel="noopener"
+            target="_blank"
+            class="inline-flex h-12 items-center gap-2 rounded-control border border-ink/20 bg-paper px-6 font-medium transition-colors hover:border-ink/40"
+          >
+            Discordで話を聞く
+            <span aria-hidden="true">↗</span>
+          </a>
+        )}
+      </div>
     </div>
+
+    <nav aria-label="設計の5つの工程" class="hidden border border-ink/80 bg-paper font-sans lg:block">
+      <p class="border-b border-ink/80 px-4 py-2 text-sm text-muted">設計の5つの工程</p>
+      <ol>
+        {steps.map((s) => (
+          <li class="border-b border-grid last:border-b-0">
+            <a href={s.href} class="group grid grid-cols-[3.5rem_minmax(0,1fr)] gap-2 px-4 py-3">
+              <span class="pt-0.5 font-mono text-xs text-muted">工程 {s.n}</span>
+              <span>
+                <span class="block font-medium group-hover:text-link">{s.title}</span>
+                <span class="block text-xs leading-relaxed text-muted">「{s.question}」</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <a href="/design/process/" class="block border-t border-ink/80 px-4 py-2 text-sm text-link hover:underline">
+        設計のプロセスを読む <span aria-hidden="true">→</span>
+      </a>
+    </nav>
   </div>
 </section>

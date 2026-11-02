@@ -22,11 +22,13 @@
     font-family: var(--font-display);
     line-height: 1.4;
     letter-spacing: 0.02em;
-    text-wrap: balance;
+    /* balance にすると、Chromium では文節の区切りを無視して「見落と／さず」のように語の途中で折れるので pretty にする */
+    text-wrap: pretty;
     /* 日本語を文節で改行する（対応ブラウザのみ）。
-       「ヒューマンインターフェース」のような長い語が画面からはみ出すときだけ、語の途中でも改行する */
+       「ヒューマンインターフェース」のような長い語が画面からはみ出すときだけ、語の途中でも改行する
+       (anywhere にすると、文節で収まる見出しまで「見落と／さず」のように語の途中で折れるので break-word にする) */
     word-break: auto-phrase;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   :focus-visible {
