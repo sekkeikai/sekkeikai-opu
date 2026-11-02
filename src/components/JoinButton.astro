@@ -16,14 +16,16 @@ interface Props {
 const { size = "md", tone = "dark", arrow = true } = Astro.props;
 const formUrl = await getJoinFormUrl();
 
+// 角は少しだけ丸める(rounded-control = 8px)。全部のボタンを丸い錠剤の形にすると、どのサイトにもある見た目になるため
 const sizeClass = {
-  sm: "px-4 py-1.5 text-sm",
-  md: "px-7 py-3.5",
-  lg: "px-8 py-4",
+  sm: "h-8 px-3.5 text-sm",
+  md: "h-12 px-6",
+  lg: "h-12 px-6",
 }[size];
-const toneClass = tone === "dark" ? "bg-ink text-paper" : "bg-accent-strong text-paper";
-// 押せるときだけ、指を乗せたときに色を変える
-const hoverClass = tone === "dark" ? "hover:bg-accent-strong" : "hover:bg-paper hover:text-ink";
+// 明るい背景の上は黒、暗い背景(入部の章)の上は白。色の付いたボタンにはしない(オレンジは印として少しだけ使う)
+const toneClass = tone === "dark" ? "bg-ink text-paper" : "bg-paper text-ink";
+// 押せるときだけ、指を乗せたときに少しだけ色を変える
+const hoverClass = tone === "dark" ? "hover:bg-ink/85" : "hover:bg-paper/85";
 ---
 
 {formUrl ? (
@@ -32,7 +34,7 @@ const hoverClass = tone === "dark" ? "hover:bg-accent-strong" : "hover:bg-paper 
     rel="noopener"
     target="_blank"
     class:list={[
-      "inline-flex items-center gap-2 rounded-full font-bold whitespace-nowrap transition",
+      "inline-flex items-center gap-2 rounded-control font-medium whitespace-nowrap transition-colors active:scale-[0.98]",
       sizeClass,
       toneClass,
       hoverClass,
@@ -45,7 +47,7 @@ const hoverClass = tone === "dark" ? "hover:bg-accent-strong" : "hover:bg-paper 
 ) : (
   <span
     class:list={[
-      "inline-flex cursor-not-allowed items-center gap-2 rounded-full font-bold whitespace-nowrap opacity-50",
+      "inline-flex cursor-not-allowed items-center gap-2 rounded-control font-medium whitespace-nowrap opacity-50",
       sizeClass,
       toneClass,
     ]}

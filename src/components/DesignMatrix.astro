@@ -19,16 +19,16 @@ const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 {variant === "compact" && (
-  <div class="surface rounded-card border border-grid bg-paper p-5 sm:p-6" data-reveal>
+  <div class="surface rounded-card border border-grid bg-paper p-5 sm:p-6">
     <p class="annotation mb-3 text-muted">工程(行き来しながら進む)</p>
     <ol class="grid gap-2 sm:grid-cols-5">
       {steps.map((s) => (
         <li>
           <a
             href={s.href}
-            class="group flex h-full items-baseline gap-2 rounded-md border border-grid px-3 py-2.5 transition hover:border-link sm:block"
+            class="group flex h-full items-baseline gap-2 rounded-md border border-grid px-3 py-2.5 transition-colors hover:border-ink/40 sm:block"
           >
-            <span class="font-mono text-xs text-accent-strong">{pad(s.n)}</span>
+            <span class="font-mono text-xs text-muted tabular-nums">{pad(s.n)}</span>
             <span class="font-display font-bold group-hover:text-link sm:mt-1 sm:block [word-break:auto-phrase]">
               {s.title}
             </span>
@@ -42,13 +42,15 @@ const pad = (n: number) => String(n).padStart(2, "0");
         <li>
           <a
             href={`/design/${row.id}/`}
-            class="group flex items-center justify-between gap-4 rounded-md bg-link/8 px-4 py-3 transition hover:bg-link hover:text-paper"
+            class="group flex items-center justify-between gap-4 rounded-md border border-grid bg-paper-muted px-4 py-3 transition-colors hover:border-ink/40"
           >
             <span>
-              <span class="font-display text-lg font-bold">{row.data.short}</span>
-              <span class="ml-2 text-sm text-muted group-hover:text-paper/80">{row.data.title}</span>
+              <span class="font-display text-lg font-bold group-hover:text-link">{row.data.short}</span>
+              <span class="ml-2 text-sm text-muted">{row.data.title}</span>
             </span>
-            <span aria-hidden="true">→</span>
+            <span class="text-muted" aria-hidden="true">
+              →
+            </span>
           </a>
         </li>
       ))}
@@ -57,7 +59,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 )}
 
 {variant === "full" && (
-  <div class="surface overflow-x-auto rounded-card border border-grid bg-paper" data-reveal>
+  <div class="surface overflow-x-auto rounded-card border border-grid bg-paper">
     <table class="w-full min-w-[46rem] table-fixed border-collapse text-left">
       <caption class="sr-only">工程と視点の組み合わせ(行が視点、列が工程)</caption>
       <colgroup>
@@ -70,8 +72,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
           </td>
           {steps.map((s) => (
             <th scope="col" class="border-l border-grid p-0 align-top font-normal">
-              <a href={s.href} class="group block h-full p-4 transition hover:bg-paper-muted">
-                <span class="block font-mono text-xs text-accent-strong">{pad(s.n)}</span>
+              <a href={s.href} class="group block h-full p-4 transition-colors hover:bg-paper-muted">
+                <span class="block font-mono text-xs text-muted tabular-nums">{pad(s.n)}</span>
                 <span class="mt-1 block font-display font-bold group-hover:text-link">{s.title}</span>
                 <span class="block text-xs text-muted">{s.sub}</span>
               </a>
@@ -83,9 +85,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
         {rows.map((row) => (
           <tr class="border-b border-grid last:border-b-0">
             <th scope="row" class="p-0 align-top font-normal">
-              <a href={`/design/${row.id}/`} class="group block h-full p-4 transition hover:bg-paper-muted">
-                <span class="annotation block text-link">{row.data.en}</span>
-                <span class="mt-1 block font-display text-lg leading-snug font-bold group-hover:text-link">
+              <a href={`/design/${row.id}/`} class="group block h-full p-4 transition-colors hover:bg-paper-muted">
+                <span class="block font-display text-lg leading-snug font-bold group-hover:text-link">
                   {row.data.short}
                 </span>
                 <span class="block text-xs text-muted">{row.data.title} →</span>
@@ -103,4 +104,4 @@ const pad = (n: number) => String(n).padStart(2, "0");
   </div>
 )}
 
-{variant === "full" && <p class="annotation mt-2 text-muted normal-case lg:hidden">← 表は横にスクロールできます →</p>}
+{variant === "full" && <p class="annotation mt-2 text-muted lg:hidden">← 表は横にスクロールできます →</p>}

@@ -14,8 +14,8 @@ const posts = (await getCollection("news", ({ data }) => !data.draft)).sort(
     <ul class="divide-y divide-grid border-y border-grid">
       {posts.map((post) => (
         <li>
-          <a href={`/news/${post.id}/`} class="block py-6 hover:text-link">
-            <time class="annotation text-muted" datetime={post.data.date.toISOString()}>
+          <a href={`/news/${post.id}/`} class="block py-6 transition-colors hover:text-link">
+            <time class="font-mono text-sm text-muted tabular-nums" datetime={post.data.date.toISOString()}>
               {formatDate(post.data.date)}
             </time>
             <p class="mt-1 text-lg font-bold">{post.data.title}</p>

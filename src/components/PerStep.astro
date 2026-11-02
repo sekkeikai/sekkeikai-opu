@@ -14,8 +14,8 @@ const { short, perStep } = Astro.props;
 const steps = await getProcessSteps();
 ---
 
-<div class="my-12 font-sans text-base leading-relaxed tracking-normal" data-reveal>
-  <p class="annotation text-link">工程ごとの使い方</p>
+<div class="my-12 font-sans text-base leading-relaxed tracking-normal">
+  <p class="annotation text-muted">工程ごとの使い方</p>
   <p class="mt-1 font-display text-lg font-bold">
     「{short}」を、設計の{steps.length}つの工程で
   </p>
@@ -23,7 +23,7 @@ const steps = await getProcessSteps();
     {steps.map((s, i) => (
       <li class="grid border-b border-grid last:border-b-0 sm:grid-cols-[11rem_1fr]">
         <a href={s.href} class="group flex items-baseline gap-2 bg-paper-muted px-4 py-3 sm:block sm:py-4">
-          <span class="font-mono text-xs text-accent-strong">工程 {s.n}</span>
+          <span class="font-mono text-xs text-muted tabular-nums">工程 {s.n}</span>
           <span class="font-display font-bold group-hover:text-link sm:mt-1 sm:block">{s.title}</span>
           <span class="text-xs text-muted sm:block">{s.sub} →</span>
         </a>

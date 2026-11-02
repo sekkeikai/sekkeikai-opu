@@ -58,12 +58,12 @@ export function layerLabel(page: CollectionEntry<"design">): string {
     case "process":
       return "設計のプロセス";
     case "step":
-      return `工程 ${page.data.order} — ${page.data.stepName}`;
+      return `工程 ${page.data.order} / ${page.data.stepName}`;
     case "lens":
-      return `視点 ${page.data.order} / ${page.data.en}`;
+      return `視点 ${page.data.order}`;
     case "case":
       return `設計の流れの例`;
     default:
-      return `テーマ / ${page.data.en}`;
+      return "テーマ";
   }
 }

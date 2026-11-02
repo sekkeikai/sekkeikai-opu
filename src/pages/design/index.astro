@@ -20,8 +20,8 @@ const topics = await getDesignPages("topic");
 >
   <header class="bg-blueprint-grid border-b border-grid">
     <div class="container-page py-16 sm:py-24">
-      <h1 class="text-4xl font-black sm:text-6xl">設計を知る</h1>
-      <p class="mt-8 max-w-2xl font-serif text-lg leading-loose text-ink/85 sm:text-xl">
+      <h1 class="text-4xl font-bold sm:text-5xl">設計を知る</h1>
+      <p class="mt-6 max-w-[34em] font-serif text-lg leading-loose text-ink/85">
         設計は、5つの工程を行き来しながら進みます。どの工程でも、「モデルで考える」「人から考える」「データで考える」のような視点を使います。
       </p>
     </div>
@@ -30,17 +30,16 @@ const topics = await getDesignPages("topic");
   <div class="container-page space-y-20 py-16 sm:py-24">
     {process && (
       <section aria-labelledby="process-title">
-        <p class="annotation text-accent-strong">流れを知る</p>
+        <p class="annotation text-muted">流れを知る</p>
         <a
           href={`/design/${process.id}/`}
-          class="group mt-4 block rounded-card border-2 border-ink p-6 transition hover:bg-ink hover:text-paper sm:p-10"
+          class="group mt-4 block rounded-card border border-ink/80 bg-paper p-6 transition-colors hover:bg-paper-muted sm:p-10"
         >
-          <p class="annotation text-link group-hover:text-paper/70">{process.data.en}</p>
-          <h2 id="process-title" class="mt-2 text-3xl font-black sm:text-4xl">
+          <h2 id="process-title" class="text-2xl font-bold group-hover:text-link sm:text-3xl">
             {process.data.title}
           </h2>
           <p class="mt-4 max-w-2xl">{process.data.summary}</p>
-          <p class="mt-6 font-bold">
+          <p class="mt-6 font-medium text-link">
             全体を読む <span aria-hidden="true">→</span>
           </p>
         </a>
@@ -49,12 +48,12 @@ const topics = await getDesignPages("topic");
             <li>
               <a
                 href={s.href}
-                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-5 transition hover:border-link"
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-5 transition-colors hover:border-ink/40"
               >
-                <p class="annotation text-accent-strong">
+                <p class="annotation text-muted">
                   工程 {s.n} / {s.sub}
                 </p>
-                <p class="mt-1 font-display text-xl font-bold group-hover:text-link">{s.title}</p>
+                <p class="mt-1 font-display text-lg font-bold group-hover:text-link">{s.title}</p>
                 <p class="mt-2 text-sm text-ink/80">「{s.question}」</p>
               </a>
             </li>
@@ -65,7 +64,7 @@ const topics = await getDesignPages("topic");
 
     {lenses.length > 0 && (
       <section aria-labelledby="lenses-title">
-        <p class="annotation text-accent-strong">視点を深める</p>
+        <p class="annotation text-muted">視点を深める</p>
         <h2 id="lenses-title" class="mt-4 text-2xl font-bold sm:text-3xl">
           どの工程にも通じる視点
         </h2>
@@ -74,15 +73,13 @@ const topics = await getDesignPages("topic");
             <li>
               <a
                 href={`/design/${l.id}/`}
-                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition-colors hover:border-ink/40"
               >
-                <p class="annotation text-link">
-                  視点 {l.data.order} / {l.data.en}
-                </p>
-                <p class="mt-2 font-display text-2xl font-bold">{l.data.short}</p>
+                <p class="annotation text-muted">視点 {l.data.order}</p>
+                <p class="mt-2 font-display text-xl font-bold group-hover:text-link">{l.data.short}</p>
                 <p class="text-sm text-muted">{l.data.title}</p>
                 <p class="mt-4 flex-1 text-sm text-ink/85">{l.data.summary}</p>
-                <p class="mt-5 text-sm font-bold text-link">
+                <p class="mt-5 text-sm font-medium text-link">
                   読む <span aria-hidden="true">→</span>
                 </p>
               </a>
@@ -93,7 +90,7 @@ const topics = await getDesignPages("topic");
     )}
 
     <section aria-labelledby="matrix-title">
-      <p class="annotation text-accent-strong">組み合わせを見る</p>
+      <p class="annotation text-muted">組み合わせを見る</p>
       <h2 id="matrix-title" class="mt-4 mb-8 text-2xl font-bold sm:text-3xl">
         工程 × 視点の地図
       </h2>
@@ -103,7 +100,7 @@ const topics = await getDesignPages("topic");
     {/* 例は、工程・視点・地図を読み終えたあとに置く(理論の途中に例を挟まない) */}
     {cases.length > 0 && (
       <section aria-labelledby="cases-title">
-        <p class="annotation text-accent-strong">例で見る</p>
+        <p class="annotation text-muted">例で見る</p>
         <h2 id="cases-title" class="mt-4 text-2xl font-bold sm:text-3xl">
           設計の流れの例
         </h2>
@@ -115,10 +112,10 @@ const topics = await getDesignPages("topic");
             <li>
               <a
                 href={`/design/${c.id}/`}
-                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition-colors hover:border-ink/40"
               >
-                <p class="annotation text-link">{c.data.short}</p>
-                <p class="mt-2 font-display text-2xl font-bold group-hover:text-link">{c.data.title}</p>
+                <p class="annotation text-muted">{c.data.short}</p>
+                <p class="mt-2 font-display text-xl font-bold group-hover:text-link">{c.data.title}</p>
                 <p class="mt-4 flex-1 text-sm text-ink/85">{c.data.summary}</p>
               </a>
             </li>
@@ -137,10 +134,9 @@ const topics = await getDesignPages("topic");
             <li>
               <a
                 href={`/design/${t.id}/`}
-                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition-colors hover:border-ink/40"
               >
-                <p class="annotation text-link">{t.data.en}</p>
-                <p class="mt-2 font-display text-2xl font-bold">{t.data.title}</p>
+                <p class="font-display text-xl font-bold group-hover:text-link">{t.data.title}</p>
                 <p class="mt-4 flex-1 text-sm text-ink/85">{t.data.summary}</p>
               </a>
             </li>
@@ -148,6 +144,5 @@ const topics = await getDesignPages("topic");
         </ul>
       </section>
     )}
-
   </div>
 </Base>

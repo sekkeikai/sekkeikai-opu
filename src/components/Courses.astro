@@ -23,7 +23,7 @@ const { courses, inline = false } = Astro.props;
   <ul class="mt-4 grid gap-3 sm:grid-cols-2">
     {courses.map((c) => (
       <li class="rounded-md border border-grid bg-paper p-4">
-        <p class="text-xs text-link">{c.dept}</p>
+        <p class="text-xs text-muted">{c.dept}</p>
         <p class="mt-0.5 font-bold">
           {c.path ? (
             <a href={syllabusUrl(c.path)} class="underline-offset-4 hover:text-link hover:underline" rel="noopener">

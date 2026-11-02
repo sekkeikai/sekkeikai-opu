@@ -57,11 +57,12 @@ const contacts = await getSiteLinks();
     >
       本文へスキップ
     </a>
-    <header class="sticky top-0 z-40 border-b border-grid bg-paper/85 backdrop-blur">
+    <!-- ヘッダーは白の無地。すりガラス(半透明とぼかし)は、どのサイトにもある飾りなので使わない -->
+    <header class="sticky top-0 z-40 border-b border-grid bg-paper">
       {progress && <div class="absolute -bottom-px left-0 h-0.5 w-0 bg-accent" data-progress aria-hidden="true" />}
       <!-- 左にロゴ、中央にメニューと「入部はこちら」、右に Discord と TimeTree。左右の列を同じ幅（1fr）にして、中央の列をいつも真ん中に置く -->
       <div class="container-page grid h-14 grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4">
-        <a href="/" class="flex items-center gap-2 justify-self-start font-display text-lg font-bold tracking-widest">
+        <a href="/" class="flex items-center gap-2 justify-self-start font-display text-lg font-bold">
           <!-- 設計会の印。すぐ横に「設計会」と書いてあるので、読み上げでは飛ばす(alt="") -->
           <img src="/favicon.svg" width="28" height="28" alt="" class="h-7 w-7 shrink-0" />
           <!-- スマホ幅では、中央のメニューと右のアイコンが入るように文字を隠し、印だけにする(読み上げでは読む) -->
@@ -72,7 +73,7 @@ const contacts = await getSiteLinks();
             <ul class="flex gap-4 text-sm sm:gap-6">
               {nav.map((item) => (
                 <li class:list={[!item.mobile && "hidden md:block"]}>
-                  <a href={item.href} class="hover:text-link">
+                  <a href={item.href} class="transition-colors hover:text-link">
                     {item.label}
                   </a>
                 </li>
@@ -95,7 +96,7 @@ const contacts = await getSiteLinks();
     <footer class="border-t border-grid bg-paper-muted py-12 text-sm text-muted">
       <div class="container-page flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p class="font-display text-lg font-bold tracking-widest text-ink">設計会</p>
+          <p class="font-display text-lg font-bold text-ink">設計会</p>
           <p class="mt-1">岡山県立大学 公認サークル</p>
           <!-- 連絡先。links.yaml が空の項目と、問い合わせメール(環境変数 CONTACT_EMAIL)が空のときは「準備中」と出す -->
           <ul class="mt-4 space-y-1">

@@ -1,5 +1,5 @@
 ---
-// トップの大見出し。方眼の背景に、主張を一つだけ大きく置く。
+// トップの大見出し。方眼の背景に、主張を一つだけ置く。
 // ボタンは「入部はこちら」(入部フォームが開く)と、Discord のリンクがあれば Discord。設計会の考え方は、スクロールすればすぐ下にあるのでボタンは置かない
 import { getEntry } from "astro:content";
 import JoinButton from "../JoinButton.astro";
@@ -18,32 +18,29 @@ const lines = title.split(/(?<=、)/);
 ---
 
 <section class="bg-blueprint-grid relative overflow-hidden border-b border-grid">
-  <div class="container-page relative flex flex-col justify-center pt-14 pb-10 md:min-h-[min(calc(100svh-3.5rem),56rem)] md:py-20">
+  <!-- 高さは中身に合わせる(画面いっぱいにしない)。広い画面でも、すぐ下の「設計会の考え方」が最初の画面に顔を出すようにするため -->
+  <div class="container-page relative pt-16 pb-14 sm:pt-24 sm:pb-20">
     {eyebrow && (
-      <p class="annotation mb-8 text-muted" data-reveal>
+      <p class="mb-6 text-sm text-muted" data-reveal>
         {eyebrow}
       </p>
     )}
-    <h1 class="text-[2.75rem] leading-[1.15] font-black sm:text-7xl lg:text-8xl" data-reveal data-reveal-delay="0.1">
+    <h1 class="max-w-[16em] text-[2.25rem] leading-[1.3] font-bold sm:text-5xl lg:text-[3.5rem]" data-reveal>
       {lines.map((line) => (
         <span class="block">{line}</span>
       ))}
     </h1>
-    <p
-      class="mt-10 max-w-xl font-serif text-lg leading-loose text-ink/85 sm:text-xl"
-      data-reveal
-      data-reveal-delay="0.2"
-    >
+    <p class="mt-8 max-w-[34em] font-serif text-lg leading-loose text-ink/85" data-reveal>
       {lead}
     </p>
-    <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="0.3">
+    <div class="mt-10 flex flex-wrap items-center gap-3" data-reveal>
       <JoinButton size="md" />
       {discord && (
         <a
           href={discord}
           rel="noopener"
           target="_blank"
-          class="inline-flex items-center gap-2 rounded-full border-2 border-ink px-7 py-3 font-bold transition hover:bg-ink hover:text-paper"
+          class="inline-flex h-12 items-center gap-2 rounded-control border border-ink/20 bg-paper px-6 font-medium transition-colors hover:border-ink/40"
         >
           Discordで話を聞く
           <span aria-hidden="true">↗</span>

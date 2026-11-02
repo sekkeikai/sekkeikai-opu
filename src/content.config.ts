@@ -287,7 +287,8 @@ const design = defineCollection({
   schema: z
     .object({
       title: z.string().max(24),
-      en: z.string().max(30),
+      // 英語の題(例: Modeling)。画面には出さない(大文字の英語の札は飾りにしかならないため)。CMS の一覧で見分けるためのメモ
+      en: z.string().max(30).optional(),
       layer: z.enum(["process", "step", "lens", "case", "topic"]),
       // 並べる順番(同じ layer の中で)。工程(step)では、これが工程の番号になる
       order: z.number().int().min(1),

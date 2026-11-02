@@ -30,11 +30,11 @@ const next = current
             href={s.href}
             aria-current={here ? "page" : undefined}
             class:list={[
-              "group block h-full rounded-md border px-2 py-2 transition sm:px-3",
-              here ? "border-ink bg-ink text-paper" : "border-grid bg-paper hover:border-link",
+              "group block h-full rounded-md border px-2 py-2 transition-colors sm:px-3",
+              here ? "border-ink bg-ink text-paper" : "border-grid bg-paper hover:border-ink/40",
             ]}
           >
-            <span class:list={["block font-mono text-xs", here ? "text-accent" : "text-accent-strong"]}>
+            <span class:list={["block font-mono text-xs tabular-nums", here ? "text-paper/70" : "text-muted"]}>
               {String(s.n).padStart(2, "0")}
             </span>
             <span

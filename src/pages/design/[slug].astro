@@ -31,17 +31,17 @@ interface Props {
 }
 
 const { page, prev, next } = Astro.props;
-const { title, en, layer, order, short, stepName, question, summary, lead, chapters, references, perStep, courses } =
+const { title, layer, order, short, stepName, question, summary, lead, chapters, references, perStep, courses } =
   page.data;
 const related = await getEntries(page.data.related);
 const steps = await getProcessSteps();
 
 // 目次とリンクの行き先になる章の id。YAML に id があればそれを、無ければ ch-1, ch-2… を使う。
-// 事例のページで step(工程の番号)を書いた章には、「工程 N — 〇〇」のラベルと工程のページへのリンクを付ける
+// 事例のページで step(工程の番号)を書いた章には、「工程 N / 〇〇」のラベルと工程のページへのリンクを付ける
 const withIds = numberChapters(chapters).map((c, i) => {
   const step = c.step ? steps.find((s) => s.n === c.step) : undefined;
   if (c.step && !step) throw new Error(`src/content/design/${page.id}.yaml: 工程 ${c.step} のページがありません`);
-  const label = c.label ?? (step ? `工程 ${step.n} — ${step.sub}` : undefined);
+  const label = c.label ?? (step ? `工程 ${step.n} / ${step.sub}` : undefined);
   return { ...c, id: c.id ?? `ch-${i + 1}`, label, stepHref: step?.href };
 });
 const crumb =
@@ -65,14 +65,19 @@ const crumb =
         </a>{" "}
         / {crumb}
       </p>
-      <p class="annotation mt-8 text-link">
-        {en}
-        {layer === "step"
-          ? ` — 工程 ${order}「${stepName}」`
-          : layer !== "process" && layer !== "case" && ` — ${short}`}
-      </p>
-      <h1 class="mt-2 text-4xl font-black sm:text-6xl">{title}</h1>
-      <p class="mt-8 font-serif text-xl font-semibold sm:text-2xl">「{question}」</p>
+      <!-- 見出しの上の小さな札。英語の大文字の札は飾りにしかならないので出さず、工程の正式な呼び名や視点の短い名前だけを出す -->
+      {(layer === "step" || layer === "lens" || layer === "topic") && (
+        <p class="mt-8 text-sm text-muted">{layer === "step" ? stepName : short}</p>
+      )}
+      <h1
+        class:list={[
+          "text-4xl font-bold sm:text-5xl",
+          layer === "step" || layer === "lens" || layer === "topic" ? "mt-2" : "mt-8",
+        ]}
+      >
+        {title}
+      </h1>
+      <p class="mt-6 font-serif text-xl font-semibold sm:text-2xl">「{question}」</p>
       <p class="longform mt-6 max-w-[36em] text-ink/85">{lead}</p>
       {layer === "step" && <StepNav current={order} />}
       {layer === "process" && <StepNav />}
@@ -87,7 +92,7 @@ const crumb =
         {withIds.map((c) => (
           <li>
             <a href={`#${c.id}`} class="block py-1 text-ink/80 underline-offset-4 hover:underline">
-              {c.label && <span class="mr-2 text-xs text-link">{c.label}</span>}
+              {c.label && <span class="mr-2 text-xs text-muted">{c.label}</span>}
               {c.heading}
             </a>
           </li>
@@ -109,7 +114,7 @@ const crumb =
           {withIds.map((c) => (
             <li>
               <a href={`#${c.id}`} class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
-                {c.label && <span class="block text-[0.7rem] text-link">{c.label}</span>}
+                {c.label && <span class="block text-[0.7rem]">{c.label}</span>}
                 {c.heading}
               </a>
             </li>
@@ -146,7 +151,7 @@ const crumb =
             data-toc-section
           >
             {chapter.label && (
-              <p class="annotation mb-2 text-link" data-reveal>
+              <p class="annotation mb-2 text-muted">
                 {chapter.stepHref ? (
                   <a href={chapter.stepHref} class="underline underline-offset-4 hover:text-ink">
                     {chapter.label}
@@ -156,7 +161,7 @@ const crumb =
                 )}
               </p>
             )}
-            <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl" data-reveal>
+            <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl">
               {chapter.heading}
             </h2>
             <Blocks blocks={chapter.numbered} lens={{ short, perStep }} />
@@ -207,9 +212,9 @@ const crumb =
               <li>
                 <a
                   href={`/design/${r.id}/`}
-                  class="block h-full rounded-card border border-grid p-5 transition hover:border-link"
+                  class="block h-full rounded-card border border-grid p-5 transition-colors hover:border-ink/40"
                 >
-                  <p class="annotation text-link">{layerLabel(r)}</p>
+                  <p class="annotation text-muted">{layerLabel(r)}</p>
                   <p class="mt-1 font-display text-xl font-bold">{r.data.title}</p>
                   <p class="mt-2 text-sm text-muted">{r.data.summary}</p>
                 </a>

@@ -36,7 +36,7 @@ for (const t of tokens) {
     <a href={`/design/${t.slug}/${t.anchor ? `#${t.anchor}` : ""}`} class="term">
       {t.label ?? el.data.title}
       <span class="term-card" aria-hidden="true">
-        <span class="annotation block text-link">{layerLabel(el)}</span>
+        <span class="annotation block text-muted">{layerLabel(el)}</span>
         <span class="mt-1 block font-display text-base font-bold">{el.data.title}</span>
         <span class="mt-1 block text-muted">{el.data.summary}</span>
       </span>

@@ -20,11 +20,10 @@ import InlineText from "../InlineText.astro";
 <figure
   class:list={["surface font-sans text-base leading-relaxed tracking-normal text-ink", !compact && "my-14"]}
   aria-label={compact ? title : undefined}
-  data-reveal
 >
   {!compact && (
     <figcaption class="mb-4 flex items-baseline gap-3">
-      {number && <span class="annotation shrink-0 text-link">図 {number}</span>}
+      {number && <span class="shrink-0 font-mono text-sm text-muted">図 {number}</span>}
       <span class="font-display text-lg font-bold">{title}</span>
     </figcaption>
   )}
@@ -33,7 +32,7 @@ import InlineText from "../InlineText.astro";
       <slot />
     </div>
   </div>
-  {scroll && <p class="annotation mt-2 text-muted normal-case sm:hidden">← 図は横にスクロールできます →</p>}
+  {scroll && <p class="annotation mt-2 text-muted sm:hidden">← 図は横にスクロールできます →</p>}
   {!compact && caption && <p class="mt-3 text-sm text-muted">{caption}</p>}
   {/* 出典は compact(トップページ)でも省かない */}
   {source && (
