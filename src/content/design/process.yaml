@@ -84,7 +84,7 @@ chapters:
         note: ドイツ技術者協会の指針 [VDI 2221](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-1-entwicklung-technischer-produkte-und-systeme-modell-der-produktentwicklung) は2019年の改訂で、製品開発の中心となる目標・活動・成果を定める形になった。実際の進め方は、会社やプロジェクトに合わせて組み立てるとしている([VDI 2221 Blatt 2](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-2-entwicklung-technischer-produkte-und-systeme-gestaltung-individueller-produktentwicklungsprozesse))。
 
   - id: examples
-    heading: 部室の予約の取り合いも、5つの工程で進められる
+    heading: 部室の予約なら、アプリの案は工程3まで出さない
     blocks:
       - type: point
         text: 最初に話を聞いて、取り合いの本当の理由を一文にまとめ、確かめられる条件にします。アプリや紙の予約表といった案は、その後で出します。

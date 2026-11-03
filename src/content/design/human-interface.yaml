@@ -104,7 +104,7 @@ chapters:
         text: |-
           例えば、色の違いに加えて形や文字でも情報を伝え、文字を十分な大きさと濃さで表示し、キーボードだけでも操作できるようにします。ウェブについては、W3CのWCAG 2.2(2023年)や日本産業規格JIS X 8341-3が、設計の基準として参照されています。
         note: |-
-          [WCAG 2.2](https://www.w3.org/TR/WCAG22/) は2023年10月に W3C 勧告となった。日本の法律での扱い(合理的配慮と環境の整備)は、[障害を理由とする差別の解消の推進に関する法律](https://www8.cao.go.jp/shougai/suishin/sabekai.html)と[同法 第5条(e-Gov法令検索)](https://laws.e-gov.go.jp/law/425AC0000000065)による。
+          [WCAG 2.2](https://www.w3.org/TR/WCAG22/) は2023年10月に W3C 勧告となった。日本の法律での扱い(合理的配慮と環境の整備)は、[障害を理由とする差別の解消の推進に関する法律](https://www8.cao.go.jp/shougai/suishin/sabekai.html)(2021年改正、2024年4月1日施行)と[同法 第5条(e-Gov法令検索)](https://laws.e-gov.go.jp/law/425AC0000000065)による。
       - type: heading
         text: 足の裏と白い杖に、道を伝える
       - type: image
