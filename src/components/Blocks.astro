@@ -203,7 +203,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       return (
         <div class="my-10 font-sans">
           {/* 表題は横スクロールの枠の外に出す(枠の中だと、スマートフォンで表題まで切れるため)。読み上げ用の caption は表の中に残す */}
-          <p class="mb-3 font-display font-medium" aria-hidden="true">
+          <p class="mb-3 font-display font-medium tracking-normal" aria-hidden="true">
             {block.caption}
           </p>
           <div class="overflow-x-auto">
