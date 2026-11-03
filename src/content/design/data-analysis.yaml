@@ -4,7 +4,7 @@ layer: lens
 order: 3
 short: データで考える
 question: 過去のデータを、どう設計に生かすか
-summary: 事実を数字で捉え、目に見える形にし、仮説を確かめて設計に返す。設計会ではJupyter Notebookの形式のノートブックで、部員が一緒に分析する。
+summary: 事実を数字で捉え、目に見える形にし、仮説を確かめて設計に返す。設計会ではノートブックで、部員が一緒に分析する。
 lead: データ分析では、集めた数字をまずグラフにして眺め、そこで見つけた問いを確かめます。確かめた結果は、これからつくるものの設計の根拠になります。
 chapters:
   - id: basics
@@ -17,7 +17,7 @@ chapters:
         text: データ分析は、数字をグラフにして見るところから始めます。そのとき、データの集め方に偏りがないかにも気をつけます。
       - type: p
         text: |-
-          1973年、統計学者フランシス・アンスコムは、平均、分散、相関係数(2つの量が直線的にどれだけそろって動くかを表す数)、回帰直線(点の並びに一番よく合う直線)がほとんど同じなのに、グラフにすると全く違う形をした4組のデータを示しました。判断の前にグラフにすれば、この違いはすぐに見えます。下の図と表は、アンスコムのデータから、このサイトのプログラムが計算して描いたものです。
+          1973年、統計学者フランシス・アンスコムは、平均、分散、相関係数(2つの量が直線的にどれだけそろって動くかを表す数)、回帰直線(点の並びに一番よく合う直線)がほとんど同じなのに、グラフにすると全く違う形をした4組のデータを示しました。判断の前にグラフにすれば、この違いはすぐに見えます。
         note: |-
           [F. J. Anscombe, "Graphs in Statistical Analysis", The American Statistician, 27(1), 1973](https://doi.org/10.1080/00031305.1973.10478966)。
       - type: figure
@@ -34,7 +34,7 @@ chapters:
           [A. Wald, "A Method of Estimating Plane Vulnerability Based on Damage of Survivors"](https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability)(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。1980年に再刊)。よく語られる逸話は、実際の研究を単純化したものである。
 
   - id: pictures
-    heading: 表で埋もれた違いを、2枚の図が見せた
+    heading: スノウとナイチンゲールは、死者の数を図にして訴えた
     blocks:
       - type: point
         text: 19世紀のロンドンでコレラの死者を家ごとに記した地図と、クリミア戦争の兵士の死因を月ごとに塗り分けた図は、どちらも既に手元にあった数字から、主張を人に伝えるために描かれました。
@@ -139,7 +139,7 @@ chapters:
     heading: Jupyter Notebookで、同じ数字を見ながら話す
     blocks:
       - type: point
-        text: データはJupyter Notebookの形式で分析し、ノートブックをチームで一緒に編集します。
+        text: データはノートブックで分析し、チームで一緒に編集します。
       - type: p
         text: |-
           **Jupyter Notebook**の形式のノートブックは、PythonやSQLのコードと、その結果のグラフ、説明の文章を一つの文書にまとめたものです。分析の手順と根拠が一か所に残るので、ほかの人が読み直したり、同じ分析をやり直したりできます。研究や仕事のデータ分析でも、広く使われている形式です。
@@ -147,9 +147,9 @@ chapters:
           [J. M. Perkel, "Why Jupyter is data scientists' computational notebook of choice", Nature, 2018](https://doi.org/10.1038/d41586-018-07196-1) は、Jupyter がデータ分析の計算ノートブックとして広く選ばれていると報じた。
       - type: p
         text: |-
-          ノートブックを書く環境には、ブラウザーで動くDeepnoteを使います。Jupyter Notebookの形式(.ipynb)のファイルを読み込んだり書き出したりできます。複数人が同時に同じノートブックを編集できるので、プログラミングを始めたばかりの部員も、画面を共有しながら一緒に分析に参加できます。
+          ノートブックを書く環境には、ブラウザーで動くDeepnoteを使います。この形式(.ipynb)のファイルを読み込んだり書き出したりできます。複数人が同時に同じノートブックを編集できるので、プログラミングを始めたばかりの部員も、画面を共有しながら一緒に分析に参加できます。
         note: |-
-          Deepnote は2025年に、ノートブックの形式などを[オープンソースとして公開](https://github.com/deepnote/deepnote)した。機能や料金は変わることがあるので、最新の情報は[公式サイト](https://deepnote.com/)で確認してほしい。Jupyter Notebookの読み込みと書き出しは、[公式の説明](https://deepnote.com/docs/importing-and-exporting-jupyter-notebooks)による。
+          Deepnote は2025年に、ノートブックの形式などを[オープンソースとして公開](https://github.com/deepnote/deepnote)した。機能と料金は[公式サイト](https://deepnote.com/)に載っている。Jupyter Notebookの読み込みと書き出しは、[公式の説明](https://deepnote.com/docs/importing-and-exporting-jupyter-notebooks)による。
       - type: p
         text: |-
           例えば要件を定める工程では、アンケートの結果をノートブックに読み込み、回答の分布をグラフにしながら「この不満は本当に多いのか」「どの層に偏っているのか」をチームで確かめます。発表のときは、同じノートブックを開いて、結論の元になったグラフと計算を示します。
