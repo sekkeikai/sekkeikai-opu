@@ -247,14 +247,22 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "steps":
       return (
-        <ol class="my-10 grid gap-4 font-sans text-base leading-relaxed sm:grid-cols-2">
+        // 手順の一覧。同じ大きさの箱を2列に並べず、細い線で区切った縦の一覧にする(順番に読むものなので、上から下へ目が動くように)
+        <ol class="my-10 max-w-[44em] border-t border-ink/80 font-sans text-base leading-relaxed">
           {block.items.map((item, i) => (
-            <li class="rounded-card border border-grid bg-paper p-5">
-              {block.ordered && <p class="annotation text-muted">手順 {i + 1}</p>}
-              <p class:list={["font-display text-lg font-medium", block.ordered && "mt-1"]}>{item.title}</p>
-              <p class="mt-2 text-[0.95rem] tracking-normal text-ink/80">
-                <InlineText text={item.body} />
-              </p>
+            <li
+              class:list={[
+                "grid gap-1 border-b border-grid py-4",
+                block.ordered && "sm:grid-cols-[4.5rem_minmax(0,1fr)] sm:gap-4",
+              ]}
+            >
+              {block.ordered && <p class="annotation pt-0.5 text-muted">手順 {i + 1}</p>}
+              <div>
+                <p class="font-display text-lg font-medium">{item.title}</p>
+                <p class="mt-1 text-[0.95rem] tracking-normal text-ink/80">
+                  <InlineText text={item.body} />
+                </p>
+              </div>
             </li>
           ))}
         </ol>
