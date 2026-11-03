@@ -107,10 +107,6 @@ references:
     url: https://doi.org/10.1080/01621459.1976.10480949
   - text: NASA, Mars Climate Orbiter Mishap Investigation Board Phase I Report, 1999.
     url: https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf
-  - text: M. J. Turner, R. W. Clough, H. C. Martin, L. J. Topp, "Stiffness and Deflection Analysis of Complex Structures", Journal of the Aeronautical Sciences, 23(9), 1956.
-    url: https://doi.org/10.2514/8.3664
-  - text: 'I. E. Sutherland, "Sketchpad: A Man-Machine Graphical Communication System", MIT, 1963(ケンブリッジ大学による2003年の電子版).'
-    url: https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf
   - text: P. P. Chen, "The Entity-Relationship Model — Toward a Unified View of Data", ACM Transactions on Database Systems, 1(1), 1976.
     url: https://doi.org/10.1145/320434.320440
   - text: Object Management Group, Unified Modeling Language (UML) 1.1, 1997.

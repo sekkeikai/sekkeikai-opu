@@ -11,12 +11,11 @@ chapters:
     heading: 設計を5つの工程に分けて進める
     blocks:
       - type: point
-        text: 工程ごとに答える問いがあり、下の図のカードに、その問いと代表的な手法を載せています。カードの上の帯は、その工程で考えを広げるか、絞るかを表します。
+        text: 5つの工程には、それぞれ答える問いがあります。「解くべき問題は何か」に答えてから「何を満たせば成功か」に進むように、前の工程の答えを使って次の問いに答えます。
+      - type: p
+        text: 下の図のカードに、工程ごとの問いと代表的な手法を載せています。カードの上の帯は、その工程で考えを広げるか、絞るかを表します。
       - type: figure
         name: design-process
-      - type: p
-        text: 経済学者で、認知科学の開拓者でもあるハーバート・サイモンは、設計を広く捉えました。今の状態をより好ましい状態に変えようと行動の道筋を考える人は、誰もが設計をしている、と書いています。
-        note: "[H. A. Simon, The Sciences of the Artificial, MIT Press, 1969(第3版 1996)](https://ndlsearch.ndl.go.jp/books/R100000002-I000006331276)。邦訳[『システムの科学』](https://ndlsearch.ndl.go.jp/books/R100000002-I000002864619)。"
 
   - id: fields
     heading: 分野が違っても、進め方の骨格は同じ
@@ -55,6 +54,9 @@ chapters:
       - type: p
         text: 同じ「基本設計」という言葉でも、建築では実施設計の前に行う設計を、ソフトウェアでは画面や外から見た動きを決める設計を指すことが多く、中身が違います。他の学部の人と話すときは、同じ言葉で別のものを指していないかを、「今、何を決めているのか」で確かめます。
         note: 機械は[Pahl & Beitz, Konstruktionslehre(1977)](https://ci.nii.ac.jp/ncid/BA62999351)、建築は[令和6年国土交通省告示第8号](https://www.mlit.go.jp/jutakukentiku/build/jutakukentiku_house_tk_000082.html)、ソフトウェアは[IPA「共通フレーム2013」](https://www.ipa.go.jp/publish/secbooks20130304.html)による。ソフトウェアの「基本設計」「詳細設計」は、日本の現場での慣用の呼び方。建築の「企画・基本計画」は告示の標準業務の外で、慣用の呼び方。
+      - type: p
+        text: 設計の範囲を、ここに挙げた分野よりさらに広く捉えた人もいます。経済学者で、認知科学の開拓者でもあるハーバート・サイモンは、今の状態をより好ましい状態に変えようと行動の道筋を考える人は、誰もが設計をしている、と書いています。
+        note: "[H. A. Simon, The Sciences of the Artificial, MIT Press, 1969(第3版 1996)](https://ndlsearch.ndl.go.jp/books/R100000002-I000006331276)。邦訳[『システムの科学』](https://ndlsearch.ndl.go.jp/books/R100000002-I000002864619)。"
 
   - id: modes
     heading: 広げては絞る、を二度繰り返す
