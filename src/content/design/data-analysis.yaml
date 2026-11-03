@@ -7,56 +7,6 @@ question: 設計の判断の根拠になる数字は、どこから得るか
 summary: 設計の判断の根拠を、グラフにした数字と、比べ方を決めた実験から得る。設計会ではノートブックで、部員が一緒に分析する。
 lead: 数字は、使われ方の記録、比べ方を決めた実験、アンケートから集めます。集めたら、まずグラフにして眺め、そこで見つけた問いを確かめます。
 chapters:
-  - id: basics
-    heading: 要約の数字だけでは、形が見えない
-    blocks:
-      - type: p
-        text: |-
-          1973年、統計学者フランシス・アンスコムは、平均、分散、相関係数(2つの量が直線的にどれだけそろって動くかを表す数)、回帰直線(点の並びに一番よく合う直線)がほとんど同じ4組のデータを示しました。グラフにすると、4組は全く違う形になります。下の図で見比べられます。
-        note: |-
-          [F. J. Anscombe, "Graphs in Statistical Analysis", The American Statistician, 27(1), 1973](https://doi.org/10.1080/00031305.1973.10478966)。
-      - type: figure
-        name: anscombe
-      - type: point
-        text: 数字を設計の判断に使う前に、データをグラフにして形を確かめます。
-      - type: p
-        text: |-
-          統計学者ジョン・テューキーは1977年の著書で、まず図にして眺め、それから考えるという順番を、「探索的データ分析」という分析の方法にまとめました。データを眺めて、意外な形や外れた値から問いを見つける段階を、仮説を確かめる(検証する)段階より前に置くよう説きました。
-        note: |-
-          [J. W. Tukey, Exploratory Data Analysis, Addison-Wesley, 1977](https://archive.org/details/exploratorydataa0000tuke_7616)。
-      - type: heading
-        text: 残ったものだけを見ると、抜け落ちたものに気付けない
-      - type: p
-        text: |-
-          グラフにする前に、そのデータがどう集められたかも確かめます。例えば、戦闘から帰ってきた飛行機の弾の跡だけを調べて補強する場所を決めると、撃ち落とされて帰ってこなかった機体の情報が抜け落ちてしまいます。この偏りを「生存者バイアス」と呼びます。この例は、統計学者エイブラハム・ウォールドが第二次世界大戦中に行った研究にちなんで、よく語られます。
-        note: |-
-          [A. Wald, "A Method of Estimating Plane Vulnerability Based on Damage of Survivors"](https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability)(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。1980年に再刊)。よく語られる逸話は、実際の研究を単純化したものである。
-
-  - id: pictures
-    heading: スノウとナイチンゲールは、死者の数を図にして訴えた
-    blocks:
-      - type: point
-        text: 19世紀のロンドンでコレラの死者を家ごとに記した地図と、クリミア戦争の兵士の死因を月ごとに塗り分けた図は、どちらも既に手元にあった数字から、主張を人に伝えるために描かれました。
-      - type: image
-        src: /uploads/design/snow-cholera-map.jpg
-        alt: ロンドンのソーホー地区の地図。通りに沿って、コレラで亡くなった人の数を表す黒い棒が積み重なり、ブロード・ストリートの井戸のポンプの周りに集中している。
-        caption: ジョン・スノウのコレラの地図(1854年作成、1855年の著書に掲載)。亡くなった人を家ごとに黒い棒で記すと、一台の井戸のポンプの周りに集まっていることが分かる。スノウはまず死者の集計を基にポンプの柄を外すよう訴え(1854年9月)、この地図はその後、主張を広く示すために描かれた。
-        credit: John Snow, On the Mode of Communication of Cholera, 2nd ed., 1855(Wikimedia Commons)
-        license: パブリックドメイン
-        sourceUrl: https://commons.wikimedia.org/wiki/File:Snow-cholera-map-1.jpg
-      - type: image
-        src: /uploads/design/nightingale-mortality.jpg
-        alt: 2つの円形のグラフ。月ごとの扇形が、防げる病気による死者(青)、戦傷による死者(赤)、その他の死者(黒)に塗り分けられ、青い部分が最も大きい。
-        caption: ナイチンゲールの「鶏頭図」(1858年)。クリミア戦争の兵士の死因を月ごとの扇形で表し、戦いの傷よりも、防げる病気で亡くなる兵士のほうがずっと多いことを示した。この図は、軍の病院の衛生を改める訴えに使われた。
-        credit: Florence Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858(Wikimedia Commons)
-        license: パブリックドメイン
-        sourceUrl: https://commons.wikimedia.org/wiki/File:Nightingale-mortality.jpg
-      - type: p
-        text: |-
-          統計を折れ線グラフや棒グラフで表す方法は、それより前の1786年に、ウィリアム・プレイフェアが『商業と政治の図解』で広めていました。
-        note: |-
-          [W. Playfair, The Commercial and Political Atlas, 1786](https://archive.org/details/bim_eighteenth-century_the-commercial-and-polit_corry-james_1786)。
-
   - id: why
     heading: 使われた記録で、設計する人の思い込みを確かめる
     blocks:
@@ -78,30 +28,50 @@ chapters:
         text: 手元にない数字は、比べ方を前もって決めた実験で集める
       - type: p
         text: |-
-          ロナルド・フィッシャーが1935年に著した『実験計画法(The Design of Experiments)』は、偶然による差と本当の差を見分けて結論を出すには何をどう比べればよいかを、実験を「設計」する問題として論じました。条件をくじのように割り当てる無作為化、同じ条件を何度も試す反復、条件のそろった区画ごとに比べる局所管理という3つの原則は、農業試験場で生まれ、医療の臨床試験やウェブサービスのA/Bテストにまで受け継がれています。
+          何をどう比べれば、偶然による差と本当の差を見分けて結論を出せるか。ロナルド・フィッシャーは『実験計画法(The Design of Experiments)』(1935年)で、これを実験を「設計」する問題として論じました。原則は3つあります。条件をくじのように割り当てる無作為化、同じ条件を何度も試す反復、条件のそろった区画ごとに比べる局所管理です。どれも農業試験場で生まれ、医療の臨床試験やウェブサービスのA/Bテストにまで受け継がれています。A/Bテスト(利用者を無作為に分けて設計案を比べる実験)は、2000年代に、インターネット企業が日常的に行うようになりました。
         note: |-
-          [R. A. Fisher, The Design of Experiments, Oliver and Boyd, 1935](https://ci.nii.ac.jp/ncid/BA60729447)。フィッシャーは英国ロザムステッド農業試験場での研究を通じて、これらの方法を発展させた。
-      - type: p
-        text: |-
-          ウェブサービスのA/Bテスト(利用者を無作為に分けて設計案を比べる実験)は、2000年代に、インターネット企業が日常的に行うようになりました。
-        note: |-
-          [R. Kohavi, R. M. Henne, D. Sommerfield, "Practical Guide to Controlled Experiments on the Web", KDD 2007](https://doi.org/10.1145/1281192.1281295)。
+          [R. A. Fisher, The Design of Experiments, Oliver and Boyd, 1935](https://ci.nii.ac.jp/ncid/BA60729447)。フィッシャーは英国ロザムステッド農業試験場での研究を通じて、これらの方法を発展させた。A/Bテストは[R. Kohavi, R. M. Henne, D. Sommerfield, "Practical Guide to Controlled Experiments on the Web", KDD 2007](https://doi.org/10.1145/1281192.1281295)。
       - type: example
         kind: real
         title: 検診の案内の文面を比べる
         text: |-
           東京都八王子市は2016年度、前の年度に大腸がん検診を受けて検査キットが自動で届いた人のうち、10月の時点でまだ受けていない人に、受診を勧めるはがきを2通りの文面で送って比べました。1,761人には「受ければ来年度もキットが届く」という得の形で、1,767人には「受けなければ来年度はキットが自動では届かなくなる」という損の形で伝えました(文面の要旨)。受けた人の割合は、得の形が22.7%、損の形が29.9%でした。
         source: "[キャンサースキャンの事例紹介(八王子市の大腸がん検診)](https://www.cancerscan.jp/approach/case02/)(人数・受診率・文面の要旨)、八王子市の取り組みを紹介した[環境省の掲載資料](https://www.env.go.jp/content/000047406.pdf)と[日本版ナッジ・ユニットの資料](https://www.env.go.jp/content/900447977.pdf)による。"
+
+  - id: basics
+    heading: 要約の数字だけでは、形が見えない
+    blocks:
+      - type: point
+        text: 数字を設計の判断に使う前に、データをグラフにして形を確かめます。
       - type: p
         text: |-
-          数字を読む方法は、工場の品質管理も変えました。1924年、ウェスタン・エレクトリック社(翌年に発足するベル研究所の前身の一つ)のウォルター・シューハートが、製造工程のばらつきが、偶然によるばらつきか、突き止めて取り除ける原因(異常原因)によるばらつきかを見分ける図(管理図)を考案しました。1950年には、W・E・デミングが来日して日本の技術者に統計的品質管理を講義し、日本の品質管理運動に大きな影響を与えました。
+          平均、分散、相関係数(2つの量が直線的にどれだけそろって動くかを表す数)、回帰直線(点の並びに一番よく合う直線)がほとんど同じでも、グラフにすると全く違う形になる4組のデータがあります。統計学者フランシス・アンスコムが1973年に示したもので、下の図で見比べられます。
         note: |-
-          [W. A. Shewhart, Economic Control of Quality of Manufactured Product, Van Nostrand, 1931](https://ci.nii.ac.jp/ncid/BA11774525)、[MacTutor「Walter Andrew Shewhart」](https://mathshistory.st-andrews.ac.uk/Biographies/Shewhart/)。デミングの講義は[日本科学技術連盟「デミング賞」](https://www.juse.or.jp/deming_en/award/)による。
+          [F. J. Anscombe, "Graphs in Statistical Analysis", The American Statistician, 27(1), 1973](https://doi.org/10.1080/00031305.1973.10478966)。
+      - type: figure
+        name: anscombe
       - type: p
         text: |-
-          日本では田口玄一が1950年代から、実験計画法を物の設計に生かし、品質工学(タグチメソッド)として体系化していきました。使われる環境や部品にばらつきがあっても性能が安定する「ロバストな」設計を、直交表(少ない組み合わせで多くの条件の効果を調べられるように組んだ表)を使った少ない実験から導く方法です。
+          データを眺めて、意外な形や外れた値から問いを見つける段階は、仮説を確かめる(検証する)段階より前に置きます。まず図にして眺め、それから考えるこの順番を、統計学者ジョン・テューキーは1977年の著書で「探索的データ分析」という分析の方法にまとめました。
         note: |-
-          [田口玄一(刊行委員長)『品質工学講座』日本規格協会, 1988–1990年](https://ci.nii.ac.jp/ncid/BN02521393)。
+          [J. W. Tukey, Exploratory Data Analysis, Addison-Wesley, 1977](https://archive.org/details/exploratorydataa0000tuke_7616)。
+      - type: p
+        text: |-
+          19世紀のロンドンでコレラの死者を家ごとに記した下の地図は、既に手元にあった数字から、主張を人に伝えるために描かれました。
+      - type: image
+        src: /uploads/design/snow-cholera-map.jpg
+        alt: ロンドンのソーホー地区の地図。通りに沿って、コレラで亡くなった人の数を表す黒い棒が積み重なり、ブロード・ストリートの井戸のポンプの周りに集中している。
+        caption: ジョン・スノウのコレラの地図(1854年作成、1855年の著書に掲載)。亡くなった人を家ごとに黒い棒で記すと、一台の井戸のポンプの周りに集まっていることが分かる。スノウはまず死者の集計を基にポンプの柄を外すよう訴え(1854年9月)、この地図はその後、主張を広く示すために描かれた。
+        credit: John Snow, On the Mode of Communication of Cholera, 2nd ed., 1855(Wikimedia Commons)
+        license: パブリックドメイン
+        sourceUrl: https://commons.wikimedia.org/wiki/File:Snow-cholera-map-1.jpg
+      - type: heading
+        text: 残ったものだけを見ると、抜け落ちたものに気付けない
+      - type: p
+        text: |-
+          グラフにする前に、そのデータがどう集められたかも確かめます。例えば、戦闘から帰ってきた飛行機の弾の跡だけを調べて補強する場所を決めると、撃ち落とされて帰ってこなかった機体の情報が抜け落ちてしまいます。この偏りを「生存者バイアス」と呼びます。この例は、統計学者エイブラハム・ウォールドが第二次世界大戦中に行った研究にちなんで、よく語られます。
+        note: |-
+          [A. Wald, "A Method of Estimating Plane Vulnerability Based on Damage of Survivors"](https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability)(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。1980年に再刊)。よく語られる逸話は、実際の研究を単純化したものである。
 
   - id: how
     heading: 集めたデータを整える作業に、一番時間がかかることが多い
@@ -149,7 +119,7 @@ chapters:
         text: データはノートブックで分析し、チームで一緒に編集します。
       - type: p
         text: |-
-          **Jupyter Notebook**の形式のノートブックは、PythonやSQLのコードと、その結果のグラフ、説明の文章を一つの文書にまとめたものです。分析の手順と根拠が一か所に残るので、ほかの人が読み直したり、同じ分析をやり直したりできます。2010年代にデータ分析の標準的な道具になり、研究や仕事でも広く使われています。
+          **Jupyter Notebook**の形式のノートブックは、PythonやSQLのコードと、その結果のグラフ、説明の文章を一つの文書にまとめたものです。分析の手順と根拠が一か所に残るので、ほかの人が読み直したり、同じ分析をやり直したりできます。2010年代に、データ分析の標準的な道具になりました。
         note: |-
           [J. M. Perkel, "Why Jupyter is data scientists' computational notebook of choice", Nature, 2018](https://doi.org/10.1038/d41586-018-07196-1) は、Jupyter がデータ分析の計算ノートブックとして広く選ばれていると報じた。
       - type: p
@@ -171,7 +141,7 @@ perStep:
   - cell: 試した結果を統計で比べる
     body: 案ごとの利用テストや試作の結果を集め、その差が偶然のばらつきで説明できる範囲を超えているかを、統計的な検定で確かめてから選びます。
   - cell: 実験計画で条件を絞る
-    body: 実験計画法や品質工学で、少ない試行から、ばらつきに強い条件を探します。
+    body: 実験計画法や[[design-methods-history#timeline|品質工学]]で、少ない試行から、ばらつきに強い条件を探します。
 references:
   - text: J. W. Tukey, Exploratory Data Analysis, Addison-Wesley, 1977.
     url: https://archive.org/details/exploratorydataa0000tuke_7616
@@ -181,28 +151,18 @@ references:
     url: https://ci.nii.ac.jp/ncid/BA60729447
   - text: A. Wald, A Method of Estimating Plane Vulnerability Based on Damage of Survivors(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。Center for Naval Analyses, CRC 432, 1980 再刊).
     url: https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability
-  - text: W. A. Shewhart, Economic Control of Quality of Manufactured Product, Van Nostrand, 1931.
-    url: https://ci.nii.ac.jp/ncid/BA11774525
-  - text: MacTutor History of Mathematics Archive, "Walter Andrew Shewhart".
-    url: https://mathshistory.st-andrews.ac.uk/Biographies/Shewhart/
-  - text: 日本科学技術連盟「デミング賞」.
-    url: https://www.juse.or.jp/deming_en/award/
   - text: 田口玄一『実験計画法』丸善, 1957年.
     url: https://ci.nii.ac.jp/ncid/BN07391706
   - text: 田口玄一(刊行委員長)『品質工学講座』全7巻, 日本規格協会, 1988–1990年.
     url: https://ci.nii.ac.jp/ncid/BN02521393
   - text: J. Snow, On the Mode of Communication of Cholera, 2nd ed., John Churchill, 1855.
     url: https://archive.org/details/b28985266
-  - text: F. Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858.
-    url: https://archive.org/details/b20387118
   - text: SPSS, NCR, DaimlerChrysler による CRISP-DM 1.0 の公開の告知(KDnuggets News, 2000年8月).
     url: https://www.kdnuggets.com/news/2000/n17/17i.html
   - text: R. Kohavi, R. M. Henne, D. Sommerfield, "Practical Guide to Controlled Experiments on the Web", KDD 2007.
     url: https://doi.org/10.1145/1281192.1281295
   - text: J. M. Perkel, "Why Jupyter is data scientists' computational notebook of choice", Nature, 563, 2018.
     url: https://doi.org/10.1038/d41586-018-07196-1
-  - text: W. Playfair, The Commercial and Political Atlas, 1786.
-    url: https://archive.org/details/bim_eighteenth-century_the-commercial-and-polit_corry-james_1786
   - text: 環境省 掲載資料「社会の課題解決のために行動科学を活用した取組事例 東京都八王子市／（株）キャンサースキャンの取組」.
     url: https://www.env.go.jp/content/000047406.pdf
   - text: 日本版ナッジ・ユニット BEST「「おもてなし」フレームの活用例 八王子市の取組（大腸がん検診受診率向上策）」, 2020年.

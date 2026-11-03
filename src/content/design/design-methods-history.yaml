@@ -4,8 +4,8 @@ layer: topic
 order: 1
 short: 設計の方法の歴史
 question: 設計の進め方は、いつ、誰が方法にしたのか
-summary: 設計の進め方そのものを研究し、方法としてまとめる試みは、20世紀の半ばから大きく進んだ。工程のページで紹介した手法の多くは、1950年代から1990年代に生まれた。
-lead: 工程のページで紹介した手法には、それぞれ生まれた時代と、考えた人がいます。設計の進め方そのものを研究し、誰でも使える方法にまとめる試みは、20世紀の半ばから大きく進みました。
+summary: 紀元前の建築書から2004年のダブルダイヤモンドまで、設計の手法が生まれた年と考えた人を、年表で並べる。
+lead: 設計の進め方を研究し、誰でも使える方法にまとめる動きは、第二次世界大戦の後に始まり、1962年にロンドンで開かれた設計方法会議が出発点とされています。工程のページで紹介した手法にも、それぞれ生まれた時代と、考えた人がいます。
 chapters:
   - id: why
     heading: 設計が、一人の勘と経験を超える大きさになった
@@ -30,11 +30,11 @@ chapters:
     heading: 設計を「方法」にした人たち
     blocks:
       - type: point
-        text: 図面や模型で確かめる方法は古くからあります。設計の方法を研究する動きと前後して、新しい手法が次々に生まれました。多くは1950年代から1990年代のもので、日本で生まれた手法や理論(KJ法、品質機能展開、狩野モデル、一般設計学)もいくつもあります。
+        text: 工程のページで紹介した手法の多くは、設計の方法を研究する動きと前後して、1950年代から1990年代に生まれました。その中には、日本で生まれた手法や理論(KJ法、品質機能展開、狩野モデル、一般設計学)もいくつもあります。
       - type: figure
         name: methods-timeline
       - type: heading
-        text: 1940年代までの図面と模型の方法
+        text: 1940年代までの図と模型の方法
       - type: timeline
         items:
           - year: 紀元前1世紀
@@ -46,15 +46,40 @@ chapters:
           - year: "1638"
             title: ガリレオ『新科学対話』
             body: 梁の強さや、形が相似でも大きさが変わると強さの割合が変わることを論じる。
+          - year: "1786"
+            title: 折れ線グラフと棒グラフ
+            body: ウィリアム・プレイフェアが『商業と政治の図解』で、統計を折れ線グラフや棒グラフで表す方法を広める。
           - year: 1790年代
             title: 画法幾何学
             body: ガスパール・モンジュが、立体を平面に正確に描き表す方法を体系化する。のちの製図法の基礎になる。
+          - year: "1858"
+            title: 鶏頭図
+            body: フローレンス・ナイチンゲールが、クリミア戦争の兵士の死因を月ごとに塗り分けた図で、軍の病院の衛生を改めるよう訴える(下の図)。
           - year: 1870年代
             title: 船の模型実験
             body: ウィリアム・フルードが水槽で船の模型を引き、実物の抵抗を予測する相似則を確立する。
           - year: "1901"
             title: ライト兄弟の風洞
             body: 自作の風洞で200種類ほどの翼の模型を試験し、2年後の初飛行につなげる。
+      - type: image
+        src: /uploads/design/nightingale-mortality.jpg
+        alt: 2つの円形のグラフ。月ごとの扇形が、防げる病気による死者(青)、戦傷による死者(赤)、その他の死者(黒)に塗り分けられ、青い部分が最も大きい。
+        caption: ナイチンゲールの「鶏頭図」(1858年)。クリミア戦争の兵士の死因を月ごとの扇形で表し、戦いの傷よりも、防げる病気で亡くなる兵士のほうがずっと多いことを示した。この図は、軍の病院の衛生を改める訴えに使われた。
+        credit: Florence Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858(Wikimedia Commons)
+        license: パブリックドメイン
+        sourceUrl: https://commons.wikimedia.org/wiki/File:Nightingale-mortality.jpg
+      - type: heading
+        text: 1920年代からの品質管理と品質工学
+      - type: p
+        text: |-
+          統計で数字を読む方法は、工場の品質管理を変えました。1924年、ウェスタン・エレクトリック社(翌年に発足するベル研究所の前身の一つ)のウォルター・シューハートが、管理図を考案しました。製造工程のばらつきが、偶然によるばらつきか、突き止めて取り除ける原因(異常原因)によるばらつきかを見分ける図です。1950年には、W・E・デミングが来日して日本の技術者に統計的品質管理を講義し、日本の品質管理運動に大きな影響を与えました。
+        note: |-
+          [W. A. Shewhart, Economic Control of Quality of Manufactured Product, Van Nostrand, 1931](https://ci.nii.ac.jp/ncid/BA11774525)、[MacTutor「Walter Andrew Shewhart」](https://mathshistory.st-andrews.ac.uk/Biographies/Shewhart/)。デミングの講義は[日本科学技術連盟「デミング賞」](https://www.juse.or.jp/deming_en/award/)による。
+      - type: p
+        text: |-
+          品質工学(タグチメソッド)は、使われる環境や部品にばらつきがあっても性能が安定する「ロバストな」設計を、直交表(少ない組み合わせで多くの条件の効果を調べられるように組んだ表)を使った少ない実験から導く方法です。日本では田口玄一が1950年代から、[[data-analysis#why|実験計画法]]を物の設計に生かし、品質工学として体系化していきました。
+        note: |-
+          [田口玄一(刊行委員長)『品質工学講座』日本規格協会, 1988–1990年](https://ci.nii.ac.jp/ncid/BN02521393)。
       - type: heading
         text: 1950年代から1970年代に生まれた手法
       - type: timeline
@@ -65,9 +90,6 @@ chapters:
           - year: "1956"
             title: 有限要素法
             body: ターナーやクラフらが、ボーイング社での研究を基に、航空機の構造を解析する方法を発表。1960年にクラフが「有限要素」と名付ける。
-          - year: "1962"
-            title: 設計方法会議
-            body: ロンドンで、設計の進め方そのものを論じる会議が開かれる。設計の方法の研究の出発点とされる。
           - year: "1963"
             title: Sketchpad
             body: アイバン・サザランドが、コンピューターの画面上で図形を直接描いて操作するシステムをつくる。技術図面を画面で直接描けるようにした、最初期のシステム。
@@ -139,6 +161,10 @@ chapters:
 references:
   - text: Vitruvius, The Ten Books on Architecture(M. H. Morgan 英訳, 1914)第1書第3章.
     url: https://www.gutenberg.org/ebooks/20239
+  - text: W. Playfair, The Commercial and Political Atlas, 1786.
+    url: https://archive.org/details/bim_eighteenth-century_the-commercial-and-polit_corry-james_1786
+  - text: F. Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858.
+    url: https://archive.org/details/b20387118
   - text: A. F. Osborn, Applied Imagination, Charles Scribner's Sons, 1953.
     url: https://ci.nii.ac.jp/ncid/BA69218505
   - text: M. J. Turner, R. W. Clough, H. C. Martin, L. J. Topp, "Stiffness and Deflection Analysis of Complex Structures", Journal of the Aeronautical Sciences, 23(9), 1956.
