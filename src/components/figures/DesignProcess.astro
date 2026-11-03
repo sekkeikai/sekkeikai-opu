@@ -32,10 +32,10 @@ const steps = await getProcessSteps();
           {s.mode === "diverge" ? "広げる" : "絞る"}
         </p>
         <a href={s.href} class="group flex-1 p-4">
-          <p class="font-mono text-xs text-muted">{String(s.n).padStart(2, "0")}</p>
+          <p class="font-mono text-xs text-muted">{s.n}</p>
           <p class="font-display text-lg leading-snug font-bold group-hover:text-link">{s.title}</p>
           <p class="text-xs text-muted">{s.sub}</p>
-          <p class="mt-3 text-sm">「{s.question}」</p>
+          <p class="mt-3 text-sm">{s.question}</p>
           <p class="mt-3 text-xs text-ink/70">{s.tools}</p>
         </a>
         {i < steps.length - 1 && (

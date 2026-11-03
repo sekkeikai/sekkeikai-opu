@@ -99,7 +99,7 @@ collections:
     sortable_fields: [title, layer, order]
     fields:
       - { name: title, label: 題, widget: string, maxlength: 24 }
-      - { name: en, label: "英語の題（例: Modeling）", widget: string, maxlength: 30 }
+      - { name: en, label: "英語の題（例: Modeling。画面には出ない）", widget: string, required: false, maxlength: 30 }
       - name: layer
         label: 種類
         widget: select

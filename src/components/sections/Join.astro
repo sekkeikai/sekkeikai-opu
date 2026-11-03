@@ -15,35 +15,27 @@ interface Props {
 const { eyebrow = "入部する", title, body, traitsTitle, traits } = Astro.props;
 ---
 
-<section id="join" class="scroll-mt-14 bg-ink py-24 text-paper sm:py-32" aria-labelledby="join-title">
+<section id="join" class="scroll-mt-14 bg-ink py-20 text-paper sm:py-28" aria-labelledby="join-title">
   <div class="container-page">
-    <p class="annotation text-accent" data-reveal>
-      {eyebrow}
-    </p>
-    <h2 id="join-title" class="mt-5 text-[2.5rem] leading-tight font-black sm:text-7xl" data-reveal>
+    <p class="text-sm text-paper/70">{eyebrow}</p>
+    <h2 id="join-title" class="mt-4 text-[2rem] leading-snug font-bold sm:text-5xl">
       {title}
     </h2>
-    <p class="mt-8 max-w-2xl font-serif text-lg leading-loose text-paper/85 sm:text-xl" data-reveal>
-      {body}
-    </p>
+    <p class="mt-6 max-w-[34em] font-serif text-lg leading-loose text-paper/85">{body}</p>
 
-    {traitsTitle && traits.length > 0 && (
-      <p class="annotation mt-14 text-paper/60" data-reveal>
-        {traitsTitle}
-      </p>
-    )}
+    {traitsTitle && traits.length > 0 && <p class="mt-14 text-sm text-paper/70">{traitsTitle}</p>}
     {traits.length > 0 && (
-      <ul class:list={["grid gap-4 sm:grid-cols-3", traitsTitle ? "mt-4" : "mt-14"]}>
-        {traits.map((t, i) => (
-          <li class="border-t-2 border-accent pt-5" data-reveal data-reveal-delay={String(i * 0.08)}>
-            <p class="font-display text-2xl font-bold">{t.title}</p>
-            <p class="mt-2 text-paper/75">{t.body}</p>
+      <ul class:list={["grid gap-x-8 gap-y-6 sm:grid-cols-3", traitsTitle ? "mt-4" : "mt-14"]}>
+        {traits.map((t) => (
+          <li class="border-t border-paper/25 pt-4">
+            <p class="font-display text-lg font-bold">{t.title}</p>
+            <p class="mt-1 text-paper/75">{t.body}</p>
           </li>
         ))}
       </ul>
     )}
 
-    <div class="mt-10" data-reveal>
+    <div class="mt-12">
       <JoinButton size="lg" tone="light" />
     </div>
   </div>

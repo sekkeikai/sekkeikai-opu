@@ -9,6 +9,7 @@ interface Props {
 }
 
 // Stecklein 他 (2004) の結果。幅は推定方法による違い
+// 色は1つだけ(オレンジ)。完成に近い、直すのが高くつく段階(統合・試験と運用)にだけ使い、早い段階は黒の濃淡にする
 const phases = [
   { label: "要件定義", min: 1, max: 1 },
   { label: "設計", min: 3, max: 8 },
@@ -49,12 +50,12 @@ const fmt = (v: number) => v.toLocaleString("ja-JP");
               ))}
               {p.min === p.max ? (
                 <span
-                  class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-positive"
+                  class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink"
                   style={`left:${pos(p.min)}%`}
                 />
               ) : (
                 <span
-                  class:list={["absolute inset-y-0.5 rounded-sm", late ? "bg-accent-strong" : "bg-link/75"]}
+                  class:list={["absolute inset-y-0.5 rounded-sm", late ? "bg-accent-strong" : "bg-ink/35"]}
                   style={`left:${pos(p.min)}%; width:${pos(p.max) - pos(p.min)}%`}
                 />
               )}

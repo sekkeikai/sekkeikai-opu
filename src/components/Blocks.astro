@@ -1,15 +1,17 @@
 ---
 // 長文のブロックを上から順に表示する(ブロックの種類と書き方は src/content.config.ts)。
-// 読む人が拾い読みできるように、ブロックの種類ごとに見た目をはっきり分けている(読者に「読み方」を説明する文は書かない):
-//   要点(point)  … オレンジの線。ここだけ拾っても話の筋が通る
-//   問いかけ       … 「?」の印。答えは隠さずにすぐ下に出す
-//   例             … 灰色の箱。実際にあった例(kind: real)は実線の枠と「実際にあった例」の札、
-//                    説明のための場面(kind: scene)は点線の枠と「例えば」の札
+// 読む人が拾い読みできるように、ブロックの種類ごとに見た目を分けている(読者に「読み方」を説明する文は書かない)。
+// 色の付いた箱・丸い印・飾りの線を重ねると、どのサイトにもある見た目になるので、字の大きさ・太さと細い線だけで分ける:
+//   要点(point)  … 本文より少し大きいゴシックと、左の黒い細線(global.css の .point)。ここだけ拾っても話の筋が通る
+//   問いかけ       … 「問い」の札とゴシックの問い。答えは隠さずにすぐ下に出す
+//   例             … 灰色の箱。実際にあった例(kind: real)は「実際にあった例」の札、
+//                    説明のための場面(kind: scene)は「例えば」の札で見分ける
 //   短い補足・出典 … 段落の note。本文の右(スマホでは段落の下)
 //   長い補足・事例 … 折りたたみ(aside)
 // 注と図の番号は src/lib/blocks.ts の numberChapters で付けたものを使う。
 import type { NumberedBlock } from "../lib/blocks";
 import InlineText from "./InlineText.astro";
+import BreakAtComma from "./BreakAtComma.astro";
 import Figure from "./Figure.astro";
 import DesignMatrix from "./DesignMatrix.astro";
 import PerStep from "./PerStep.astro";
@@ -42,7 +44,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
           </p>
           {block.note && (
             <aside class="sidenote" id={`note-${note}`}>
-              <span class="annotation mr-1 text-link">注{note}</span>
+              <span class="mr-1 font-mono text-ink/80">注{note}</span>
               <InlineText text={block.note} />
             </aside>
           )}
@@ -51,41 +53,30 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "heading":
       return (
-        <h3 class="mt-14 mb-4 flex max-w-[36em] items-baseline gap-3 font-display text-xl leading-snug font-bold sm:text-2xl">
-          <span class="h-3 w-3 shrink-0 rounded-sm bg-ink" aria-hidden="true" />
-          {block.text}
+        <h3 class="mt-14 mb-4 max-w-[36em] font-display text-xl leading-snug font-bold">
+          <BreakAtComma text={block.text} />
         </h3>
       );
 
     case "point":
       return (
-        <div class="my-8 max-w-[38em] rounded-r-card border-l-4 border-accent bg-accent/6 px-5 py-4" data-reveal>
-          <p class="text-[1.1em] leading-relaxed font-semibold text-ink">
-            <InlineText text={block.text} />
-          </p>
-        </div>
+        <p class="point">
+          <InlineText text={block.text} />
+        </p>
       );
 
     case "question":
       return (
-        <div class="my-10 flex max-w-[38em] gap-4" data-reveal>
-          <span
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-link font-display text-xl font-bold text-paper"
-            aria-hidden="true"
-          >
-            ?
-          </span>
-          <div>
-            <p class="annotation text-link">考えてみよう</p>
-            <p class="mt-1 text-[1.1em] leading-relaxed font-semibold">
-              <InlineText text={block.text} />
+        <div class="my-10 max-w-[38em]">
+          <p class="annotation text-muted">問い</p>
+          <p class="mt-1 font-sans text-[1.1em] leading-relaxed font-medium">
+            <InlineText text={block.text} />
+          </p>
+          {block.answer && (
+            <p class="mt-3 text-[0.98em] leading-relaxed text-ink/80">
+              <InlineText text={block.answer} />
             </p>
-            {block.answer && (
-              <p class="mt-3 border-l-2 border-link/40 pl-4 text-[0.98em] leading-relaxed text-ink/85">
-                <InlineText text={block.answer} />
-              </p>
-            )}
-          </div>
+          )}
         </div>
       );
 
@@ -95,20 +86,14 @@ const { blocks, lens, compactFigures = false } = Astro.props;
           class:list={[
             "my-8 max-w-[38em] rounded-card border bg-paper-muted p-5 font-sans sm:p-6",
             // 実際にあった例は実線、説明のための場面は点線の枠にして、ひと目で見分けられるようにする
-            block.kind === "real" ? "border-grid" : "border-dashed border-muted/40",
+            // 実際にあった例と説明のための場面は、札(「実際にあった例」「例えば」)で見分ける。点線の枠は下書きの線に見えるので使わない
+            "border-grid",
           ]}
-          data-reveal
         >
-          <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold text-ink/75">
-            <span
-              class:list={["h-2.5 w-2.5 rounded-full", block.kind === "real" ? "bg-positive" : "bg-muted/60"]}
-              aria-hidden="true"
-            />
+          <p class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
             {/* 札は kind から決まる。題(title)は札の後に続ける */}
-            <span class:list={["annotation", block.kind === "real" ? "text-positive-strong" : "text-muted"]}>
-              {block.kind === "real" ? "実際にあった例" : "例えば"}
-            </span>
-            {block.title && <span>{block.title}</span>}
+            <span class="text-muted">{block.kind === "real" ? "実際にあった例" : "例えば"}</span>
+            {block.title && <span class="font-medium text-ink">{block.title}</span>}
           </p>
           <p class="mt-2 text-[0.98rem] leading-loose tracking-normal">
             <InlineText text={block.text} />
@@ -124,12 +109,12 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "aside":
       return (
-        <details class="group my-8 max-w-[38em] rounded-card border border-dashed border-muted/40 font-sans">
+        <details class="group my-8 max-w-[38em] rounded-card border border-grid font-sans">
           <summary class="flex cursor-pointer list-none items-center gap-3 px-5 py-3 text-sm">
-            <span class="font-mono text-base text-muted transition group-open:rotate-45" aria-hidden="true">
+            <span class="font-mono text-base text-muted transition-transform group-open:rotate-45" aria-hidden="true">
               +
             </span>
-            <span class="font-bold text-ink/80">{block.title}</span>
+            <span class="font-medium text-ink/80">{block.title}</span>
           </summary>
           <div class="space-y-3 px-5 pb-5 text-[0.95rem] leading-relaxed tracking-normal text-ink/80">
             {block.body.map((text) => (
@@ -143,7 +128,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "list":
       return (
-        <ul class="my-6 max-w-[36em] list-disc space-y-2 pl-6 marker:text-accent">
+        <ul class="my-6 max-w-[36em] list-disc space-y-2 pl-6 marker:text-muted">
           {block.items.map((item) => (
             <li>
               <InlineText text={item} />
@@ -185,7 +170,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "image":
       return (
-        <figure class="my-10 font-sans" data-reveal>
+        <figure class="my-10 font-sans">
           <!-- 縦長の写真が画面を埋めないように、高さに上限を付ける -->
           <img
             src={block.src}
@@ -216,53 +201,69 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "table":
       return (
-        <div class="my-10 overflow-x-auto font-sans" data-reveal>
-          <table class="w-full min-w-[32rem] border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal">
-            <caption class="mb-3 text-left font-display font-bold">{block.caption}</caption>
-            <thead>
-              <tr class="border-b-2 border-ink">
-                {block.head.map((h) => (
-                  <th scope="col" class="px-3 py-2 align-bottom text-sm">
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {block.rows.map((row) => (
-                <tr class="border-b border-grid">
-                  {row.map((cell, i) =>
-                    i === 0 ? (
-                      <th scope="row" class="px-3 py-2.5 align-top font-bold">
-                        <InlineText text={cell} />
-                      </th>
-                    ) : (
-                      <td class="px-3 py-2.5 align-top">
-                        <InlineText text={cell} />
-                      </td>
-                    ),
-                  )}
+        <div class="my-10 font-sans">
+          {/* 表題は横スクロールの枠の外に出す(枠の中だと、スマートフォンで表題まで切れるため)。読み上げ用の caption は表の中に残す */}
+          <p class="mb-3 font-display font-medium tracking-normal" aria-hidden="true">
+            {block.caption}
+          </p>
+          <div class="overflow-x-auto">
+            {/* 列が多い表は、スマートフォンで1列が1〜2字ずつ折れないように、列の数に合わせて最小の幅を決める */}
+            <table
+              class="w-full border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal"
+              style={`min-width: ${Math.max(32, block.head.length * 9)}rem`}
+            >
+              <caption class="sr-only">{block.caption}</caption>
+              <thead>
+                <tr class="border-b-2 border-ink">
+                  {block.head.map((h) => (
+                    <th scope="col" class="px-3 py-2 align-bottom text-sm">
+                      {h}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {block.rows.map((row) => (
+                  <tr class="border-b border-grid">
+                    {row.map((cell, i) =>
+                      i === 0 ? (
+                        <th scope="row" class="min-w-[7em] px-3 py-2.5 align-top font-medium [word-break:auto-phrase]">
+                          <InlineText text={cell} />
+                        </th>
+                      ) : (
+                        <td class="px-3 py-2.5 align-top">
+                          <InlineText text={cell} />
+                        </td>
+                      ),
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* 列が3つ以上の表は、スマートフォンの幅では右が切れるので、横に動かせることを書いておく */}
+          {block.head.length >= 3 && <p class="annotation mt-2 text-muted sm:hidden">← 表は横にスクロールできます →</p>}
         </div>
       );
 
     case "steps":
       return (
-        <ol class="my-10 grid gap-4 font-sans text-base leading-relaxed sm:grid-cols-2">
+        // 手順の一覧。同じ大きさの箱を2列に並べず、細い線で区切った縦の一覧にする(順番に読むものなので、上から下へ目が動くように)
+        <ol class="my-10 max-w-[44em] border-t border-ink/80 font-sans text-base leading-relaxed">
           {block.items.map((item, i) => (
-            <li class="rounded-card border border-grid bg-paper p-5" data-reveal>
-              {block.ordered ? (
-                <p class="annotation text-accent-strong">手順 {i + 1}</p>
-              ) : (
-                <span class="block h-1 w-8 rounded-full bg-accent" aria-hidden="true" />
-              )}
-              <p class:list={["font-display text-lg font-bold", block.ordered ? "mt-1" : "mt-3"]}>{item.title}</p>
-              <p class="mt-2 text-[0.95rem] tracking-normal text-ink/85">
-                <InlineText text={item.body} />
-              </p>
+            <li
+              class:list={[
+                "grid gap-1 border-b border-grid py-4",
+                block.ordered && "sm:grid-cols-[4.5rem_minmax(0,1fr)] sm:gap-4",
+              ]}
+            >
+              {block.ordered && <p class="annotation pt-0.5 text-muted">手順 {i + 1}</p>}
+              <div>
+                <p class="font-display text-lg font-medium">{item.title}</p>
+                <p class="mt-1 text-[0.95rem] tracking-normal text-ink/80">
+                  <InlineText text={item.body} />
+                </p>
+              </div>
             </li>
           ))}
         </ol>
@@ -272,16 +273,16 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       return (
         <ol class="relative my-10 border-l-2 border-grid pl-6 font-sans text-base leading-relaxed sm:ml-28 sm:pl-8">
           {block.items.map((item) => (
-            <li class="relative pb-7 last:pb-0" data-reveal>
+            <li class="relative pb-7 last:pb-0">
               <span
-                class="absolute top-2.5 -left-[30px] h-2.5 w-2.5 rounded-full border-2 border-link bg-paper sm:-left-[38px]"
+                class="absolute top-2.5 -left-[30px] h-2.5 w-2.5 rounded-full border-2 border-ink/50 bg-paper sm:-left-[38px]"
                 aria-hidden="true"
               />
-              <p class="annotation text-link sm:absolute sm:top-1 sm:-left-[8.9rem] sm:w-24 sm:text-right">
+              <p class="font-mono text-sm text-muted tabular-nums sm:absolute sm:top-1 sm:-left-[8.9rem] sm:w-24 sm:text-right">
                 {item.year}
               </p>
-              <p class="font-display text-lg font-bold">{item.title}</p>
-              <p class="mt-1 text-[0.95rem] tracking-normal text-ink/85">
+              <p class="font-display text-lg font-medium">{item.title}</p>
+              <p class="mt-1 text-[0.95rem] tracking-normal text-ink/80">
                 <InlineText text={item.body} />
               </p>
             </li>
@@ -291,22 +292,22 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "compare":
       return (
-        <div class="my-10 overflow-hidden rounded-card border border-grid bg-paper font-sans" data-reveal>
-          <div class="grid grid-cols-[1fr_auto_1fr] gap-3 border-b border-grid bg-paper-muted px-5 py-3 sm:px-6">
-            <p class="annotation text-muted">{block.fromLabel}</p>
+        <div class="my-10 max-w-[38em] overflow-hidden rounded-card border border-grid bg-paper font-sans [word-break:auto-phrase]">
+          <div class="grid grid-cols-[1fr_auto_1fr] gap-3 border-b border-grid bg-paper-muted px-5 py-3 text-sm sm:px-6">
+            <p class="text-muted">{block.fromLabel}</p>
             <span />
-            <p class="annotation text-accent-strong">{block.toLabel}</p>
+            <p class="font-medium text-ink">{block.toLabel}</p>
           </div>
           <ul>
             {block.rows.map((row) => (
               <li class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-grid px-5 py-4 last:border-b-0 sm:px-6">
                 <span class="text-muted">{row.from}</span>
                 <!-- 矢印は読み上げで「右矢印」と読まれるので隠し、代わりに「から」を読ませる -->
-                <span class="text-accent-strong" aria-hidden="true">
+                <span class="text-muted" aria-hidden="true">
                   →
                 </span>
                 <span class="sr-only">から</span>
-                <span class="font-bold">{row.to}</span>
+                <span class="font-medium">{row.to}</span>
               </li>
             ))}
           </ul>
@@ -315,28 +316,28 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "tags":
       return (
-        <div class="my-8 font-sans" data-reveal>
+        <div class="my-8 font-sans">
           {block.label && <p class="annotation mb-3 text-muted">{block.label}</p>}
-          <ul class="flex flex-wrap gap-2.5">
-            {block.items.map((tag) => (
-              <li class="rounded-full border border-grid px-4 py-2 text-sm font-bold sm:text-base">{tag}</li>
-            ))}
-          </ul>
+          {/* 丸い札を並べると、選べるボタンのように見えて押したくなるので、読点で区切った1行の文にする */}
+          <p class="max-w-[38em] text-[0.95rem] leading-relaxed text-ink/80">{block.items.join("、")}</p>
         </div>
       );
 
     case "cards":
       return (
-        <ol class="my-10 grid gap-4 font-sans md:grid-cols-3">
-          {block.items.map((item, i) => (
-            <li class="rounded-card border border-grid bg-paper p-5" data-reveal>
-              <span class="font-mono text-xl text-accent-strong">{String(i + 1).padStart(2, "0")}</span>
-              <p class="mt-2 font-display text-lg font-bold">{item.title}</p>
-              <p class="mt-2 text-[0.95rem] leading-relaxed tracking-normal text-ink/85">{item.body}</p>
-              {item.note && <p class="mt-3 text-xs text-muted">{item.note}</p>}
+        // 並べた札。横に同じ形の箱を並べると型どおりの見た目になり、4枚だと1枚だけ次の段に余るので、
+        // 題と説明を左右に置いた行を、細い線で区切って縦に並べる
+        <ul class="my-10 max-w-[44em] border-t border-ink/80 font-sans">
+          {block.items.map((item) => (
+            <li class="grid gap-1 border-b border-grid py-4 leading-snug tracking-normal sm:grid-cols-[12.5rem_minmax(0,1fr)] sm:gap-6">
+              <p class="font-medium text-ink/80 [word-break:auto-phrase]">{item.title}</p>
+              <div>
+                <p class="text-[0.95rem] leading-relaxed tracking-normal text-ink/80">{item.body}</p>
+                {item.note && <p class="mt-1 text-xs text-muted">{item.note}</p>}
+              </div>
             </li>
           ))}
-        </ol>
+        </ul>
       );
 
     case "map":
@@ -352,15 +353,13 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "link":
       return (
-        <p class="my-8 font-sans" data-reveal>
+        <p class="my-8 font-sans">
           <a
             href={block.href}
-            class="group inline-flex items-center gap-2 border-b-2 border-link pb-1 font-bold text-link"
+            class="inline-flex items-center gap-1.5 font-medium text-link underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] hover:decoration-2"
           >
             {block.label}
-            <span class="transition group-hover:translate-x-1" aria-hidden="true">
-              →
-            </span>
+            <span aria-hidden="true">→</span>
           </a>
         </p>
       );

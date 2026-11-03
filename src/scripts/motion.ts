@@ -31,7 +31,8 @@ export function initMotion(): void {
     gsap.ticker.lagSmoothing(0);
   }
 
-  // data-reveal: スクロールで下からふわっと現れる
+  // data-reveal: 下から少しだけ浮き上がって現れる。使うのは最初の画面(ヒーロー)だけにする。
+  // 本文のブロックが一つずつ現れる動きは、長い文章を読むときに邪魔になり、どのサイトにもある飾りに見えるので付けない
   gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
     gsap.to(el, {
       opacity: 1,

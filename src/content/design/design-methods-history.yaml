@@ -4,54 +4,95 @@ layer: topic
 order: 1
 short: 設計の方法の歴史
 question: 設計の進め方は、いつ、誰が方法にしたのか
-summary: 設計の進め方そのものを研究し、方法としてまとめる試みは、20世紀の半ばから大きく進んだ。工程のページで紹介した手法が生まれた順に並べる。
-lead: 工程のページで紹介した手法には、それぞれ生まれた時代と、考えた人がいます。設計の進め方そのものを研究し、誰でも使える方法にまとめる試みは、20世紀の半ばから大きく進みました。
+summary: 紀元前の建築書から2004年のダブルダイヤモンドまで、設計の手法が生まれた年と考えた人を、年表で並べる。
+lead: 設計の進め方を研究し、誰でも使える方法にまとめる動きは、第二次世界大戦の後に始まり、1962年にロンドンで開かれた設計方法会議が出発点とされています。工程のページで紹介した手法にも、それぞれ生まれた時代と、考えた人がいます。
 chapters:
   - id: why
     heading: 設計が、一人の勘と経験を超える大きさになった
     blocks:
-      - type: question
-        text: 設計の進め方には、昔から決まった手順があったのでしょうか?
-        answer: いいえ。長い間、設計は親方から弟子へ、やりながら身に付けるものでした。進め方を書き出し、誰でも使える方法にしようとする動きが大きく進んだのは、1960年代のことです。
       - type: point
-        text: 物やシステムが大きく複雑になり、設計には一人の勘と経験を超える仕組みが必要になりました。そこで、設計の進め方を書き出し、教えられる「方法」にしようとする動きが生まれました。
+        text: 物やシステムが大きく複雑になると、設計の進め方を書き出し、教えられる「方法」にする動きが生まれました。
       - type: p
         text: |-
-          第二次世界大戦の後、航空機や宇宙開発のような巨大なシステムが現れ、何千人もの技術者が一つのものを設計するようになりました。コンピューターも使われ始め、作戦の分析から生まれたオペレーションズ・リサーチ(限られた資源の最も良い使い方を、数理で決める方法)のように、問題を手順で解く考え方も広がっていました。設計の進め方も、手順として書き出せるのではないか。そう考える人たちが現れました。
+          長い間、設計はやりながら身に付けるもので、決まった手順はありませんでした。第二次世界大戦の後、航空機や宇宙開発のような巨大なシステムが現れ、何千人もの技術者が一つのものを設計するようになりました。コンピューターも使われ始め、作戦の分析から生まれたオペレーションズ・リサーチ(限られた資源の最も良い使い方を、数理で決める方法)のように、問題を手順で解く考え方も広がっていました。その中で、設計の進め方も手順として書き出せるのではないかと考える人たちが現れました。
       - type: p
         text: |-
-          1962年9月、ロンドンのインペリアル・カレッジで「設計方法会議(Conference on Design Methods)」が開かれました。建築、機械、工業デザインなど、分野の違う人たちが集まり、設計の進め方そのものを研究の対象として論じました。この会議は、設計の方法の研究の出発点とされています。この会議の委員会の人たちが中心となって、1966年に英国のデザイン・リサーチ・ソサエティが生まれました。
+          1962年9月、ロンドンのインペリアル・カレッジで「設計方法会議(Conference on Design Methods)」が開かれました。建築、機械、工業デザインなど、分野の違う人たちが集まり、設計の進め方そのものを研究の対象として論じました。この会議は、設計の方法の研究の出発点とされています。会議の委員会の人たちが中心となって、1966年に英国のデザイン・リサーチ・ソサエティが生まれました。
         note: |-
           [J. C. Jones & D. G. Thornley (eds.), Conference on Design Methods, Pergamon Press, 1963](https://dl.designresearchsociety.org/design_methods_conference_1962/)。会議は1962年9月19~21日に開かれた。出発点とされることと学会の成り立ちは、[Design Research Society「History」](https://www.designresearchsociety.org/cpages/history) による。
       - type: p
         text: |-
-          一方で、方法への期待が大きすぎたことへの反省も、早くから出ました。『形の合成に関するノート』(1964年)でこの流れの中心にいた建築家クリストファー・アレグザンダーは、1971年に、設計の方法を設計の実践から切り離して研究することを強く批判し、距離を置きました。そこから、手順で設計を置き換えるのではなく、設計する人が考えるのを助ける道具として方法を使う、という見方が広がっていきます。
+          一方で、方法への期待が大きすぎたことへの反省も、早くから出ました。『形の合成に関するノート』(1964年)でこの流れの中心にいた建築家クリストファー・アレグザンダーは、1971年に、設計の方法を設計の実践から切り離して研究することを強く批判し、距離を置きました。そこから、手順で設計を置き換えるのではなく、設計する人が考えるのを助ける道具として方法を使う、という見方が広がっていきました。
         note: |-
           [C. Alexander, Notes on the Synthesis of Form](https://www.hup.harvard.edu/books/9780674627512), ペーパーバック版の序文, 1971。[同じ年の雑誌のインタビュー](https://www.designresearchsociety.org/articles/remembering-christopher-alexander-by-nigel-cross)でも、設計の方法の研究を「忘れてしまえ」と語った。
-      - type: p
-        text: |-
-          設計会が工程ごとに手法を学ぶのも、この見方に立っています。手法は、考え落としを防ぎ、考えたことを他の人に見せて話し合うための道具です。
 
   - id: timeline
     heading: 設計を「方法」にした人たち
     blocks:
       - type: point
-        text: 設計の方法を研究する動きと前後して、手法が次々に生まれました。多くは1950年代から1990年代のもので、日本で生まれた手法や理論(KJ法、品質機能展開、狩野モデル、一般設計学)もいくつもあります。
+        text: 工程のページで紹介した手法の多くは、設計の方法を研究する動きと前後して、1950年代から1990年代に生まれました。その中には、日本で生まれた手法や理論(KJ法、品質機能展開、狩野モデル、一般設計学)もいくつもあります。
       - type: figure
         name: methods-timeline
       - type: heading
-        text: "1970年代まで: 手法が次々に生まれる"
+        text: 1940年代までの図と模型の方法
       - type: timeline
         items:
           - year: 紀元前1世紀
             title: 強・用・美
             body: ウィトルウィウスが、建築が備えるべき条件として丈夫さ、使いやすさ、美しさを挙げる。
+          - year: 紀元前1世紀
+            title: 平面図・立面図・透視図
+            body: ウィトルウィウスが『建築について』で、建築家が描くべき図として平面図、立面図、透視図を挙げる。
+          - year: "1638"
+            title: ガリレオ『新科学対話』
+            body: 梁の強さや、形が相似でも大きさが変わると強さの割合が変わることを論じる。
+          - year: "1786"
+            title: 折れ線グラフと棒グラフ
+            body: ウィリアム・プレイフェアが『商業と政治の図解』で、統計を折れ線グラフや棒グラフで表す方法を広める。
+          - year: 1790年代
+            title: 画法幾何学
+            body: ガスパール・モンジュが、立体を平面に正確に描き表す方法を体系化する。のちの製図法の基礎になる。
+          - year: "1858"
+            title: 鶏頭図
+            body: フローレンス・ナイチンゲールが、クリミア戦争の兵士の死因を月ごとに塗り分けた図で、軍の病院の衛生を改めるよう訴える(下の図)。
+          - year: 1870年代
+            title: 船の模型実験
+            body: ウィリアム・フルードが水槽で船の模型を引き、実物の抵抗を予測する相似則を確立する。
+          - year: "1901"
+            title: ライト兄弟の風洞
+            body: 自作の風洞で200種類ほどの翼の模型を試験し、2年後の初飛行につなげる。
+      - type: image
+        src: /uploads/design/nightingale-mortality.jpg
+        alt: 2つの円形のグラフ。月ごとの扇形が、防げる病気による死者(青)、戦傷による死者(赤)、その他の死者(黒)に塗り分けられ、青い部分が最も大きい。
+        caption: ナイチンゲールの「鶏頭図」(1858年)。クリミア戦争の兵士の死因を月ごとの扇形で表し、戦いの傷よりも、防げる病気で亡くなる兵士のほうがずっと多いことを示した。この図は、軍の病院の衛生を改める訴えに使われた。
+        credit: Florence Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858(Wikimedia Commons)
+        license: パブリックドメイン
+        sourceUrl: https://commons.wikimedia.org/wiki/File:Nightingale-mortality.jpg
+      - type: heading
+        text: 1920年代からの品質管理と品質工学
+      - type: p
+        text: |-
+          統計で数字を読む方法は、工場の品質管理を変えました。1924年、ウェスタン・エレクトリック社(翌年に発足するベル研究所の前身の一つ)のウォルター・シューハートが、管理図を考案しました。製造工程のばらつきが、偶然によるばらつきか、突き止めて取り除ける原因(異常原因)によるばらつきかを見分ける図です。1950年には、W・E・デミングが来日して日本の技術者に統計的品質管理を講義し、日本の品質管理運動に大きな影響を与えました。
+        note: |-
+          [W. A. Shewhart, Economic Control of Quality of Manufactured Product, Van Nostrand, 1931](https://ci.nii.ac.jp/ncid/BA11774525)、[MacTutor「Walter Andrew Shewhart」](https://mathshistory.st-andrews.ac.uk/Biographies/Shewhart/)。デミングの講義は[日本科学技術連盟「デミング賞」](https://www.juse.or.jp/deming_en/award/)による。
+      - type: p
+        text: |-
+          品質工学(タグチメソッド)は、使われる環境や部品にばらつきがあっても性能が安定する「ロバストな」設計を、直交表(少ない組み合わせで多くの条件の効果を調べられるように組んだ表)を使った少ない実験から導く方法です。日本では田口玄一が1950年代から、[[data-analysis#why|実験計画法]]を物の設計に生かし、品質工学として体系化していきました。
+        note: |-
+          [田口玄一(刊行委員長)『品質工学講座』日本規格協会, 1988–1990年](https://ci.nii.ac.jp/ncid/BN02521393)。
+      - type: heading
+        text: 1950年代から1970年代に生まれた手法
+      - type: timeline
+        items:
           - year: "1953"
             title: ブレインストーミング
             body: アレックス・オズボーンが著書『Applied Imagination』で、良し悪しの判断を後回しにして数多くの案を出す、発想会議の方法を広める。
-          - year: "1962"
-            title: 設計方法会議
-            body: ロンドンで、設計の進め方そのものを論じる会議が開かれる。設計の方法の研究の出発点とされる。
+          - year: "1956"
+            title: 有限要素法
+            body: ターナーやクラフらが、ボーイング社での研究を基に、航空機の構造を解析する方法を発表。1960年にクラフが「有限要素」と名付ける。
+          - year: "1963"
+            title: Sketchpad
+            body: アイバン・サザランドが、コンピューターの画面上で図形を直接描いて操作するシステムをつくる。技術図面を画面で直接描けるようにした、最初期のシステム。
           - year: "1964"
             title: 『形の合成に関するノート』
             body: 建築家クリストファー・アレグザンダーが、設計の問題を要素に分けて形を導く方法を論じる。
@@ -86,7 +127,7 @@ chapters:
             title: 一般設計学
             body: 吉川弘之が、設計を「機能の空間から属性の空間への写像」として数学の言葉で捉える理論を発表する。
       - type: heading
-        text: "1980年代から: つなぐ、そろえる、人に合わせる"
+        text: 1980年代からの手法と規格
       - type: timeline
         items:
           - year: "1981"
@@ -107,6 +148,9 @@ chapters:
           - year: "1995"
             title: セットベース設計
             body: トヨタの開発の研究から、いくつもの案を並行して残し、少しずつ絞り込む進め方が注目される。
+          - year: "1997"
+            title: UML
+            body: ソフトウェアの設計を描く共通の言語が標準になる。
           - year: "1999"
             title: ISO 13407
             body: 使う人を中心に置いた設計(人間中心設計)の進め方が、国際規格になる。2010年からはISO 9241-210に引き継がれる。
@@ -117,10 +161,18 @@ chapters:
 references:
   - text: Vitruvius, The Ten Books on Architecture(M. H. Morgan 英訳, 1914)第1書第3章.
     url: https://www.gutenberg.org/ebooks/20239
+  - text: W. Playfair, The Commercial and Political Atlas, 1786.
+    url: https://archive.org/details/bim_eighteenth-century_the-commercial-and-polit_corry-james_1786
+  - text: F. Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858.
+    url: https://archive.org/details/b20387118
   - text: A. F. Osborn, Applied Imagination, Charles Scribner's Sons, 1953.
     url: https://ci.nii.ac.jp/ncid/BA69218505
+  - text: M. J. Turner, R. W. Clough, H. C. Martin, L. J. Topp, "Stiffness and Deflection Analysis of Complex Structures", Journal of the Aeronautical Sciences, 23(9), 1956.
+    url: https://doi.org/10.2514/8.3664
   - text: J. C. Jones & D. G. Thornley (eds.), Conference on Design Methods, Pergamon Press, 1963.
     url: https://dl.designresearchsociety.org/design_methods_conference_1962/
+  - text: 'I. E. Sutherland, "Sketchpad: A Man-Machine Graphical Communication System", MIT, 1963(ケンブリッジ大学による2003年の電子版).'
+    url: https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf
   - text: C. Alexander, Notes on the Synthesis of Form, Harvard University Press, 1964(ペーパーバック版の序文, 1971).
     url: https://www.hup.harvard.edu/books/9780674627512
   - text: N. Cross, "Remembering Christopher Alexander", Design Research Society, 2022(1971年のインタビューについて).
@@ -161,6 +213,8 @@ references:
     url: https://doi.org/10.2307/1511637
   - text: A. Ward, J. K. Liker, J. J. Cristiano, D. K. Sobek II, "The Second Toyota Paradox", Sloan Management Review, 36(3), 1995.
     url: https://sloanreview.mit.edu/article/the-second-toyota-paradox-how-delaying-decisions-can-make-better-cars-faster/
+  - text: Object Management Group, Unified Modeling Language (UML) 1.1, 1997.
+    url: https://www.omg.org/spec/UML/1.1/
   - text: ISO 13407:1999 Human-centred design processes for interactive systems(ISO 9241-210:2010 に置き換え).
     url: https://www.iso.org/standard/21197.html
   - text: Design Council (UK), "History of the Double Diamond".

@@ -8,6 +8,7 @@ import type { CollectionEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Blocks from "../../components/Blocks.astro";
 import StepNav from "../../components/StepNav.astro";
+import BreakAtComma from "../../components/BreakAtComma.astro";
 import Courses from "../../components/Courses.astro";
 import { numberChapters } from "../../lib/blocks";
 import { getProcessSteps, layerLabel } from "../../lib/design";
@@ -31,17 +32,17 @@ interface Props {
 }
 
 const { page, prev, next } = Astro.props;
-const { title, en, layer, order, short, stepName, question, summary, lead, chapters, references, perStep, courses } =
+const { title, layer, order, short, stepName, question, summary, lead, chapters, references, perStep, courses } =
   page.data;
 const related = await getEntries(page.data.related);
 const steps = await getProcessSteps();
 
 // 目次とリンクの行き先になる章の id。YAML に id があればそれを、無ければ ch-1, ch-2… を使う。
-// 事例のページで step(工程の番号)を書いた章には、「工程 N — 〇〇」のラベルと工程のページへのリンクを付ける
+// 事例のページで step(工程の番号)を書いた章には、「工程 N / 〇〇」のラベルと工程のページへのリンクを付ける
 const withIds = numberChapters(chapters).map((c, i) => {
   const step = c.step ? steps.find((s) => s.n === c.step) : undefined;
   if (c.step && !step) throw new Error(`src/content/design/${page.id}.yaml: 工程 ${c.step} のページがありません`);
-  const label = c.label ?? (step ? `工程 ${step.n} — ${step.sub}` : undefined);
+  const label = c.label ?? (step ? `工程 ${step.n} / ${step.sub}` : undefined);
   return { ...c, id: c.id ?? `ch-${i + 1}`, label, stepHref: step?.href };
 });
 const crumb =
@@ -57,7 +58,7 @@ const crumb =
 ---
 
 <Base title={title} description={summary} progress>
-  <header class="bg-blueprint-grid border-b border-grid">
+  <header class="border-b border-grid">
     <div class="container-page py-16 sm:py-24">
       <p class="annotation text-muted">
         <a href="/design/" class="underline hover:text-link">
@@ -65,15 +66,20 @@ const crumb =
         </a>{" "}
         / {crumb}
       </p>
-      <p class="annotation mt-8 text-link">
-        {en}
-        {layer === "step"
-          ? ` — 工程 ${order}「${stepName}」`
-          : layer !== "process" && layer !== "case" && ` — ${short}`}
-      </p>
-      <h1 class="mt-2 text-4xl font-black sm:text-6xl">{title}</h1>
-      <p class="mt-8 font-serif text-xl font-semibold sm:text-2xl">「{question}」</p>
-      <p class="longform mt-6 max-w-[36em] text-ink/85">{lead}</p>
+      <!-- 見出しの上の小さな札。英語の大文字の札は飾りにしかならないので出さず、工程の正式な呼び名や視点の短い名前だけを出す -->
+      {(layer === "step" || layer === "lens" || layer === "topic") && (
+        <p class="mt-8 text-sm text-muted">{layer === "step" ? stepName : short}</p>
+      )}
+      <h1
+        class:list={[
+          "text-4xl font-bold sm:text-5xl",
+          layer === "step" || layer === "lens" || layer === "topic" ? "mt-2" : "mt-8",
+        ]}
+      >
+        {title}
+      </h1>
+      <p class="mt-6 font-serif text-xl font-semibold sm:text-2xl">{question}</p>
+      <p class="longform mt-6 max-w-[36em] text-ink/80">{lead}</p>
       {layer === "step" && <StepNav current={order} />}
       {layer === "process" && <StepNav />}
     </div>
@@ -86,15 +92,15 @@ const crumb =
       <ol class="space-y-1 px-5 pb-4 text-sm">
         {withIds.map((c) => (
           <li>
-            <a href={`#${c.id}`} class="block py-1 text-ink/80 underline-offset-4 hover:underline">
-              {c.label && <span class="mr-2 text-xs text-link">{c.label}</span>}
+            <a href={`#${c.id}`} class="block py-2 text-ink/80 underline-offset-4 hover:underline">
+              {c.label && <span class="mr-2 text-xs text-muted">{c.label}</span>}
               {c.heading}
             </a>
           </li>
         ))}
         {references.length > 0 && (
           <li>
-            <a href="#references" class="block py-1 text-ink/80 underline-offset-4 hover:underline">
+            <a href="#references" class="block py-2 text-ink/80 underline-offset-4 hover:underline">
               参考文献
             </a>
           </li>
@@ -108,15 +114,21 @@ const crumb =
         <ol class="space-y-1 text-sm">
           {withIds.map((c) => (
             <li>
-              <a href={`#${c.id}`} class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
-                {c.label && <span class="block text-[0.7rem] text-link">{c.label}</span>}
+              <a
+                href={`#${c.id}`}
+                class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted [word-break:auto-phrase] hover:text-ink"
+              >
+                {c.label && <span class="block text-[0.7rem]">{c.label}</span>}
                 {c.heading}
               </a>
             </li>
           ))}
           {references.length > 0 && (
             <li>
-              <a href="#references" class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
+              <a
+                href="#references"
+                class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted [word-break:auto-phrase] hover:text-ink"
+              >
                 参考文献
               </a>
             </li>
@@ -146,7 +158,7 @@ const crumb =
             data-toc-section
           >
             {chapter.label && (
-              <p class="annotation mb-2 text-link" data-reveal>
+              <p class="annotation mb-2 text-muted">
                 {chapter.stepHref ? (
                   <a href={chapter.stepHref} class="underline underline-offset-4 hover:text-ink">
                     {chapter.label}
@@ -156,8 +168,8 @@ const crumb =
                 )}
               </p>
             )}
-            <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl" data-reveal>
-              {chapter.heading}
+            <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl">
+              <BreakAtComma text={chapter.heading} />
             </h2>
             <Blocks blocks={chapter.numbered} lens={{ short, perStep }} />
           </section>
@@ -176,7 +188,7 @@ const crumb =
           <h2 id="references-title" class="text-2xl font-bold">
             参考文献
           </h2>
-          <ol class="mt-6 space-y-2 text-sm text-ink/85">
+          <ol class="mt-6 space-y-2 text-sm text-ink/80">
             {references.map((r, i) => (
               <li class="grid grid-cols-[2.5rem_1fr]">
                 <span class="font-mono text-muted">[{i + 1}]</span>
@@ -202,16 +214,20 @@ const crumb =
           <h2 id="related-title" class="text-2xl font-bold">
             あわせて読む
           </h2>
-          <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+          {/* 「設計を知る」の一覧と同じ、細い線で区切った行。同じ大きさの箱を2列に並べると、
+              数が奇数のとき最後の1枚が余るため。題の後ろの「→」で、押せることを示す */}
+          <ul class="mt-6 border-t border-ink/80">
             {related.map((r) => (
-              <li>
-                <a
-                  href={`/design/${r.id}/`}
-                  class="block h-full rounded-card border border-grid p-5 transition hover:border-link"
-                >
-                  <p class="annotation text-link">{layerLabel(r)}</p>
-                  <p class="mt-1 font-display text-xl font-bold">{r.data.title}</p>
-                  <p class="mt-2 text-sm text-muted">{r.data.summary}</p>
+              <li class="border-b border-grid">
+                <a href={`/design/${r.id}/`} class="group block py-5">
+                  <span class="annotation block text-muted">{layerLabel(r)}</span>
+                  <span class="mt-1 block font-display text-xl font-bold group-hover:text-link">
+                    {r.data.title}{" "}
+                    <span class="text-base font-normal text-muted group-hover:text-link" aria-hidden="true">
+                      →
+                    </span>
+                  </span>
+                  <span class="mt-1 block text-sm leading-relaxed text-ink/80">{r.data.summary}</span>
                 </a>
               </li>
             ))}
@@ -231,7 +247,7 @@ const crumb =
           </a>
         )}
       </div>
-      <a href="/design/" class="text-center text-sm text-muted underline hover:text-link">
+      <a href="/design/" class="justify-self-center py-2 text-sm text-muted underline hover:text-link">
         設計を知る(一覧)
       </a>
       <div class="sm:text-right">

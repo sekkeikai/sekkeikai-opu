@@ -2,7 +2,7 @@
 // 問い合わせ用のメールアドレスを「メール: アドレス」の形で出す。アドレスは押すとメールソフトが開くリンク(フッターで使う)。
 // アドレスは、HTML にはそのままの形で書かない。逆順にして Base64 にしたものを data 属性に入れておき、
 // ブラウザーで JavaScript が元に戻してリンクにする。HTML を読むだけのボットにアドレスを拾われにくくするため。
-// アドレスはビルド用の環境変数 CONTACT_EMAIL(src/lib/site.ts の getContactEmail)。空の間は「準備中」と出す。
+// アドレスはビルド用の環境変数 CONTACT_EMAIL(src/lib/site.ts の getContactEmail)。空の間は何も出さない(AGENTS.md「空の項目は出ない」)。
 import { getContactEmail } from "../lib/site";
 
 interface Props {
@@ -11,6 +11,9 @@ interface Props {
 }
 
 const { class: linkClass = "" } = Astro.props;
+// アドレスは途中で折り返せない長い文字列になりやすく、スマホの狭い画面では横にはみ出す。
+// wrap-anywhere で、収まらないときだけアドレスの途中で折り返す(収まるなら1行のまま次の行へ送る)
+const linkClasses = `${linkClass} wrap-anywhere`.trim();
 const email = getContactEmail();
 const encoded = email ? btoa([...email].reverse().join("")) : "";
 ---
@@ -18,13 +21,11 @@ const encoded = email ? btoa([...email].reverse().join("")) : "";
 {encoded ? (
   <>
     メール:{" "}
-    <span data-contact-email={encoded} data-link-class={linkClass}>
+    <span data-contact-email={encoded} data-link-class={linkClasses}>
       <noscript>JavaScript を有効にすると表示されます</noscript>
     </span>
   </>
-) : (
-  <span class="text-muted">メール(準備中)</span>
-)}
+) : null}
 
 <script>
   // data-contact-email を元のアドレスに戻して、mailto: のリンクに置き換える

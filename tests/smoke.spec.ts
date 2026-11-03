@@ -40,12 +40,14 @@ test("視差効果を減らす設定ではアニメーションなしで全文�
   await context.close();
 });
 
-test("スクロールすると要素が現れる（アニメーションが動いている）", async ({ page }) => {
+test("最初の画面の見出しが現れ、本文は動きなしで見える", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveClass(/motion-ready/);
+  // 動くのは最初の画面(ヒーロー)だけ。長さは tokens.json の motion.duration-base（0.4 秒）なので、数秒以内に表示しきるはず
+  await expect(page.locator("h1")).toHaveCSS("opacity", "1", { timeout: 5000 });
+  // 本文の章や入部の章は、スクロールで出てくる動きを付けていないので、最初から見えている
   await page.locator("#join").scrollIntoViewIfNeeded();
-  // 動きの長さは tokens.json の motion.duration-base（0.7 秒）なので、数秒以内に表示しきるはず
-  await expect(page.locator("#join-title")).toHaveCSS("opacity", "1", { timeout: 5000 });
+  await expect(page.locator("#join-title")).toHaveCSS("opacity", "1");
 });
 
 test("QR コードの入り口 /q/poster/ は、検索結果に出さず、トップページへ移る", async ({ page }) => {
@@ -66,5 +68,5 @@ test("CMS の編集画面 /admin/ が配信されている", async ({ page }) =>
 
 test("存在しないページは 404 ページを返す", async ({ page }) => {
   await page.goto("/no-such-page/");
-  await expect(page.getByText("このページは、まだ設計されていません。")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "ページが見つかりません" })).toBeVisible();
 });

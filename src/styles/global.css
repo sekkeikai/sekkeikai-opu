@@ -20,13 +20,16 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    line-height: 1.35;
-    letter-spacing: 0.04em;
-    text-wrap: balance;
+    line-height: 1.4;
+    /* 見出しは字間を足さない(太い見出しに字間を足すと、読点の後が大きく空いて間延びして見えるため) */
+    letter-spacing: 0;
+    /* balance にすると、Chromium では文節の区切りを無視して「見落と／さず」のように語の途中で折れるので pretty にする */
+    text-wrap: pretty;
     /* 日本語を文節で改行する（対応ブラウザのみ）。
-       「ヒューマンインターフェース」のような長い語が画面からはみ出すときだけ、語の途中でも改行する */
+       「ヒューマンインターフェース」のような長い語が画面からはみ出すときだけ、語の途中でも改行する
+       (anywhere にすると、文節で収まる見出しまで「見落と／さず」のように語の途中で折れるので break-word にする) */
     word-break: auto-phrase;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   :focus-visible {
@@ -74,12 +77,32 @@
     background-size: 32px 32px;
   }
 
-  /* 図面の注記のような小見出し */
+  /* 見出しの上やカードの上に置く、小さな札(「設計を知る / 工程 1」「目次」など)。
+     大文字・字間を広げた英字の札は、どのサイトにもある飾りに見えるので使わない。普通の大きさの字間で、色を薄くするだけにする */
   .annotation {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  /* 要点(point)。色の付いた箱にせず、本文より少し大きい字と左の細い線だけで区別する */
+  .point {
+    max-width: 38em;
+    margin-block: 2rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.05em;
+    font-weight: 500;
+    line-height: 1.85;
+    color: var(--color-ink);
+  }
+  /* 広い画面では少し大きくする(スマートフォンでは、長い要点が見出しより重く見えないように控えめにする) */
+  @media (min-width: 640px) {
+    .point {
+      font-size: 1.1em;
+    }
   }
 
   .container-page {
@@ -190,8 +213,9 @@
     letter-spacing: 0.02em;
     color: var(--color-ink);
     background: var(--color-paper);
-    border: 1px solid var(--color-ink);
-    box-shadow: 4px 4px 0 var(--color-grid);
+    border: 1px solid var(--color-grid);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.06);
   }
   @media (hover: hover) {
     .term:hover .term-card,
@@ -207,16 +231,17 @@
   }
 
   /* 目次で、いま読んでいる章 */
+  /* 印の色(オレンジ)は、読んでいる位置(この印と、ヘッダーの下の細い線)だけに使う */
   .toc-link[aria-current="true"] {
     color: var(--color-ink);
-    border-color: var(--color-link);
+    border-color: var(--color-accent-strong);
   }
 }
 
 /* GSAP が動く環境でだけ、初期状態を非表示にする（JS 無効・視差低減時は常に表示） */
 .motion-ready [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(8px);
 }
 
 @media print {
