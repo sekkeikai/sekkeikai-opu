@@ -82,7 +82,7 @@ sections:
     id: map
     eyebrow: 何を学ぶ?
     title: 設計には、いくつもの見方が要る
-    point: 5つの工程のどれでも、違う見方を同時に使います。一枚の案内表示を設計するときも同じです。
+    point: 5つの工程のどれでも、違う見方を同時に使います。
     blocks:
       - type: example
         title: 病院の案内表示を設計するなら
