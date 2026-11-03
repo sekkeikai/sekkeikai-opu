@@ -221,7 +221,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
                   <tr class="border-b border-grid">
                     {row.map((cell, i) =>
                       i === 0 ? (
-                        <th scope="row" class="px-3 py-2.5 align-top font-medium">
+                        <th scope="row" class="min-w-[7em] px-3 py-2.5 align-top font-medium [word-break:auto-phrase]">
                           <InlineText text={cell} />
                         </th>
                       ) : (
