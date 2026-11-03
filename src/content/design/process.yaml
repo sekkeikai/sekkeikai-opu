@@ -92,7 +92,7 @@ chapters:
         title: 部室の予約を、5つの工程で進めるなら(架空の例)
         text: まず部員に話を聞き、取り合いの本当の理由を確かめて、「部員が、部室の空き状況を前もって確かめられず、行ってから引き返すことがある」のような一文にまとめる(問題発見)。問題がこの一文なら、「スマートフォンから3操作以内」「重なりは0件」「費用は0円」のように、確かめられる条件にする(要件定義)。アプリ、紙の予約表、共有カレンダーなど、案をいくつも出す(発想)。条件で比べて一つを選ぶ(評価・選定)。最後に、予約の書き方と決まりを仕様書にまとめる(詳細設計)。
       - type: p
-        text: 同じ5つの工程は、[[case-open-campus|イベント]]、[[case-delivery-robot|ロボット]]、[[case-deadline|アプリ]]、[[case-bicycle-parking|設備]]、[[case-shelter-reception|防災]]のような、もっと大きな設計にも使えます。
+        text: 同じ5つの工程は、[[case-open-campus|オープンキャンパスの体験コーナー]]、[[case-delivery-robot|介護施設でお茶を運ぶロボット]]、[[case-deadline|締め切りに遅れない仕組み]]、[[case-bicycle-parking|大学の駐輪場]]、[[case-shelter-reception|避難所の受付]]のような、もっと大きな設計にも使えます。
       - type: link
         label: 工程1「問題を見つける」から読む
         href: /design/problem-finding/
