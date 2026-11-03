@@ -18,7 +18,7 @@ chapters:
         name: design-process
 
   - id: fields
-    heading: 分野が違っても、進め方の骨格は同じ
+    heading: 機械、ソフトウェア、建築、サービスは、どれも問題から細部へ順に進む
     blocks:
       - type: point
         text: 機械、ソフトウェア、建築、サービスでは、進め方の呼び方も区切り方も違います。5つの工程は、どの分野にもある「問題 → 要件 → 案 → 選ぶ → 細部」の並びに付けた名前です。
@@ -59,7 +59,7 @@ chapters:
         note: "[H. A. Simon, The Sciences of the Artificial, MIT Press, 1969(第3版 1996)](https://ndlsearch.ndl.go.jp/books/R100000002-I000006331276)。邦訳[『システムの科学』](https://ndlsearch.ndl.go.jp/books/R100000002-I000002864619)。"
 
   - id: modes
-    heading: 広げては絞る、を二度繰り返す
+    heading: 工程ごとに、考えを広げるか絞るかを切り替える
     blocks:
       - type: point
         text: 問題を見つける工程と案を広げる工程では、評価を後回しにして考えを広げます。要件を定める、比べて選ぶ、形を詰めるの3つの工程では、根拠をもって絞ります。
@@ -103,9 +103,9 @@ chapters:
     heading: 設計会では、今どの工程かを意識して話す
     blocks:
       - type: point
-        text: 部員が持ち寄ったテーマをチームで工程ごとに考え、発表して意見をもらいます。
+        text: 工程ごとに使う手法が違うので、話し合うときは、今どの工程の話をしているかを確かめます。
       - type: p
-        text: 問題を見つける工程ではKJ法でカードを並べ、要件を定める工程ではIDEF0で機能を図にし、比べて選ぶ工程ではピューの概念選定法やAHPで判断の根拠を見えるようにします。アンケートなどのデータは、[[data-analysis#club|ノートブック]]で一緒に分析します。発表では、違う視点の意見をもらいます。
+        text: 部員が持ち寄ったテーマを、チームで工程ごとに考えます。問題を見つける工程ではKJ法でカードを並べ、要件を定める工程ではIDEF0で機能を図にし、比べて選ぶ工程ではピューの概念選定法やAHPで判断の根拠を見えるようにします。アンケートなどのデータは、[[data-analysis#club|ノートブック]]で一緒に分析します。発表では、違う視点の意見をもらいます。
 
 references:
   - text: H. A. Simon, The Sciences of the Artificial, MIT Press, 1969(第3版 1996).

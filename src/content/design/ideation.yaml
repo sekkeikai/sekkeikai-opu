@@ -45,7 +45,7 @@ chapters:
         name: brainstorm-lanes
 
   - id: borrow
-    heading: 手順を逆にする、よその分野から借りる
+    heading: 手順の逆やよその分野の仕組みも、案の出どころになる
     blocks:
       - type: point
         text: 行き詰まったら、当たり前の手順を逆にするか、全く別の分野の仕組みを借りてきます。SCAMPERの「逆にする」と「応用する」に当たる発想です。
