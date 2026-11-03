@@ -78,7 +78,7 @@ const crumb =
         {title}
       </h1>
       <p class="mt-6 font-serif text-xl font-semibold sm:text-2xl">「{question}」</p>
-      <p class="longform mt-6 max-w-[36em] text-ink/85">{lead}</p>
+      <p class="longform mt-6 max-w-[36em] text-ink/80">{lead}</p>
       {layer === "step" && <StepNav current={order} />}
       {layer === "process" && <StepNav />}
     </div>
@@ -181,7 +181,7 @@ const crumb =
           <h2 id="references-title" class="text-2xl font-bold">
             参考文献
           </h2>
-          <ol class="mt-6 space-y-2 text-sm text-ink/85">
+          <ol class="mt-6 space-y-2 text-sm text-ink/80">
             {references.map((r, i) => (
               <li class="grid grid-cols-[2.5rem_1fr]">
                 <span class="font-mono text-muted">[{i + 1}]</span>

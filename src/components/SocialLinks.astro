@@ -24,7 +24,7 @@ const links = (await getSiteLinks()).filter((l) => l.href && (!only || only.incl
           href={l.href}
           class:list={[
             "flex h-9 w-9 items-center justify-center rounded-full",
-            !l.image && "text-ink/75 transition hover:bg-ink hover:text-paper",
+            !l.image && "text-ink/80 transition hover:bg-ink hover:text-paper",
           ]}
           rel={l.external ? "noopener" : undefined}
           target={l.external ? "_blank" : undefined}

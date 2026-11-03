@@ -43,7 +43,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
           </p>
           {block.note && (
             <aside class="sidenote" id={`note-${note}`}>
-              <span class="mr-1 font-mono text-ink/70">注{note}</span>
+              <span class="mr-1 font-mono text-ink/80">注{note}</span>
               <InlineText text={block.note} />
             </aside>
           )}
@@ -68,7 +68,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
             <InlineText text={block.text} />
           </p>
           {block.answer && (
-            <p class="mt-3 text-[0.98em] leading-relaxed text-ink/85">
+            <p class="mt-3 text-[0.98em] leading-relaxed text-ink/80">
               <InlineText text={block.answer} />
             </p>
           )}
@@ -196,9 +196,17 @@ const { blocks, lens, compactFigures = false } = Astro.props;
     case "table":
       return (
         <div class="my-10 font-sans">
+          {/* 表題は横スクロールの枠の外に出す(枠の中だと、スマートフォンで表題まで切れるため)。読み上げ用の caption は表の中に残す */}
+          <p class="mb-3 font-display font-medium" aria-hidden="true">
+            {block.caption}
+          </p>
           <div class="overflow-x-auto">
-            <table class="w-full min-w-[32rem] border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal">
-              <caption class="mb-3 text-left font-display font-medium">{block.caption}</caption>
+            {/* 列が多い表は、スマートフォンで1列が1〜2字ずつ折れないように、列の数に合わせて最小の幅を決める */}
+            <table
+              class="w-full border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal"
+              style={`min-width: ${Math.max(32, block.head.length * 9)}rem`}
+            >
+              <caption class="sr-only">{block.caption}</caption>
               <thead>
                 <tr class="border-b-2 border-ink">
                   {block.head.map((h) => (
@@ -239,7 +247,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
             <li class="rounded-card border border-grid bg-paper p-5">
               {block.ordered && <p class="annotation text-muted">手順 {i + 1}</p>}
               <p class:list={["font-display text-lg font-medium", block.ordered && "mt-1"]}>{item.title}</p>
-              <p class="mt-2 text-[0.95rem] tracking-normal text-ink/85">
+              <p class="mt-2 text-[0.95rem] tracking-normal text-ink/80">
                 <InlineText text={item.body} />
               </p>
             </li>
@@ -260,7 +268,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
                 {item.year}
               </p>
               <p class="font-display text-lg font-medium">{item.title}</p>
-              <p class="mt-1 text-[0.95rem] tracking-normal text-ink/85">
+              <p class="mt-1 text-[0.95rem] tracking-normal text-ink/80">
                 <InlineText text={item.body} />
               </p>
             </li>
@@ -311,9 +319,9 @@ const { blocks, lens, compactFigures = false } = Astro.props;
         <ul class="my-10 max-w-[44em] border-t border-ink/80 font-sans">
           {block.items.map((item) => (
             <li class="grid gap-1 border-b border-grid py-4 leading-snug tracking-normal sm:grid-cols-[12.5rem_minmax(0,1fr)] sm:gap-6">
-              <p class="font-medium text-ink/75 [word-break:auto-phrase]">{item.title}</p>
+              <p class="font-medium text-ink/80 [word-break:auto-phrase]">{item.title}</p>
               <div>
-                <p class="text-[0.95rem] leading-relaxed tracking-normal text-ink/85">{item.body}</p>
+                <p class="text-[0.95rem] leading-relaxed tracking-normal text-ink/80">{item.body}</p>
                 {item.note && <p class="mt-1 text-xs text-muted">{item.note}</p>}
               </div>
             </li>
