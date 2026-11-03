@@ -214,16 +214,20 @@ const crumb =
           <h2 id="related-title" class="text-2xl font-bold">
             あわせて読む
           </h2>
-          <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+          {/* 「設計を知る」の一覧と同じ、細い線で区切った行。同じ大きさの箱を2列に並べると、
+              数が奇数のとき最後の1枚が余るため。題の後ろの「→」で、押せることを示す */}
+          <ul class="mt-6 border-t border-ink/80">
             {related.map((r) => (
-              <li>
-                <a
-                  href={`/design/${r.id}/`}
-                  class="block h-full rounded-card border border-grid p-5 transition-colors hover:border-ink/40"
-                >
-                  <p class="annotation text-muted">{layerLabel(r)}</p>
-                  <p class="mt-1 font-display text-xl font-bold">{r.data.title}</p>
-                  <p class="mt-2 text-sm text-muted">{r.data.summary}</p>
+              <li class="border-b border-grid">
+                <a href={`/design/${r.id}/`} class="group block py-5">
+                  <span class="annotation block text-muted">{layerLabel(r)}</span>
+                  <span class="mt-1 block font-display text-xl font-bold group-hover:text-link">
+                    {r.data.title}{" "}
+                    <span class="text-base font-normal text-muted group-hover:text-link" aria-hidden="true">
+                      →
+                    </span>
+                  </span>
+                  <span class="mt-1 block text-sm leading-relaxed text-ink/80">{r.data.summary}</span>
                 </a>
               </li>
             ))}
