@@ -20,8 +20,9 @@ const posts = (await getCollection("news", ({ data }) => !data.draft))
       <h2 id="news-title" class="text-2xl font-bold">
         {title}
       </h2>
-      <a href="/news/" class="mt-3 inline-block text-sm text-link underline underline-offset-4">
-        一覧へ
+      <!-- 押しやすいように上下に余白を取り(高さ 24px 以上)、行き先が分かる文言にする -->
+      <a href="/news/" class="mt-2 inline-block py-1.5 text-sm text-link underline underline-offset-4">
+        お知らせをすべて見る <span aria-hidden="true">→</span>
       </a>
     </div>
     <div class="lg:col-span-7">

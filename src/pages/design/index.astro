@@ -28,7 +28,8 @@ const topics = await getDesignPages("topic");
     </div>
   </header>
 
-  <!-- 同じ大きさの箱を並べると型どおりの見た目になるので、「設計のプロセス」だけを枠で囲み、ほかは細い線で区切った一覧にする -->
+  <!-- 同じ大きさの箱を並べると型どおりの見た目になるので、「設計のプロセス」だけを枠で囲み、ほかは細い線で区切った一覧にする。
+       一覧の行は行全体がリンク。題の後ろの「→」で、押せることを示す -->
   <div class="container-page space-y-20 py-16 sm:py-20">
     {process && (
       <section aria-labelledby="process-title">
@@ -70,7 +71,12 @@ const topics = await getDesignPages("topic");
             <li class="border-b border-grid">
               <a href={`/design/${l.id}/`} class="group grid gap-1 py-5 sm:grid-cols-[14rem_minmax(0,1fr)] sm:gap-8">
                 <span>
-                  <span class="block font-display text-xl font-bold group-hover:text-link">{l.data.short}</span>
+                  <span class="block font-display text-xl font-bold group-hover:text-link">
+                    {l.data.short}{" "}
+                    <span class="text-base font-normal text-muted group-hover:text-link" aria-hidden="true">
+                      →
+                    </span>
+                  </span>
                   <span class="block text-sm text-muted">{l.data.title}</span>
                 </span>
                 <span class="text-sm leading-relaxed text-ink/80">{l.data.summary}</span>
@@ -102,7 +108,12 @@ const topics = await getDesignPages("topic");
             <li class="border-b border-grid">
               <a href={`/design/${c.id}/`} class="group grid gap-1 py-5 sm:grid-cols-[14rem_minmax(0,1fr)] sm:gap-8">
                 <span>
-                  <span class="block font-display text-xl font-bold group-hover:text-link">{c.data.title}</span>
+                  <span class="block font-display text-xl font-bold group-hover:text-link">
+                    {c.data.title}{" "}
+                    <span class="text-base font-normal text-muted group-hover:text-link" aria-hidden="true">
+                      →
+                    </span>
+                  </span>
                   <span class="block text-sm text-muted">{c.data.short}</span>
                 </span>
                 <span class="text-sm leading-relaxed text-ink/80">{c.data.summary}</span>
@@ -122,7 +133,12 @@ const topics = await getDesignPages("topic");
           {topics.map((t) => (
             <li class="border-b border-grid">
               <a href={`/design/${t.id}/`} class="group grid gap-1 py-5 sm:grid-cols-[14rem_minmax(0,1fr)] sm:gap-8">
-                <span class="block font-display text-xl font-bold group-hover:text-link">{t.data.title}</span>
+                <span class="block font-display text-xl font-bold group-hover:text-link">
+                  {t.data.title}{" "}
+                  <span class="text-base font-normal text-muted group-hover:text-link" aria-hidden="true">
+                    →
+                  </span>
+                </span>
                 <span class="text-sm leading-relaxed text-ink/80">{t.data.summary}</span>
               </a>
             </li>

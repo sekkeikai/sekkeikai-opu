@@ -33,10 +33,11 @@ import InlineText from "../InlineText.astro";
     </div>
   </div>
   {scroll && <p class="annotation mt-2 text-muted sm:hidden">← 図は横にスクロールできます →</p>}
-  {!compact && caption && <p class="mt-3 text-sm text-muted">{caption}</p>}
+  {/* 説明と出典は図の幅いっぱいに広げず、1行を40字前後に抑える(小さい字の長い行は、行の頭に戻るときに迷いやすいため) */}
+  {!compact && caption && <p class="mt-3 max-w-[40em] text-sm text-muted">{caption}</p>}
   {/* 出典は compact(トップページ)でも省かない */}
   {source && (
-    <p class:list={["text-xs text-muted", compact ? "mt-2" : "mt-1"]}>
+    <p class:list={["max-w-[48em] text-xs text-muted", compact ? "mt-2" : "mt-1"]}>
       出典:
       <InlineText text={source} />
     </p>

@@ -92,7 +92,7 @@ const crumb =
       <ol class="space-y-1 px-5 pb-4 text-sm">
         {withIds.map((c) => (
           <li>
-            <a href={`#${c.id}`} class="block py-1 text-ink/80 underline-offset-4 hover:underline">
+            <a href={`#${c.id}`} class="block py-2 text-ink/80 underline-offset-4 hover:underline">
               {c.label && <span class="mr-2 text-xs text-muted">{c.label}</span>}
               {c.heading}
             </a>
@@ -100,7 +100,7 @@ const crumb =
         ))}
         {references.length > 0 && (
           <li>
-            <a href="#references" class="block py-1 text-ink/80 underline-offset-4 hover:underline">
+            <a href="#references" class="block py-2 text-ink/80 underline-offset-4 hover:underline">
               参考文献
             </a>
           </li>
@@ -243,7 +243,7 @@ const crumb =
           </a>
         )}
       </div>
-      <a href="/design/" class="text-center text-sm text-muted underline hover:text-link">
+      <a href="/design/" class="justify-self-center py-2 text-sm text-muted underline hover:text-link">
         設計を知る(一覧)
       </a>
       <div class="sm:text-right">

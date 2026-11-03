@@ -62,11 +62,18 @@ const steps = await getProcessSteps();
       <ol>
         {steps.map((s) => (
           <li class="border-b border-grid last:border-b-0">
-            <a href={s.href} class="group grid grid-cols-[3.5rem_minmax(0,1fr)] gap-2 px-4 py-3">
-              <span class="pt-0.5 font-mono text-xs text-muted">工程 {s.n}</span>
+            {/* 右端の「→」は、行全体が押せることを示す印(マウスを重ねられないスマートフォンや、初めて見る人のため) */}
+            <a
+              href={s.href}
+              class="group grid grid-cols-[3.5rem_minmax(0,1fr)_auto] items-center gap-2 px-4 py-3 transition-colors hover:bg-paper-muted"
+            >
+              <span class="self-start pt-0.5 font-mono text-xs text-muted">工程 {s.n}</span>
               <span>
                 <span class="block font-medium group-hover:text-link">{s.title}</span>
                 <span class="block text-xs leading-relaxed text-muted">「{s.question}」</span>
+              </span>
+              <span class="text-muted group-hover:text-link" aria-hidden="true">
+                →
               </span>
             </a>
           </li>

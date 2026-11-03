@@ -30,7 +30,7 @@ const next = current
             href={s.href}
             aria-current={here ? "page" : undefined}
             class:list={[
-              "group block h-full rounded-md border px-2 py-2 transition-colors sm:px-3",
+              "group block h-full min-h-11 rounded-md border px-2 py-2 transition-colors sm:px-3",
               here ? "border-ink bg-ink text-paper" : "border-grid bg-paper hover:border-ink/40",
             ]}
           >
@@ -53,13 +53,13 @@ const next = current
   </ol>
   {prev && next && (
     <div class="mt-3 flex items-start justify-between gap-4 text-sm">
-      <a href={prev.href} class="underline-offset-4 hover:text-link hover:underline">
+      <a href={prev.href} class="py-2 underline-offset-4 hover:text-link hover:underline">
         <span aria-hidden="true">←</span> {prev.title}
       </a>
       <span class="shrink-0 text-xs text-muted sm:hidden">
         {current} / {steps.length}
       </span>
-      <a href={next.href} class="text-right underline-offset-4 hover:text-link hover:underline">
+      <a href={next.href} class="py-2 text-right underline-offset-4 hover:text-link hover:underline">
         {next.title} <span aria-hidden="true">→</span>
       </a>
     </div>

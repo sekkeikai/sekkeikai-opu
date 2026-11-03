@@ -62,7 +62,7 @@ const contacts = await getSiteLinks();
       {progress && <div class="absolute -bottom-px left-0 h-0.5 w-0 bg-accent" data-progress aria-hidden="true" />}
       <!-- 左にロゴ、中央にメニューと「入部はこちら」、右に Discord と TimeTree。左右の列を同じ幅（1fr）にして、中央の列をいつも真ん中に置く -->
       <div class="container-page grid h-14 grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4">
-        <a href="/" class="flex items-center gap-2 justify-self-start font-display text-lg font-bold">
+        <a href="/" class="flex min-h-11 min-w-11 items-center gap-2 justify-self-start font-display text-lg font-bold">
           <!-- 設計会の印。すぐ横に「設計会」と書いてあるので、読み上げでは飛ばす(alt="") -->
           <img src="/favicon.svg" width="28" height="28" alt="" class="h-7 w-7 shrink-0" />
           <!-- スマホ幅では、中央のメニューと右のアイコンが入るように文字を隠し、印だけにする(読み上げでは読む) -->

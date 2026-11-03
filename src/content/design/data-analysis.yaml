@@ -34,10 +34,10 @@ chapters:
           [A. Wald, "A Method of Estimating Plane Vulnerability Based on Damage of Survivors"](https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability)(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。1980年に再刊)。よく語られる逸話は、実際の研究を単純化したものである。
 
   - id: pictures
-    heading: 図にすると、数字が人に伝わる
+    heading: 表で埋もれた違いを、2枚の図が見せた
     blocks:
       - type: point
-        text: 19世紀のロンドンでコレラの死者を家ごとに記した地図と、クリミア戦争の兵士の死因を月ごとに塗り分けた図は、表では埋もれていた違いを、誰にでも見える形にしました。
+        text: 19世紀のロンドンでコレラの死者を家ごとに記した地図と、クリミア戦争の兵士の死因を月ごとに塗り分けた図は、どちらも既に手元にあった数字から、主張を人に伝えるために描かれました。
       - type: image
         src: /uploads/design/snow-cholera-map.jpg
         alt: ロンドンのソーホー地区の地図。通りに沿って、コレラで亡くなった人の数を表す黒い棒が積み重なり、ブロード・ストリートの井戸のポンプの周りに集中している。
@@ -52,15 +52,12 @@ chapters:
         credit: Florence Nightingale, Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army, 1858(Wikimedia Commons)
         license: パブリックドメイン
         sourceUrl: https://commons.wikimedia.org/wiki/File:Nightingale-mortality.jpg
-      - type: p
-        text: |-
-          どちらの図も、既に手元にあった数字からつくられ、主張を人に伝えるために描かれました。
 
   - id: why
-    heading: 「設計」は統計学の言葉でもある
+    heading: 実験計画法は、データを得る実験そのものを設計する
     blocks:
       - type: point
-        text: 設計の判断の根拠の多くは、過去のデータにあります。統計学には、根拠になるデータを得る実験そのものを「設計」する分野(実験計画法)もあります。
+        text: 過去のデータは、設計の判断の根拠になります。手元にないデータは、偶然による差と本当の差を見分けられるよう、比べ方を前もって決めた実験で集めます。
       - type: p
         text: |-
           今ある製品はどのように使われ、どこで壊れ、どこで人がつまずいたのか。データを見れば、設計する人の思い込みが正しいかを確かめられます。

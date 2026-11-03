@@ -26,7 +26,11 @@ const { courses, inline = false } = Astro.props;
         <p class="text-xs text-muted">{c.dept}</p>
         <p class="mt-0.5 font-bold">
           {c.path ? (
-            <a href={syllabusUrl(c.path)} class="underline-offset-4 hover:text-link hover:underline" rel="noopener">
+            <a
+              href={syllabusUrl(c.path)}
+              class="underline decoration-ink/30 underline-offset-4 hover:text-link hover:decoration-current"
+              rel="noopener"
+            >
               {c.name}
             </a>
           ) : (
