@@ -32,14 +32,14 @@ sections:
       - type: list
         items:
           - スマートフォンも車も家電も、ソフトウェアとネットワークでつながりました。一部だけを見て決めると、全体のどこかで困る人が出ます。
-          - 日本では2024年4月から、障害のある人に求められたときの「合理的配慮」が事業者の義務です([改正障害者差別解消法](https://www8.cao.go.jp/shougai/suishin/sabekai.html))。高齢の人、目や耳が不自由な人、日本語が母語でない人など、使う人の幅をつくる前に考えることになります。
-          - 欧州委員会の冊子は、製品の環境への影響の8割以上が設計の段階で決まると見積もっています([Ecodesign Your Future, 2012](https://build-up.ec.europa.eu/sites/default/files/content/Brochure-Ecodesign-Your-Future-15022012.pdf))。EUでは2024年、設計の段階から環境への配慮を求める規則が発効しました。
+          - 日本では2024年4月から、障害のある人に求められたときの「合理的配慮」が事業者の義務です。高齢の人、目や耳が不自由な人、日本語が母語でない人など、使う人の幅をつくる前に考えることになります。
+          - 欧州委員会の冊子は、製品の環境への影響の8割以上が設計の段階で決まると見積もっています。EUでは2024年、設計の段階から環境への配慮を求める規則が発効しました。
       - type: aside
         title: 仕事の現場で起きていることと、新しい規則
         body:
           - "ソフトウェア開発には、まず「何をつくるか」を仕様書(つくる人に渡す設計の書類)にまとめ、それをAIに渡してプログラムを書かせる進め方があります。「仕様駆動開発」と呼ばれ、そのための道具も公開されています(例: [GitHub「Spec Kit」2025年9月](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/))。この進め方では、プログラムを書く仕事の一部がAIに移り、人は何をつくるかを決めることに時間を使います。"
-          - EUの規則は「[持続可能な製品のためのエコデザイン規則(ESPR)](https://oeil.europarl.europa.eu/oeil/en/document-summary?id=1785880)」です(2024年7月発効)。
-          - 前もって誰でも使えるように整える「環境の整備」は、努力義務にとどまります([令和6年版 障害者白書(概要)](https://www8.cao.go.jp/shougai/whitepaper/r06hakusho/gaiyou/h01.html))。
+          - 8割以上という見積もりは、[欧州委員会の冊子「Ecodesign Your Future」2012年](https://build-up.ec.europa.eu/sites/default/files/content/Brochure-Ecodesign-Your-Future-15022012.pdf)によります。EUの規則は「[持続可能な製品のためのエコデザイン規則(ESPR)](https://oeil.europarl.europa.eu/oeil/en/document-summary?id=1785880)」です(2024年7月発効)。
+          - 合理的配慮の義務は、2024年4月に施行された[改正障害者差別解消法](https://www8.cao.go.jp/shougai/suishin/sabekai.html)によります。前もって誰でも使えるように整える「環境の整備」は、努力義務にとどまります([令和6年版 障害者白書(概要)](https://www8.cao.go.jp/shougai/whitepaper/r06hakusho/gaiyou/h01.html))。
 
   - type: chapter
     id: upstream
