@@ -3,7 +3,7 @@ en: Design Process
 layer: process
 order: 1
 short: 工程で進める
-question: 問題から設計の答えまで、どう進むか
+question: 問題から仕様書まで、どんな工程を通るか
 summary: 問題を見つけ、要件を定め、案を広げ、比べて選び、形を詰める。設計はこの5つの工程を、ときに前へ戻りながら進む。
 lead: 設計では、5つの工程を順に踏み、工程ごとに形のあるものを残して次の工程へ渡します。見落としが分かれば、前の工程へ戻って直します。
 chapters:
@@ -66,10 +66,10 @@ chapters:
       - type: figure
         name: steps-on-double-diamond
       - type: p
-        text: どの工程も、終わりに形のあるものを一つ残し、それが次の工程の出発点になります。問題の一文、要件の表、案の一覧、比較の表と選んだ理由、仕様書です。要件の表は、左のひし形の答えです。右のひし形では、案を比べる基準として使います。
+        text: 5つの工程の終わりには、順に、問題の一文、要件の表、案の一覧、比較の表と選んだ理由、仕様書ができます。要件の表は、左のひし形の答えです。右のひし形では、案を比べる基準として使います。
 
   - id: loop
-    heading: 工程は、行き来しながら確かになる
+    heading: 工程を行き来して進める
     blocks:
       - type: point
         text: 要件の見落としは、案を考える段になって見つかることがあります。そのときは前の工程に戻ります。早く見つけるほど、小さな手間で直せます。
@@ -78,7 +78,7 @@ chapters:
         note: '[H. W. J. Rittel & M. M. Webber, "Dilemmas in a General Theory of Planning", Policy Sciences, 4(2), 1973](https://doi.org/10.1007/BF01405730)。[D. A. Schön, The Reflective Practitioner, 1983](https://ndlsearch.ndl.go.jp/books/R100000136-I1970304959840662912) も、設計する人が状況と「対話」しながら問題の捉え方を組み替えていく姿を描いた。設計への広がりは [R. Buchanan, "Wicked Problems in Design Thinking", Design Issues, 8(2), 1992](https://doi.org/10.2307/1511637) など。'
       - type: p
         text: ソフトウェアでは、小さくつくって使ってもらい、要件そのものを学びながら更新していく進め方(アジャイル開発)が広く使われています。5つの工程を短い周期で何度も回す形です。一方、自動車や医療機器のように安全が重要な分野では、要件から設計、試験までのつながりを漏れなくたどれること(トレーサビリティ)が求められます。
-        note: 見落としを見つけるのが後の工程になるほど、直す手間は大きくなる。NASAの見積もりでは、要件の段階の誤りを運用の段階で直すと、数十倍から千倍以上の手間がかかる([J. M. Stecklein 他, "Error Cost Escalation Through the Project Life Cycle", NASA, 2004](https://ntrs.nasa.gov/citations/20100036670))。
+        note: NASAの見積もりでは、要件の段階の誤りを運用の段階で直すと、数十倍から千倍以上の手間がかかる([J. M. Stecklein 他, "Error Cost Escalation Through the Project Life Cycle", NASA, 2004](https://ntrs.nasa.gov/citations/20100036670))。
       - type: p
         text: 5つの工程の外にも、仕事があります。できたものが要件を満たすかを確かめる検証、建築や福祉用具での法令や安全規格の確認、イベントの当日の運営と振り返りです。設計会では仕様書ができるところまでを扱うので、その先の検証につながるよう、仕様書に「どう確かめるか」まで書きます。
         note: ドイツ技術者協会の指針 [VDI 2221](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-1-entwicklung-technischer-produkte-und-systeme-modell-der-produktentwicklung) は2019年の改訂で、製品開発の中心となる目標・活動・成果を定める形になった。実際の進め方は、会社やプロジェクトに合わせて組み立てるとしている([VDI 2221 Blatt 2](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-2-entwicklung-technischer-produkte-und-systeme-gestaltung-individueller-produktentwicklungsprozesse))。
@@ -87,10 +87,10 @@ chapters:
     heading: 部室の予約なら、アプリの案は工程3まで出さない
     blocks:
       - type: point
-        text: 最初に話を聞いて、取り合いの本当の理由を一文にまとめ、確かめられる条件にします。アプリや紙の予約表といった案は、その後で出します。
+        text: 最初に話を聞いて、取り合いの理由を一文にまとめ、確かめられる条件にします。アプリや紙の予約表といった案は、その後で出します。
       - type: example
         title: 部室の予約を、5つの工程で進めるなら(架空の例)
-        text: まず部員に話を聞き、取り合いの本当の理由を確かめて、「部員が、部室の空き状況を前もって確かめられず、行ってから引き返すことがある」のような一文にまとめる(問題発見)。問題がこの一文なら、「スマートフォンから3操作以内」「重なりは0件」「費用は0円」のように、確かめられる条件にする(要件定義)。アプリ、紙の予約表、共有カレンダーなど、案をいくつも出す(発想)。条件で比べて一つを選ぶ(評価・選定)。最後に、予約の書き方と決まりを仕様書にまとめる(詳細設計)。
+        text: まず部員に話を聞き、取り合いの理由を確かめて、「部員が、部室の空き状況を前もって確かめられず、行ってから引き返すことがある」のような一文にまとめる(問題発見)。問題がこの一文なら、「スマートフォンから3操作以内」「重なりは0件」「費用は0円」のように、確かめられる条件にする(要件定義)。アプリ、紙の予約表、共有カレンダーなど、案をいくつも出す(発想)。条件で比べて一つを選ぶ(評価・選定)。最後に、予約の書き方と決まりを仕様書にまとめる(詳細設計)。
       - type: p
         text: 同じ5つの工程は、[[case-open-campus|オープンキャンパスの体験コーナー]]、[[case-delivery-robot|介護施設でお茶を運ぶロボット]]、[[case-deadline|締め切りに遅れない仕組み]]、[[case-bicycle-parking|大学の駐輪場]]、[[case-shelter-reception|避難所の受付]]のような、もっと大きな設計にも使えます。
       - type: link
@@ -103,7 +103,7 @@ chapters:
       - type: point
         text: 部員が持ち寄ったテーマを、工程ごとにKJ法、IDEF0、ピューの概念選定法などの手法を使って、チームで考えます。
       - type: p
-        text: 問題を見つける工程ではKJ法でカードを並べ、要件を定める工程ではIDEF0で機能を図にし、比べて選ぶ工程ではピューの概念選定法やAHPで判断の根拠を見えるようにします。アンケートなどのデータは、[[data-analysis#club|ノートブック]]で一緒に分析します。考えたことは発表して違う視点の意見をもらい、見落としが分かれば、その工程からやり直します。
+        text: 問題を見つける工程ではKJ法でカードを並べ、要件を定める工程ではIDEF0で機能を図にし、比べて選ぶ工程ではピューの概念選定法やAHPで判断の根拠を見えるようにします。アンケートなどのデータは、[[data-analysis#club|ノートブック]]で一緒に分析します。考えたことは発表して、違う視点の意見をもらいます。
 
 references:
   - text: H. A. Simon, The Sciences of the Artificial, MIT Press, 1969(第3版 1996).
