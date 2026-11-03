@@ -44,7 +44,7 @@ chapters:
         name: door-signifier
 
   - id: why
-    heading: 取り違えの多くは、似た形に並べた設計から生まれる
+    heading: 誤りの多くは、設計から生まれる
     blocks:
       - type: point
         text: 取り違えは、気をつけるよう呼びかけるより、形で区別できるようにするほうが確実に防げます。人がどう使うかは、要件を定める工程から考えます。
