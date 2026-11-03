@@ -29,7 +29,7 @@ chapters:
         name: abstraction-ladder
       - type: p
         text: |-
-          統計学者ジョージ・ボックスは「全てのモデルは間違っている」と書きました。モデルは何かを捨てているので、現実とはどこかで必ず違います。
+          統計学者ジョージ・ボックスは「全てのモデルは間違っている」と書きました。
         note: |-
           [G. E. P. Box, "Science and Statistics", Journal of the American Statistical Association, 71(356), 1976](https://doi.org/10.1080/01621459.1976.10480949)。のちに「しかし、役に立つものもある」と続けた形で広く引用される。
 
