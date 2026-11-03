@@ -60,15 +60,16 @@ const contacts = await getSiteLinks();
     <!-- ヘッダーは白の無地。すりガラス(半透明とぼかし)は、どのサイトにもある飾りなので使わない -->
     <header class="sticky top-0 z-40 border-b border-grid bg-paper">
       {progress && <div class="absolute -bottom-px left-0 h-0.5 w-0 bg-accent" data-progress aria-hidden="true" />}
-      <!-- 左にロゴ、中央にメニューと「入部はこちら」、右に Discord と TimeTree。左右の列を同じ幅（1fr）にして、中央の列をいつも真ん中に置く -->
-      <div class="container-page grid h-14 grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4">
-        <a href="/" class="flex min-h-11 min-w-11 items-center gap-2 justify-self-start font-display text-lg font-bold">
+      <!-- 左にロゴ、右にメニュー・Discord と TimeTree・「入部はこちら」をまとめて置く。
+           アイコンだけを右端に離して置くと、何のための印かが分かりにくく、浮いて見えるため -->
+      <div class="container-page flex h-14 items-center justify-between gap-2 sm:gap-4">
+        <a href="/" class="flex min-h-11 min-w-11 items-center gap-2 font-display text-lg font-bold">
           <!-- 設計会の印。すぐ横に「設計会」と書いてあるので、読み上げでは飛ばす(alt="") -->
           <img src="/favicon.svg" width="28" height="28" alt="" class="h-7 w-7 shrink-0" />
-          <!-- スマホ幅では、中央のメニューと右のアイコンが入るように文字を隠し、印だけにする(読み上げでは読む) -->
+          <!-- スマホ幅では、右のメニューとボタンが入るように文字を隠し、印だけにする(読み上げでは読む) -->
           <span class="sr-only sm:not-sr-only">設計会</span>
         </a>
-        <div class="flex items-center gap-2 sm:gap-6">
+        <div class="flex items-center gap-2 sm:gap-5">
           <nav aria-label="メインメニュー">
             <ul class="flex gap-4 text-sm sm:gap-6">
               {nav.map((item) => (
@@ -80,11 +81,11 @@ const contacts = await getSiteLinks();
               ))}
             </ul>
           </nav>
+          <!-- とても狭い画面(幅 360px 未満)では隠す。フッターにも同じリンクがある -->
+          <div class="max-[359px]:hidden">
+            <SocialLinks only={["Discord", "TimeTree"]} />
+          </div>
           <JoinButton size="sm" arrow={false} />
-        </div>
-        <!-- とても狭い画面(幅 360px 未満)では隠す。フッターにも同じリンクがある -->
-        <div class="justify-self-end max-[359px]:hidden">
-          <SocialLinks only={["Discord", "TimeTree"]} />
         </div>
       </div>
     </header>

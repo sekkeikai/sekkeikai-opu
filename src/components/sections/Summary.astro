@@ -28,9 +28,10 @@ const { title, lead, chapters } = Astro.props;
       {title}
     </h2>
     {lead && <p class="mt-3 max-w-2xl text-muted">{lead}</p>}
-    <ol class="mt-8 grid gap-x-10 gap-y-6 md:grid-cols-2">
+    <!-- 2列の格子にすると機能紹介の型に見えるので、番号付きの1列の目次にする(上から順に読む話の筋なので) -->
+    <ol class="mt-8 max-w-[46em] border-t border-grid">
       {chapters.map((c) => (
-        <li class="grid grid-cols-[2.25rem_1fr] gap-2">
+        <li class="grid grid-cols-[2.25rem_1fr] gap-2 border-b border-grid py-4">
           <span class="pt-0.5 font-mono text-sm text-muted tabular-nums">{c.number}</span>
           <div>
             <a

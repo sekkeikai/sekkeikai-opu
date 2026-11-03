@@ -4,8 +4,8 @@
 // 色の付いた箱・丸い印・飾りの線を重ねると、どのサイトにもある見た目になるので、字の大きさ・太さと細い線だけで分ける:
 //   要点(point)  … 本文より少し大きいゴシックと、左の黒い細線(global.css の .point)。ここだけ拾っても話の筋が通る
 //   問いかけ       … 「問い」の札とゴシックの問い。答えは隠さずにすぐ下に出す
-//   例             … 灰色の箱。実際にあった例(kind: real)は実線の枠と「実際にあった例」の札、
-//                    説明のための場面(kind: scene)は点線の枠と「例えば」の札
+//   例             … 灰色の箱。実際にあった例(kind: real)は「実際にあった例」の札、
+//                    説明のための場面(kind: scene)は「例えば」の札で見分ける
 //   短い補足・出典 … 段落の note。本文の右(スマホでは段落の下)
 //   長い補足・事例 … 折りたたみ(aside)
 // 注と図の番号は src/lib/blocks.ts の numberChapters で付けたものを使う。
@@ -86,7 +86,8 @@ const { blocks, lens, compactFigures = false } = Astro.props;
           class:list={[
             "my-8 max-w-[38em] rounded-card border bg-paper-muted p-5 font-sans sm:p-6",
             // 実際にあった例は実線、説明のための場面は点線の枠にして、ひと目で見分けられるようにする
-            block.kind === "real" ? "border-grid" : "border-dashed border-muted/40",
+            // 実際にあった例と説明のための場面は、札(「実際にあった例」「例えば」)で見分ける。点線の枠は下書きの線に見えるので使わない
+            "border-grid",
           ]}
         >
           <p class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
@@ -108,7 +109,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "aside":
       return (
-        <details class="group my-8 max-w-[38em] rounded-card border border-dashed border-muted/40 font-sans">
+        <details class="group my-8 max-w-[38em] rounded-card border border-grid font-sans">
           <summary class="flex cursor-pointer list-none items-center gap-3 px-5 py-3 text-sm">
             <span class="font-mono text-base text-muted transition-transform group-open:rotate-45" aria-hidden="true">
               +
@@ -317,11 +318,8 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       return (
         <div class="my-8 font-sans">
           {block.label && <p class="annotation mb-3 text-muted">{block.label}</p>}
-          <ul class="flex flex-wrap gap-2">
-            {block.items.map((tag) => (
-              <li class="rounded-control border border-grid bg-paper px-3 py-1 text-sm">{tag}</li>
-            ))}
-          </ul>
+          {/* 丸い札を並べると、選べるボタンのように見えて押したくなるので、読点で区切った1行の文にする */}
+          <p class="max-w-[38em] text-[0.95rem] leading-relaxed text-ink/80">{block.items.join("、")}</p>
         </div>
       );
 
