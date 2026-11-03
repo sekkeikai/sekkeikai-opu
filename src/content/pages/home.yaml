@@ -109,7 +109,7 @@ sections:
     id: place
     eyebrow: 設計会では何をするの?
     title: 好きなことの発表から、設計のテーマが生まれる
-    point: 発信の場で出たテーマを、対話の場で話し合ってから、設計の場でチームで設計します。
+    point: テーマが決まったら、チームで仕様書ができるまで設計します。
     blocks:
       - type: cards
         items:
