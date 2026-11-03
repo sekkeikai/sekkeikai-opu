@@ -114,7 +114,10 @@ const crumb =
         <ol class="space-y-1 text-sm">
           {withIds.map((c) => (
             <li>
-              <a href={`#${c.id}`} class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
+              <a
+                href={`#${c.id}`}
+                class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted [word-break:auto-phrase] hover:text-ink"
+              >
                 {c.label && <span class="block text-[0.7rem]">{c.label}</span>}
                 {c.heading}
               </a>
@@ -122,7 +125,10 @@ const crumb =
           ))}
           {references.length > 0 && (
             <li>
-              <a href="#references" class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
+              <a
+                href="#references"
+                class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted [word-break:auto-phrase] hover:text-ink"
+              >
                 参考文献
               </a>
             </li>

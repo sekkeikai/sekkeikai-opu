@@ -30,7 +30,10 @@ const numbered = numberChapters(Astro.props.chapters);
       <ol class="space-y-1 text-sm">
         {numbered.map((c) => (
           <li>
-            <a href={`#${c.id}`} class="toc-link block border-l-2 border-grid py-1.5 pl-3 text-muted hover:text-ink">
+            <a
+              href={`#${c.id}`}
+              class="toc-link block border-l-2 border-grid py-1.5 pl-3 text-muted [word-break:auto-phrase] hover:text-ink"
+            >
               <span class="block font-mono text-[0.7rem] tabular-nums">{c.number}</span>
               {c.title}
             </a>
