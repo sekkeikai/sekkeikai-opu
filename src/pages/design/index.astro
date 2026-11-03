@@ -52,7 +52,12 @@ const topics = await getDesignPages("topic");
                 <p class="annotation text-muted">
                   工程 {s.n} / {s.sub}
                 </p>
-                <p class="mt-1 font-display text-lg font-bold group-hover:text-link">{s.title}</p>
+                <p class="mt-1 font-display text-lg font-bold group-hover:text-link">
+                  {s.title}{" "}
+                  <span class="text-base font-normal text-muted group-hover:text-link" aria-hidden="true">
+                    →
+                  </span>
+                </p>
                 <p class="mt-1 text-sm text-ink/80">「{s.question}」</p>
               </a>
             </li>
