@@ -30,22 +30,47 @@ chapters:
     heading: 設計を「方法」にした人たち
     blocks:
       - type: point
-        text: 設計の方法を研究する動きと前後して、手法が次々に生まれました。多くは1950年代から1990年代のもので、日本で生まれた手法や理論(KJ法、品質機能展開、狩野モデル、一般設計学)もいくつもあります。
+        text: 図面や模型で確かめる方法は古くからあります。設計の方法を研究する動きと前後して、新しい手法が次々に生まれました。多くは1950年代から1990年代のもので、日本で生まれた手法や理論(KJ法、品質機能展開、狩野モデル、一般設計学)もいくつもあります。
       - type: figure
         name: methods-timeline
       - type: heading
-        text: 1970年代までに生まれた手法
+        text: 1940年代までの図面と模型の方法
       - type: timeline
         items:
           - year: 紀元前1世紀
             title: 強・用・美
             body: ウィトルウィウスが、建築が備えるべき条件として丈夫さ、使いやすさ、美しさを挙げる。
+          - year: 紀元前1世紀
+            title: 平面図・立面図・透視図
+            body: ウィトルウィウスが『建築について』で、建築家が描くべき図として平面図、立面図、透視図を挙げる。
+          - year: "1638"
+            title: ガリレオ『新科学対話』
+            body: 梁の強さや、形が相似でも大きさが変わると強さの割合が変わることを論じる。
+          - year: 1790年代
+            title: 画法幾何学
+            body: ガスパール・モンジュが、立体を平面に正確に描き表す方法を体系化する。のちの製図法の基礎になる。
+          - year: 1870年代
+            title: 船の模型実験
+            body: ウィリアム・フルードが水槽で船の模型を引き、実物の抵抗を予測する相似則を確立する。
+          - year: "1901"
+            title: ライト兄弟の風洞
+            body: 自作の風洞で200種類ほどの翼の模型を試験し、2年後の初飛行につなげる。
+      - type: heading
+        text: 1950年代から1970年代に生まれた手法
+      - type: timeline
+        items:
           - year: "1953"
             title: ブレインストーミング
             body: アレックス・オズボーンが著書『Applied Imagination』で、良し悪しの判断を後回しにして数多くの案を出す、発想会議の方法を広める。
+          - year: "1956"
+            title: 有限要素法
+            body: ターナーやクラフらが、ボーイング社での研究を基に、航空機の構造を解析する方法を発表。1960年にクラフが「有限要素」と名付ける。
           - year: "1962"
             title: 設計方法会議
             body: ロンドンで、設計の進め方そのものを論じる会議が開かれる。設計の方法の研究の出発点とされる。
+          - year: "1963"
+            title: Sketchpad
+            body: アイバン・サザランドが、コンピューターの画面上で図形を直接描いて操作するシステムをつくる。技術図面を画面で直接描けるようにした、最初期のシステム。
           - year: "1964"
             title: 『形の合成に関するノート』
             body: 建築家クリストファー・アレグザンダーが、設計の問題を要素に分けて形を導く方法を論じる。
@@ -101,6 +126,9 @@ chapters:
           - year: "1995"
             title: セットベース設計
             body: トヨタの開発の研究から、いくつもの案を並行して残し、少しずつ絞り込む進め方が注目される。
+          - year: "1997"
+            title: UML
+            body: ソフトウェアの設計を描く共通の言語が標準になる。
           - year: "1999"
             title: ISO 13407
             body: 使う人を中心に置いた設計(人間中心設計)の進め方が、国際規格になる。2010年からはISO 9241-210に引き継がれる。
@@ -113,8 +141,12 @@ references:
     url: https://www.gutenberg.org/ebooks/20239
   - text: A. F. Osborn, Applied Imagination, Charles Scribner's Sons, 1953.
     url: https://ci.nii.ac.jp/ncid/BA69218505
+  - text: M. J. Turner, R. W. Clough, H. C. Martin, L. J. Topp, "Stiffness and Deflection Analysis of Complex Structures", Journal of the Aeronautical Sciences, 23(9), 1956.
+    url: https://doi.org/10.2514/8.3664
   - text: J. C. Jones & D. G. Thornley (eds.), Conference on Design Methods, Pergamon Press, 1963.
     url: https://dl.designresearchsociety.org/design_methods_conference_1962/
+  - text: 'I. E. Sutherland, "Sketchpad: A Man-Machine Graphical Communication System", MIT, 1963(ケンブリッジ大学による2003年の電子版).'
+    url: https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-574.pdf
   - text: C. Alexander, Notes on the Synthesis of Form, Harvard University Press, 1964(ペーパーバック版の序文, 1971).
     url: https://www.hup.harvard.edu/books/9780674627512
   - text: N. Cross, "Remembering Christopher Alexander", Design Research Society, 2022(1971年のインタビューについて).
@@ -155,6 +187,8 @@ references:
     url: https://doi.org/10.2307/1511637
   - text: A. Ward, J. K. Liker, J. J. Cristiano, D. K. Sobek II, "The Second Toyota Paradox", Sloan Management Review, 36(3), 1995.
     url: https://sloanreview.mit.edu/article/the-second-toyota-paradox-how-delaying-decisions-can-make-better-cars-faster/
+  - text: Object Management Group, Unified Modeling Language (UML) 1.1, 1997.
+    url: https://www.omg.org/spec/UML/1.1/
   - text: ISO 13407:1999 Human-centred design processes for interactive systems(ISO 9241-210:2010 に置き換え).
     url: https://www.iso.org/standard/21197.html
   - text: Design Council (UK), "History of the Double Diamond".
