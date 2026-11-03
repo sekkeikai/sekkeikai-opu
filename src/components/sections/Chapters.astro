@@ -6,6 +6,7 @@ import type { Block } from "../../content.config";
 import { numberChapters } from "../../lib/blocks";
 import Blocks from "../Blocks.astro";
 import JoinButton from "../JoinButton.astro";
+import BreakAtComma from "../BreakAtComma.astro";
 
 interface Chapter {
   id: string;
@@ -57,7 +58,7 @@ const numbered = numberChapters(Astro.props.chapters);
           <span>{c.eyebrow}</span>
         </p>
         <h2 id={`${c.id}-title`} class="mt-3 max-w-[18em] text-[1.75rem] leading-snug font-bold sm:text-4xl">
-          {c.title}
+          <BreakAtComma text={c.title} />
         </h2>
         <div class="longform mt-6">
           <p class="point">{c.point}</p>

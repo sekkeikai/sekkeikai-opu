@@ -1,0 +1,15 @@
+---
+// 見出しを「、」の後ろで折れやすくする。
+// 「、」で区切った一つずつを inline-block にすると、行に収まらないときは区切りの所で先に折れ、
+// 「つくる手間は減り、決める／難しさが残った」のような読みにくい折れ方が減る
+interface Props {
+  text: string;
+}
+
+const parts = Astro.props.text.split(/(?<=、)/);
+// 長い区切りを inline-block にすると、その中では文節を無視して「方／向」のように折れることがあるので、
+// スマートフォンの1行に収まる短い区切り(11字まで)だけをまとめ、長い区切りは普通の文節の折り返しに任せる
+const SHORT = 11;
+---
+
+{parts.map((part) => (part.length <= SHORT ? <span class="inline-block">{part}</span> : part))}

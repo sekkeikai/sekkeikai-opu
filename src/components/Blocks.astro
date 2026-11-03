@@ -11,6 +11,7 @@
 // 注と図の番号は src/lib/blocks.ts の numberChapters で付けたものを使う。
 import type { NumberedBlock } from "../lib/blocks";
 import InlineText from "./InlineText.astro";
+import BreakAtComma from "./BreakAtComma.astro";
 import Figure from "./Figure.astro";
 import DesignMatrix from "./DesignMatrix.astro";
 import PerStep from "./PerStep.astro";
@@ -51,7 +52,11 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       );
 
     case "heading":
-      return <h3 class="mt-14 mb-4 max-w-[36em] font-display text-xl leading-snug font-bold">{block.text}</h3>;
+      return (
+        <h3 class="mt-14 mb-4 max-w-[36em] font-display text-xl leading-snug font-bold">
+          <BreakAtComma text={block.text} />
+        </h3>
+      );
 
     case "point":
       return (

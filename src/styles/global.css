@@ -93,10 +93,16 @@
     padding-left: 1.25rem;
     border-left: 2px solid var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 1.1em;
+    font-size: 1.05em;
     font-weight: 500;
     line-height: 1.85;
     color: var(--color-ink);
+  }
+  /* 広い画面では少し大きくする(スマートフォンでは、長い要点が見出しより重く見えないように控えめにする) */
+  @media (min-width: 640px) {
+    .point {
+      font-size: 1.1em;
+    }
   }
 
   .container-page {

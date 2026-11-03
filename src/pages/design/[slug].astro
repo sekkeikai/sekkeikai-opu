@@ -8,6 +8,7 @@ import type { CollectionEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Blocks from "../../components/Blocks.astro";
 import StepNav from "../../components/StepNav.astro";
+import BreakAtComma from "../../components/BreakAtComma.astro";
 import Courses from "../../components/Courses.astro";
 import { numberChapters } from "../../lib/blocks";
 import { getProcessSteps, layerLabel } from "../../lib/design";
@@ -162,7 +163,7 @@ const crumb =
               </p>
             )}
             <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl">
-              {chapter.heading}
+              <BreakAtComma text={chapter.heading} />
             </h2>
             <Blocks blocks={chapter.numbered} lens={{ short, perStep }} />
           </section>

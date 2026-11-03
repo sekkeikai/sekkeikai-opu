@@ -1,6 +1,7 @@
 ---
 // 拾い読み用のまとめ。後ろに続く章の「見出し」と「要点」を並べる(中身は home.yaml の各章から自動でつくる)。
-// 多くの人はページの最初の二画面ほどしか読まないので、ここだけで話の筋が分かるようにしておく。
+// 多くの人はページの最初の二画面ほどしか読まないので、ここだけで話の筋が分かるようにしておく(題は太字にして、拾い読みで目に留まるようにする)。
+import BreakAtComma from "../BreakAtComma.astro";
 interface Chapter {
   id: string;
   number: string;
@@ -32,11 +33,8 @@ const { title, lead, chapters } = Astro.props;
         <li class="grid grid-cols-[2.25rem_1fr] gap-2">
           <span class="pt-0.5 font-mono text-sm text-muted tabular-nums">{c.number}</span>
           <div>
-            <a
-              href={`#${c.id}`}
-              class="font-display text-lg leading-snug font-medium transition-colors hover:text-link"
-            >
-              {c.title}
+            <a href={`#${c.id}`} class="font-display text-lg leading-snug font-bold transition-colors hover:text-link">
+              <BreakAtComma text={c.title} />
             </a>
             <p class="mt-1 text-[0.95rem] leading-relaxed text-ink/80">{c.point}</p>
           </div>
