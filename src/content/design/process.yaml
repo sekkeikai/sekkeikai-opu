@@ -72,7 +72,7 @@ chapters:
     heading: 工程は、行き来しながら確かになる
     blocks:
       - type: point
-        text: 要件の見落としは、案を考える段になって見つかることが多くあります。そのときは前の工程に戻ります。早く見つけるほど、小さな手間で直せます。
+        text: 要件の見落としは、案を考える段になって見つかることがあります。そのときは前の工程に戻ります。早く見つけるほど、小さな手間で直せます。
       - type: p
         text: 1973年、リッテルとウェバーは、社会の計画が扱う問題の多くは、問題をどう定義するかに解き方が含まれてしまう「厄介な問題(wicked problem)」だと指摘しました。後に、設計の問題の多くにも当てはまると考えられるようになりました。こうした問題では、問題と答えが、行き来しながら一緒に確かになっていきます。
         note: '[H. W. J. Rittel & M. M. Webber, "Dilemmas in a General Theory of Planning", Policy Sciences, 4(2), 1973](https://doi.org/10.1007/BF01405730)。[D. A. Schön, The Reflective Practitioner, 1983](https://ndlsearch.ndl.go.jp/books/R100000136-I1970304959840662912) も、設計する人が状況と「対話」しながら問題の捉え方を組み替えていく姿を描いた。設計への広がりは [R. Buchanan, "Wicked Problems in Design Thinking", Design Issues, 8(2), 1992](https://doi.org/10.2307/1511637) など。'
@@ -92,7 +92,7 @@ chapters:
         title: 部室の予約を、5つの工程で進めるなら(架空の例)
         text: まず部員に話を聞き、取り合いの本当の理由を確かめて、「部員が、部室の空き状況を前もって確かめられず、行ってから引き返すことがある」のような一文にまとめる(問題発見)。問題がこの一文なら、「スマートフォンから3操作以内」「重なりは0件」「費用は0円」のように、確かめられる条件にする(要件定義)。アプリ、紙の予約表、共有カレンダーなど、案をいくつも出す(発想)。条件で比べて一つを選ぶ(評価・選定)。最後に、予約の書き方と決まりを仕様書にまとめる(詳細設計)。
       - type: p
-        text: もっと大きな例は、設計の流れの例のページにあります。[[case-open-campus|イベント]]、[[case-delivery-robot|ロボット]]、[[case-deadline|アプリ]]、[[case-bicycle-parking|設備]]、[[case-shelter-reception|防災]]の5つです。
+        text: 同じ5つの工程は、[[case-open-campus|イベント]]、[[case-delivery-robot|ロボット]]、[[case-deadline|アプリ]]、[[case-bicycle-parking|設備]]、[[case-shelter-reception|防災]]のような、もっと大きな設計にも使えます。
       - type: link
         label: 工程1「問題を見つける」から読む
         href: /design/problem-finding/

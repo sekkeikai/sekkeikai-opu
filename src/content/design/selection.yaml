@@ -45,7 +45,7 @@ chapters:
       - type: point
         text: 評価の基準と重みは、要件から決めます。案を見てから決めると、先に見た案や気に入った案に、判断が引っ張られやすくなります。
       - type: p
-        text: 人の判断は、最初に示された数字に引きずられやすいことが知られています(アンカリング)。基準や重みを案の後で決めると、同じように、先に見た案の印象に引っ張られる恐れがあります。比べるときは数値にすると、どこで意見が分かれているのかが見えて、話し合いが具体的になります。点数は判断を助ける道具で、最後は人が判断します。
+        text: 人の判断は、最初に示された数字に引きずられやすいことが知られています(アンカリング)。先に見た案も、この最初の数字と同じように働く恐れがあります。比べるときは数値にすると、どこで意見が分かれているのかが見えて、話し合いが具体的になります。
         note: '[T. L. Saaty, The Analytic Hierarchy Process, McGraw-Hill, 1980](https://ci.nii.ac.jp/ncid/BA00342336)。[S. Pugh, Total Design, Addison-Wesley, 1991](https://ci.nii.ac.jp/ncid/BA18272194)。[A. Tversky & D. Kahneman, Science, 185(4157), 1974](https://doi.org/10.1126/science.185.4157.1124)。'
       - type: steps
         ordered: false
