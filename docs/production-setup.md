@@ -143,7 +143,7 @@ Cloudflare → 中継用 Worker → Settings → Variables and Secrets に追加
 ## 4. 仕上げ（独自ドメインなど）
 
 - **独自ドメイン**: 大学のサブドメインを使うなら情報センターに相談。自分たちで取るならサークル名義で取得し、Cloudflare の Worker → Settings → Domains & Routes で追加。取得したら `astro.config.mjs` の `site` と、Web Analytics にそのドメインのサイトも足す。**`workers.dev` の URL は無効にしない**（ポスターの QR コードがこの URL を指しているため）
-- **入部フォーム**: 編集画面の「サイトの設定 → 入部フォーム・連絡先とリンク」で Microsoft Forms の URL を入れる
+- **入部フォーム**: 編集画面の「サイトの設定 → 入部フォーム・連絡先とリンク」で Microsoft Forms の URL を入れる。フォームで集めるのは連絡に必要な最小限（名前・連絡先・学年など）にし、学籍番号は集めない。フォームの冒頭に、目的・見る人（役員だけ）・消す時期を書く
 - **Figma 連携**: [figma.md](figma.md)
 
 ## 5. アクセス解析とポスターの QR コード
