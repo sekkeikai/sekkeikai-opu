@@ -41,6 +41,8 @@ export const figureNames = [
   "methods-timeline",
   "steam-engine",
   "monte-carlo",
+  "pie-vs-bar",
+  "axis-truncation",
 ] as const;
 
 export type FigureName = (typeof figureNames)[number];
