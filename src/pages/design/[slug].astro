@@ -2,22 +2,21 @@
 // 「設計を知る」のページ(/design/〇〇/)。中身は src/content/design/〇〇.yaml。
 // 階層(layer)を見出しの上に出し、「設計のプロセス」「工程」「どの工程にも通じる視点」の関係が分かるようにする。
 // 工程のページには、5 つの工程を並べた帯(StepNav)を出し、他の工程へすぐ移れるようにする。
+// 分野のページ(YAML に parent を書いたページ)では、見出しの上に親のページへのリンクを出す。
+// 親のページの終わりには、そこから広がる分野のページを並べる。
 // 広い画面では左に目次、本文の右に注を出す。
-import { getCollection, getEntries } from "astro:content";
+import { getEntry, getEntries } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Blocks from "../../components/Blocks.astro";
 import StepNav from "../../components/StepNav.astro";
 import Courses from "../../components/Courses.astro";
 import { numberChapters } from "../../lib/blocks";
-import { getProcessSteps, layerLabel } from "../../lib/design";
+import { getFieldPages, getPagesInReadingOrder, getProcessSteps, layerLabel } from "../../lib/design";
 
 export async function getStaticPaths() {
-  // プロセス → 工程 → 視点 → 事例 → テーマの順に、同じ階層の中は order の順に並べる(前後のページへのリンクに使う)
-  const rank = { process: 0, step: 1, lens: 2, case: 3, topic: 4 } as const;
-  const pages = (await getCollection("design")).sort((a, b) =>
-    a.data.layer === b.data.layer ? a.data.order - b.data.order : rank[a.data.layer] - rank[b.data.layer],
-  );
+  // 読む順に並べる(前後のページへのリンクに使う)。並べ方は src/lib/design.ts
+  const pages = await getPagesInReadingOrder();
   return pages.map((page, i) => ({
     params: { slug: page.id },
     props: { page, prev: pages[i - 1], next: pages[i + 1] },
@@ -35,6 +34,9 @@ const { title, en, layer, order, short, stepName, question, summary, lead, chapt
   page.data;
 const related = await getEntries(page.data.related);
 const steps = await getProcessSteps();
+// 分野のページなら、その親のページ。親のページなら、そこから広がる分野のページ
+const parent = page.data.parent ? await getEntry(page.data.parent) : undefined;
+const fields = await getFieldPages(page.id);
 
 // 目次とリンクの行き先になる章の id。YAML に id があればそれを、無ければ ch-1, ch-2… を使う。
 // 事例のページで step(工程の番号)を書いた章には、「工程 N — 〇〇」のラベルと工程のページへのリンクを付ける
@@ -44,8 +46,9 @@ const withIds = numberChapters(chapters).map((c, i) => {
   const label = c.label ?? (step ? `工程 ${step.n} — ${step.sub}` : undefined);
   return { ...c, id: c.id ?? `ch-${i + 1}`, label, stepHref: step?.href };
 });
-const crumb =
-  layer === "process"
+const crumb = parent
+  ? "分野"
+  : layer === "process"
     ? "設計のプロセス"
     : layer === "step"
       ? `工程 ${order}`
@@ -63,7 +66,16 @@ const crumb =
         <a href="/design/" class="underline hover:text-link">
           設計を知る
         </a>{" "}
-        / {crumb}
+        /{" "}
+        {parent && (
+          <>
+            <a href={`/design/${parent.id}/`} class="underline hover:text-link">
+              {parent.data.title}
+            </a>{" "}
+            /{" "}
+          </>
+        )}
+        {crumb}
       </p>
       <p class="annotation mt-8 text-link">
         {en}
@@ -92,6 +104,13 @@ const crumb =
             </a>
           </li>
         ))}
+        {fields.length > 0 && (
+          <li>
+            <a href="#fields" class="block py-1 text-ink/80 underline-offset-4 hover:underline">
+              ここから広がる分野
+            </a>
+          </li>
+        )}
         {references.length > 0 && (
           <li>
             <a href="#references" class="block py-1 text-ink/80 underline-offset-4 hover:underline">
@@ -114,6 +133,13 @@ const crumb =
               </a>
             </li>
           ))}
+          {fields.length > 0 && (
+            <li>
+              <a href="#fields" class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
+                ここから広がる分野
+              </a>
+            </li>
+          )}
           {references.length > 0 && (
             <li>
               <a href="#references" class="toc-link block border-l-2 border-grid py-1 pl-3 text-muted hover:text-ink">
@@ -122,8 +148,16 @@ const crumb =
             </li>
           )}
         </ol>
+        {parent && (
+          <a href={`/design/${parent.id}/`} class="mt-8 block text-xs text-muted underline hover:text-link">
+            ← {parent.data.title}
+          </a>
+        )}
         {layer !== "process" && (
-          <a href="/design/process/" class="mt-8 block text-xs text-muted underline hover:text-link">
+          <a
+            href="/design/process/"
+            class:list={["block text-xs text-muted underline hover:text-link", parent ? "mt-2" : "mt-8"]}
+          >
             ← 設計のプロセスの全体
           </a>
         )}
@@ -163,6 +197,34 @@ const crumb =
           </section>
         ))}
       </div>
+
+      {/* このページから広がる分野のページ(本文を読み終えたところに置く) */}
+      {fields.length > 0 && (
+        <section
+          id="fields"
+          class="mt-20 scroll-mt-20 border-t border-grid pt-10"
+          aria-labelledby="fields-title"
+          data-toc-section
+        >
+          <h2 id="fields-title" class="text-2xl font-bold">
+            ここから広がる分野
+          </h2>
+          <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+            {fields.map((f) => (
+              <li>
+                <a
+                  href={`/design/${f.id}/`}
+                  class="group block h-full rounded-card border border-grid p-5 transition hover:border-link"
+                >
+                  <p class="annotation text-link">{f.data.en}</p>
+                  <p class="mt-1 font-display text-xl font-bold group-hover:text-link">{f.data.title}</p>
+                  <p class="mt-2 text-sm text-muted">{f.data.summary}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {courses.length > 0 && <Courses courses={courses} />}
 

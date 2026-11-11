@@ -2,16 +2,19 @@
 // 「設計を知る」の入口(/design/)。階層が分かるように、次の順に並べる:
 //   流れ(プロセスの全体 → 5 つの工程)→ 視点 → 工程 × 視点の地図 → その他のテーマ → 例(事例のページ。理論を読み終えたあとに置く)
 // どの一覧も src/content/design/ のページ(YAML)からつくるので、ページを足せば自動で増える。
+// 分野のページ(YAML に parent を書いたページ)は、親のページのカードの下にリンクで並べる(src/components/FieldLinks.astro)。
 // 地図(工程 × 視点の表)は、工程のページと各視点の perStep からつくる(src/components/DesignMatrix.astro)。
 import Base from "../../layouts/Base.astro";
 import DesignMatrix from "../../components/DesignMatrix.astro";
-import { getDesignPages, getProcessSteps } from "../../lib/design";
+import FieldLinks from "../../components/FieldLinks.astro";
+import { getDesignPages, getProcessSteps, isFieldPage } from "../../lib/design";
 
 const [process] = await getDesignPages("process");
 const steps = await getProcessSteps();
 const cases = await getDesignPages("case");
 const lenses = await getDesignPages("lens");
-const topics = await getDesignPages("topic");
+// 分野のページは親のカードの下に出すので、「その他のテーマ」からは除く
+const topics = (await getDesignPages("topic")).filter((t) => !isFieldPage(t));
 ---
 
 <Base
@@ -44,12 +47,13 @@ const topics = await getDesignPages("topic");
             全体を読む <span aria-hidden="true">→</span>
           </p>
         </a>
+        <FieldLinks parent={process.id} />
         <ol class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {steps.map((s) => (
-            <li>
+            <li class="flex flex-col">
               <a
                 href={s.href}
-                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-5 transition hover:border-link"
+                class="group flex flex-1 flex-col rounded-card border border-grid bg-paper p-5 transition hover:border-link"
               >
                 <p class="annotation text-accent-strong">
                   工程 {s.n} / {s.sub}
@@ -57,6 +61,7 @@ const topics = await getDesignPages("topic");
                 <p class="mt-1 font-display text-xl font-bold group-hover:text-link">{s.title}</p>
                 <p class="mt-2 text-sm text-ink/80">「{s.question}」</p>
               </a>
+              <FieldLinks parent={s.id} />
             </li>
           ))}
         </ol>
@@ -71,10 +76,10 @@ const topics = await getDesignPages("topic");
         </h2>
         <ul class="mt-8 grid gap-4 md:grid-cols-3">
           {lenses.map((l) => (
-            <li>
+            <li class="flex flex-col">
               <a
                 href={`/design/${l.id}/`}
-                class="group flex h-full flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
+                class="group flex flex-1 flex-col rounded-card border border-grid bg-paper p-6 transition hover:border-link"
               >
                 <p class="annotation text-link">
                   視点 {l.data.order} / {l.data.en}
@@ -86,6 +91,7 @@ const topics = await getDesignPages("topic");
                   読む <span aria-hidden="true">→</span>
                 </p>
               </a>
+              <FieldLinks parent={l.id} />
             </li>
           ))}
         </ul>
@@ -148,6 +154,5 @@ const topics = await getDesignPages("topic");
         </ul>
       </section>
     )}
-
   </div>
 </Base>

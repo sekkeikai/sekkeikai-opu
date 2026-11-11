@@ -529,6 +529,15 @@ collections:
         max: 5
         summary: "{{name}}（{{dept}}）"
         fields: *courseFields
+      - name: parent
+        label: 親のページ（分野のページだけ。親のページから広がる分野として並ぶ）
+        hint: 種類が「その他のテーマ」のページだけに書けます。分野のページを親にはできません（階層は1段まで）
+        widget: relation
+        collection: design
+        value_field: "{{slug}}"
+        display_fields: [title]
+        search_fields: [title, en]
+        required: false
       - name: related
         label: 関連するページ（4件まで）
         widget: relation

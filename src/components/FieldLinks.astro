@@ -1,0 +1,27 @@
+---
+// 一覧(/design/)のカードの下に出す、そのページから広がる分野のページへのリンク。
+// 分野のページは、YAML に parent(親のページの名前)を書いたページ(src/lib/design.ts)。無ければ何も出さない。
+import { getFieldPages } from "../lib/design";
+
+interface Props {
+  // 親のページの名前(例: data-analysis)
+  parent: string;
+}
+
+const fields = await getFieldPages(Astro.props.parent);
+---
+
+{fields.length > 0 && (
+  <div class="mt-2 px-1 text-sm">
+    <p class="annotation text-muted">広がる分野</p>
+    <ul class="mt-1 flex flex-wrap gap-x-4 gap-y-1">
+      {fields.map((f) => (
+        <li>
+          <a href={`/design/${f.id}/`} class="font-bold text-link underline underline-offset-4 hover:text-ink">
+            {f.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
