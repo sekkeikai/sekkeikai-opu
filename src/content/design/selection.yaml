@@ -65,10 +65,10 @@ chapters:
         kind: real
         title: 新国立競技場の選び直し
         text: 2015年7月、新国立競技場は総工費の見込みが大きく膨らみ、それまでの計画(ザハ・ハディド氏の案)が白紙に戻されました。8月には、工事費の上限(1,550億円)と完成の時期を先に決めた新しい整備計画がつくられ、設計と施工をまとめて案が募られました。12月、審査委員会は集まった2つの案を同じ基準で採点し、610点のA案を、602点のB案より上として選びました。
-        source: "[文部科学省「国立霞ヶ丘競技場の改築計画について」2015年8月](https://www.mext.go.jp/b_menu/shingi/chousa/sports/029/shiryo/__icsFiles/afieldfile/2015/08/12/1360792_3_1.pdf)、[関係閣僚会議「新国立競技場整備計画」2015年8月](https://www.jpnsport.go.jp/newstadium/Portals/0/kinennhinnhozonn/1_12seibikeikaku.pdf)と[日本スポーツ振興センターの審査結果 2015年12月](https://www.jpnsport.go.jp/newstadium/Portals/0/NNSJ/teiannshoshinnsakekka.pdf)による"
+        source: "[文部科学省「国立霞ヶ丘競技場の改築計画について」2015年8月](https://www.mext.go.jp/b_menu/shingi/chousa/sports/029/shiryo/__icsFiles/afieldfile/2015/08/12/1360792_3_1.pdf)、[関係閣僚会議「新国立競技場整備計画」2015年8月](https://warp.ndl.go.jp/web/20160404144148/https://www.jpnsport.go.jp/newstadium/Portals/0/kinennhinnhozonn/1_12seibikeikaku.pdf)と[日本スポーツ振興センターの審査結果 2015年12月](https://warp.ndl.go.jp/web/20160404105323/https://www.jpnsport.go.jp/newstadium/Portals/0/NNSJ/teiannshoshinnsakekka.pdf)による"
       - type: p
         text: 条件と基準を案より先に決めていたので、選んだ理由は「どの基準で何点違ったか」という形で公表されました。A案の本体工事は、公募時の上限額より約38億円低い1,490億円で契約されました。2018年8月の時点でも、工事費は先に決めた上限の中に保たれていました。
-        note: '[日本スポーツ振興センターの説明資料, 2018年8月](https://www.jpnsport.go.jp/newstadium/Portals/0/briefing/2018/20180803_briefing27_siryou_03-02.pdf)による。'
+        note: '[日本スポーツ振興センターの説明資料, 2018年8月](https://warp.ndl.go.jp/web/20181015190514/https://www.jpnsport.go.jp/newstadium/Portals/0/briefing/2018/20180803_briefing27_siryou_03-02.pdf)による。'
 
   - id: example
     heading: 今あるものを使う案が、一番になることもある
@@ -129,12 +129,12 @@ references:
     url: https://ci.nii.ac.jp/ncid/BA07271699
   - text: 文部科学省「国立霞ヶ丘競技場の改築計画について」2015年8月.
     url: https://www.mext.go.jp/b_menu/shingi/chousa/sports/029/shiryo/__icsFiles/afieldfile/2015/08/12/1360792_3_1.pdf
-  - text: 新国立競技場の整備計画再検討のための関係閣僚会議「新国立競技場整備計画」2015年8月28日.
-    url: https://www.jpnsport.go.jp/newstadium/Portals/0/kinennhinnhozonn/1_12seibikeikaku.pdf
-  - text: 日本スポーツ振興センター「新国立競技場整備事業 技術提案等審査委員会」審査結果, 2015年12月.
-    url: https://www.jpnsport.go.jp/newstadium/Portals/0/NNSJ/teiannshoshinnsakekka.pdf
-  - text: 日本スポーツ振興センター, 新国立競技場整備事業の説明資料, 2018年8月3日.
-    url: https://www.jpnsport.go.jp/newstadium/Portals/0/briefing/2018/20180803_briefing27_siryou_03-02.pdf
+  - text: 新国立競技場の整備計画再検討のための関係閣僚会議「新国立競技場整備計画」2015年8月28日(国立国会図書館 WARP の保存版).
+    url: https://warp.ndl.go.jp/web/20160404144148/https://www.jpnsport.go.jp/newstadium/Portals/0/kinennhinnhozonn/1_12seibikeikaku.pdf
+  - text: 日本スポーツ振興センター「新国立競技場整備事業 技術提案等審査委員会」審査結果, 2015年12月(国立国会図書館 WARP の保存版).
+    url: https://warp.ndl.go.jp/web/20160404105323/https://www.jpnsport.go.jp/newstadium/Portals/0/NNSJ/teiannshoshinnsakekka.pdf
+  - text: 日本スポーツ振興センター, 新国立競技場整備事業の説明資料, 2018年8月3日(国立国会図書館 WARP の保存版).
+    url: https://warp.ndl.go.jp/web/20181015190514/https://www.jpnsport.go.jp/newstadium/Portals/0/briefing/2018/20180803_briefing27_siryou_03-02.pdf
   - text: 横井軍平・牧野武文『横井軍平ゲーム館』アスキー, 1997年(ちくま文庫, 2015年).
     url: https://ndlsearch.ndl.go.jp/books/R100000002-I000002652768
 related:
