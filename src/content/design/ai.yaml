@@ -20,7 +20,7 @@ chapters:
         text: |-
           「人工知能」という言葉は、1955年に書かれた研究会の提案書に出てきます。ジョン・マッカーシーら4人は、1956年の夏に米国のダートマス大学で、10人が2か月かけて研究する計画を立てました。出発点にしたのは、学習をはじめ知能のどんな働きも、機械がまねできるほど正確に書き表せるはずだ、という予想でした(要旨)。
         note: |-
-          [J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon, "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence", 1955](https://ojs.aaai.org/index.php/aimagazine/article/view/1904)(AI Magazine, 27(4), 2006 に再録)。
+          [J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon, "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence", 1955](https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html)(スタンフォード大学に置かれた全文)。
       - type: p
         text: |-
           例から学ばせる方法は、早くから試されていました。IBMのアーサー・サミュエルは、チェッカーというボードゲームを指すプログラムに、指し方を自分で良くしていく仕組みを組み込みました。1959年の論文は、プログラムを書いた本人より強く指せるように学習させられることを確かめた、と報告しています。
@@ -61,7 +61,7 @@ chapters:
         kind: real
         title: AIの案を使うと、良くなるが似てくる
         text: |-
-          2024年に発表された実験では、参加者に短い物語を書いてもらい、一部の人にだけ、生成AIが出した案を見せました。AIの案を見た人の物語は、より創造的で、よく書けていると評価されました。書くのが得意でない人ほど、効果は大きく出ました。ところが、AIの案を見た人たちの物語は、見ていない人たちの物語より、互いに似ていました。一人ひとりの出来は上がっても、全体の幅は狭くなったのです。
+          2024年に発表された実験では、参加者に短い物語を書いてもらい、一部の人にだけ、生成AIが出した案を見せました。AIの案を見た人の物語は、より創造的で、よく書けていると評価されました。もともとの創造性が低めの書き手ほど、効果は大きく出ました。ところが、AIの案を見た人たちの物語は、見ていない人たちの物語より、互いに似ていました。一人ひとりの出来は上がっても、全体の幅は狭くなったのです。
         source: '[A. R. Doshi & O. P. Hauser, "Generative AI enhances individual creativity but reduces the collective diversity of novel content", Science Advances, 10(28), 2024](https://doi.org/10.1126/sciadv.adn5290)による。'
       - type: p
         text: |-
@@ -108,19 +108,21 @@ chapters:
         source: '[国土交通省の報道発表(2020年11月11日)](https://www.mlit.go.jp/report/press/jidosha08_hh_003888.html)による。'
       - type: p
         text: |-
-          誤り方には2種類あります。あるものを見逃す誤りと、無いものをあると判定する誤りです。一方を減らそうとすると、もう一方が増えやすくなります。病気を見つけるAIなら、見逃しを減らすほど、健康な人を誤って引っかけることが増えます。どちらをどこまで許すかは、使われる場面で何が起きるかを考えて決める、[[selection|目的どうしがぶつかる中での判断]]です。
+          誤り方には2種類あります。あるものを見逃す誤りと、無いものをあると判定する誤りです。一方を減らそうとすると、もう一方が増えやすくなります。迷惑メールを見分けるAIなら、迷惑メールだと強く確信したものだけを振り分けると、ふつうのメールを誤って振り分けることは減りますが、迷惑メールの見逃しが増えます。どちらをどこまで許すかは、使われる場面で何が起きるかを考えて決める、[[selection|目的どうしがぶつかる中での判断]]です。
+        note: |-
+          [Google, Machine Learning Crash Course "Thresholds and the confusion matrix"](https://developers.google.com/machine-learning/crash-course/classification/thresholding)。迷惑メールの例もここによる。
       - type: p
         text: |-
           日本では2024年、総務省と経済産業省が、AIを開発する人、提供する人、利用する人に向けた「AI事業者ガイドライン」をまとめ、その後も改訂を続けています。共通の指針の最初に挙げられているのは「人間中心」です。人が使うものを人から考える[[human-interface]]の見方は、AIを使うものの設計でも出発点になります。
         note: |-
-          [経済産業省「AI事業者ガイドライン」](https://www.meti.go.jp/shingikai/mono_info_service/ai_shakai_jisso/20240419_report.html)(第1.0版は2024年4月19日)。
+          [総務省「AI事業者ガイドライン」掲載ページ](https://www.soumu.go.jp/main_sosiki/kenkyu/ai_network/02ryutsu20_04000019.html)。第1.0版は2024年4月19日、第1.2版は2026年3月31日の公表。「共通の指針」の並びは第1.2版の本編による。
       - type: p
         text: |-
           設計の流れの例では、[[case-delivery-robot#roles|ロボットに任せる仕事と、人に残す仕事を分ける]]手順を紹介しています。
 
 references:
-  - text: J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon, "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence, August 31, 1955", AI Magazine, 27(4), 2006(再録).
-    url: https://ojs.aaai.org/index.php/aimagazine/article/view/1904
+  - text: J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon, "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence", August 31, 1955.
+    url: https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html
   - text: A. L. Samuel, "Some Studies in Machine Learning Using the Game of Checkers", IBM Journal of Research and Development, 3(3), pp.210–229, 1959.
     url: https://doi.org/10.1147/rd.33.0210
   - text: A. R. Doshi & O. P. Hauser, "Generative AI enhances individual creativity but reduces the collective diversity of novel content", Science Advances, 10(28), eadn5290, 2024.
@@ -133,8 +135,10 @@ references:
     url: https://www.mlit.go.jp/jidosha/anzen/01asv/report06/file/siryohen_4_jidountenyogo.pdf
   - text: 国土交通省 報道発表資料「世界初！ 自動運転車（レベル３）の型式指定を行いました」, 2020年11月11日.
     url: https://www.mlit.go.jp/report/press/jidosha08_hh_003888.html
-  - text: 総務省・経済産業省「AI事業者ガイドライン」(第1.0版は2024年4月19日).
-    url: https://www.meti.go.jp/shingikai/mono_info_service/ai_shakai_jisso/20240419_report.html
+  - text: 総務省「AI事業者ガイドライン」掲載ページ(第1.0版は2024年4月19日、第1.2版は2026年3月31日).
+    url: https://www.soumu.go.jp/main_sosiki/kenkyu/ai_network/02ryutsu20_04000019.html
+  - text: Google, Machine Learning Crash Course, "Thresholds and the confusion matrix".
+    url: https://developers.google.com/machine-learning/crash-course/classification/thresholding
 related:
   - data-analysis
   - modeling
@@ -142,11 +146,15 @@ related:
   - case-delivery-robot
 
 courses:
+  - name: 人工知能Ⅰ
+    dept: 人間情報工学科
+    relation: 人工知能の多様な分野を見渡し、基礎を体系的に学ぶ
+    path: 0224/0224_24271301
+  - name: 人工知能Ⅱ
+    dept: 情報システム工学科
+    relation: 機械学習の基礎と、深層学習や生成AI(大規模言語モデルなど)の仕組み
+    path: 0222/0222_22271901
   - name: データサイエンス概論
     dept: 共通教育
     relation: データの集め方、因果関係と因果推論、機械学習の演習
     path: 99/99_00A47601
-  - name: 確率統計
-    dept: 情報工学部
-    relation: 推測統計、推定と検定、重回帰
-    path: 0222/0222_22271401
