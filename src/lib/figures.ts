@@ -40,6 +40,7 @@ export const figureNames = [
   "confounder",
   "methods-timeline",
   "steam-engine",
+  "monte-carlo",
 ] as const;
 
 export type FigureName = (typeof figureNames)[number];

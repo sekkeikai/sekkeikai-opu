@@ -292,6 +292,7 @@ collections:
                       - confounder
                       - methods-timeline
                       - steam-engine
+                      - monte-carlo
               - name: idef0
                 label: 機能の図（IDEF0）
                 widget: object
