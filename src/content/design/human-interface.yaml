@@ -107,7 +107,7 @@ chapters:
         kind: real
         title: 岡山で生まれた点字ブロック
         text: |-
-          1967年3月18日、三宅精一が考えたブロックが、岡山盲学校に近い岡山市の原尾島交差点の付近に敷かれました。これが点字ブロックの始まりです。形はのちに日本産業規格[JIS T 9251](https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&jisStdNo=T9251)と国際規格[ISO 23599](https://www.iso.org/standard/55867.html)(2012年)になり、世界で使われています。
+          1967年3月18日、三宅精一が考えたブロックが、岡山盲学校に近い岡山市の原尾島交差点の付近に敷かれました。これが点字ブロックの始まりです。形はのちに日本産業規格[JIS T 9251](https://webdesk.jsa.or.jp/books/W11M0090/index/?bunsyo_id=JIS%20T%209251:2014)と国際規格[ISO 23599](https://www.iso.org/standard/55867.html)(2012年)になり、世界で使われています。
         source: '[岡山県の解説](https://www.pref.okayama.jp/page/950468.html)による。'
       - type: per-step
 
@@ -214,10 +214,10 @@ references:
     url: https://www.pref.okayama.jp/page/950468.html
   - text: ISO 23599:2012 Assistive products for blind and vision-impaired persons — Tactile walking surface indicators(2019年に改訂).
     url: https://www.iso.org/standard/55867.html
-  - text: JIS T 9251 高齢者・障害者配慮設計指針―視覚障害者誘導用ブロック等の突起の形状・寸法及びその配列.
-    url: https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&jisStdNo=T9251
-  - text: JIS S 0021 包装―アクセシブルデザイン―一般要求事項(現在は JIS S 0021-1 他に分かれている).
-    url: https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&jisStdNo=S0021
+  - text: JIS T 9251:2014 高齢者・障害者配慮設計指針―視覚障害者誘導用ブロック等の突起の形状・寸法及びその配列.
+    url: https://webdesk.jsa.or.jp/books/W11M0090/index/?bunsyo_id=JIS%20T%209251:2014
+  - text: JIS S 0021:2014 包装―アクセシブルデザイン―一般要求事項(2020年に廃止され、現在は JIS S 0021-1 他に分かれている).
+    url: https://webdesk.jsa.or.jp/books/W11M0090/index/?bunsyo_id=JIS%20S%200021:2014
   - text: 花王「シャンプー容器のきざみ」.
     url: https://www.kao.com/jp/sustainability/me/universal-design/shampoo-notches/
   - text: Report of the President's Commission on the Accident at Three Mile Island(ケメニー委員会報告), 1979.
