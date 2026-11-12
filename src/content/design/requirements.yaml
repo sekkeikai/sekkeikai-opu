@@ -124,7 +124,7 @@ chapters:
         title: 要求を設計に結び付ける「品質表」
         body:
           - 要求を製品の特性に結び付ける方法に、**品質機能展開(QFD)**があります。その中心となる「品質表」では、使う人の声を表の行に、製品の技術的な特性を列に並べ、どの特性がどの要求に効くのかを一覧にします。品質機能展開は、それをさらに部品や製造工程にまで展開していく方法です。
-          - 1960年代後半から1970年代にかけて、日本で赤尾洋二や水野滋らによって体系化されました([水野滋・赤尾洋二編『品質機能展開』1978年](https://ndlsearch.ndl.go.jp/books/R100000002-I000001379079))。1972年に三菱重工業神戸造船所でつくられた品質表が、よく知られた初期の例です([J. R. Hauser & D. Clausing, "The House of Quality", Harvard Business Review, 1988](https://hbr.org/1988/05/the-house-of-quality))。
+          - 1960年代から1970年代にかけて、日本で赤尾洋二や水野滋らによって体系化されました([水野滋・赤尾洋二編『品質機能展開』1978年](https://ndlsearch.ndl.go.jp/books/R100000002-I000001379079))。1972年に三菱重工業神戸造船所でつくられた品質表が、よく知られた初期の例です([J. R. Hauser & D. Clausing, "The House of Quality", Harvard Business Review, 1988](https://hbr.org/1988/05/the-house-of-quality))。
 
   - id: check
     heading: 要件は、後で確かめる物差しになる
