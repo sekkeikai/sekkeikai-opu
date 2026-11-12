@@ -31,7 +31,7 @@ chapters:
         text: |-
           グラフにする前に、そのデータがどのように集められたかも確かめます。例えば、戦闘から帰ってきた飛行機の弾の跡だけを調べて補強する場所を決めると、撃ち落とされて帰ってこなかった機体の情報が抜け落ちてしまいます。残ったものだけを見て判断することで生まれるこの偏りは「生存者バイアス」と呼ばれます。この例は、統計学者エイブラハム・ウォールドが第二次世界大戦中に行った研究にちなんで、よく語られます。
         note: |-
-          [A. Wald, "A Method of Estimating Plane Vulnerability Based on Damage of Survivors"](https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability)(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。1980年に再刊)。よく語られる逸話は、実際の研究を単純化したものである。
+          [A. Wald, "A Method of Estimating Plane Vulnerability Based on Damage of Survivors"](https://www.cna.org/analyses/1980/a-method-of-estimating-plane-vulnerability)(第二次世界大戦中の米国コロンビア大学統計研究グループの報告。1980年に再刊)。
 
   - id: pictures
     heading: 図にすると、数字が人に伝わる
@@ -41,7 +41,7 @@ chapters:
       - type: image
         src: /uploads/design/snow-cholera-map.jpg
         alt: ロンドンのソーホー地区の地図。通りに沿って、コレラで亡くなった人の数を表す黒い棒が積み重なり、ブロード・ストリートの井戸のポンプの周りに集中している。
-        caption: ジョン・スノウのコレラの地図(1854年作成、1855年の著書に掲載)。亡くなった人を家ごとに黒い棒で記すと、一台の井戸のポンプの周りに集まっていることが分かる。スノウはまず死者の集計を基にポンプの柄を外すよう訴え(1854年9月)、この地図はその後、主張を広く示すために描かれた。
+        caption: ジョン・スノウのコレラの地図(1854年作成、1855年の著書に掲載)。亡くなった人を家ごとに黒い棒で記すと、一台の井戸のポンプの周りに集まっていることが分かる。スノウはまず死者の集計を基にポンプの柄を外すよう訴え(1854年9月)、この地図は、その後の著書で主張を示すのに使われた。
         credit: John Snow, On the Mode of Communication of Cholera, 2nd ed., 1855(Wikimedia Commons)
         license: パブリックドメイン
         sourceUrl: https://commons.wikimedia.org/wiki/File:Snow-cholera-map-1.jpg

@@ -81,7 +81,7 @@ chapters:
         note: 見落としを見つけるのが後の工程になるほど、直す手間は大きくなる。NASAの見積もりでは、要件の段階の誤りを運用の段階で直すと、数十倍から千倍以上の手間がかかる([J. M. Stecklein 他, "Error Cost Escalation Through the Project Life Cycle", NASA, 2004](https://ntrs.nasa.gov/citations/20100036670))。
       - type: p
         text: 5つの工程の外にも、仕事があります。できたものが要件を満たすかを確かめる検証、建築や福祉用具での法令や安全規格の確認、イベントの当日の運営と振り返りです。分野によっては、これらも設計と同じくらい大切です。設計会では、仕様書の中に「どう確かめるか」まで書いて、その先の仕事につなげます。
-        note: ドイツ技術者協会の指針 [VDI 2221](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-1-entwicklung-technischer-produkte-und-systeme-modell-der-produktentwicklung) は2019年の改訂で、製品開発の中心となる目標・活動・成果を定める形になった。実際の進め方は、会社やプロジェクトに合わせて組み立てるとしている([VDI 2221 Blatt 2](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-2-entwicklung-technischer-produkte-und-systeme-gestaltung-individueller-produktentwicklungsprozesse))。
+        note: ドイツ技術者協会の指針 [VDI 2221](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-1-entwicklung-technischer-produkte-und-systeme-modell-der-produktentwicklung) は2019年の改訂で、製品開発の中心となる目標・活動・成果を定める形になった。実際の進め方は、会社ごとの事情に合わせて組み立てるとしている([VDI 2221 Blatt 2](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-2-entwicklung-technischer-produkte-und-systeme-gestaltung-individueller-produktentwicklungsprozesse))。
 
   - id: examples
     heading: 例で、5つの工程をたどる

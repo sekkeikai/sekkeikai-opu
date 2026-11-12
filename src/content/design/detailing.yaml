@@ -79,7 +79,7 @@ chapters:
             - 当日の朝に重なりが見つかる
             - 重なったら、先に書いた人を優先と決める
       - type: p
-        text: FMEAは、1949年にアメリカ軍の手順書として始まり、宇宙開発や自動車の開発に広がりました。上の表のような小さなものでも、「どこが・どう壊れる・何が起きる・手の打ち方」の4つの列で使えます。
+        text: FMEAは、1940年代のアメリカ軍に始まり(手順書 MIL-P-1629)、宇宙開発や自動車の開発に広がりました。上の表のような小さなものでも、「どこが・どう壊れる・何が起きる・手の打ち方」の4つの列で使えます。
         note: '[MIL-P-1629, "Procedures for Performing a Failure Mode, Effects and Criticality Analysis", U.S. Department of Defense, 1949](https://quicksearch.dla.mil/qsDocDetails.aspx?ident_number=86479)。広がりは [TWI「What is FMEA?」](https://www.twi-global.com/technical-knowledge/faqs/what-is-failure-mode-and-effects-analysis-fmea) など。'
       - type: p
         text: つくり込んだ見本を見せると、意見は字の大きさや色のような見た目の仕上げに集まりがちです。手間をかけてつくった側も、大きな直しを嫌がりがちになります。粗い試作なら、流れや組み立てそのものへの意見が出て、すぐに直せます。

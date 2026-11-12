@@ -20,14 +20,14 @@ chapters:
           第二次世界大戦の後、航空機や宇宙開発のような巨大なシステムが現れ、何千人もの技術者が一つのものを設計するようになりました。コンピューターも使われ始め、作戦の分析から生まれたオペレーションズ・リサーチ(限られた資源の最も良い使い方を、数理で決める方法)のように、問題を手順で解く考え方も広がっていました。設計の進め方も手順として書き出せるのではないか、と考える人たちが出てきました。
       - type: p
         text: |-
-          1962年9月、ロンドンのインペリアル・カレッジで「設計方法会議(Conference on Design Methods)」が開かれました。建築、機械、工業デザインなど、分野の違う人たちが集まり、設計の進め方そのものを研究の対象として論じました。この会議は、設計の方法の研究の出発点とされています。この会議の委員会の人たちが中心となって、1966年に英国のデザイン・リサーチ・ソサエティが生まれました。
+          1962年9月、ロンドンのインペリアル・カレッジで「設計方法会議(Conference on Design Methods)」が開かれました。建築、機械、工業デザインなど、分野の違う人たちが集まり、設計の進め方そのものを研究の対象として論じました。この会議の委員会の人たちが中心となって、1966年に英国のデザイン・リサーチ・ソサエティが生まれました。
         note: |-
-          [J. C. Jones & D. G. Thornley (eds.), Conference on Design Methods, Pergamon Press, 1963](https://dl.designresearchsociety.org/design_methods_conference_1962/)。会議は1962年9月19~21日に開かれた。出発点とされることと学会の成り立ちは、[Design Research Society「History」](https://www.designresearchsociety.org/cpages/history) による。
+          [J. C. Jones & D. G. Thornley (eds.), Conference on Design Methods, Pergamon Press, 1963](https://dl.designresearchsociety.org/design_methods_conference_1962/)。会議は1962年9月19~21日に開かれた。学会の成り立ちは、[Design Research Society「History」](https://www.designresearchsociety.org/cpages/history) による。
       - type: p
         text: |-
           一方で、方法への期待が大きすぎたことへの反省も、早くから出ました。建築家クリストファー・アレグザンダーは、『形の合成に関するノート』(1964年)でこの流れの中心にいました。しかし1971年には、設計の方法を設計の実践から切り離して研究することを強く批判し、距離を置きました。そこから、手順で設計を置き換えるのではなく、設計する人が考えるのを助ける道具として方法を使う、という見方が広がっていきます。
         note: |-
-          [C. Alexander, Notes on the Synthesis of Form](https://www.hup.harvard.edu/books/9780674627512), ペーパーバック版の序文, 1971。[同じ年の雑誌のインタビュー](https://www.designresearchsociety.org/articles/remembering-christopher-alexander-by-nigel-cross)でも、設計の方法の研究を「忘れてしまえ」と語った。
+          [C. Alexander, Notes on the Synthesis of Form](https://www.hup.harvard.edu/books/9780674627512), ペーパーバック版の序文, 1971。[同じ年の会報のインタビュー](https://www.designresearchsociety.org/articles/remembering-christopher-alexander-by-nigel-cross)でも、設計の方法の研究を「忘れてしまえ」と語った。
       - type: p
         text: |-
           設計会が工程ごとに手法を学ぶのも、この見方に立っています。手法は、考え落としを防ぎ、考えたことを他の人に見せて話し合うための道具です。
@@ -51,7 +51,7 @@ chapters:
             body: アレックス・オズボーンが著書『Applied Imagination』で、良し悪しの判断を後回しにして数多くの案を出す、発想会議の方法を広める。
           - year: "1962"
             title: 設計方法会議
-            body: ロンドンで、設計の進め方そのものを論じる会議が開かれる。設計の方法の研究の出発点とされる。
+            body: ロンドンで、設計の進め方そのものを論じる会議が開かれる。この会議から、後のデザイン・リサーチ・ソサエティが生まれる。
           - year: "1964"
             title: 『形の合成に関するノート』
             body: 建築家クリストファー・アレグザンダーが、設計の問題を要素に分けて形を導く方法を論じる。
