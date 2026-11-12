@@ -18,12 +18,12 @@ chapters:
         text: 選択肢の並べ方、初期値、伝え方は、人の選び方を変えます。人が選ぶ場面を設計するとき、どの設計を選んでも、何かの方向へ人を導いています。
       - type: p
         text: |-
-          2017年のノーベル経済学賞は、行動経済学への貢献で、リチャード・セイラーに贈られました。人の判断には、考える力に限りがあること、他人や公平さを気にかけること、目先の誘惑に負けやすいことといった、人らしい性質が表れます。セイラーは、こうした性質を経済の分析に取り入れました。そして、年金のための貯蓄などで人がより良く選べるように、そっと後押しする「ナッジ」という言葉をつくりました。
+          2017年のノーベル経済学賞は、行動経済学への貢献で、リチャード・セイラーに贈られました。人の判断には、人らしい性質が表れます。考える力に限りがあること、他人や公平さを気にかけること、目先の誘惑に負けやすいことです。セイラーは、こうした性質を経済の分析に取り入れました。そして、年金のための貯蓄などで人がより良く選べるように、そっと後押しする「ナッジ」という言葉をつくりました。
         note: |-
           [The Nobel Prize, "Press release: The Prize in Economic Sciences 2017"](https://www.nobelprize.org/prizes/economic-sciences/2017/press-release/)。
       - type: p
         text: |-
-          セイラーとキャス・サンスティーンは、公共の機関も民間の会社も、選ぶ自由を残したまま、人を良い方向へ後押しするべきだと論じました。多くの場合、変えるのは単純なことです。その一つが、何もしなければ決まる選択肢、つまり初期値をどれにするかです。
+          セイラーとキャス・サンスティーンは、公共の機関も民間の会社も、選ぶ自由を残したまま、人を良い方向へ後押しするべきだと論じました。後押しのために変えるのは、多くの場合、単純なことです。その一つが、何もしなければ決まる選択肢、つまり初期値をどれにするかです。
         note: |-
           [The Nobel Prize, "Popular science background: Integrating economics with psychology", 2017](https://www.nobelprize.org/prizes/economic-sciences/2017/popular-information/)。
 
@@ -40,7 +40,7 @@ chapters:
         source: '[英国 雇用年金省「Workplace pension participation and savings trends of eligible employees: 2009 to 2022」](https://www.gov.uk/government/statistics/workplace-pension-participation-and-savings-trends-2009-to-2022/workplace-pension-participation-and-savings-trends-of-eligible-employees-2009-to-2022)と[「Ten years of Automatic Enrolment in Workplace Pensions」](https://www.gov.uk/government/statistics/ten-years-of-automatic-enrolment-in-workplace-pensions/ten-years-of-automatic-enrolment-in-workplace-pensions-statistics-and-analysis)による。'
       - type: p
         text: |-
-          加入するかどうかを選べることは、前と変わっていません。変わったのは、何もしなかった人がどちらに決まるかだけです。それでも結果がここまで変わったことは、初期値の力の大きさを示しています。
+          加入するかどうかを選べることは、前と変わっていません。変わったのは、何もしなかった人がどちらに決まるかだけです。
       - type: p
         text: |-
           日本でも、環境省が2017年4月に「日本版ナッジ・ユニット」を発足させ、行動科学の知見を政策に生かす取り組みを始めました。伝え方の設計で検診を受ける人を増やした例を、[[data-analysis#why|データ分析のページ]]で紹介しています。
