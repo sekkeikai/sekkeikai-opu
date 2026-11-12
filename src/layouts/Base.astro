@@ -51,7 +51,8 @@ const hasContactEmail = getContactEmail() !== "";
     />
     <Analytics />
   </head>
-  <body class="min-h-dvh">
+  <!-- 本文が短いページでも、フッターが画面の下端に来るように、本文(main)を伸ばす -->
+  <body class="flex min-h-dvh flex-col">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-paper focus:p-2"
@@ -89,7 +90,7 @@ const hasContactEmail = getContactEmail() !== "";
       </div>
     </header>
 
-    <main id="main">
+    <main id="main" class="flex-1">
       <slot />
     </main>
 
