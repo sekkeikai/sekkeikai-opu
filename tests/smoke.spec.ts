@@ -88,5 +88,5 @@ test("CMS の編集画面 /admin/ が配信されている", async ({ page }) =>
 
 test("存在しないページは 404 ページを返す", async ({ page }) => {
   await page.goto("/no-such-page/");
-  await expect(page.getByText("このページは、まだ設計されていません。")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "ページが見つかりません" })).toBeVisible();
 });

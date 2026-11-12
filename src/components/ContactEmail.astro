@@ -2,7 +2,7 @@
 // 問い合わせ用のメールアドレスを「メール: アドレス」の形で出す。アドレスは押すとメールソフトが開くリンク(フッターで使う)。
 // アドレスは、HTML にはそのままの形で書かない。逆順にして Base64 にしたものを data 属性に入れておき、
 // ブラウザーで JavaScript が元に戻してリンクにする。HTML を読むだけのボットにアドレスを拾われにくくするため。
-// アドレスはビルド用の環境変数 CONTACT_EMAIL(src/lib/site.ts の getContactEmail)。空の間は「準備中」と出す。
+// アドレスはビルド用の環境変数 CONTACT_EMAIL(src/lib/site.ts の getContactEmail)。空の間は何も出さない。
 import { getContactEmail } from "../lib/site";
 
 interface Props {
@@ -22,9 +22,7 @@ const encoded = email ? btoa([...email].reverse().join("")) : "";
       <noscript>JavaScript を有効にすると表示されます</noscript>
     </span>
   </>
-) : (
-  <span class="text-muted">メール(準備中)</span>
-)}
+) : null}
 
 <script>
   // data-contact-email を元のアドレスに戻して、mailto: のリンクに置き換える

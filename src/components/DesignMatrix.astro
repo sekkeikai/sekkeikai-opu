@@ -19,7 +19,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 {variant === "compact" && (
-  <div class="surface rounded-card border border-grid bg-paper p-5 sm:p-6" data-reveal>
+  <div class="surface rounded-card border border-grid bg-paper p-5 sm:p-6">
     <p class="annotation mb-3 text-muted">工程(行き来しながら進む)</p>
     <ol class="grid gap-2 sm:grid-cols-5">
       {steps.map((s) => (
@@ -57,7 +57,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 )}
 
 {variant === "full" && (
-  <div class="surface overflow-x-auto rounded-card border border-grid bg-paper" data-reveal>
+  <div class="surface overflow-x-auto rounded-card border border-grid bg-paper">
     <table class="w-full min-w-[46rem] table-fixed border-collapse text-left">
       <caption class="sr-only">工程と視点の組み合わせ(行が視点、列が工程)</caption>
       <colgroup>

@@ -180,7 +180,7 @@ const crumb = parent
             data-toc-section
           >
             {chapter.label && (
-              <p class="annotation mb-2 text-link" data-reveal>
+              <p class="annotation mb-2 text-link">
                 {chapter.stepHref ? (
                   <a href={chapter.stepHref} class="underline underline-offset-4 hover:text-ink">
                     {chapter.label}
@@ -190,7 +190,7 @@ const crumb = parent
                 )}
               </p>
             )}
-            <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl" data-reveal>
+            <h2 id={`${chapter.id}-title`} class="max-w-[36em] text-2xl leading-snug font-bold sm:text-3xl">
               {chapter.heading}
             </h2>
             <Blocks blocks={chapter.numbered} lens={{ short, perStep }} />

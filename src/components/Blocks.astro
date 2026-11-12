@@ -59,7 +59,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "point":
       return (
-        <div class="my-8 max-w-[38em] rounded-r-card border-l-4 border-accent bg-accent/6 px-5 py-4" data-reveal>
+        <div class="my-8 max-w-[38em] rounded-r-card border-l-4 border-accent bg-accent/6 px-5 py-4">
           <p class="text-[1.1em] leading-relaxed font-semibold text-ink">
             <InlineText text={block.text} />
           </p>
@@ -68,7 +68,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "question":
       return (
-        <div class="my-10 flex max-w-[38em] gap-4" data-reveal>
+        <div class="my-10 flex max-w-[38em] gap-4">
           <span
             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-link font-display text-xl font-bold text-paper"
             aria-hidden="true"
@@ -97,7 +97,6 @@ const { blocks, lens, compactFigures = false } = Astro.props;
             // 実際にあった例は実線、説明のための場面は点線の枠にして、ひと目で見分けられるようにする
             block.kind === "real" ? "border-grid" : "border-dashed border-muted/40",
           ]}
-          data-reveal
         >
           <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-bold text-ink/75">
             <span
@@ -185,7 +184,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "image":
       return (
-        <figure class="my-10 font-sans" data-reveal>
+        <figure class="my-10 font-sans">
           <!-- 縦長の写真が画面を埋めないように、高さに上限を付ける -->
           <img
             src={block.src}
@@ -216,7 +215,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "table":
       return (
-        <div class="my-10 overflow-x-auto font-sans" data-reveal>
+        <div class="my-10 overflow-x-auto font-sans">
           <table class="w-full min-w-[32rem] border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal">
             <caption class="mb-3 text-left font-display font-bold">{block.caption}</caption>
             <thead>
@@ -253,7 +252,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       return (
         <ol class="my-10 grid gap-4 font-sans text-base leading-relaxed sm:grid-cols-2">
           {block.items.map((item, i) => (
-            <li class="rounded-card border border-grid bg-paper p-5" data-reveal>
+            <li class="rounded-card border border-grid bg-paper p-5">
               {block.ordered ? (
                 <p class="annotation text-accent-strong">手順 {i + 1}</p>
               ) : (
@@ -272,7 +271,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       return (
         <ol class="relative my-10 border-l-2 border-grid pl-6 font-sans text-base leading-relaxed sm:ml-28 sm:pl-8">
           {block.items.map((item) => (
-            <li class="relative pb-7 last:pb-0" data-reveal>
+            <li class="relative pb-7 last:pb-0">
               <span
                 class="absolute top-2.5 -left-[30px] h-2.5 w-2.5 rounded-full border-2 border-link bg-paper sm:-left-[38px]"
                 aria-hidden="true"
@@ -291,7 +290,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "compare":
       return (
-        <div class="my-10 overflow-hidden rounded-card border border-grid bg-paper font-sans" data-reveal>
+        <div class="my-10 overflow-hidden rounded-card border border-grid bg-paper font-sans">
           <div class="grid grid-cols-[1fr_auto_1fr] gap-3 border-b border-grid bg-paper-muted px-5 py-3 sm:px-6">
             <p class="annotation text-muted">{block.fromLabel}</p>
             <span />
@@ -315,7 +314,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "tags":
       return (
-        <div class="my-8 font-sans" data-reveal>
+        <div class="my-8 font-sans">
           {block.label && <p class="annotation mb-3 text-muted">{block.label}</p>}
           <ul class="flex flex-wrap gap-2.5">
             {block.items.map((tag) => (
@@ -329,7 +328,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
       return (
         <ol class="my-10 grid gap-4 font-sans md:grid-cols-3">
           {block.items.map((item, i) => (
-            <li class="rounded-card border border-grid bg-paper p-5" data-reveal>
+            <li class="rounded-card border border-grid bg-paper p-5">
               <span class="font-mono text-xl text-accent-strong">{String(i + 1).padStart(2, "0")}</span>
               <p class="mt-2 font-display text-lg font-bold">{item.title}</p>
               <p class="mt-2 text-[0.95rem] leading-relaxed tracking-normal text-ink/85">{item.body}</p>
@@ -352,7 +351,7 @@ const { blocks, lens, compactFigures = false } = Astro.props;
 
     case "link":
       return (
-        <p class="my-8 font-sans" data-reveal>
+        <p class="my-8 font-sans">
           <a
             href={block.href}
             class="group inline-flex items-center gap-2 border-b-2 border-link pb-1 font-bold text-link"
