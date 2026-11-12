@@ -216,7 +216,8 @@ const { blocks, lens, compactFigures = false } = Astro.props;
     case "table":
       return (
         <div class="my-10 overflow-x-auto font-sans">
-          <table class="w-full min-w-[32rem] border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal">
+          <!-- マスの中は文節で折り返す(「見落と/さず」のように語の途中で切れないように) -->
+          <table class="w-full min-w-[32rem] border-collapse text-left text-[0.95rem] leading-relaxed tracking-normal [word-break:auto-phrase]">
             <caption class="mb-3 text-left font-display font-bold">{block.caption}</caption>
             <thead>
               <tr class="border-b-2 border-ink">
