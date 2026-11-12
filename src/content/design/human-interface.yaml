@@ -121,7 +121,7 @@ chapters:
           人と人工物の境界は、スマートフォンや音声での操作、車の運転支援のように、画面やボタンから声や運転の場面にまで広がりました。目に見えない仕組みが増えるほど、「今システムが何をしようとしているのか」を人が理解できるように設計することが大切になっています。
       - type: p
         text: |-
-          アクセシビリティは、法律でも求められるようになってきました。日本では2024年4月に改正障害者差別解消法が施行され、障害のある人から求められたときの「合理的配慮の提供」が、事業者の義務になりました。ウェブサイトのように、前もって誰でも使えるように整えておくこと(環境の整備)は、努力義務として求められています。ウェブについては、W3CのWCAG 2.2(2023年)や日本産業規格JIS X 8341-3が、設計の基準として参照されています。
+          アクセシビリティは、法律でも求められるようになってきました。日本では2024年4月に改正障害者差別解消法が施行され、障害のある人から求められたときの「合理的配慮の提供」が、事業者の義務になりました。建物の段差をなくすように、前もって誰でも使えるように整えておくこと(環境の整備)は、努力義務として求められています。ウェブについては、W3CのWCAG 2.2(2023年)や日本産業規格JIS X 8341-3が、設計の基準として参照されています。
         note: |-
           [障害を理由とする差別の解消の推進に関する法律](https://www8.cao.go.jp/shougai/suishin/sabekai.html)(2021年改正、2024年4月1日施行)。環境の整備の努力義務は[同法 第5条(e-Gov法令検索)](https://laws.e-gov.go.jp/law/425AC0000000065)。[WCAG 2.2](https://www.w3.org/TR/WCAG22/) は2023年10月に W3C 勧告となった。
       - type: p
@@ -212,7 +212,7 @@ references:
     url: https://www8.cao.go.jp/shougai/suishin/sabekai.html
   - text: 岡山県 障害福祉課「点字ブロックは岡山で生まれました！」.
     url: https://www.pref.okayama.jp/page/950468.html
-  - text: ISO 23599:2012 Assistive products for blind and vision-impaired persons — Tactile walking surface indicators.
+  - text: ISO 23599:2012 Assistive products for blind and vision-impaired persons — Tactile walking surface indicators(2019年に改訂).
     url: https://www.iso.org/standard/55867.html
   - text: JIS T 9251 高齢者・障害者配慮設計指針―視覚障害者誘導用ブロック等の突起の形状・寸法及びその配列.
     url: https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&jisStdNo=T9251
