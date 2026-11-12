@@ -36,7 +36,7 @@ chapters:
           - title: 材料と部品を選ぶ
             body: 強さ、重さ、価格、手に入りやすさを比べて選びます。ソフトウェアなら、使う技術やライブラリーを選ぶのがこれに当たります。
           - title: 試作して確かめる
-            body: 部分的な試作やシミュレーションで、性能と使いやすさが要件を満たすかを確かめます。満たさなければ、前の工程に戻ります。
+            body: 部分的な試作やシミュレーションで、性能と使いやすさが要件を満たすかを確かめます。
           - title: 図面と仕様書にまとめる
             body: つくる人がそれだけを見て進められるよう、図面・仕様書・判断の根拠を一式にまとめます。
       - type: figure
@@ -104,9 +104,6 @@ chapters:
       - type: link
         label: 5つの工程を通した計画の例を読む
         href: /design/#cases-title
-      - type: link
-        label: 設計会で一緒に設計する
-        href: /#join
 
 references:
   - text: 'L. Allen 他, "The Hubble Space Telescope Optical Systems Failure Report", NASA, 1990.'
