@@ -9,7 +9,7 @@ lead: 同じ中身でも伝え方や選択肢の並べ方で、人の選び方�
 parent: human-interface
 chapters:
   - id: what
-    heading: 設計した人は、選び方にも影響している
+    heading: 設計した人は選び方にも影響している
     blocks:
       - type: question
         text: 申し込みの画面で、「お知らせのメールを受け取る」に初めからチェックが入っていたら、外しますか?
@@ -28,7 +28,7 @@ chapters:
           [The Nobel Prize, "Popular Science Background: Easy money or a golden pension? Integrating economics and psychology", 2017](https://www.nobelprize.org/prizes/economic-sciences/2017/popular-information/)。
 
   - id: default
-    heading: 初期値を変えるだけで、多くの人の結果が変わる
+    heading: 初期値を変えるだけで多くの人の結果が変わる
     blocks:
       - type: point
         text: 初めから選ばれている選択肢は、多くの人がそのまま受け入れます。初期値を変えると、選ぶ自由は同じでも全体の結果が大きく変わります。
@@ -48,7 +48,7 @@ chapters:
           [環境省「日本版ナッジ・ユニット(BEST)について」](https://www.env.go.jp/earth/ondanka/nudge.html)。
 
   - id: dark
-    heading: 同じ技術は、人をだますことにも使える
+    heading: 同じ技術は人をだますことにも使える
     blocks:
       - type: point
         text: 人の選び方を変える技術は、使う人の利益に反する方向にも使えます。日本では注文の直前の画面に何を表示するかが、法律で決められるようになりました。
@@ -59,7 +59,7 @@ chapters:
           [H. Brignull, "Deceptive Patterns"](https://www.deceptive.design/)。
       - type: example
         kind: real
-        title: 注文の直前の画面に、表示の義務
+        title: 注文の直前の画面に表示の義務
         text: |-
           日本では2022年6月1日から、改正された特定商取引法により、注文を確定する直前の「最終確認画面」に、分量・価格・支払いの時期と方法・引き渡しの時期・申し込みの期間・申し込みの撤回や解約のことを表示することが義務になりました。表示しない場合や誤認させる表示をする場合は、法律違反になります。画面の設計の一部が法律で決められたのです。
         source: '[消費者庁「通販事業者の皆さんへ」](https://www.caa.go.jp/policies/policy/consumer_transaction/amendment/2021/notice02/index.html)と[事業者向けのチラシ「通信販売における“最終確認画面”について」](https://www.no-trouble.caa.go.jp/pdf/20230628ac01.pdf)による。'

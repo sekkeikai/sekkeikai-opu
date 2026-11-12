@@ -9,7 +9,7 @@ lead: 文章を書く、絵を描く、プログラムを組む。少し前ま�
 parent: data-analysis
 chapters:
   - id: what
-    heading: AIは、例から決まりを見つけるモデル
+    heading: AIは例から決まりを見つけるモデル
     blocks:
       - type: question
         text: 迷惑メールを見分ける決まりを全て書き出せるでしょうか?
@@ -47,7 +47,7 @@ chapters:
           機械学習でつくったものは[[modeling|モデル]]の一種です。モデルは目的のために何かを捨てていますが、機械学習では何を残すかが学習に使うデータで決まります。だからAIの性質はどんなデータで学んだかに左右されます。
 
   - id: shift
-    heading: つくる手間が下がるほど、決める力が問われる
+    heading: つくる手間が下がるほど決める力が問われる
     blocks:
       - type: point
         text: 生成AIは文章や絵やプログラムを短い時間でつくります。つくる手間が下がった分、何をつくるか、できたものをどう確かめるかを決める仕事が人に残ります。
@@ -59,7 +59,7 @@ chapters:
         href: /#why-now
       - type: example
         kind: real
-        title: AIの案を使うと、良くなるが似てくる
+        title: AIの案を使うと良くなるが似てくる
         text: |-
           2024年に発表された実験では、参加者に短い物語を書いてもらい、一部の人にだけ生成AIが出した案を見せました。AIの案を見た人の物語は、より創造的でよく書けていると評価されました。もともとの創造性が低めの書き手ほど、効果は大きく出ました。ところがAIの案を見た人たちの物語は、見ていない人たちの物語より互いに似ていました。一人ひとりの出来は上がっても、全体の幅は狭くなったのです。
         source: '[A. R. Doshi & O. P. Hauser, "Generative AI enhances individual creativity but reduces the collective diversity of novel content", Science Advances, 10(28), 2024](https://doi.org/10.1126/sciadv.adn5290)による。'
@@ -73,7 +73,7 @@ chapters:
           [総務省「令和6年版 情報通信白書」生成AIが抱える課題](https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r06/html/nd141100.html)。
 
   - id: bias
-    heading: AIは、学んだデータの偏りをそのまま映す
+    heading: AIは学んだデータの偏りをそのまま映す
     blocks:
       - type: question
         text: 顔写真から性別を判定するAI。誰の顔でも同じくらい当たるでしょうか?
@@ -91,7 +91,7 @@ chapters:
           これは[[data-analysis#basics|データ分析]]で紹介した「そのデータが、どのように集められたか」の問題と同じです。帰ってきた飛行機だけを調べると判断を誤るように、集めやすい人のデータだけで学んだAIは、そこに含まれない人の前で誤ります。AIを使うものを設計するときは、使う人の幅と学習や評価に使うデータの幅が合っているかを確かめます。
 
   - id: roles
-    heading: AIに任せることと、人が決めることを分ける
+    heading: AIに任せることと人が決めることを分ける
     blocks:
       - type: point
         text: AIは誤ることがあります。だから設計ではAIにどこまで任せ、どこで人に戻すか、誤ったときに何が起きるかをつくる前に決めます。
@@ -102,7 +102,7 @@ chapters:
           [国土交通省「自動運転車両の呼称」](https://www.mlit.go.jp/jidosha/anzen/01asv/report06/file/siryohen_4_jidountenyogo.pdf)。
       - type: example
         kind: real
-        title: 条件を決めて、運転を任せる
+        title: 条件を決めて運転を任せる
         text: |-
           2020年11月、国土交通省はホンダの「レジェンド」を、自動運行装置を備えた車として世界で初めて型式指定しました。この装置が運転を代わるのは、高速道路の渋滞のときなど、国が型式指定のときに付けた条件の範囲だけです。条件を外れるときや故障のときは、警報を出して運転者に操作を求めます。任せる範囲と人に戻す手順が、つくる前に決められています。
         source: '[国土交通省の報道発表(2020年11月11日)](https://www.mlit.go.jp/report/press/jidosha08_hh_003888.html)による。'

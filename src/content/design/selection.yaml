@@ -11,7 +11,7 @@ summary: 目的どうしがぶつかる中で、案を比べて一つを選ぶ�
 lead: たくさんの案から一つを選びます。軽さと値段のように、設計の目的はたいていぶつかり合います。この工程では、何をどれだけ大切にするかを話し合える形にして選びます。
 chapters:
   - id: tradeoff
-    heading: どの案にも、長所と短所がある
+    heading: どの案にも長所と短所がある
     blocks:
       - type: point
         text: 設計の目的はぶつかり合うので、どの案にも長所と短所があります。どれを選ぶかは、何をどれだけ大切にするかという判断で決まります。
@@ -24,7 +24,7 @@ chapters:
         name: pareto-front
 
   - id: must
-    heading: まず、必須の要件でふるいにかける
+    heading: まず必須の要件でふるいにかける
     blocks:
       - type: point
         text: 必須の要件や制約を一つでも満たさない案は、他の点が高くても外します。先に要件でふるいにかけ、残った案だけを比べます。
@@ -40,7 +40,7 @@ chapters:
         text: ふるいで外した案も理由と一緒に記録に残します。要件が変わったときに見直せるからです。外した案の良いところを残った案に取り入れられないかも考えます。紙の予約表なら、部室の前で一目で空きが分かることです。
 
   - id: criteria
-    heading: 基準は、案を見る前に決める
+    heading: 基準は案を見る前に決める
     blocks:
       - type: point
         text: 評価の基準は案を見る前に要件から決めます。案を見てから決めると、先に見た案や気に入った案に判断が引っ張られやすいからです。
@@ -71,7 +71,7 @@ chapters:
         note: '[日本スポーツ振興センター「新国立競技場整備事業の第Ⅰ期契約締結等について」2016年1月](https://www.mext.go.jp/prev_sports/comp/a_menu/sports/micro_detail/__icsFiles/afieldfile/2016/06/10/1366585_3.pdf)と[スポーツ庁「新国立競技場整備事業に関する連絡会議(第6回)」2016年9月](https://www.mext.go.jp/sports/b_menu/sports/mcatetop02/list/detail/1377921.htm)による。'
 
   - id: example
-    heading: 今あるものを使う案が、一番になることもある
+    heading: 今あるものを使う案が一番になることもある
     blocks:
       - type: point
         text: 要件を満たす案の中では、一番手間のかからない案が最良のこともあります。選ぶ目的は、つくることより要件を満たすことです。

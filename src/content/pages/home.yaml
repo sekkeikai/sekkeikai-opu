@@ -51,7 +51,7 @@ sections:
       - type: p
         text: どれも、つくり始める前に手を打つべき問題です。だから今、つくる前に考える力が求められています。
       - type: aside
-        title: 仕事の現場で起きていることと、新しい規則
+        title: 仕事の現場で起きていることと新しい規則
         body:
           - "ソフトウェア開発の現場では、まず「何をつくるか」を仕様書(つくる人に渡す設計の書類)にまとめ、それをAIに渡してプログラムを書かせる進め方が広がり始めています。「仕様駆動開発」と呼ばれ、2025年頃からそのための道具が次々に公開されています(例: [GitHub「Spec Kit」2025年9月](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/))。人の仕事の中心が「書くこと」から「決めること」へ移りつつあるのです。"
           - 「製品の環境への影響の8割以上は設計の段階で決まる」という見積もりは、欧州でよく引用されます([欧州委員会の冊子「Ecodesign Your Future」2012年](https://build-up.ec.europa.eu/sites/default/files/content/Brochure-Ecodesign-Your-Future-15022012.pdf))。EUの規則は「[持続可能な製品のためのエコデザイン規則(ESPR)](https://oeil.europarl.europa.eu/oeil/en/document-summary?id=1785880)」です(2024年7月発効)。
@@ -60,7 +60,7 @@ sections:
   - type: chapter
     id: upstream
     eyebrow: いつ手を打てばいいの?
-    title: 直すなら、つくる前が一番安い
+    title: 直すならつくる前が一番安い
     point: 完成してから直すと、つくる前に直すより何十倍もの手間がかかることがあります。つくる前に考える時間は、少ない手間で結果を大きく変えられる時間です。
     blocks:
       - type: question
@@ -78,7 +78,7 @@ sections:
   - type: chapter
     id: logic
     eyebrow: センスがないと無理?
-    title: 良い設計は、センスだけでなく論理で語れる
+    title: 良い設計はセンスだけでなく論理で語れる
     point: 設計の良し悪しは、好みだけでなく筋道を立てて説明できます。だから設計は学んで身に付けられる技術です。
     blocks:
       - type: question
@@ -103,7 +103,7 @@ sections:
   - type: chapter
     id: map
     eyebrow: 何を学ぶの?
-    title: 設計には、いくつもの見方が要る
+    title: 設計にはいくつもの見方が要る
     point: 一枚の案内表示にも、人を観察する目、数を数える目、図にして試す目が要ります。設計に必要な知識は、いくつもの学部にまたがります。
     blocks:
       - type: example
@@ -114,13 +114,13 @@ sections:
       - type: map
         variant: compact
       - type: link
-        label: 工程と視点を、図と一緒に詳しく読む
+        label: 工程と視点を図と一緒に詳しく読む
         href: /design/
 
   - type: chapter
     id: together
     eyebrow: 一人じゃだめなの?
-    title: だから、違う専門の仲間と設計する
+    title: だから違う専門の仲間と設計する
     point: これだけの知識と視点をそろえるには、何人もの力が要ります。違う専門を持つ人が集まると、一人で考えるより広い範囲から答えを探せます。
     blocks:
       - type: question
@@ -132,7 +132,7 @@ sections:
   - type: chapter
     id: place
     eyebrow: 設計会では何をするの?
-    title: 設計会は、考えをぶつけ合う場所
+    title: 設計会は考えをぶつけ合う場所
     point: 好きなことを話し、違う考えとぶつかり、それを設計に落とし込む。そのための3つの場をつくっています。
     blocks:
       - type: cards

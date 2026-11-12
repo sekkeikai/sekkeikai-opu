@@ -9,7 +9,7 @@ lead: 注意書きを貼っても、うっかりは起きます。部品はい�
 parent: human-interface
 chapters:
   - id: design-first
-    heading: 「気をつけて」より先に、設計で防ぐ
+    heading: 「気をつけて」より先に設計で防ぐ
     blocks:
       - type: question
         text: 子供がライターで遊んで火事になるのを防ぐには、「触らないで」と教えるだけで足りるでしょうか?
@@ -24,7 +24,7 @@ chapters:
         source: '[製品評価技術基盤機構(NITE)の注意喚起の資料](https://www.nite.go.jp/data/000004813.pdf)と[消費者庁などのリーフレット](https://www.caa.go.jp/publication/pamphlet/pdf/110929kouhyou_5.pdf)による。'
 
   - id: three-steps
-    heading: 安全の手を打つ順番は、決まっている
+    heading: 安全の手を打つ順番は決まっている
     blocks:
       - type: point
         text: まず危険のもとを設計でなくすか小さくし、次に覆いや安全装置で防ぎ、最後に残る危険を使う人に伝えます。設計でできることを飛ばして注意書きに頼ってはいけません。
@@ -67,7 +67,7 @@ chapters:
           形や色で区別して取り違えを防ぐ工夫や、表示が実際の状態を伝えなかったことで起きた事故は、[[human-interface#why|ヒューマンインターフェース]]のページで紹介しています。
 
   - id: find-hazards
-    heading: つくる前に、どこで誰がけがをしうるかを洗い出す
+    heading: つくる前にどこで誰がけがをしうるかを洗い出す
     blocks:
       - type: point
         text: 安全の設計は危険を見つけるところから始まります。危険のもとを挙げ、それぞれの危険の大きさを見積もり、小さくする必要があるかを決めます。

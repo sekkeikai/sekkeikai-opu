@@ -8,7 +8,7 @@ summary: 問題を見つけ、要件を定め、案を広げ、比べて選び�
 lead: 設計はいくつもの工程を踏んで、答えを少しずつ確かにしていく作業です。解くべき問題を見つけ、満たすべき条件(要件)を言葉にし、たくさんの案から根拠をもって選び、細部を詰めていきます。このページでは、5つの工程の全体とそのつながり方を紹介します。各工程の中身はそれぞれのページで詳しく書いています。
 chapters:
   - id: overview
-    heading: 設計は、5つの工程で進む
+    heading: 設計は5つの工程で進む
     blocks:
       - type: point
         text: 設計は「問題を見つける → 要件を定める → 案を広げる → 比べて選ぶ → 形を詰める」の5つの工程で進みます。
@@ -19,7 +19,7 @@ chapters:
         note: "[H. A. Simon, The Sciences of the Artificial, MIT Press, 1969(第3版 1996)](https://ndlsearch.ndl.go.jp/books/R100000002-I000006331276)。邦訳[『システムの科学』](https://ndlsearch.ndl.go.jp/books/R100000002-I000002864619)。"
 
   - id: fields
-    heading: 分野が違っても、骨格は共通
+    heading: 分野が違っても骨格は共通
     blocks:
       - type: point
         text: 機械・ソフトウェア・建築・サービスでは、進め方の呼び方も区切り方も違います。けれど「問題 → 要件 → 案 → 選ぶ → 細部」という骨格は共通です。5つの工程はその骨格に付けた名前です。
@@ -57,7 +57,7 @@ chapters:
         note: 機械は[Pahl & Beitz, Konstruktionslehre(1977)](https://ci.nii.ac.jp/ncid/BA62999351)、建築は[令和6年国土交通省告示第8号](https://www.mlit.go.jp/jutakukentiku/build/jutakukentiku_house_tk_000082.html)、ソフトウェアは[IPA「共通フレーム2013」](https://www.ipa.go.jp/publish/secbooks20130304.html)による。ソフトウェアの「基本設計」「詳細設計」は、日本の現場での慣用の呼び方。建築の「企画・基本計画」は告示の標準業務の外で、慣用の呼び方。
 
   - id: modes
-    heading: 広げては絞る、を二度繰り返す
+    heading: 「広げては絞る」を二度繰り返す
     blocks:
       - type: point
         text: 問題を見つけるときと案を考えるときは、評価を後回しにして広げる。要件を定めるとき・案を選ぶとき・形を詰めるときは、根拠をもって絞る。今どちらなのかを意識すると、話し合いが進めやすくなります。
@@ -69,7 +69,7 @@ chapters:
         text: どの工程も終わりに形のあるものを一つ残し、それが次の工程の出発点になります。工程の順に、問題の一文・要件の表・案の一覧・比較の表と選んだ理由・仕様書です。要件の表は左のひし形の答えであり、右のひし形で案を比べるときの物差しにもなります。
 
   - id: loop
-    heading: 工程は、行き来しながら確かになる
+    heading: 工程は行き来しながら確かになる
     blocks:
       - type: point
         text: 案を考えて初めて要件の見落としに気付くことはよくあります。そのときは前の工程に戻ります。見落としは早く見つけるほど小さな手間で直せます。
@@ -84,7 +84,7 @@ chapters:
         note: ドイツ技術者協会の指針 [VDI 2221](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-1-entwicklung-technischer-produkte-und-systeme-modell-der-produktentwicklung) は2019年の改訂で、製品開発の中心となる目標・活動・成果を定める形になった。実際の進め方は、会社ごとの事情に合わせて組み立てるとしている([VDI 2221 Blatt 2](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2221-blatt-2-entwicklung-technischer-produkte-und-systeme-gestaltung-individueller-produktentwicklungsprozesse))。
 
   - id: examples
-    heading: 例で、5つの工程をたどる
+    heading: 例で5つの工程をたどる
     blocks:
       - type: point
         text: 工程のページでは、架空の例として「部室の予約が取り合いになっている」という一つの問題を取り上げ、5つの工程でどう進めるかを順に示します。
@@ -98,7 +98,7 @@ chapters:
         href: /design/problem-finding/
 
   - id: club
-    heading: 設計会では、今どの工程かを意識して話す
+    heading: 設計会では今どの工程かを意識して話す
     blocks:
       - type: point
         text: 部員がテーマを持ち寄り、今どの工程にいるのかを確かめながらチームで考えます。
