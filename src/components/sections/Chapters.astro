@@ -51,16 +51,16 @@ const numbered = numberChapters(Astro.props.chapters);
         aria-labelledby={`${c.id}-title`}
         data-toc-section
       >
-        <p class="flex items-center gap-3" data-reveal>
+        <p class="flex items-center gap-3">
           <span class="font-mono text-sm text-accent-strong">{c.number}</span>
           <span class="h-px w-10 bg-ink/30" aria-hidden="true" />
           <span class="text-sm font-bold text-muted">{c.eyebrow}</span>
         </p>
-        <h2 id={`${c.id}-title`} class="mt-4 text-[2rem] leading-tight font-black sm:text-5xl" data-reveal>
+        <h2 id={`${c.id}-title`} class="mt-4 text-[2rem] leading-tight font-black sm:text-5xl">
           {c.title}
         </h2>
         <div class="longform mt-8">
-          <div class="my-8 max-w-[38em] rounded-r-card border-l-4 border-accent bg-accent/6 px-5 py-4" data-reveal>
+          <div class="my-8 max-w-[38em] rounded-r-card border-l-4 border-accent bg-accent/6 px-5 py-4">
             <p class="text-[1.1em] leading-relaxed font-semibold text-ink">{c.point}</p>
           </div>
           <Blocks blocks={c.numbered} compactFigures />

@@ -1,0 +1,122 @@
+title: サービスデザイン
+en: Service Design
+layer: topic
+order: 1
+short: 形のないものの設計
+question: 窓口や手続きも、設計できるのか
+summary: 窓口・手続き・イベントのように形のないものも、設計の対象になる。利用者から見える部分と、それを支える見えない部分を一緒に設計する。行政の窓口を変えた例や国の方針にも、この考え方が表れている。
+lead: 市役所の窓口、病院の受付、学園祭の運営。手に取れる形はなくても、誰かのために流れや役割を決めているものは、どれも設計の対象です。サービスデザインは、人と仕組みが組み合わさって価値を届ける「サービス」を設計する分野です。設計のプロセスの5つの工程はここでもそのまま使えます。
+parent: process
+chapters:
+  - id: what
+    heading: 形のないものも設計できる
+    blocks:
+      - type: question
+        text: 引っ越して転入の手続きをしたとき、同じ住所と名前を何枚の紙に書いたでしょう?
+        answer: 手続きごとに用紙が分かれていると、同じことを何度も書くことになります。何枚書くかは窓口の手続きをどう設計したかで決まります。下で紹介する北見市は、この設計を見直しました。
+      - type: point
+        text: サービスデザインは、人・物・手順を組み合わせて、利用者と働く人の両方の体験を良くする設計です。形のないサービスも工程を踏んで設計できます。
+      - type: p
+        text: |-
+          ユーザビリティの研究で知られるニールセン・ノーマン・グループは、サービスデザインを、人・道具・手順といった資源を計画し組み立てる活動だと説明しています。目指すのは、働く人の体験を良くし、それを通して利用者の体験を良くすることです。利用者が触れる画面や用紙だけでなく、それを支える人の動きまでを設計の範囲に入れるところに、この分野の特徴があります。
+        note: |-
+          [S. Gibbons, "Service Blueprints: Definition", Nielsen Norman Group, 2017](https://www.nngroup.com/articles/service-blueprints-definition/)。
+      - type: p
+        text: |-
+          設計会が扱うテーマの多くもサービスです。[[case-open-campus|オープンキャンパスの体験コーナー]]や[[case-shelter-reception|避難所の受付]]の例では、物をつくるのではなく、人の流れと係の役目を設計しています。
+
+  - id: blueprint
+    heading: 見える部分は見えない部分に支えられている
+    blocks:
+      - type: point
+        text: 利用者から見える窓口の対応は、見えないところの仕事に支えられています。サービスを良くするには、見える部分と見えない部分を一緒に描いて設計します。
+      - type: p
+        text: |-
+          飲食店なら客から見えるのは、席に案内され、注文を聞かれ、料理が運ばれてくるところです。その裏では店員が注文を厨房の画面に打ち込み、料理人が調理しています。こうしたサービスの流れを一枚の図に描いたものをサービスブループリントと呼びます。図は4つの層に分けます。利用者の行動、利用者から見える働く人の行動、見えない裏側の仕事、それを支える仕組みです。見えるものと見えないものの間には「可視線」と呼ぶ線を引きます。
+        note: |-
+          [S. Gibbons, "Service Blueprints: Definition", Nielsen Norman Group, 2017](https://www.nngroup.com/articles/service-blueprints-definition/)。飲食店の例もここによる。
+      - type: p
+        text: |-
+          裏側まで描くと、改善の手がかりが見えてきます。例えば最初に聞いた情報を後の手続きでも使えるようにすれば、利用者は同じことを何度も聞かれずに済み、働く人も聞き直す手間が省けます。見える窓口だけを整えても、裏の流れが変わらなければ、待ち時間や書く手間は減りません。
+
+  - id: kitami
+    heading: 窓口を利用者の目で見直す
+    blocks:
+      - type: point
+        text: 市役所の職員が自分で窓口を利用してみると、利用者の手間が見えてきます。北海道北見市は見えた手間を窓口と裏側の両方から設計し直し、「書かない窓口」をつくりました。
+      - type: example
+        kind: real
+        title: 新人職員が窓口を利用してみる
+        text: |-
+          2012年度、北見市は「新人職員が窓口を利用してみたら実験」を行い、利用者の目で問題を探しました。申請用紙の種類が多い、書き方が分からない、住所や氏名を何度も書かされる、記入と確認に市民と職員の両方の時間がかかる、という問題が見えました。そこで市は窓口を変えました。職員が話を聞きながら、住民のデータを使って申請書をつくり、住民は確かめて署名するだけで済みます。申請のデータはそのまま裏側の処理に回ります。この仕組みは2025年3月の時点で56の自治体に広がっています。
+        source: '[内閣官房 デジタル田園都市国家構想の推薦調書(北見市)](https://www.cas.go.jp/jp/seisaku/digitaldenen/archives/koushien/chiiki/pdf/01-2.pdf)と[総務省 自治体DXの事例(北見市)](https://www.soumu.go.jp/denshijiti/digital_transformation_portal/case/pdf/r07_dx3_13.pdf)による。'
+      - type: table
+        caption: 書かない窓口をサービスブループリントの層に分けて見る
+        head:
+          - 層
+          - 書かない窓口ですること
+        rows:
+          - - 利用者の行動
+            - 窓口で用件を話し、つくられた申請書を確かめて署名する
+          - - 見える職員の行動
+            - 話を聞きながら、住民のデータを使って要る手続きの申請書をつくる
+          - - 見えない裏側の仕事
+            - 申請のデータがそのまま各担当の処理に回る
+          - - 支える仕組み
+            - 手続きを判定し、申請書を印刷する窓口のシステム
+      - type: p
+        text: |-
+          この例は設計の工程とよく重なります。利用者の立場で窓口を使ってみることは[[problem-finding|問題を見つける工程]]の観察です。そして見える窓口だけでなく裏側の流れまで変えたことで、住民と職員の両方の手間が減りました。岡山市も2026年10月、新しい市役所の開庁に合わせて全ての窓口で「書かない窓口」を始めると発表しています。
+        note: |-
+          [岡山市「『書かない窓口』を岡山市全窓口で始めます!」(2026年10月23日)](https://www.city.okayama.jp/kurashi/0000068868.html)。
+
+  - id: principles
+    heading: 国の行政サービスにも設計の原則がある
+    blocks:
+      - type: point
+        text: 日本の政府は、行政サービスを利用者から考えて設計するための「サービス設計12箇条」を方針として示しています。最初の条は「利用者のニーズから出発する」です。
+      - type: p
+        text: |-
+          デジタル庁のガイドブックは、行政サービスに利用者の視点が要る理由を説明する中で、この「サービス設計12箇条」を紹介しています。第1条から第4条は次の通りです。
+        note: |-
+          [デジタル庁「1章 行政サービスに『利用者視点』が必要な理由」](https://www.digital.go.jp/resources/user-centered-approach-guidebook/basis)。
+      - type: list
+        items:
+          - 第1条 利用者のニーズから出発する
+          - 第2条 事実を詳細に把握する
+          - 第3条 エンドツーエンドで考える
+          - 第4条 全ての関係者に気を配る
+      - type: p
+        text: |-
+          「エンドツーエンド」は、利用者が手続きを思い立ってから終えるまでを一続きで考えることです。窓口一つ、画面一つを良くしても、その前後でつまずけば、利用者にとっての手間は減りません。「全ての関係者」には利用者だけでなく、窓口で働く人も含まれます。どの条も、[[process|設計の5つの工程]]で問題を見つけ、要件を定めるときの考え方と重なっています。
+
+references:
+  - text: 'S. Gibbons, "Service Blueprints: Definition", Nielsen Norman Group, 2017.'
+    url: https://www.nngroup.com/articles/service-blueprints-definition/
+  - text: 内閣官房 デジタル田園都市国家構想の推薦調書(北海道北見市「書かないワンストップ窓口」).
+    url: https://www.cas.go.jp/jp/seisaku/digitaldenen/archives/koushien/chiiki/pdf/01-2.pdf
+  - text: 総務省 自治体DX推進のための事例「書かないワンストップ窓口」(北海道北見市).
+    url: https://www.soumu.go.jp/denshijiti/digital_transformation_portal/case/pdf/r07_dx3_13.pdf
+  - text: 岡山市「『書かない窓口』を岡山市全窓口で始めます!」, 2026年10月23日.
+    url: https://www.city.okayama.jp/kurashi/0000068868.html
+  - text: デジタル庁「1章 行政サービスに『利用者視点』が必要な理由」(サービス設計12箇条).
+    url: https://www.digital.go.jp/resources/user-centered-approach-guidebook/basis
+related:
+  - process
+  - problem-finding
+  - case-shelter-reception
+  - case-open-campus
+
+courses:
+  - name: サービスマーケティング論
+    dept: 現代福祉学科
+    relation: サービスの特性と、それに応じた顧客とのコミュニケーション
+    path: 0116/0116_16001101
+  - name: 福祉サービスの組織と経営
+    dept: 現代福祉学科
+    relation: 福祉サービスを提供する組織の経営と、サービス・マネジメント
+    path: 0116/0116_16001701
+  - name: ＵＸデザイン論
+    dept: ビジュアルデザイン学科
+    relation: UXリサーチの方法と、心理学・HCIとのつながり
+    path: 0335/0335_35002501

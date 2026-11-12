@@ -1,0 +1,82 @@
+---
+// 同じ2つの数を、縦軸を 0 から始めた棒グラフと、途中から始めた棒グラフで並べる図。
+// 縦軸を途中から始めると、差が大きく見える(Correll ほか, 2020)。数は説明のための仮の値。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+const values = [
+  { label: "去年", value: 52 },
+  { label: "今年", value: 55 },
+];
+
+// 2つのグラフ。min は縦軸の始まり、max は終わり、step は目盛りの間隔
+const charts = [
+  { left: 60, min: 0, max: 60, step: 10, title: "縦軸を0から始める" },
+  { left: 380, min: 50, max: 56, step: 1, title: "縦軸を50から始める" },
+];
+const top = 30;
+const bottom = 240;
+const barW = 70;
+const gap = 40;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="縦軸の始まりを変えると、同じ差が違って見える"
+  caption="同じ2つの数(52と55)を、縦軸を0から始めた図(左)と、50から始めた図(右)で描いた。右の図では、今年の棒が去年の倍より高く見える。目盛りの数字は正しくても、目に入る棒の高さの比は変わる。数は説明のための仮の値。"
+  source="[M. Correll, E. Bertini, S. Franconeri, “Truncating the Y-Axis: Threat or Menace?”, CHI 2020](https://arxiv.org/abs/1907.02035)"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 290"
+    class="w-full"
+    role="img"
+    aria-label="左の図は縦軸が0から60までで、去年52と今年55の棒はほとんど同じ高さ。右の図は縦軸が50から56までで、今年の棒が去年の棒の倍以上の高さに見える。"
+  >
+    {charts.map((c) => {
+      const yOf = (v: number) => bottom - ((v - c.min) / (c.max - c.min)) * (bottom - top);
+      const ticks = Array.from({ length: (c.max - c.min) / c.step + 1 }, (_, i) => c.min + i * c.step);
+      const right = c.left + values.length * (barW + gap) + gap / 2;
+      return (
+        <g>
+          <g font-family="var(--font-mono)" font-size="12" fill="var(--color-muted)">
+            {ticks.map((v) => (
+              <g>
+                <line x1={c.left} x2={right} y1={yOf(v)} y2={yOf(v)} stroke="var(--color-grid)" />
+                <text x={c.left - 8} y={yOf(v) + 4} text-anchor="end">
+                  {v}
+                </text>
+              </g>
+            ))}
+          </g>
+          {values.map((d, i) => {
+            const x = c.left + gap / 2 + i * (barW + gap);
+            return (
+              <g>
+                <rect x={x} y={yOf(d.value)} width={barW} height={bottom - yOf(d.value)} fill="var(--color-link)" />
+                <text x={x + barW / 2} y={bottom + 18} text-anchor="middle" font-size="13" fill="var(--color-ink)">
+                  {d.label} {d.value}
+                </text>
+              </g>
+            );
+          })}
+          <text
+            x={(c.left + right) / 2}
+            y="282"
+            text-anchor="middle"
+            font-size="13"
+            font-weight="700"
+            fill="var(--color-ink)"
+          >
+            {c.title}
+          </text>
+        </g>
+      );
+    })}
+  </svg>
+</FigureFrame>

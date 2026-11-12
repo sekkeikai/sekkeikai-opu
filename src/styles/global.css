@@ -74,12 +74,11 @@
     background-size: 32px 32px;
   }
 
-  /* 図面の注記のような小見出し */
+  /* 図面の注記のような小見出し。英字は書いた通りに出す(全部を大文字にすると、飾りに見えて読みにくい) */
   .annotation {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.14em;
-    text-transform: uppercase;
   }
 
   .container-page {

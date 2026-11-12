@@ -1,0 +1,112 @@
+---
+// 同じ5つの数を、円グラフ(角度で比べる)と棒グラフ(そろった目盛りの上の位置で比べる)で並べる図。
+// 位置のほうが角度より正確に読み取れる、という図の読み取りの研究(Cleveland & McGill, 1984 と、その追試)を見せる。
+// 数は説明のための仮の値。
+import FigureFrame from "./FigureFrame.astro";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// 合計 100 になる5つの数。差を小さくして、円グラフでは見分けにくくしている
+const items = [
+  { label: "A", value: 23 },
+  { label: "B", value: 21 },
+  { label: "C", value: 20 },
+  { label: "D", value: 19 },
+  { label: "E", value: 17 },
+];
+const total = items.reduce((s, d) => s + d.value, 0);
+
+// 円グラフ: 12時の位置から時計回りに並べる
+const cx = 140;
+const cy = 150;
+const r = 110;
+const point = (angle: number, radius: number) => [cx + radius * Math.sin(angle), cy - radius * Math.cos(angle)];
+let start = 0;
+const slices = items.map((d) => {
+  const sweep = (d.value / total) * Math.PI * 2;
+  const [x1, y1] = point(start, r);
+  const [x2, y2] = point(start + sweep, r);
+  const [lx, ly] = point(start + sweep / 2, r * 0.62);
+  const path = `M${cx} ${cy} L${x1.toFixed(1)} ${y1.toFixed(1)} A${r} ${r} 0 ${sweep > Math.PI ? 1 : 0} 1 ${x2.toFixed(1)} ${y2.toFixed(1)} Z`;
+  start += sweep;
+  return { ...d, path, lx, ly };
+});
+
+// 棒グラフ: 縦軸は 0 から 25 まで
+const left = 340;
+const bottom = 260;
+const top = 40;
+const barW = 34;
+const gap = 12;
+const yOf = (v: number) => bottom - (v / 25) * (bottom - top);
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="同じ数でも、角度より位置のほうが比べやすい"
+  caption="同じ5つの数(合計100)を、円グラフ(左)と棒グラフ(右)で描いた。円グラフでは、BとCやCとDのどちらが大きいかを見分けにくい。棒グラフでは、そろった目盛りの上の高さで比べられる。数は説明のための仮の値。"
+  source="[J. Heer & M. Bostock, “Crowdsourcing Graphical Perception”, CHI 2010](https://idl.cs.washington.edu/files/2010-MTurk-CHI.pdf)(W. S. Cleveland & R. McGill, 1984 の実験の追試)"
+  scroll
+>
+  <svg
+    viewBox="0 0 640 320"
+    class="w-full"
+    role="img"
+    aria-label="左は5つに分かれた円グラフで、扇形の大きさはほとんど同じに見える。右は同じ数の棒グラフで、Aが一番高く、Eに向かって少しずつ低くなっていることが分かる。"
+  >
+    <g>
+      {slices.map((s) => (
+        <g>
+          <path d={s.path} fill="var(--color-paper-muted)" stroke="var(--color-ink)" stroke-width="1.5" />
+          <text x={s.lx} y={s.ly + 6} text-anchor="middle" font-size="18" font-weight="700" fill="var(--color-ink)">
+            {s.label}
+          </text>
+        </g>
+      ))}
+      <text x={cx} y="312" text-anchor="middle" font-size="13" fill="var(--color-muted)">
+        円グラフ(角度で比べる)
+      </text>
+    </g>
+    <g font-family="var(--font-mono)" font-size="12" fill="var(--color-muted)">
+      {[0, 5, 10, 15, 20, 25].map((v) => (
+        <g>
+          <line x1={left} x2={left + items.length * (barW + gap)} y1={yOf(v)} y2={yOf(v)} stroke="var(--color-grid)" />
+          <text x={left - 8} y={yOf(v) + 4} text-anchor="end">
+            {v}
+          </text>
+        </g>
+      ))}
+    </g>
+    {items.map((d, i) => {
+      const x = left + gap / 2 + i * (barW + gap);
+      return (
+        <g>
+          <rect x={x} y={yOf(d.value)} width={barW} height={bottom - yOf(d.value)} fill="var(--color-link)" />
+          <text
+            x={x + barW / 2}
+            y={bottom + 20}
+            text-anchor="middle"
+            font-size="16"
+            font-weight="700"
+            fill="var(--color-ink)"
+          >
+            {d.label}
+          </text>
+        </g>
+      );
+    })}
+    <text
+      x={left + (items.length * (barW + gap)) / 2}
+      y="312"
+      text-anchor="middle"
+      font-size="13"
+      fill="var(--color-muted)"
+    >
+      棒グラフ(位置で比べる)
+    </text>
+  </svg>
+</FigureFrame>

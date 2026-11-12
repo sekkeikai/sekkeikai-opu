@@ -113,6 +113,7 @@ push したら GitHub のリポジトリのページを開くと、黄色い帯�
 
 - **セクションを追加する**: `src/components/SectionRenderer.astro` の冒頭コメントの 4 手順を参照
 - **アニメーション**: `src/scripts/motion.ts`。要素に `data-reveal`（ふわっと出る）や `data-draw`（SVG の線を描く）を付けるだけで動きます
+  - 動かすのは、トップの大見出し・入部の章・図だけにしてください。読む文章（見出し、要点、例、表など）が遅れて現れると、読む人を待たせます
   - 「視差効果を減らす」設定の人には動きを付けない、を守ってください
 - **色・フォント・角の丸み・動きの長さ**: Tailwind のクラス（例 `text-accent`, `bg-blueprint`）や CSS 変数で使います。値は `tokens/tokens.json` から来ています（余白は Tailwind の標準の値）
 - **長文の部品（ブロック）や図を足す**: `src/content.config.ts` の `block`、`src/components/Blocks.astro`、`public/admin/config.yml` のブロック（`&blocks`）をそろえる。図は `src/components/figures/` に作り、`src/lib/figures.ts` と `src/components/Figure.astro`、`public/admin/config.yml` の図の選択肢に足す

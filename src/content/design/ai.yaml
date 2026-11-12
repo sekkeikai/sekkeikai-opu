@@ -1,0 +1,160 @@
+title: 人工知能
+en: Artificial Intelligence
+layer: topic
+order: 1
+short: AIと設計
+question: AIがつくれる時代に、人は何を決めるのか
+summary: 人工知能(AI)はたくさんの例から決まりを見つけるモデル。つくる手間を大きく下げる一方で、学んだデータの偏りを映し、誤ることもある。どこに使い、誤りをどう受け止めるかは、設計が決める。
+lead: 文章を書く、絵を描く、プログラムを組む。少し前まで人にしかできなかった仕事を、人工知能(AI)がこなすようになりました。AIはデータ分析から育った技術で、データからつくったモデルの一種です。仕組みを知ると、AIに任せられることと人が決めるべきことの境目が見えてきます。
+parent: data-analysis
+chapters:
+  - id: what
+    heading: AIは例から決まりを見つけるモデル
+    blocks:
+      - type: question
+        text: 迷惑メールを見分ける決まりを全て書き出せるでしょうか?
+        answer: 書ききれません。「当選」という言葉を含む、知らない相手から届く、と決まりを足しても、送る側はすぐに書き方を変えます。そこで迷惑メールとそうでないメールの例をたくさん見せて、見分ける決まりをコンピューターに見つけさせます。
+      - type: point
+        text: 人が決まりを書く代わりに、たくさんの例から決まりを見つけさせる。この方法を機械学習と呼び、今のAIの多くはこの方法でつくられています。
+      - type: p
+        text: |-
+          「人工知能」という言葉は1955年に書かれた研究会の提案書に出てきます。ジョン・マッカーシーら4人は1956年の夏に米国のダートマス大学で、10人が2か月かけて研究する計画を立てました。出発点にしたのは、学習をはじめ知能のどんな働きも、機械がまねできるほど正確に書き表せるはずだという予想でした(要旨)。
+        note: |-
+          [J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon, "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence", 1955](https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html)(スタンフォード大学に置かれた全文)。
+      - type: p
+        text: |-
+          例から学ばせる方法は早くから試されていました。IBMのアーサー・サミュエルは、チェッカーというボードゲームを指すプログラムに指し方を自分で良くしていく仕組みを組み込みました。1959年の論文で、プログラムを書いた本人より強く指せるように学習させられることを確かめています。
+        note: |-
+          [A. L. Samuel, "Some Studies in Machine Learning Using the Game of Checkers", IBM Journal of Research and Development, 3(3), 1959](https://doi.org/10.1147/rd.33.0210)。
+      - type: table
+        caption: 決まりを人が書く方法と例から学ばせる方法
+        head:
+          - ""
+          - 人が決まりを書く
+          - 例から学ばせる(機械学習)
+        rows:
+          - - 決まりをつくるのは
+            - 人が考えて書く
+            - コンピューターが例から見つける
+          - - 向いている仕事
+            - 手順を言葉にできる仕事(料金の計算など)
+            - 決まりを言葉にしにくい仕事(写真の見分けや文章の作成など)
+          - - 弱いところ
+            - 決まりを書ききれない仕事には使えない
+            - 学んだ例に無い場面では外れやすく、そう答えた理由をたどりにくい
+      - type: p
+        text: |-
+          機械学習でつくったものは[[modeling|モデル]]の一種です。モデルは目的のために何かを捨てていますが、機械学習では何を残すかが学習に使うデータで決まります。だからAIの性質はどんなデータで学んだかに左右されます。
+
+  - id: shift
+    heading: つくる手間が下がるほど決める力が問われる
+    blocks:
+      - type: point
+        text: 生成AIは文章や絵やプログラムを短い時間でつくります。つくる手間が下がった分、何をつくるか、できたものをどう確かめるかを決める仕事が人に残ります。
+      - type: p
+        text: |-
+          文章や画像を新しくつくり出すAIを生成AIと呼びます。指示を言葉で書くだけで使えるので、案の下書きや試作を専門家でなくても短い時間でつくれるようになりました。設計会が「つくる前に考える」ことを大切にする理由の一つは、ここにあります。
+      - type: link
+        label: トップページ「『つくる』より『決める』が難しい時代」を読む
+        href: /#why-now
+      - type: example
+        kind: real
+        title: AIの案を使うと良くなるが似てくる
+        text: |-
+          2024年に発表された実験では、参加者に短い物語を書いてもらい、一部の人にだけ生成AIが出した案を見せました。AIの案を見た人の物語は、より創造的でよく書けていると評価されました。もともとの創造性が低めの書き手ほど、効果は大きく出ました。ところがAIの案を見た人たちの物語は、見ていない人たちの物語より互いに似ていました。一人ひとりの出来は上がっても、全体の幅は狭くなったのです。
+        source: '[A. R. Doshi & O. P. Hauser, "Generative AI enhances individual creativity but reduces the collective diversity of novel content", Science Advances, 10(28), 2024](https://doi.org/10.1126/sciadv.adn5290)による。'
+      - type: p
+        text: |-
+          設計では[[ideation|案を広げる工程]]で案の幅が問われます。AIに案を出させるなら、人が違う方向の案を足し、要件に照らして選びます。誰のどんな困りごとを解くのか、何を満たせば成功なのかは、AIに頼む前に人が決めておくことです。
+      - type: p
+        text: |-
+          生成AIは、事実に基づかない誤った情報をもっともらしく出すことがあります。この現象はハルシネーション(幻覚)と呼ばれます。技術的な対策は検討されていますが、完全には抑えられません。AIの答えをどう確かめるかも、使う側が決めておくことの一つです。
+        note: |-
+          [総務省「令和6年版 情報通信白書」生成AIが抱える課題](https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r06/html/nd141100.html)。
+
+  - id: bias
+    heading: AIは学んだデータの偏りをそのまま映す
+    blocks:
+      - type: question
+        text: 顔写真から性別を判定するAI。誰の顔でも同じくらい当たるでしょうか?
+        answer: 当たり方には大きな差がありました。下の例では、肌の色の明るい男性ではほとんど誤らないのに、肌の色の濃い女性ではおよそ3人に1人を誤る製品がありました。
+      - type: point
+        text: AIは学習に使ったデータに多く含まれる人や場面ではよく当たり、少ししか含まれない人や場面では外れやすくなります。データの偏りはそのまま製品の偏りになります。
+      - type: example
+        kind: real
+        title: 顔を見分けるAIの誤り方の差
+        text: |-
+          2018年、ジョイ・ブオラムウィニとティムニット・ゲブルは、顔写真から性別を判定する3つの市販の製品を調べました。誤る割合は肌の色の明るい男性では最大でも0.8%でしたが、肌の色の濃い女性では最大34.7%に達しました。当時、顔を扱うAIの性能を測るのに使われていた2つの写真集は、79.6%と86.2%が肌の色の明るい人の写真でした。性能を測る物差しそのものが偏っていたのです。
+        source: '[J. Buolamwini & T. Gebru, "Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification", Proceedings of Machine Learning Research, 81, 2018](https://proceedings.mlr.press/v81/buolamwini18a.html)による。'
+      - type: p
+        text: |-
+          これは[[data-analysis#basics|データ分析]]で紹介した「そのデータが、どのように集められたか」の問題と同じです。帰ってきた飛行機だけを調べると判断を誤るように、集めやすい人のデータだけで学んだAIは、そこに含まれない人の前で誤ります。AIを使うものを設計するときは、使う人の幅と学習や評価に使うデータの幅が合っているかを確かめます。
+
+  - id: roles
+    heading: AIに任せることと人が決めることを分ける
+    blocks:
+      - type: point
+        text: AIは誤ることがあります。だから設計ではAIにどこまで任せ、どこで人に戻すか、誤ったときに何が起きるかをつくる前に決めます。
+      - type: p
+        text: |-
+          車の自動運転はこの分担を段階として定めた例です。国土交通省の資料では、レベル2まではアクセル・ブレーキ・ハンドルの操作を部分的に自動にする段階です。ここまでは、運転操作の主体は運転者です。レベル3では決められた条件の中で、装置が運転操作の全部を行います。ただし装置から運転を促されたら、運転者は応じなければなりません。
+        note: |-
+          [国土交通省「自動運転車両の呼称」](https://www.mlit.go.jp/jidosha/anzen/01asv/report06/file/siryohen_4_jidountenyogo.pdf)。
+      - type: example
+        kind: real
+        title: 条件を決めて運転を任せる
+        text: |-
+          2020年11月、国土交通省はホンダの「レジェンド」を、自動運行装置を備えた車として世界で初めて型式指定しました。この装置が運転を代わるのは、高速道路の渋滞のときなど、国が型式指定のときに付けた条件の範囲だけです。条件を外れるときや故障のときは、警報を出して運転者に操作を求めます。任せる範囲と人に戻す手順が、つくる前に決められています。
+        source: '[国土交通省の報道発表(2020年11月11日)](https://www.mlit.go.jp/report/press/jidosha08_hh_003888.html)による。'
+      - type: p
+        text: |-
+          誤り方には2種類あります。あるものを見逃す誤りと、無いものをあると判定する誤りです。一方を減らそうとすると、もう一方が増えやすくなります。例えば迷惑メールを見分けるAIで、迷惑メールだと強く確信したものだけを振り分けるとします。ふつうのメールを誤って振り分けることは減りますが、迷惑メールの見逃しが増えます。どちらをどこまで許すかは、使われる場面で何が起きるかを考えて決める、[[selection|目的どうしがぶつかる中での判断]]です。
+        note: |-
+          [Google, Machine Learning Crash Course "Thresholds and the confusion matrix"](https://developers.google.com/machine-learning/crash-course/classification/thresholding)。迷惑メールの例もここによる。
+      - type: p
+        text: |-
+          日本では2024年、総務省と経済産業省が、AIを開発する人・提供する人・利用する人に向けた「AI事業者ガイドライン」をまとめ、その後も改訂を続けています。共通の指針の最初に挙げられているのは「人間中心」です。人が使うものを人から考える[[human-interface]]の見方は、AIを使うものの設計でも出発点になります。
+        note: |-
+          [総務省「AI事業者ガイドライン」掲載ページ](https://www.soumu.go.jp/main_sosiki/kenkyu/ai_network/02ryutsu20_04000019.html)。第1.0版は2024年4月19日、第1.2版は2026年3月31日の公表。「共通の指針」の並びは第1.2版の本編による。
+      - type: p
+        text: |-
+          設計の流れの例では[[case-delivery-robot#roles|ロボットに任せる仕事と、人に残す仕事を分ける]]手順を紹介しています。
+
+references:
+  - text: J. McCarthy, M. L. Minsky, N. Rochester, C. E. Shannon, "A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence", August 31, 1955.
+    url: https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html
+  - text: A. L. Samuel, "Some Studies in Machine Learning Using the Game of Checkers", IBM Journal of Research and Development, 3(3), pp.210–229, 1959.
+    url: https://doi.org/10.1147/rd.33.0210
+  - text: A. R. Doshi & O. P. Hauser, "Generative AI enhances individual creativity but reduces the collective diversity of novel content", Science Advances, 10(28), eadn5290, 2024.
+    url: https://doi.org/10.1126/sciadv.adn5290
+  - text: 総務省「令和6年版 情報通信白書」生成AIが抱える課題.
+    url: https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r06/html/nd141100.html
+  - text: 'J. Buolamwini & T. Gebru, "Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification", Proceedings of Machine Learning Research, 81, pp.77–91, 2018.'
+    url: https://proceedings.mlr.press/v81/buolamwini18a.html
+  - text: 国土交通省「自動運転車両の呼称」(自動運転関連用語の概説).
+    url: https://www.mlit.go.jp/jidosha/anzen/01asv/report06/file/siryohen_4_jidountenyogo.pdf
+  - text: 国土交通省 報道発表資料「世界初！ 自動運転車（レベル３）の型式指定を行いました」, 2020年11月11日.
+    url: https://www.mlit.go.jp/report/press/jidosha08_hh_003888.html
+  - text: 総務省「AI事業者ガイドライン」掲載ページ(第1.0版は2024年4月19日、第1.2版は2026年3月31日).
+    url: https://www.soumu.go.jp/main_sosiki/kenkyu/ai_network/02ryutsu20_04000019.html
+  - text: Google, Machine Learning Crash Course, "Thresholds and the confusion matrix".
+    url: https://developers.google.com/machine-learning/crash-course/classification/thresholding
+related:
+  - data-analysis
+  - modeling
+  - ideation
+  - case-delivery-robot
+
+courses:
+  - name: 人工知能Ⅰ
+    dept: 人間情報工学科
+    relation: 人工知能の多様な分野を見渡し、基礎を体系的に学ぶ
+    path: 0224/0224_24271301
+  - name: 人工知能Ⅱ
+    dept: 情報システム工学科
+    relation: 機械学習の基礎と、深層学習や生成AI(大規模言語モデルなど)の仕組み
+    path: 0222/0222_22271901
+  - name: データサイエンス概論
+    dept: 共通教育
+    relation: データの集め方、因果関係と因果推論、機械学習の演習
+    path: 99/99_00A47601

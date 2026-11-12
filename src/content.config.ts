@@ -281,6 +281,9 @@ const pages = defineCollection({
 //             手順を行った結果(選んだ案、決めた数値など)は書かない。グループや状況で違ってよいので、手順のやり方と、できるものの形までを書く。
 //             章の手順が1つの工程にはっきり入るときだけ、step に工程の番号を書く
 //   topic   … それ以外のテーマ(一覧の「その他のテーマ」に出る)
+// 分野のページ: layer: topic のページに parent(親のページの名前)を書くと、親のページから広がる「分野」の紹介になる
+//   (例: データ分析 → 人工知能)。親のページの終わりと、一覧の親のカードの下に並ぶ。URL は他のページと同じ /design/〇〇/。
+//   分野のページの下に、さらにページは置けない(階層は1段まで。src/lib/design.ts で確かめる)。
 // 章の並びや中身は決めていない。そのテーマが一番伝わる組み立てで書く。
 const design = defineCollection({
   loader: glob({ pattern: "**/*.yaml", base: "./src/content/design" }),
@@ -328,6 +331,8 @@ const design = defineCollection({
       // 岡山県立大学の関連授業(補足)。ページの終わりに小さな枠で出す
       courses: z.array(course).max(5).default([]),
       related: z.array(reference("design")).max(4).default([]),
+      // 分野のページだけ: 親のページの名前(例: data-analysis)。書くと、親のページから広がる分野として並ぶ
+      parent: reference("design").optional(),
       // 視点(lens)のページ: 各工程で、この視点をどう使うか(工程の順に、工程の数だけ書く)。
       // cell は地図の表のマスに、body は「工程ごとの使い方」(ブロック type: per-step)に出る。
       // まだ書けていなければ省略してよい(地図では空欄になる)
@@ -353,6 +358,13 @@ const design = defineCollection({
           code: "custom",
           path: ["perStep"],
           message: "perStep は視点(layer: lens)のページだけに書けます",
+        });
+      }
+      if (page.parent && page.layer !== "topic") {
+        ctx.addIssue({
+          code: "custom",
+          path: ["parent"],
+          message: "parent(親のページ)は、その他のテーマ(layer: topic)のページだけに書けます",
         });
       }
     }),

@@ -1,0 +1,123 @@
+title: ユニバーサルデザイン
+en: Universal Design
+layer: topic
+order: 1
+short: みんなが使える設計
+question: 「ふつうの人」とは、誰のことか
+summary: できるだけ多くの人が特別な調整なしで使えるように、初めから設計する考え方。一部の人のための工夫は多くの人の使いやすさになる。誰が使えないかを先に考えると、要件が変わる。
+lead: 駅のエレベーター、テレビの字幕、歩道の端の切り下げ。どれも、一部の人に欠かせないものとしてつくられ、今では多くの人が使っています。ユニバーサルデザインは、年齢や体の違いにかかわらず、できるだけ多くの人が使えるように初めから設計する考え方です。ヒューマンインターフェースの「人から考える」見方を、使う人の幅へ広げた分野です。
+parent: human-interface
+chapters:
+  - id: what
+    heading: 後から直すより初めから多くの人に合わせる
+    blocks:
+      - type: question
+        text: 駅のエレベーターを使うのは、どんな人でしょう?
+        answer: 車いすの人の他にも、ベビーカーを押す人、大きな荷物を持つ人、足をけがした人、疲れている人が使います。一部の人に欠かせないものは他の多くの人の役にも立ちます。
+      - type: point
+        text: ユニバーサルデザインは、できるだけ多くの人が特別な調整なしで使えるように、製品や環境を初めから設計する考え方です。
+      - type: p
+        text: |-
+          この考え方をまとめたのは、米国ノースカロライナ州立大学のユニバーサルデザインセンターです。1997年、ロナルド・メイスらの作業グループが7つの原則を公開しました。グループには建築家・製品デザイナー・技術者・環境デザインの研究者が加わっていました。1つ目の原則は「公平に使えること」です。どの利用者にも、できるだけ同じ使い方を用意し、誰かを分け隔てしないことを求めています。
+        note: |-
+          [The Center for Universal Design, "The Principles of Universal Design, Version 2.0", NC State University, 1997](https://design.ncsu.edu/research/center-for-universal-design/)。原則は誰もが使えることだけを扱っており、設計にはそれ以外の検討も要る、と断っている。
+      - type: p
+        text: |-
+          人の特性に合わせて設計する考え方は[[human-interface]]で紹介しました。ユニバーサルデザインは、その「人」の幅を設計の初めから広く取ります。
+
+  - id: benefit
+    heading: 一部の人のための工夫がみんなの使いやすさになる
+    blocks:
+      - type: point
+        text: 体の不自由な人のために考えた工夫は、他の多くの人にとっても使いやすいものになります。困りごとの大きい人から考えると、みんなが少しずつ感じている不便が見つかります。
+      - type: example
+        kind: real
+        title: 関節炎の妻のための皮むき器
+        text: |-
+          米国のサム・ファーバーは、関節炎のある妻が野菜の皮をむくときに手を痛がることに気付きました。握りやすい道具は妻だけでなく誰にとっても役に立つと考え、1989年に会社OXOを起こしました。デザイン事務所スマートデザインと組み、料理人・家庭で料理をする人・関節炎の人たちに試作品を使ってもらいながら、柄の形と材料を決めました。1990年に出た皮むき器は柄が太く、握ると少しへこみます。この皮むき器は米国のクーパー・ヒューイット国立デザイン博物館の収蔵品になっています。
+        source: '[クーパー・ヒューイット国立デザイン博物館の追悼記事](https://www.cooperhewitt.org/2013/06/21/remembering-sam-farber/)と[設計の過程をまとめた資料](https://www.cooperhewitt.org/wp-content/uploads/2017/10/2018_CHSDM_DesignCompetition_DesignProcess_OXO.pdf)による。'
+      - type: p
+        text: |-
+          テレビの字幕も同じです。聴覚に障害のある人のためにつくられましたが、英国の調査では字幕を使ったことがある人の多くは、聴覚に障害のない人でした。
+      - type: figure
+        name: subtitle-users
+      - type: p
+        text: |-
+          歩道の端を斜めに切り下げた部分(カーブカット)でも同じことが起きました。1972年、障害のある人たちの運動に求められて、米国バークレーの交差点に公式の切り下げがつくられました。やがて切り下げは、ベビーカーを押す人や台車を押す人、スーツケースを引く人にも使われるようになりました。荷物を持たない歩行者でも、10人に9人がわざわざ切り下げを通っていたという調査も紹介されています。一部の人のための工夫が多くの人の役に立つことを、アンジェラ・グラバー・ブラックウェルは「カーブカット効果」と呼びました。
+        note: |-
+          [A. G. Blackwell, "The Curb-Cut Effect", Stanford Social Innovation Review, 2017](https://ssir.org/articles/entry/the_curb_cut_effect)。切り下げそのものは、1945年に米国ミシガン州カラマズーにつくられたのが最初とされる。
+
+  - id: anyone
+    heading: 「使えない」は誰にでも起きる
+    blocks:
+      - type: point
+        text: 使えない理由は障害だけではありません。けがをしている間や手がふさがっている場面では、誰もが同じ不便に出会います。
+      - type: p
+        text: |-
+          マイクロソフトの設計の指針は不便を3つに分けて考えます。ずっと続くもの・一時的なもの・場面によるものです。例えば片腕で操作する人には、腕を失った人の他に、腕を骨折している人や赤ちゃんを抱いている親も含まれます。米国で腕を失う人は年に2万6,000人ほどですが、一時的な人と場面による人を合わせると、2,000万人を超えるとされています。
+        note: |-
+          [Microsoft Learn, "Explain inclusive design principles"](https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/3-inclusive-design-principles)。
+      - type: p
+        text: |-
+          日本では65歳以上の人が人口の3割近くを占めています。年を取ると、見る・聞く・握る・歩くといった力は少しずつ変わります。「使えない人」を考えることは、将来の自分を考えることでもあります。
+        note: |-
+          [内閣府「令和7年版高齢社会白書」](https://www8.cao.go.jp/kourei/whitepaper/w-2025/html/zenbun/s1_1_1.html)によると、2024年10月1日現在、65歳以上の人が総人口に占める割合は29.3%。
+
+  - id: design
+    heading: 誰が使えないかを先に考えると要件が変わる
+    blocks:
+      - type: point
+        text: 使えない人を後から救うのではなく、要件を定めるときに先に考えます。全員に合う一つの形が無いときは、目的どうしの折り合いを、使う人と一緒に探します。
+      - type: p
+        text: |-
+          設計の初めに「この設計では、誰が使えないか」を問うと、[[requirements|要件]]が増えます。色だけで区別しない、片手でも操作できる、文字を大きくできる。こうした配慮は[[human-interface#how|アクセシビリティ]]と呼ばれ、日本でも[[human-interface#now|法律で求められるようになってきました]]。
+      - type: example
+        kind: real
+        title: 歩道の端の段差は2cm
+        text: |-
+          横断歩道につながる歩道の端には車道との間に段差があります。国の基準はこの段差を「2cmを標準とする」と定めています。2cmなら、目の不自由な人は白い杖や足で歩道と車道の境が分かり、車いすの人は段差を登れるからです。ただ国土交通省は、2cmにするだけでは境の分かりやすさと車いすの通りやすさの両方を高く満たすことはできないとも書いています。そのため各地で利用者の団体の意見を聞きながら、端の形が工夫されています。
+        source: '[国土交通省「よくあるご質問」](https://www.mlit.go.jp/barrierfree/transport-bf/bfqa/detail_0027.html)と[「道路の移動円滑化整備ガイドライン」の主な内容](https://www.mlit.go.jp/kisha/kisha02/06/061218/061218_3.pdf)による。'
+      - type: p
+        text: |-
+          この例のように、ある人のための工夫が別の人の不便になることがあります。そのときは[[selection|比べて選ぶ工程]]と同じように、何をどれだけ大切にするかを話し合える形にして決めます。使う人に試してもらい、意見を聞くことが、その手がかりになります。
+
+references:
+  - text: The Center for Universal Design, "The Principles of Universal Design, Version 2.0", NC State University, 1997(センターのページに全文がある).
+    url: https://design.ncsu.edu/research/center-for-universal-design/
+  - text: Cooper Hewitt, Smithsonian Design Museum, "Remembering Sam Farber", 2013.
+    url: https://www.cooperhewitt.org/2013/06/21/remembering-sam-farber/
+  - text: Cooper Hewitt, Smithsonian Design Museum, "Design Process"(OXO Good Grips の設計の過程), 2017.
+    url: https://www.cooperhewitt.org/wp-content/uploads/2017/10/2018_CHSDM_DesignCompetition_DesignProcess_OXO.pdf
+  - text: A. G. Blackwell, "The Curb-Cut Effect", Stanford Social Innovation Review, Winter 2017.
+    url: https://ssir.org/articles/entry/the_curb_cut_effect
+  - text: Microsoft Learn, "Explain inclusive design principles".
+    url: https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/3-inclusive-design-principles
+  - text: 内閣府「令和7年版高齢社会白書」第1章 第1節 1 高齢化の現状と将来像.
+    url: https://www8.cao.go.jp/kourei/whitepaper/w-2025/html/zenbun/s1_1_1.html
+  - text: 国土交通省 総合政策局「よくあるご質問・ご意見等」(歩道と車道の境の段差).
+    url: https://www.mlit.go.jp/barrierfree/transport-bf/bfqa/detail_0027.html
+  - text: 国土交通省「道路の移動円滑化整備ガイドラインにおいて規定されている主な内容」, 2002年.
+    url: https://www.mlit.go.jp/kisha/kisha02/06/061218/061218_3.pdf
+related:
+  - human-interface
+  - requirements
+  - selection
+  - case-shelter-reception
+
+courses:
+  - name: 人間工学
+    dept: デザイン学部共通
+    relation: 人間中心設計、ユーザビリティ評価、ユニバーサルデザイン、アクセシビリティ
+    path: 03/03_30532201
+  - name: 福祉用具の活用技術と理論
+    dept: 現代福祉学科
+    relation: 利用者の特性を測り、ニーズに基づいて福祉用具を評価し、選び、デザインする
+    path: 0116/0116_16202701
+  - name: 住環境科学演習
+    dept: 現代福祉学科
+    relation: 高齢者や障害のある人に合わせた住環境の整備技術
+    path: 0116/0116_16202901
+  - name: ヒューマンインタフェース
+    dept: 情報システム工学科
+    relation: 人の特性、デザインのプロセス、試作、思考発話法での評価、アクセシビリティ
+    path: 0222/0222_22142701

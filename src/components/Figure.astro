@@ -41,6 +41,9 @@ import ErState from "./figures/ErState.astro";
 import Confounder from "./figures/Confounder.astro";
 import MethodsTimeline from "./figures/MethodsTimeline.astro";
 import SteamEngineAxiomatic from "./figures/SteamEngineAxiomatic.astro";
+import MonteCarlo from "./figures/MonteCarlo.astro";
+import PieVsBar from "./figures/PieVsBar.astro";
+import AxisTruncation from "./figures/AxisTruncation.astro";
 interface Props {
   name: FigureName;
   number?: number;
@@ -86,6 +89,9 @@ const components: Record<FigureName, (props: { number?: number; compact?: boolea
   confounder: Confounder,
   "methods-timeline": MethodsTimeline,
   "steam-engine": SteamEngineAxiomatic,
+  "monte-carlo": MonteCarlo,
+  "pie-vs-bar": PieVsBar,
+  "axis-truncation": AxisTruncation,
 };
 
 const { name, number, compact } = Astro.props;

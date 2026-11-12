@@ -4,7 +4,7 @@ import "../styles/global.css";
 import SocialLinks from "../components/SocialLinks.astro";
 import ContactEmail from "../components/ContactEmail.astro";
 import JoinButton from "../components/JoinButton.astro";
-import { getJoinFormUrl, getSiteLinks } from "../lib/site";
+import { getContactEmail, getJoinFormUrl, getSiteLinks } from "../lib/site";
 import Analytics from "../components/Analytics.astro";
 
 interface Props {
@@ -26,6 +26,7 @@ const nav = [
 const joinFormUrl = await getJoinFormUrl();
 // Discord・TimeTree(src/content/site/links.yaml)。問い合わせメールは ContactEmail が別に出す
 const contacts = await getSiteLinks();
+const hasContactEmail = getContactEmail() !== "";
 ---
 
 <!doctype html>
@@ -50,7 +51,8 @@ const contacts = await getSiteLinks();
     />
     <Analytics />
   </head>
-  <body class="min-h-dvh">
+  <!-- 本文が短いページでも、フッターが画面の下端に来るように、本文(main)を伸ばす -->
+  <body class="flex min-h-dvh flex-col">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-paper focus:p-2"
@@ -88,7 +90,7 @@ const contacts = await getSiteLinks();
       </div>
     </header>
 
-    <main id="main">
+    <main id="main" class="flex-1">
       <slot />
     </main>
 
@@ -97,11 +99,13 @@ const contacts = await getSiteLinks();
         <div>
           <p class="font-display text-lg font-bold tracking-widest text-ink">設計会</p>
           <p class="mt-1">岡山県立大学 公認サークル</p>
-          <!-- 連絡先。links.yaml が空の項目と、問い合わせメール(環境変数 CONTACT_EMAIL)が空のときは「準備中」と出す -->
+          <!-- 連絡先。links.yaml が空の項目と、問い合わせメール(環境変数 CONTACT_EMAIL)が空のときは、その行を出さない
+               (ヘッダーのアイコンと同じ。「準備中」と書くと、サイトが作りかけに見えるため) -->
           <ul class="mt-4 space-y-1">
-            {contacts.map((c) => (
-              <li>
-                {c.href ? (
+            {contacts
+              .filter((c) => c.href)
+              .map((c) => (
+                <li>
                   <a
                     href={c.href}
                     class="underline underline-offset-4 hover:text-ink"
@@ -111,14 +115,13 @@ const contacts = await getSiteLinks();
                     {c.action}
                     {c.external && <span aria-hidden="true"> ↗</span>}
                   </a>
-                ) : (
-                  <span class="text-muted">{c.name}(準備中)</span>
-                )}
+                </li>
+              ))}
+            {hasContactEmail && (
+              <li>
+                <ContactEmail class="underline underline-offset-4 hover:text-ink" />
               </li>
-            ))}
-            <li>
-              <ContactEmail class="underline underline-offset-4 hover:text-ink" />
-            </li>
+            )}
           </ul>
         </div>
         <nav aria-label="サイト内のページ">

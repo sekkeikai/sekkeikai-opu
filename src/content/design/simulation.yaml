@@ -1,0 +1,123 @@
+title: シミュレーション
+en: Simulation
+layer: topic
+order: 1
+short: 動かして確かめる
+question: 試せないことを、どうやって試すか
+summary: モデルをコンピューターの中で動かし、実物では試せないことを試す技術。天気予報も飛沫の広がりの予測も、シミュレーションでできている。答えは、入れた仮定と一緒に読む。
+lead: 明日の天気、渋滞の起き方、せきの飛沫の広がり。どれも、実物で試すには大きすぎたり危なすぎたり、まだ起きていなかったりします。シミュレーションは対象をモデルにしてコンピューターの中で動かし、何が起きるかを先に見る技術です。モデル化の考え方を時間の流れの中へ広げた分野です。
+parent: modeling
+chapters:
+  - id: what
+    heading: モデルを動かすとまだ起きていないことが見える
+    blocks:
+      - type: question
+        text: 天気予報は明日の天気をどうやって知るのでしょう?
+        answer: 地球の大気を細かい格子に区切り、今の気温や風を一つひとつの格子に入れます。そこから物理の法則に従って少し先の状態を計算し、それを繰り返して明日の大気を求めます。天気予報はシミュレーションの結果です。
+      - type: point
+        text: シミュレーションは、モデルをコンピューターの中で時間に沿って動かし、何が起きるかを調べる技術です。実物では試せないことを何度でも試せます。
+      - type: p
+        text: |-
+          気象庁はこの方法を数値予報と呼んでいます。1959年にはコンピューターIBM704を入れて、米国に次いで数値予報を始めました。日本政府が行政のために入れた初めてのコンピューターでした。
+        note: |-
+          [気象庁「数値予報とは」](https://www.jma.go.jp/jma/kishou/know/whitep/1-3-1.html)、[「数値予報の歴史」](https://www.jma.go.jp/jma/kishou/know/whitep/1-3-2.html)。
+      - type: p
+        text: |-
+          [[modeling]]ではモデルを、目的のために対象の一部だけを取り出して表したものと紹介しました。棚板のたわみのように、式一つで答えが出るモデルもあります。けれど、たくさんの要素が互いに影響し合う対象は、式を眺めても答えが見えません。そこで短い時間の変化を計算しては次へ進むことを繰り返して、全体の動きを追います。
+
+  - id: emergence
+    heading: 単純な決まりから予想しにくい全体の動きが生まれる
+    blocks:
+      - type: point
+        text: 一つひとつの要素は単純な決まりで動いていても、集まると思いがけない全体の動きが生まれます。動かして初めて分かることがあるので、シミュレーションが要ります。
+      - type: example
+        kind: real
+        title: きっかけの見当たらない渋滞
+        text: |-
+          事故も工事も合流も無いのに、渋滞が起きることがあります。車の流れを互いに影響し合う粒の集まりと見る物理の考え方があります。そこでは車の密度がある値を超えると、流れは自然に渋滞へ移ると予想されていました。2008年、日本の研究グループは、1周230mの円い道に22台の車を走らせる実験でこれを確かめました。初めは等しい間隔で流れていましたが、小さな乱れが育って渋滞の塊ができ、塊は車の進む向きとは逆に後ろへ伝わっていきました。道が狭くなる場所は渋滞のきっかけにすぎなかったのです。
+        source: '[Y. Sugiyama 他, "Traffic jams without bottlenecks—experimental evidence for the physical mechanism of the formation of a jam", New Journal of Physics, 10, 033001, 2008](https://doi.org/10.1088/1367-2630/10/3/033001)による。'
+      - type: p
+        text: |-
+          一台一台は前の車に合わせて速さを変えているだけです。それでも全体では渋滞の波が生まれます。こうした振る舞いは部分の決まりからは読み取りにくいものです。人の流れのように、多くの要素が影響し合う対象に共通して見られます。設計するものが多くの人や物の集まりの中で使われるなら、動かして確かめる価値があります。
+
+  - id: random
+    heading: 偶然を何度も繰り返すと答えが見えてくる
+    blocks:
+      - type: point
+        text: 計算で解くのが難しい問題も、乱数(でたらめに並んだ数)を使って何度も試し、結果を数えれば答えに近づけます。モンテカルロ法と呼ばれる方法です。
+      - type: p
+        text: |-
+          この方法を思いついたのは、数学者スタニスワフ・ウラムです。1946年、病気の療養中に一人遊びのトランプをしていて、52枚を並べたゲームがうまくいく確率を知りたくなりました。組み合わせから計算しようとして長い時間をかけた後、例えば100回並べてうまくいった回数を数えるほうが実際的ではないかと考えました。ウラムがこの考えをジョン・フォン・ノイマンに話すと、2人は実際に計算する計画を立て始めました。
+        note: |-
+          [R. Eckhardt, "Stan Ulam, John von Neumann, and the Monte Carlo Method", Los Alamos Science, 15, 1987](https://mcnp.lanl.gov/pdf_files/Article_1987_LAS_Eckhardt_131--141.pdf)。
+      - type: p
+        text: |-
+          下の図で同じ考え方を試せます。正方形の中にでたらめに点を打ち、4分の1の円に入った点の割合を4倍すると、円周率に近い値になります。
+      - type: figure
+        name: monte-carlo
+      - type: p
+        text: |-
+          設計では、ばらつくものを扱うときに、この考え方が役に立ちます。客が来る間隔、部品の寸法、作業にかかる時間。平均だけで計算すると隠れてしまう「混む時間帯」や「たまに起きる不具合」が、何度も試すと見えてきます。設計の流れの例の[[case-shelter-reception#queue|避難所の受付]]では列が伸び続けるかを、着く速さと処理の速さの平均から計算で見積もります。着く間隔のばらつきまで見るなら、そこで何度も試すことになります。
+
+  - id: trust
+    heading: 答えは入れた仮定と一緒に読む
+    blocks:
+      - type: point
+        text: シミュレーションの答えは、モデルの仮定と初めに入れた値より確かにはなりません。条件を少しずつ変えて何度も計算し、答えの幅を見ます。
+      - type: p
+        text: |-
+          天気予報に戻ります。観測には誤差があるので、計算の出発点になる今の大気の状態を誤差なく知ることはできません。そして大気では初めのわずかな違いが、時間とともに大きく育ちます。そこで気象庁は出発点を少しずつ変えた計算をいくつも行い、結果の散らばり方から予報の確からしさを見積もっています。アンサンブル予報と呼ばれる方法です。
+        note: |-
+          [気象庁「アンサンブル予報」](https://www.jma.go.jp/jma/kishou/know/whitep/1-3-8.html)。
+      - type: p
+        text: |-
+          台風の進路予報の「予報円」は、その表れです。予報円は台風の中心が70%の確率で入ると予想される範囲です。円の大きさは、台風の進む向き・速さ・アンサンブル予報の散らばり具合ごとに、過去の予報の誤差の統計から決められています。答えを一本の線ではなく幅で示すので、使う人は外れた場合も含めて備えを決められます。
+        note: |-
+          [気象庁 予報技術研修テキスト「台風進路予報の予報円改善について」](https://www.jma.go.jp/jma/kishou/know/expert/pdf/r1_text/r1_typhoonyohouen.pdf)。
+      - type: p
+        text: |-
+          [[modeling#basics|モデルは必ず何かを捨てている]]ので、シミュレーションの結果も、捨てたものの分だけ現実と違います。結果を設計の判断に使うときは、何を仮定したかを一緒に示し、実験や実際に測った値と比べて確かめます。上の渋滞の実験は考え方を実物で確かめた例でもあります。
+
+  - id: design
+    heading: 対策を実行する前に比べる
+    blocks:
+      - type: point
+        text: 設計でのシミュレーションの役目は案を比べることです。実物をつくる前に、条件を変えて何通りも試せます。
+      - type: example
+        kind: real
+        title: 飛沫の広がりを富岳で比べる
+        text: |-
+          2020年4月、理化学研究所と神戸大学の坪倉誠らのグループは、せきや会話で出る飛沫とエアロゾル(空気中を漂う細かい粒)が室内でどう広がるかの計算を始めました。使ったのは、まだ設置の途中だったスーパーコンピューター「富岳」です。通勤列車・オフィス・教室・病室などの室内で条件を変えて感染の危険を見積もり、空調・換気・仕切り板を使った対策を提案しました。この研究は2021年にゴードン・ベル賞のCOVID-19研究特別賞を受けました。
+        source: '[理化学研究所 計算科学研究センターの発表(2021年11月19日)](https://www.r-ccs.riken.jp/outreach/topics/20211119-1/)と[研究課題の紹介](https://www.r-ccs.riken.jp/fugaku/history/corona/projects/tsubokura/)による。'
+      - type: p
+        text: |-
+          この研究のように、シミュレーションは[[selection|比べて選ぶ工程]]の道具になります。全ての案を実物で試すことはできませんが、モデルの中なら換気の量や仕切り板の置き方を変えて何度でも比べられます。結果を数字や映像で示せば、専門の違う人とも同じものを見ながら話せます。
+
+references:
+  - text: 気象庁「数値予報とは」.
+    url: https://www.jma.go.jp/jma/kishou/know/whitep/1-3-1.html
+  - text: 気象庁「数値予報の歴史」.
+    url: https://www.jma.go.jp/jma/kishou/know/whitep/1-3-2.html
+  - text: 気象庁「アンサンブル予報」.
+    url: https://www.jma.go.jp/jma/kishou/know/whitep/1-3-8.html
+  - text: 気象庁 令和元年度予報技術研修テキスト「台風進路予報の予報円改善について」.
+    url: https://www.jma.go.jp/jma/kishou/know/expert/pdf/r1_text/r1_typhoonyohouen.pdf
+  - text: Y. Sugiyama, M. Fukui, M. Kikuchi 他, "Traffic jams without bottlenecks—experimental evidence for the physical mechanism of the formation of a jam", New Journal of Physics, 10, 033001, 2008.
+    url: https://doi.org/10.1088/1367-2630/10/3/033001
+  - text: R. Eckhardt, "Stan Ulam, John von Neumann, and the Monte Carlo Method", Los Alamos Science, Special Issue 15, pp.131–141, 1987.
+    url: https://mcnp.lanl.gov/pdf_files/Article_1987_LAS_Eckhardt_131--141.pdf
+  - text: 理化学研究所 計算科学研究センター「『富岳』を用いたCOVID-19の飛沫・エアロゾル拡散モデルシミュレーションが、2021年ゴードン・ベル賞COVID-19研究特別賞受賞」, 2021年11月19日.
+    url: https://www.r-ccs.riken.jp/outreach/topics/20211119-1/
+  - text: 理化学研究所 計算科学研究センター「室内環境におけるウイルス飛沫感染の予測とその対策」.
+    url: https://www.r-ccs.riken.jp/fugaku/history/corona/projects/tsubokura/
+related:
+  - modeling
+  - data-analysis
+  - selection
+  - case-shelter-reception
+
+courses:
+  - name: モデリングとシミュレーション
+    dept: 人間情報工学科
+    relation: 振動や熱伝導を微分方程式でモデルにしてシミュレーションし、人体の運動のモデル化を目指す
+    path: 0224/0224_24271001

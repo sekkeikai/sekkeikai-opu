@@ -52,8 +52,50 @@ export async function getLenses(): Promise<CollectionEntry<"design">[]> {
   return lenses;
 }
 
+// ── 分野のページ(親のページから広がる分野の紹介。YAML に parent を書いたページ) ──
+
+// 分野のページかどうか
+export const isFieldPage = (page: CollectionEntry<"design">): boolean => Boolean(page.data.parent);
+
+// 親のページごとに、その下の分野のページを order の順にまとめる。
+// 階層は1段まで。分野のページを親にしていたら、ビルドを止めて知らせる
+async function getFieldMap(): Promise<Map<string, CollectionEntry<"design">[]>> {
+  const pages = await getCollection("design");
+  const byId = new Map(pages.map((p) => [p.id, p]));
+  const map = new Map<string, CollectionEntry<"design">[]>();
+  for (const page of pages) {
+    const parentId = page.data.parent?.id;
+    if (!parentId) continue;
+    if (byId.get(parentId)?.data.parent) {
+      throw new Error(
+        `src/content/design/${page.id}.yaml の parent(${parentId})は、それ自身が分野のページです。分野のページの下にページは置けません`,
+      );
+    }
+    map.set(parentId, [...(map.get(parentId) ?? []), page]);
+  }
+  for (const list of map.values()) list.sort((a, b) => a.data.order - b.data.order);
+  return map;
+}
+
+// 指定したページの下にある分野のページ(無ければ空)
+export async function getFieldPages(parentId: string): Promise<CollectionEntry<"design">[]> {
+  return (await getFieldMap()).get(parentId) ?? [];
+}
+
+// 読む順に並べた全ページ(前後のページへのリンクに使う)。
+// プロセス → 工程 → 視点 → 事例 → テーマの順で、同じ階層の中は order の順。分野のページは、親のページのすぐ後ろに置く
+export async function getPagesInReadingOrder(): Promise<CollectionEntry<"design">[]> {
+  const rank = { process: 0, step: 1, lens: 2, case: 3, topic: 4 } as const;
+  const fields = await getFieldMap();
+  const tops = (await getCollection("design", (p) => !isFieldPage(p))).sort((a, b) =>
+    a.data.layer === b.data.layer ? a.data.order - b.data.order : rank[a.data.layer] - rank[b.data.layer],
+  );
+  return tops.flatMap((p) => [p, ...(fields.get(p.id) ?? [])]);
+}
+
 // 一覧やリンクのカードに出す、階層の名前
 export function layerLabel(page: CollectionEntry<"design">): string {
+  if (isFieldPage(page)) return `分野 / ${page.data.en}`;
   switch (page.data.layer) {
     case "process":
       return "設計のプロセス";

@@ -1,0 +1,94 @@
+---
+// でたらめに点を打って、円周率を求める図(モンテカルロ法)。ボタンを押すと点が増え、見積もりが変わる。
+// 計算は src/lib/montecarlo.ts、動きは src/scripts/figures/montecarlo.ts。
+// JavaScript が動かない環境でも、最初に打った点と、その見積もりは表示される。
+import FigureFrame from "./FigureFrame.astro";
+import { boardSize, estimatePi, initialCount, maxCount, seededRandom, throwDots } from "../../lib/montecarlo";
+
+interface Props {
+  number?: number;
+  compact?: boolean;
+}
+
+// 最初の点は、ページをつくるたびに同じ並びにする(種を決めた乱数を使う)
+const dots = throwDots(initialCount, seededRandom(2026));
+const inside = dots.filter((d) => d.inside).length;
+const size = boardSize;
+---
+
+<FigureFrame
+  number={Astro.props.number}
+  compact={Astro.props.compact}
+  title="でたらめに点を打って、円周率を求める"
+  caption={`正方形の中にでたらめに打った点のうち、4分の1の円に入る割合は、面積の比(π÷4)に近づく。だから、割合を4倍すると円周率の見積もりになる。点が少ないうちは値がぶれ、増やすほど3.14…に近づく(点は${maxCount.toLocaleString("ja-JP")}個まで)。`}
+>
+  <div data-montecarlo class="grid items-center gap-6 md:grid-cols-[minmax(0,20rem)_1fr]">
+    <svg
+      viewBox={`-2 -2 ${size + 4} ${size + 4}`}
+      class="w-full"
+      role="img"
+      aria-label="正方形の中に、でたらめに打った点が散らばっている。左下の角を中心にした4分の1の円の中の点は青、外の点はオレンジ。"
+    >
+      <rect x="0" y="0" width={size} height={size} fill="var(--color-paper-muted)" stroke="var(--color-ink)" />
+      <path
+        d={`M0 0 A${size} ${size} 0 0 1 ${size} ${size}`}
+        fill="none"
+        stroke="var(--color-ink)"
+        stroke-width="1.5"
+      />
+      <g data-montecarlo-dots>
+        {dots.map((d) => (
+          <circle
+            cx={d.x * size}
+            cy={(1 - d.y) * size}
+            r="1.6"
+            fill={d.inside ? "var(--color-link)" : "var(--color-accent-strong)"}
+            data-inside={d.inside ? "" : undefined}
+          />
+        ))}
+      </g>
+    </svg>
+    <div>
+      <dl class="grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1 text-sm" aria-live="polite">
+        <dt class="text-muted">打った点</dt>
+        <dd class="font-mono text-lg">
+          <span data-montecarlo-total>{dots.length.toLocaleString("ja-JP")}</span> 個
+        </dd>
+        <dt class="text-muted">円の中の点(青)</dt>
+        <dd class="font-mono text-lg">
+          <span data-montecarlo-inside>{inside.toLocaleString("ja-JP")}</span> 個
+        </dd>
+        <dt class="text-muted">円周率の見積もり</dt>
+        <dd>
+          <output class="font-mono text-4xl font-bold text-link" data-montecarlo-pi>
+            {estimatePi(inside, dots.length).toFixed(3)}
+          </output>
+        </dd>
+      </dl>
+      <p class="mt-1 text-sm text-muted">見積もり = 4 × 円の中の点 ÷ 打った点(本当の値は 3.14159…)</p>
+      <div class="mt-5 flex flex-wrap gap-2">
+        {[100, 1000].map((n) => (
+          <button
+            type="button"
+            data-montecarlo-add={n}
+            class="rounded-full border border-ink px-4 py-2 text-sm font-bold transition hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            点を{n.toLocaleString("ja-JP")}個足す
+          </button>
+        ))}
+        <button
+          type="button"
+          data-montecarlo-reset
+          class="rounded-full border border-grid px-4 py-2 text-sm text-muted transition hover:border-ink hover:text-ink"
+        >
+          点を消す
+        </button>
+      </div>
+    </div>
+  </div>
+</FigureFrame>
+
+<script>
+  import { initMonteCarlo } from "../../scripts/figures/montecarlo";
+  initMonteCarlo();
+</script>

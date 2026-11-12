@@ -1,0 +1,116 @@
+title: 情報の可視化
+en: Information Visualization
+layer: topic
+order: 2
+short: 図で伝える
+question: 同じ数字なのに、なぜ図によって伝わり方が違うのか
+summary: 数字を図にすると、目が比べる仕事を引き受けてくれる。ただし位置・長さ・角度・色のどれで表すかで、読み取りの正確さは変わる。軸の取り方や色の選び方も、図を見た人の判断を左右する。
+lead: 数字の表を眺めても分からなかった違いが、図にすると一目で分かることがあります。情報の可視化は数字や関係を目に見える形にして、人が理解し判断できるようにする分野です。データ分析で集めた事実を、見る人に届ける最後の一歩でもあります。図の描き方には好みもありますが、人の目がどう読み取るかは実験で調べられています。
+parent: data-analysis
+chapters:
+  - id: encoding
+    heading: 目は角度より位置のほうを正確に読み取る
+    blocks:
+      - type: question
+        text: 円グラフと棒グラフ。同じ数を描いたとき、どちらが比べやすいでしょう?
+        answer: 多くの場合、棒グラフです。円グラフでは扇形の角度で比べますが、目はそろった目盛りの上の位置のほうをずっと正確に読み取れます。下の図で試してください。
+      - type: point
+        text: 数を図にするとき、位置・長さ・角度・面積・色のどれで表すかで、読み取りの正確さが変わります。実験では、そろった目盛りの上の位置が最も正確でした。
+      - type: figure
+        name: pie-vs-bar
+      - type: p
+        text: |-
+          1984年、統計学者のウィリアム・クリーブランドとロバート・マクギルは、図の中の2つの値を見せて、小さい方が大きい方の何%かを答えてもらう実験をしました。どの見た目の手がかりで表すと正確に読み取れるかに、順位を付けた先駆けの研究です。2010年、ジェフリー・ヒアーとマイケル・ボストックは、インターネットで多くの人に参加してもらってこの実験を繰り返し、元の研究と同じ順位になることを確かめました。新しく加えた見た目も含めて比べると、そろった目盛りの上の位置は長さより正確で、角度(円グラフ)と面積(円の大きさ)は位置よりかなり不正確でした。
+        note: |-
+          [J. Heer & M. Bostock, "Crowdsourcing Graphical Perception", CHI 2010](https://idl.cs.washington.edu/files/2010-MTurk-CHI.pdf)。元の研究は [W. S. Cleveland & R. McGill, Journal of the American Statistical Association, 79(387), 1984](https://doi.org/10.1080/01621459.1984.10478080)。
+      - type: p
+        text: |-
+          図にすることで数字が人を動かした歴史は、[[data-analysis#pictures|データ分析のページ]]でコレラの地図とナイチンゲールの図を例に紹介しています。どちらも、伝えたい違いが一目で見える形を選んでいました。
+
+  - id: axis
+    heading: 軸の始まりを変えると同じ差が違って見える
+    blocks:
+      - type: point
+        text: 棒グラフの縦軸を0から始めないと、差が実際より大きく見えます。目盛りの数字が正しくても、目は棒の高さの比で受け取るからです。
+      - type: figure
+        name: axis-truncation
+      - type: p
+        text: |-
+          2020年に発表された研究は、縦軸を途中から始めた図を多くの人に見せ、差がどれくらい大きく感じられるかを調べました。その結果、差は大きく感じられました。軸が途中から始まっていることを示す印を図に付けても、その効果は残りました。
+        note: |-
+          [M. Correll, E. Bertini, S. Franconeri, "Truncating the Y-Axis: Threat or Menace?", CHI 2020](https://arxiv.org/abs/1907.02035)。
+      - type: p
+        text: |-
+          ただし同じ研究は、伝えたいことによっては縦軸を途中から始めるほうが役に立つ場面もあると述べています。そして意味のある差の大きさや伝えたいばらつきの幅に合わせて軸を決めるよう勧めています。図の描き方も、[[requirements|要件]]から決める設計の一つです。
+
+  - id: color
+    heading: 色だけに頼ると伝わらない人がいる
+    blocks:
+      - type: point
+        text: 日本人の男性のおよそ20人に1人は、色の見分け方が多くの人と違います。色で区別するときは、形や文字でも区別できるようにします。
+      - type: p
+        text: |-
+          日本眼科学会によると、生まれつき色の見え方が多くの人と違う人(先天色覚異常)は、日本人の男性の約5%、女性の0.2%です。その多くは赤と緑の見分けに関わる型です。グラフの線を色だけで区別すると、そうした人には、どの線が何を表すのかが分かりません。
+        note: |-
+          [日本眼科学会「先天色覚異常」](https://www.nichigan.or.jp/public/disease/name.html?pdid=33)。
+      - type: p
+        text: |-
+          線の横に名前を直接書く、点の形を変える、明るさにも差を付ける。こうした工夫で、色が見分けられなくても読める図になります。これは触っただけで区別できる形にするという[[human-interface#why|ヒューマンインターフェース]]の考え方や、[[universal-design|ユニバーサルデザイン]]の考え方と同じです。このページの2つの図も、色を使わずに読めるように描いています。
+
+  - id: public
+    heading: 図は社会で同じ事実を見るための道具になる
+    blocks:
+      - type: point
+        text: 誰もが同じ図を見られれば、同じ事実を基に話し合えます。そのためには図にする前のデータを、誰でも使える形で公開することも設計の一部です。
+      - type: example
+        kind: real
+        title: 東京都の新型コロナウイルス感染症対策サイト
+        text: |-
+          2020年3月3日、東京都は新型コロナウイルス感染症の最新のデータをグラフで示す公式のサイトを公開しました。開発は市民の技術で地域の課題を解く団体Code for Japanが担いました。世界中から寄せられた1,000以上の改善の要望を取り入れ、データを見やすくし、グラフをSNSで共有できるようにしました。データとソースコードを公開したので、他の自治体や各地の有志が同じ仕組みで地域ごとのサイトを立ち上げました。このサイトは2020年度のグッドデザイン金賞を受けました。
+        source: '[東京都の紹介記事](https://www.tokyoupdates.metro.tokyo.lg.jp/en/post-515/)、[東京都の報道発表(2020年10月30日)](https://www.spt.metro.tokyo.lg.jp/tosei/hodohappyo/press/2020/11/04/06.html)、[Code for Japanの紹介](https://www.code4japan.org/activity/stopcovid19)と[2020年3月の活動報告](https://www.code4japan.org/news/civic-tech-fun-fun-report-2020-3)による。'
+      - type: p
+        text: |-
+          同じ取り組みでは国や自治体が公表する情報が機械で読み取りにくく、形式もそろっていないことが、図にするときの壁になりました。そこで有志が共通の項目を定めた定義書をつくりました。データを共通の、機械で読める形で公開すれば、図にするサイトを早くつくれ、更新もしやすくなります。
+        note: |-
+          [Code for Japan「新型コロナウイルス感染症対策のためのデータ公開支援」](https://www.code4japan.org/activity/stopcovid19)。
+
+references:
+  - text: 'J. Heer & M. Bostock, "Crowdsourcing Graphical Perception: Using Mechanical Turk to Assess Visualization Design", CHI 2010.'
+    url: https://idl.cs.washington.edu/files/2010-MTurk-CHI.pdf
+  - text: 'W. S. Cleveland & R. McGill, "Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods", Journal of the American Statistical Association, 79(387), pp.531–554, 1984.'
+    url: https://doi.org/10.1080/01621459.1984.10478080
+  - text: 'M. Correll, E. Bertini, S. Franconeri, "Truncating the Y-Axis: Threat or Menace?", CHI 2020.'
+    url: https://arxiv.org/abs/1907.02035
+  - text: 日本眼科学会「先天色覚異常」.
+    url: https://www.nichigan.or.jp/public/disease/name.html?pdid=33
+  - text: 東京都「『東京都新型コロナウイルス感染症対策サイト』がグッドデザイン金賞を受賞」, 2020年10月30日.
+    url: https://www.spt.metro.tokyo.lg.jp/tosei/hodohappyo/press/2020/11/04/06.html
+  - text: Code for Japan「新型コロナウイルス感染症対策のためのデータ公開支援」.
+    url: https://www.code4japan.org/activity/stopcovid19
+  - text: Tokyo Metropolitan Government, "Rapid and Accurate in Emergencies - DX Connecting Government and Citizens", TOKYO UPDATES.
+    url: https://www.tokyoupdates.metro.tokyo.lg.jp/en/post-515/
+  - text: Code for Japan「Civic Tech Fun! Fun! Report! 2020年3月号」.
+    url: https://www.code4japan.org/news/civic-tech-fun-fun-report-2020-3
+related:
+  - data-analysis
+  - human-interface
+  - universal-design
+  - requirements
+
+courses:
+  - name: 視覚心理学
+    dept: デザイン学部共通
+    relation: 見ることと考えることの仕組みと、広告やウェブデザインの心理学の研究例
+    path: 03/03_30531801
+  - name: グラフィックデザイン論
+    dept: ビジュアルデザイン学科
+    relation: グラフィックデザインの表現の技術と、実例に照らしたデザインのプロセス
+    path: 0335/0335_35002701
+  - name: 統計学
+    dept: 共通教育
+    relation: 確率分布、推定、検定など、統計的なものの見方の基本
+    path: 99/99_00A47701
+  - name: 行動情報科学
+    dept: 人間情報工学科
+    relation: 膨大なデータを人間が扱えるようにする、多変量解析の代表的な手法
+    path: 0224/0224_24272301
