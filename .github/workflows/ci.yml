@@ -1,5 +1,6 @@
 # PR ごとに走るチェック。
 # - check-and-build: 必須チェック（ruleset で「必ず通す」に設定する）。CMS 設定・型・ビルド
+# - report: check-and-build が落ちた理由を、PR に日本語のコメントで知らせる（編集画面から保存した人向け）
 # - smoke: 主要ページが開けるかのテスト（参考表示。失敗してもマージは止めない）
 name: CI
 
@@ -27,15 +28,98 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      # 出力は check.log にも残し、落ちたときに report ジョブが PR に貼る。
+      # shell: bash にすると、tee でつないでも、前のコマンドが落ちたらこのステップが落ちる（pipefail）
       - name: 型チェック・CMS 設定の検証
-        run: npm run check
+        shell: bash
+        run: npm run check 2>&1 | tee -a check.log
       - name: ビルド
-        run: npm run build
+        shell: bash
+        run: npm run build 2>&1 | tee -a check.log
       - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
           retention-days: 3
+      - name: 落ちたときの記録を残す（report ジョブが使う）
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: check-log
+          path: check.log
+          retention-days: 3
+
+  # check-and-build が落ちた理由を、PR に日本語のコメントで知らせる。
+  # 編集画面（CMS）から保存した人には「公開できない」としか見えず、Actions のログは読みにくいため。
+  # 部員はプレビュー URL を見に PR を開くので、同じ場所に出す。コメントは1つだけにして、保存し直すたびに書き換える。
+  # コメントを書く権限は、このジョブだけに付ける（依存パッケージを動かすジョブには付けない）。
+  # 別のリポジトリからの PR（フォーク）には書けないので、同じリポジトリのブランチからの PR だけで動かす
+  report:
+    name: report
+    needs: check-and-build
+    if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - if: needs.check-and-build.result == 'failure'
+        uses: actions/download-artifact@v8
+        continue-on-error: true
+        with:
+          name: check-log
+      - name: PR にコメントする
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          RESULT: ${{ needs.check-and-build.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # このジョブが前に書いたコメント（先頭の目印で見分ける）
+          marker='<!-- ci-report -->'
+          id=$(gh api "repos/$GH_REPO/issues/$PR/comments" --paginate \
+            --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | startswith(\"$marker\"))) | .id" | tail -n 1)
+
+          if [ "$RESULT" = "failure" ]; then
+            [ -f check.log ] || echo "（記録が残っていません。下の「くわしい記録」を開いてください）" > check.log
+            {
+              echo "$marker"
+              echo "### 自動チェックで、直すところが見つかりました"
+              echo
+              echo "このままでは公開できません。下の記録の日本語の説明を読んで、編集画面で同じところを直し、もう一度保存してください。保存し直すと、自動チェックがもう一度走ります。"
+              echo
+              echo "よくある原因:"
+              echo
+              echo "- 全角の記号（（）：？ など）を使った → 半角の ( ) : ? にする"
+              echo "- 決まった言い方と違う（Web → ウェブ、スマホ → スマートフォン など。docs/writing-guide.md）"
+              echo "- 文字数の上限を超えた、必須の欄が空"
+              echo
+              echo "分からないときは、この PR のリンクを付けて、部のチャットで聞いてください。"
+              echo
+              echo "<details open><summary>記録（最後の 60 行）</summary>"
+              echo
+              echo "~~~~text"
+              # 色の制御文字と npm 自体のエラー表示を除き、最後の 60 行だけを貼る（コードの囲みを閉じさせないよう ~~~~ も消す）
+              sed -e 's/\x1b\[[0-9;]*[A-Za-z]//g' check.log | grep -v '^npm error' | tail -n 60 | sed 's/~~~~/~ ~ ~ ~/g'
+              echo "~~~~"
+              echo
+              echo "</details>"
+              echo
+              echo "[くわしい記録（GitHub Actions）]($RUN_URL)"
+            } > comment.md
+          elif [ "$RESULT" = "success" ] && [ -n "$id" ]; then
+            # 前に「直すところ」を知らせていたら、通ったことに書き換える（一度も落ちていなければ何もしない）
+            printf '%s\n### 自動チェックに通りました\n\n直したところは、自動チェックに通りました。プレビューで見た目を確かめてから、公開してください。\n' "$marker" > comment.md
+          else
+            exit 0
+          fi
+
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/$GH_REPO/issues/comments/$id" -F body=@comment.md > /dev/null
+          else
+            gh pr comment "$PR" --body-file comment.md
+          fi
 
   smoke:
     name: smoke (advisory)

@@ -243,14 +243,8 @@ const section = z.discriminatedUnion("type", [
       .max(4)
       .default([]),
   }),
-  z.object({
-    type: z.literal("info"),
-    title: z.string().max(40),
-    items: z
-      .array(z.object({ label: z.string().max(12), value: z.string().max(60) }))
-      .min(1)
-      .max(10),
-  }),
+  // 団体概要。項目(代表者など)は年度替わりに直すので、ここではなく about(src/content/site/about.yaml)に書く
+  z.object({ type: z.literal("info"), title: z.string().max(40) }),
   z.object({
     type: z.literal("news"),
     title: z.string().max(40),
@@ -373,7 +367,7 @@ const design = defineCollection({
 // サイト全体のリンク(ヘッダーのアイコンなど)
 // 編集画面は空の欄をファイルに書かないので、書かれていない項目は空("")として扱う
 const site = defineCollection({
-  loader: glob({ pattern: "**/*.yaml", base: "./src/content/site" }),
+  loader: glob({ pattern: "links.yaml", base: "./src/content/site" }),
   schema: z.object({
     // 入部フォーム(Microsoft Forms)の URL。ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクは、すべてここを開く。空の間は押せない見た目になる。
     // 共有リンクは forms.office.com の他、新しい forms.cloud.microsoft で出ることもある
@@ -408,4 +402,16 @@ const site = defineCollection({
   }),
 });
 
-export const collections = { news, pages, design, site };
+// 団体概要(団体名・所属・代表者など)。トップページの終わりの「団体概要」(セクション type: info)に、この順で出る。
+// 代表者は年度ごとに変わるので、入部フォームなどと並べて、編集画面の「年度替わりの更新」で直せるようにしている
+const about = defineCollection({
+  loader: glob({ pattern: "about.yaml", base: "./src/content/site" }),
+  schema: z.object({
+    items: z
+      .array(z.object({ label: z.string().max(12), value: z.string().max(60) }))
+      .min(1)
+      .max(10),
+  }),
+});
+
+export const collections = { news, pages, design, site, about };

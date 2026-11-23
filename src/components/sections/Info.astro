@@ -1,16 +1,17 @@
 ---
 // 団体名・所属・代表者などを「項目: 内容」の表で見せる、ページ末尾の小さなセクション。
-// 代表者は年度ごとに変わるので、ここ(コード)ではなく home.yaml から更新する。
-interface Item {
-  label: string;
-  value: string;
-}
+// 見出しは home.yaml の info、項目は src/content/site/about.yaml(編集画面の「年度替わりの更新」)から読む。
+// 代表者は年度ごとに変わるので、入部フォームなどと同じ場所で直せるようにしている。
+import { getEntry } from "astro:content";
+
 interface Props {
   title: string;
-  items: Item[];
 }
 
-const { title, items } = Astro.props;
+const { title } = Astro.props;
+const about = await getEntry("about", "about");
+if (!about) throw new Error("src/content/site/about.yaml が見つかりません");
+const { items } = about.data;
 ---
 
 <section id="about" class="scroll-mt-14 border-t border-grid bg-paper py-16" aria-labelledby="about-title">

@@ -2,6 +2,14 @@
 # - 入力欄の上限は src/content.config.ts の検証ルールと揃えてある（変えるときは両方直す）
 # - 書式チェック: npm run cms:check（図の名前が src/lib/figures.ts と揃っているかも確かめる）
 # - 詳しい仕様: https://sveltiacms.app/en/docs
+#
+# 編集画面は「運用の窓口」にする。ここでするのは次の3つだけ:
+#   1. お知らせを書く  2. 年度替わりの更新（入部フォーム・連絡先・代表者）  3. 今ある文章の手直し
+# ページ・章・ブロックの追加や並べ替えなど、構成を変えるのはコードで行う（CONTRIBUTING.md の「C. コードを書く」）。
+# コードを書けない部員でも、壊さずに使えるようにするため。構成を自由に変えたいときは、コードの方が速く確かめられる。
+# そのため、構成に関わる一覧には allow_add・allow_remove・allow_reorder・allow_duplicate: false、
+# 構成に関わる欄（章の id、図の名前、リンク先など）には readonly: true を付けている。
+# src/content.config.ts（zod）は構成を縛らないので、コードからは今までどおり自由に変えられる。
 
 backend:
   name: github
@@ -51,6 +59,7 @@ collections:
   - name: news
     label: お知らせ
     label_singular: お知らせ
+    icon: campaign
     description: トップページと「お知らせ」ページに新しい順に表示されます。
     folder: src/content/news
     create: true
@@ -82,28 +91,86 @@ collections:
       - { name: draft, label: 下書き（オンにするとサイトに表示しない）, widget: boolean, default: false }
       - { name: body, label: 本文, widget: markdown }
 
+  # 代表が年に一度見直すものを一か所にまとめる（docs/handover.md の「年度替わり」の手順と同じもの）
+  - name: site
+    label: 年度替わりの更新
+    icon: event_repeat
+    description: 代表が年度の初めに見直すものです。入部フォームの URL、Discord・TimeTree、団体概要（代表者など）。空の項目はサイトに出ません。問い合わせメールは、アドレスを集めるボットに拾われないよう、ここではなく Cloudflare の設定（環境変数 CONTACT_EMAIL）にあります。
+    files:
+      - name: links
+        label: 入部フォーム・連絡先とリンク
+        file: src/content/site/links.yaml
+        fields:
+          - name: joinForm
+            label: 入部フォーム（Microsoft Forms）の URL
+            widget: string
+            required: false
+            pattern:
+              - "^https://(forms\\.office\\.com|forms\\.microsoft\\.com|forms\\.cloud\\.microsoft)/"
+              - "Microsoft Forms の URL（https://forms.office.com/…）を入力してください"
+            hint: ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクが、すべてここを開きます。空の間は押せない見た目になります。フォームでは学籍番号を集めません
+          - name: discord
+            label: Discord の招待リンク
+            widget: string
+            required: false
+            pattern:
+              - "^https://(discord\\.gg|discord\\.com/invite)/"
+              - "Discord の招待リンク（https://discord.gg/… か https://discord.com/invite/…）を書いてください"
+            hint: 期限の無い招待リンクにしてください（Discord の招待の設定で「期限なし」）
+          - name: timetree
+            label: TimeTree（活動予定のカレンダー）の共有リンク
+            widget: string
+            required: false
+            pattern:
+              - "^https://(timetr\\.ee|timetreeapp\\.com)/"
+              - "TimeTree の共有リンク（https://timetr.ee/… か https://timetreeapp.com/…）を書いてください"
+      - name: about
+        label: 団体概要（代表者など）
+        file: src/content/site/about.yaml
+        fields:
+          - name: items
+            label: 項目（トップページの終わりの「団体概要」に、この順で出ます）
+            label_singular: 項目
+            widget: list
+            min: 1
+            max: 10
+            summary: "{{label}}: {{value}}"
+            hint: 代表者は、年度が変わったら新しい代表の名前に直してください
+            fields:
+              - { name: label, label: 項目名（例 代表）, widget: string, maxlength: 12 }
+              - { name: value, label: 内容（学籍番号・個人のメールアドレスは書かない）, widget: string, maxlength: 60 }
+
+  # ここから下は「今ある文章の手直し」。構成（章・ブロックの数と並び）は変えられない
+  - divider: true
+
   - name: design
-    label: 設計を知る
+    label: 設計を知る（文章の手直し）
     label_singular: ページ
-    description: 「設計を知る」（/design/）のページ。1ページ1テーマで書きます。足したページは一覧・地図・リンクに自動で加わります。書き方は docs/writing-guide.md を見てください。
+    icon: menu_book
+    description: 「設計を知る」（/design/）のページの文章を直す画面です。新しいページを作る、章やブロックを足す・消す・並べ替える、図やリンク先を変える、はコードで行います（CONTRIBUTING.md の「C. コードを書く」）。書き方の決まりは docs/writing-guide.md を見てください。
     folder: src/content/design
-    create: true
+    # 新しいページは、図・出典・書き方の決まりと一緒に考えるので、コードで作る
+    create: false
+    delete: false
+    duplicate: false
     extension: yaml
     format: yaml
-    # ファイル名が URL になる（例: modeling → /design/modeling/）。最初は英語の題から作られ、直すこともできる
+    # ファイル名が URL になる（例: modeling → /design/modeling/）。
+    # 公開したページの名前は変えない（共有されたリンクや、刷った QR コードが開けなくなるため）。
+    # editable: true だと保存済みのページでも名前を変えられてしまうので、false にしている（scripts/check-cms-config.mjs で確かめる）
     slug:
       template: "{{en}}"
-      editable: true
-      pattern: ["^[a-z0-9-]+$", "英小文字・数字・ハイフンで書いてください"]
+      editable: false
     summary: "{{title}} ― {{layer}}"
     sortable_fields: [title, layer, order]
     fields:
       - { name: title, label: 題, widget: string, maxlength: 24 }
       - { name: en, label: "英語の題（例: Modeling）", widget: string, maxlength: 30 }
+      # 種類・並び順・広げるか絞るかは、一覧や地図での置き場所を決めるので、コードで変える
       - name: layer
         label: 種類
         widget: select
-        hint: 種類を混ぜない。設計のプロセスの全体は1ページだけ、工程は1工程1ページ
+        readonly: true
         options:
           - { label: 設計のプロセスの全体（process）, value: process }
           - { label: 工程（step）, value: step }
@@ -116,6 +183,7 @@ collections:
         value_type: int
         min: 1
         default: 1
+        readonly: true
       - { name: short, label: "短い言い方（例: モデルで考える）", widget: string, maxlength: 14 }
       - name: stepName
         label: "工程の正式な呼び名（例: 要件定義）。工程のページでは必須"
@@ -126,6 +194,7 @@ collections:
         label: 考えを広げる工程か、絞る工程か（工程のページでは必須）
         widget: select
         required: false
+        readonly: true
         options:
           - { label: 広げる（diverge）, value: diverge }
           - { label: 絞る（converge）, value: converge }
@@ -144,11 +213,18 @@ collections:
         min: 1
         max: 16
         summary: "{{heading}}"
+        # 章の数と並びはコードで変える
+        allow_add: false
+        allow_remove: false
+        allow_reorder: false
+        allow_duplicate: false
         fields:
+          # 章へのリンク（/design/process/#loop など）が共有されていることがあるので、変えない
           - name: id
             label: "章へのリンク用の名前（例: basics。省略すると ch-1, ch-2…）"
             widget: string
             required: false
+            readonly: true
             pattern: ["^[a-z0-9-]+$", "英小文字・数字・ハイフンで書いてください"]
           - { name: label, label: 見出しの上の小さなラベル, widget: string, required: false, maxlength: 20 }
           - { name: heading, label: 見出し, widget: string, maxlength: 40 }
@@ -157,11 +233,13 @@ collections:
             widget: number
             value_type: int
             required: false
+            readonly: true
             min: 1
           # ── 長文の「ブロック」 ──
           # トップページの章と「設計を知る」のページで同じものを使うので、ここで一度だけ定義して *blocks で使い回す。
           # 中身は src/content.config.ts の block と同じ（表示は src/components/Blocks.astro）。
           # 文章の中には [[modeling]]（ページへのリンク）、[[process#loop|工程の行き来]]（章へのリンク）、**強調** が書ける。
+          # ブロックの数と並びはコードで変える。ブロックの中の箇条書きの項目や表の行などは、文章の一部なので足し引きできる
           - &blocks
             name: blocks
             label: ブロック（上から順に表示）
@@ -170,6 +248,10 @@ collections:
             min: 1
             max: 30
             collapsed: true
+            allow_add: false
+            allow_remove: false
+            allow_reorder: false
+            allow_duplicate: false
             hint: 文章の中に [[modeling]] と書くと「設計を知る」のページへのリンク、**言葉** と書くと強調になります。書き方の決まりは docs/writing-guide.md
             types:
               - name: p
@@ -208,10 +290,12 @@ collections:
                 widget: object
                 summary: "{{title}}"
                 fields:
+                  # 実際にあった例か架空の場面かで、出典の要否と書き方が変わるので、コードで変える
                   - name: kind
                     label: 種類
                     widget: select
                     default: scene
+                    readonly: true
                     options:
                       - { label: 説明のための場面（「例えば」の札。架空なら「〜なら、こうする」の形で）, value: scene }
                       - { label: 実際にあった例（出典が必須）, value: real }
@@ -253,6 +337,7 @@ collections:
                   - name: name
                     label: 図の名前（どんな図かは /lab/ で見られます）
                     widget: select
+                    readonly: true
                     # src/lib/figures.ts の figureNames と同じ並び（npm run cms:check で確かめる）
                     options:
                       - design-process
@@ -341,28 +426,29 @@ collections:
                 label: 外部の画像
                 widget: object
                 summary: "{{caption}}"
+                # 画像そのものと出典・ライセンスは docs/image-credits.md と組なので、コードで変える。説明とキャプションは直せる
                 fields:
-                  - name: src
-                    label: 画像
-                    widget: image
-                    hint: パブリックドメインか再利用が許されたライセンスの画像だけ。足したら docs/image-credits.md にも書く
+                  - { name: src, label: 画像, widget: image, readonly: true }
                   - { name: alt, label: 画像の説明（読み上げ用）, widget: string, maxlength: 160 }
                   - { name: caption, label: キャプション, widget: text, maxlength: 200 }
-                  - { name: credit, label: 作者・出典, widget: string, maxlength: 160 }
+                  - { name: credit, label: 作者・出典, widget: string, maxlength: 160, readonly: true }
                   - {
                       name: license,
                       label: "ライセンス（例: パブリックドメイン、CC BY 4.0）",
                       widget: string,
                       maxlength: 60,
+                      readonly: true,
                     }
                   - name: licenseUrl
                     label: ライセンスの本文の URL（CC BY 系では必須）
                     widget: string
                     required: false
+                    readonly: true
                     pattern: ["^https?://", "https:// から始まる URL を書いてください"]
                   - name: sourceUrl
                     label: 画像の元のページの URL
                     widget: string
+                    readonly: true
                     pattern: ["^https?://", "https:// から始まる URL を書いてください"]
               - name: table
                 label: 表
@@ -470,6 +556,7 @@ collections:
                     label: 大きさ
                     widget: select
                     default: compact
+                    readonly: true
                     options:
                       - { label: 小さい, value: compact }
                       - { label: 全部, value: full }
@@ -510,6 +597,7 @@ collections:
                   - name: href
                     label: "リンク先（例: /design/process/）"
                     widget: string
+                    readonly: true
                     pattern: ["^(/|#|https?://)", "/ か # か https:// から始まる形で書いてください"]
       - name: references
         label: 参考文献（URL は必須）
@@ -532,10 +620,11 @@ collections:
         max: 5
         summary: "{{name}}（{{dept}}）"
         fields: *courseFields
+      # 親のページと関連するページは、ページどうしのつながり（構成）なので、コードで変える
       - name: parent
         label: 親のページ（分野のページだけ。親のページから広がる分野として並ぶ）
-        hint: 種類が「その他のテーマ」のページだけに書けます。分野のページを親にはできません（階層は1段まで）
         widget: relation
+        readonly: true
         collection: design
         value_field: "{{slug}}"
         display_fields: [title]
@@ -550,7 +639,9 @@ collections:
         search_fields: [title, en]
         multiple: true
         required: false
+        readonly: true
         max: 4
+      # 工程の順に、工程の数だけ並ぶ（地図の行になる）ので、数と並びはコードで変える
       - name: perStep
         label: 工程ごとの使い方（視点のページだけ。工程の順に、工程の数だけ）
         label_singular: 工程
@@ -558,13 +649,18 @@ collections:
         required: false
         max: 8
         summary: "{{cell}}"
+        allow_add: false
+        allow_remove: false
+        allow_reorder: false
+        allow_duplicate: false
         fields:
           - { name: cell, label: 地図のマスに出る短い言葉, widget: string, maxlength: 24 }
           - { name: body, label: 説明, widget: text, maxlength: 240 }
 
   - name: pages
-    label: ページ
-    description: トップページの構成。セクションの追加・並べ替え・削除ができます。
+    label: トップページ（文章の手直し）
+    icon: home
+    description: トップページの文章を直す画面です。セクション・章・ブロックを足す・消す・並べ替えるのはコードで行います（CONTRIBUTING.md の「C. コードを書く」）。団体概要の項目（代表者など）は「年度替わりの更新」にあります。
     files:
       - name: home
         label: トップページ
@@ -572,11 +668,16 @@ collections:
         fields:
           - { name: title, label: サイト名, widget: string, maxlength: 40 }
           - { name: description, label: 検索結果に出る説明文, widget: text, maxlength: 160 }
+          # セクションの数と並びはコードで変える
           - name: sections
             label: セクション
             label_singular: セクション
             widget: list
             min: 1
+            allow_add: false
+            allow_remove: false
+            allow_reorder: false
+            allow_duplicate: false
             types:
               - name: hero
                 label: ヒーロー（一番上の大見出し）
@@ -598,9 +699,11 @@ collections:
                 widget: object
                 summary: "{{title}}"
                 fields:
+                  # 章へのリンク（/#why-now など）が共有されていることがあるので、変えない
                   - name: id
                     label: "章へのリンク用の名前（例: why-now → /#why-now）"
                     widget: string
+                    readonly: true
                     pattern: ["^[a-z0-9-]+$", "英小文字・数字・ハイフンで書いてください"]
                   - { name: eyebrow, label: 読者の問い（見出しの上）, widget: string, maxlength: 30 }
                   - { name: title, label: 見出し（主張の形で）, widget: string, maxlength: 30 }
@@ -631,27 +734,13 @@ collections:
                     fields:
                       - { name: title, label: 名前, widget: string, maxlength: 10 }
                       - { name: body, label: 説明, widget: string, maxlength: 40 }
+              # 項目（代表者など）は年度替わりに直すので、「年度替わりの更新」の団体概要（src/content/site/about.yaml）に置いている
               - name: info
-                label: 団体概要（項目と内容の表）
+                label: 団体概要（項目は「年度替わりの更新」で直す）
                 widget: object
                 summary: "{{title}}"
                 fields:
                   - { name: title, label: 見出し, widget: string, maxlength: 40 }
-                  - name: items
-                    label: 項目（代表者は年度が変わったら更新してください）
-                    label_singular: 項目
-                    widget: list
-                    min: 1
-                    max: 10
-                    summary: "{{label}}: {{value}}"
-                    fields:
-                      - { name: label, label: 項目名（例 代表）, widget: string, maxlength: 12 }
-                      - {
-                          name: value,
-                          label: 内容（学籍番号・個人のメールアドレスは書かない）,
-                          widget: string,
-                          maxlength: 60,
-                        }
               - name: news
                 label: お知らせ（自動で最新を表示）
                 widget: object
@@ -659,35 +748,3 @@ collections:
                 fields:
                   - { name: title, label: 見出し, widget: string, maxlength: 40 }
                   - { name: limit, label: 表示する件数, widget: number, value_type: int, min: 1, max: 6, default: 3 }
-
-  - name: site
-    label: サイトの設定
-    description: 入部フォームと、ヘッダー・フッターに出る連絡先とリンク。空の項目は出ません。問い合わせメールは、アドレスを集めるボットに拾われないよう、ここではなく Cloudflare の設定（環境変数 CONTACT_EMAIL）にあります。
-    files:
-      - name: links
-        label: 入部フォーム・連絡先とリンク
-        file: src/content/site/links.yaml
-        fields:
-          - name: joinForm
-            label: 入部フォーム（Microsoft Forms）の URL
-            widget: string
-            required: false
-            pattern:
-              - "^https://(forms\\.office\\.com|forms\\.microsoft\\.com|forms\\.cloud\\.microsoft)/"
-              - "Microsoft Forms の URL（https://forms.office.com/…）を入力してください"
-            hint: ヘッダー・トップの上部・目次・入部の章の「入部はこちら」ボタンと、フッターのリンクが、すべてここを開きます。空の間は押せない見た目になります。フォームでは学籍番号を集めません
-          - name: discord
-            label: Discord の招待リンク
-            widget: string
-            required: false
-            pattern:
-              - "^https://(discord\\.gg|discord\\.com/invite)/"
-              - "Discord の招待リンク（https://discord.gg/… か https://discord.com/invite/…）を書いてください"
-            hint: 期限の無い招待リンクにしてください（Discord の招待の設定で「期限なし」）
-          - name: timetree
-            label: TimeTree（活動予定のカレンダー）の共有リンク
-            widget: string
-            required: false
-            pattern:
-              - "^https://(timetr\\.ee|timetreeapp\\.com)/"
-              - "TimeTree の共有リンク（https://timetr.ee/… か https://timetreeapp.com/…）を書いてください"

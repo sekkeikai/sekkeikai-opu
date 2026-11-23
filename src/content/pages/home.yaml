@@ -182,12 +182,6 @@ sections:
     title: お知らせ
     limit: 3
 
+  # 項目（団体名・所属・代表者）は、年度替わりに直すので src/content/site/about.yaml にある
   - type: info
     title: 団体概要
-    items:
-      - label: 団体名
-        value: 設計会
-      - label: 所属
-        value: 岡山県立大学
-      - label: 代表
-        value: 長岡 祥太郎
