@@ -34,9 +34,10 @@
 | 場所                          | 中身                                               | 誰が触る？                   |
 | ----------------------------- | -------------------------------------------------- | ---------------------------- |
 | `src/content/news/`           | お知らせ記事（Markdown）                           | 編集画面から誰でも           |
-| `src/content/design/`         | 「設計を知る」のページ（YAML。ファイル名が URL）   | 編集画面から誰でも           |
-| `src/content/pages/home.yaml` | トップページのセクション構成と文章                 | 編集画面から誰でも           |
+| `src/content/design/`         | 「設計を知る」のページ（YAML。ファイル名が URL）   | 文章は編集画面、構成はコード |
+| `src/content/pages/home.yaml` | トップページのセクション構成と文章                 | 文章は編集画面、構成はコード |
 | `src/content/site/links.yaml` | 入部フォームの URL・Discord・TimeTree              | 編集画面から誰でも           |
+| `src/content/site/about.yaml` | 団体概要（団体名・所属・代表者）                   | 編集画面から誰でも           |
 | 環境変数 `CONTACT_EMAIL`      | 問い合わせメール（公開リポジトリに載せないため）   | Cloudflare の管理画面        |
 | `public/uploads/`             | 画像（外部の画像の出典は `docs/image-credits.md`） | 編集画面から自動で           |
 | `tokens/tokens.json`          | 色・フォント・動きの値（デザインの正本）           | Figma（Tokens Studio）か手で |

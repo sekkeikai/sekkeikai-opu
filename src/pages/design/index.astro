@@ -15,6 +15,9 @@ const cases = await getDesignPages("case");
 const lenses = await getDesignPages("lens");
 // 分野のページは親のカードの下に出すので、「その他のテーマ」からは除く
 const topics = (await getDesignPages("topic")).filter((t) => !isFieldPage(t));
+// 工程の数は、工程のページ(layer: step)の数から出す。工程を足したり減らしたりしても、文と一覧が食い違わないように。
+// 本文の中に {steps.length} と書くと、整形(Prettier)で改行が入り「5 つ」と空白が出ることがあるので、ここで一文にする
+const lead = `設計は${steps.length}つの工程を行き来しながら進みます。どの工程でも「モデルで考える」「人から考える」「データで考える」のような視点を使います。`;
 ---
 
 <Base
@@ -24,9 +27,7 @@ const topics = (await getDesignPages("topic")).filter((t) => !isFieldPage(t));
   <header class="bg-blueprint-grid border-b border-grid">
     <div class="container-page py-16 sm:py-24">
       <h1 class="text-4xl font-black sm:text-6xl">設計を知る</h1>
-      <p class="mt-8 max-w-2xl font-serif text-lg leading-loose text-ink/85 sm:text-xl">
-        設計は5つの工程を行き来しながら進みます。どの工程でも「モデルで考える」「人から考える」「データで考える」のような視点を使います。
-      </p>
+      <p class="mt-8 max-w-2xl font-serif text-lg leading-loose text-ink/85 sm:text-xl">{lead}</p>
     </div>
   </header>
 
